@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 interface ImageViewerModalProps {
   url: string
@@ -8,7 +8,28 @@ interface ImageViewerModalProps {
   onClose: () => void
 }
 
+function getDriveDirectUrl(url: string): string {
+  if (!url) return url
+
+  // Format: https://drive.google.com/file/d/FILE_ID/view?...
+  const fileMatch = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/)
+  if (fileMatch) {
+    return `https://lh3.googleusercontent.com/d/${fileMatch[1]}`
+  }
+
+  // Format: https://drive.google.com/open?id=FILE_ID
+  const openMatch = url.match(/[?&]id=([a-zA-Z0-9_-]+)/)
+  if (openMatch) {
+    return `https://lh3.googleusercontent.com/d/${openMatch[1]}`
+  }
+
+  return url
+}
+
 export default function ImageViewerModal({ url, title, onClose }: ImageViewerModalProps) {
+  const [imgError, setImgError] = useState(false)
+  const directUrl = getDriveDirectUrl(url)
+
   useEffect(() => {
     const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
     window.addEventListener('keydown', handler)
@@ -33,7 +54,7 @@ export default function ImageViewerModal({ url, title, onClose }: ImageViewerMod
               rel="noopener noreferrer"
               className="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-300 text-xs font-semibold rounded-lg transition"
             >
-              Buka di Tab Baru ↗
+              Buka di Drive ↗
             </a>
             <button
               onClick={onClose}
@@ -43,13 +64,28 @@ export default function ImageViewerModal({ url, title, onClose }: ImageViewerMod
             </button>
           </div>
         </div>
-        <div className="flex-1 overflow-auto flex items-center justify-center p-4 min-h-0">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={url}
-            alt={title || 'Screenshot'}
-            className="max-w-full max-h-full object-contain rounded-xl"
-          />
+        <div className="flex-1 overflow-auto flex items-center justify-center p-4 min-h-0 min-h-[300px]">
+          {imgError ? (
+            <div className="text-center space-y-3">
+              <p className="text-slate-400 text-sm">Gambar tidak dapat ditampilkan langsung.</p>
+              <a
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block px-4 py-2 bg-sky-600 hover:bg-sky-500 text-white text-sm font-semibold rounded-xl transition"
+              >
+                Buka di Google Drive ↗
+              </a>
+            </div>
+          ) : (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={directUrl}
+              alt={title || 'Screenshot'}
+              className="max-w-full max-h-full object-contain rounded-xl"
+              onError={() => setImgError(true)}
+            />
+          )}
         </div>
       </div>
     </div>
