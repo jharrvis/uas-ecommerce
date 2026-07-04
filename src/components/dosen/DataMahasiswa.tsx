@@ -258,12 +258,12 @@ export default function DataMahasiswa() {
               </div>
               <div>
                 <label className="block text-xs font-semibold text-slate-400 mb-1">URL Website Ujian (OpenCart)</label>
-                <input type="url" value={formData.website_ujian} onChange={e => setFormData({...formData, website_ujian: e.target.value})}
+                <input type="text" value={formData.website_ujian} onChange={e => setFormData({...formData, website_ujian: e.target.value})}
                   className="w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white text-sm focus:border-sky-500 outline-none" placeholder="https://" />
               </div>
               <div>
                 <label className="block text-xs font-semibold text-slate-400 mb-1">URL Foto (Opsional)</label>
-                <input type="url" value={formData.foto} onChange={e => setFormData({...formData, foto: e.target.value})}
+                <input type="text" value={formData.foto} onChange={e => setFormData({...formData, foto: e.target.value})}
                   className="w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white text-sm focus:border-sky-500 outline-none" placeholder="https://" />
               </div>
               
