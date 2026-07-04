@@ -1,0 +1,299 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "mata_kuliah": "Praktikum E-Commerce",
+    "kode_mk": "AK8IC115",
+    "jenjang": "S1",
+    "program_studi": "Akuntansi",
+    "semester": "Genap 2025/2026",
+    "catatan": "Field website_ujian diisi dosen di Google Sheets sebelum ujian dimulai. Field foto diambil dari elearning STIEAMA jika tersedia."
+  },
+  "kelas": {
+    "A": {
+      "nama_kelas": "Reguler Pagi (Akuntansi) | Kelas A",
+      "jadwal": "Pagi",
+      "jumlah": 18,
+      "mahasiswa": [
+        {
+          "nim": "2022105020",
+          "nama": "RAY ALHA LATAZA SAKTI JO",
+          "kelas": "A",
+          "foto": "",
+          "website_ujian": "",
+          "aktif": true
+        },
+        {
+          "nim": "2022105025",
+          "nama": "NILA IRSADA",
+          "kelas": "A",
+          "foto": "",
+          "website_ujian": "",
+          "aktif": true
+        },
+        {
+          "nim": "2022105033",
+          "nama": "YULITA RATNA KOBA",
+          "kelas": "A",
+          "foto": "https://elearning.stieama.ac.id/client/stieama/mahasiswa/2022105033/foto/2022105033.jpg",
+          "website_ujian": "",
+          "aktif": true
+        },
+        {
+          "nim": "2022105015",
+          "nama": "ELEN KRISNIANDA",
+          "kelas": "A",
+          "foto": "",
+          "website_ujian": "",
+          "aktif": true
+        },
+        {
+          "nim": "2022105007",
+          "nama": "DWI NURRAHMAWATI",
+          "kelas": "A",
+          "foto": "",
+          "website_ujian": "",
+          "aktif": true
+        },
+        {
+          "nim": "2022105018",
+          "nama": "FAJAR HIDAYAT",
+          "kelas": "A",
+          "foto": "",
+          "website_ujian": "",
+          "aktif": true
+        },
+        {
+          "nim": "2022105026",
+          "nama": "RINDU AJENG WIGATININGTYAS",
+          "kelas": "A",
+          "foto": "",
+          "website_ujian": "",
+          "aktif": true
+        },
+        {
+          "nim": "2022105017",
+          "nama": "FAIZA ANNISA SALSABILA",
+          "kelas": "A",
+          "foto": "",
+          "website_ujian": "",
+          "aktif": true
+        },
+        {
+          "nim": "2022105021",
+          "nama": "KHOIROTUN NADHIROH",
+          "kelas": "A",
+          "foto": "",
+          "website_ujian": "",
+          "aktif": true
+        },
+        {
+          "nim": "2022105030",
+          "nama": "SANIA CAMILIA PUTRI",
+          "kelas": "A",
+          "foto": "",
+          "website_ujian": "",
+          "aktif": true
+        },
+        {
+          "nim": "2022105001",
+          "nama": "MARIA RUTVERRA AGNESTIANA",
+          "kelas": "A",
+          "foto": "",
+          "website_ujian": "",
+          "aktif": true
+        },
+        {
+          "nim": "2022105002",
+          "nama": "AULIA NURMALA SANDY",
+          "kelas": "A",
+          "foto": "",
+          "website_ujian": "",
+          "aktif": true
+        },
+        {
+          "nim": "2022105003",
+          "nama": "RINI NOVITASARI",
+          "kelas": "A",
+          "foto": "",
+          "website_ujian": "",
+          "aktif": true
+        },
+        {
+          "nim": "2022105032",
+          "nama": "TEA MARTINA LAORES",
+          "kelas": "A",
+          "foto": "",
+          "website_ujian": "",
+          "aktif": true
+        },
+        {
+          "nim": "2022105012",
+          "nama": "CITRA FAHMI NUGRAHANI",
+          "kelas": "A",
+          "foto": "",
+          "website_ujian": "",
+          "aktif": true
+        },
+        {
+          "nim": "2022105005",
+          "nama": "MUKHAROMAH NUR ACHIROH",
+          "kelas": "A",
+          "foto": "",
+          "website_ujian": "",
+          "aktif": true
+        },
+        {
+          "nim": "2022105013",
+          "nama": "DIANA WULANDARI",
+          "kelas": "A",
+          "foto": "",
+          "website_ujian": "",
+          "aktif": true
+        },
+        {
+          "nim": "2022105009",
+          "nama": "ANGGUN MAULINDA SUYATNO",
+          "kelas": "A",
+          "foto": "",
+          "website_ujian": "",
+          "aktif": true
+        }
+      ]
+    },
+    "B": {
+      "nama_kelas": "Reguler Sore (Akuntansi) | Kelas B",
+      "jadwal": "Sore",
+      "jumlah": 16,
+      "mahasiswa": [
+        {
+          "nim": "2022105027",
+          "nama": "NADIA ANANDA PUTRI IKHTIARNI",
+          "kelas": "B",
+          "foto": "https://elearning.stieama.ac.id/client/stieama/mahasiswa/2022105027/foto/2022105027.jpeg",
+          "website_ujian": "",
+          "aktif": true
+        },
+        {
+          "nim": "2022105016",
+          "nama": "EVA KURNILA",
+          "kelas": "B",
+          "foto": "",
+          "website_ujian": "",
+          "aktif": true
+        },
+        {
+          "nim": "2022105024",
+          "nama": "MUHAMMAD SIRAJ",
+          "kelas": "B",
+          "foto": "https://elearning.stieama.ac.id/client/stieama/mahasiswa/2022105024/foto/2022105024.jpg",
+          "website_ujian": "",
+          "aktif": true
+        },
+        {
+          "nim": "2022105004",
+          "nama": "AINIYA ANIS SAFITRI",
+          "kelas": "B",
+          "foto": "https://elearning.stieama.ac.id/client/stieama/mahasiswa/2022105004/foto/2022105004.jpg",
+          "website_ujian": "",
+          "aktif": true
+        },
+        {
+          "nim": "2022105014",
+          "nama": "DWIKI WIRAWAN",
+          "kelas": "B",
+          "foto": "https://elearning.stieama.ac.id/client/stieama/mahasiswa/2022105014/foto/2022105014.jpg",
+          "website_ujian": "",
+          "aktif": true
+        },
+        {
+          "nim": "2022105019",
+          "nama": "GALEH PANGESTU",
+          "kelas": "B",
+          "foto": "",
+          "website_ujian": "",
+          "aktif": true
+        },
+        {
+          "nim": "2022105034",
+          "nama": "TITIK ANGGRAENI",
+          "kelas": "B",
+          "foto": "",
+          "website_ujian": "",
+          "aktif": true
+        },
+        {
+          "nim": "2022105006",
+          "nama": "FAJAR NURUL HIDAYAH",
+          "kelas": "B",
+          "foto": "",
+          "website_ujian": "",
+          "aktif": true
+        },
+        {
+          "nim": "2022105028",
+          "nama": "NUR AINIYAH",
+          "kelas": "B",
+          "foto": "",
+          "website_ujian": "",
+          "aktif": true
+        },
+        {
+          "nim": "2022105011",
+          "nama": "ANDY MELANO SUNARYO",
+          "kelas": "B",
+          "foto": "",
+          "website_ujian": "",
+          "aktif": true
+        },
+        {
+          "nim": "2024117001",
+          "nama": "AGNES WIDYANTI",
+          "kelas": "B",
+          "foto": "https://elearning.stieama.ac.id/client/stieama/mahasiswa/2024117001/foto/2024117001.jpeg",
+          "website_ujian": "",
+          "aktif": true
+        },
+        {
+          "nim": "2024117002",
+          "nama": "FITRI DWI JAYANTI",
+          "kelas": "B",
+          "foto": "https://elearning.stieama.ac.id/client/stieama/mahasiswa/2024117002/foto/2024116011.jpg",
+          "website_ujian": "",
+          "aktif": true
+        },
+        {
+          "nim": "2025117003",
+          "nama": "NUR TRI HASTUTI",
+          "kelas": "B",
+          "foto": "",
+          "website_ujian": "",
+          "aktif": true
+        },
+        {
+          "nim": "2025117006",
+          "nama": "SULISTINAH",
+          "kelas": "B",
+          "foto": "https://elearning.stieama.ac.id/client/stieama/mahasiswa/2025117006/foto/2025117006.jpg",
+          "website_ujian": "",
+          "aktif": true
+        },
+        {
+          "nim": "2025117007",
+          "nama": "LEENA WIDHIKUSUMASTUTY",
+          "kelas": "B",
+          "foto": "",
+          "website_ujian": "",
+          "aktif": true
+        },
+        {
+          "nim": "2025117004",
+          "nama": "AKMAL HIKAM",
+          "kelas": "B",
+          "foto": "",
+          "website_ujian": "",
+          "aktif": true
+        }
+      ]
+    }
+  }
+}

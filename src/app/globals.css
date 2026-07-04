@@ -1,0 +1,133 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brand: #0ea5e9;
+  --brand-dark: #0284c7;
+}
+
+@layer base {
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { min-height: 100vh; }
+  html[data-theme='light'] body {
+    background-color: #f8fafc;
+    color: #0f172a;
+  }
+}
+
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar { width: 6px; }
+  .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+  .scrollbar-thin::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+}
+
+/* Timer pulse animation */
+@keyframes timerPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+.timer-pulse { animation: timerPulse 1s ease-in-out infinite; }
+
+/* Fade in */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-in { animation: fadeIn 0.3s ease-out; }
+
+/* Checkpoint done shimmer */
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+html[data-theme='light'] .from-slate-900 {
+  --tw-gradient-from: #f8fafc var(--tw-gradient-from-position) !important;
+  --tw-gradient-to: rgb(248 250 252 / 0) var(--tw-gradient-to-position) !important;
+}
+
+html[data-theme='light'] .via-slate-800 {
+  --tw-gradient-stops: var(--tw-gradient-from), #e2e8f0 var(--tw-gradient-via-position), var(--tw-gradient-to) !important;
+}
+
+html[data-theme='light'] .to-slate-900 {
+  --tw-gradient-to: #f1f5f9 var(--tw-gradient-to-position) !important;
+}
+
+html[data-theme='light'] .bg-slate-950,
+html[data-theme='light'] .bg-slate-900,
+html[data-theme='light'] .bg-slate-900\/95 {
+  background-color: #f8fafc !important;
+}
+
+html[data-theme='light'] .bg-slate-800,
+html[data-theme='light'] .bg-slate-800\/80,
+html[data-theme='light'] .bg-slate-800\/50,
+html[data-theme='light'] .bg-slate-800\/40,
+html[data-theme='light'] .bg-slate-800\/30,
+html[data-theme='light'] .bg-slate-700\/50,
+html[data-theme='light'] .bg-slate-700\/40,
+html[data-theme='light'] .bg-slate-700\/30 {
+  background-color: #ffffff !important;
+}
+
+html[data-theme='light'] .border-slate-800,
+html[data-theme='light'] .border-slate-700,
+html[data-theme='light'] .border-slate-700\/50 {
+  border-color: #cbd5e1 !important;
+}
+
+html[data-theme='light'] .text-white,
+html[data-theme='light'] .text-slate-300,
+html[data-theme='light'] .text-slate-200 {
+  color: #0f172a !important;
+}
+
+html[data-theme='light'] .text-slate-400 {
+  color: #334155 !important;
+}
+
+html[data-theme='light'] .text-slate-500,
+html[data-theme='light'] .text-slate-600 {
+  color: #64748b !important;
+}
+
+html[data-theme='light'] .text-emerald-400 {
+  color: #059669 !important;
+}
+
+html[data-theme='light'] .bg-emerald-500\/10,
+html[data-theme='light'] .bg-emerald-500\/20 {
+  background-color: #d1fae5 !important;
+}
+
+html[data-theme='light'] .text-rose-400,
+html[data-theme='light'] .text-red-400 {
+  color: #e11d48 !important;
+}
+
+html[data-theme='light'] .bg-rose-500\/10,
+html[data-theme='light'] .bg-red-500\/10,
+html[data-theme='light'] .bg-red-500\/20 {
+  background-color: #ffe4e6 !important;
+}
+
+html[data-theme='light'] .text-amber-400,
+html[data-theme='light'] .text-yellow-400 {
+  color: #d97706 !important;
+}
+
+html[data-theme='light'] .bg-amber-500\/10,
+html[data-theme='light'] .bg-yellow-500\/10 {
+  background-color: #fef3c7 !important;
+}
+
+html[data-theme='light'] .text-brand {
+  color: var(--brand-dark) !important;
+}
