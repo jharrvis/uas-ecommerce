@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { apiGetHasil, apiGetSummary, apiUpdateNilai, apiExportNilai } from '@/lib/sheets'
 import type { HasilMahasiswa } from '@/types'
 import { CP_ORDER, CHECKPOINT_META } from '@/types'
+import DataMahasiswa from '@/components/dosen/DataMahasiswa'
 
 const DOSEN_CODE = process.env.NEXT_PUBLIC_DOSEN_CODE || 'DOSEN2026!'
 
@@ -38,10 +39,9 @@ function ScoreDrawer({ mhs, onClose, onSaved }: {
   const [saving, setSaving]   = useState(false)
   const [saved, setSaved]     = useState(false)
 
-  // Init nilai dari data existing
   useEffect(() => {
     const init: Record<string, number> = {}
-    CP_ORDER.forEach((cp, i) => {
+    CP_ORDER.forEach((cp) => {
       const key = `nilai_${cp}` as keyof HasilMahasiswa
       init[cp] = Number(mhsRecord[key]) || 0
     })
@@ -73,7 +73,6 @@ function ScoreDrawer({ mhs, onClose, onSaved }: {
       <div className="flex-1 bg-black/60" onClick={onClose} />
       <div className="w-full max-w-lg bg-slate-900 border-l border-slate-700 flex flex-col overflow-hidden">
 
-        {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-slate-700 flex-shrink-0">
           <div>
             <p className="font-bold text-white">{mhs.nama}</p>
@@ -84,7 +83,6 @@ function ScoreDrawer({ mhs, onClose, onSaved }: {
 
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
 
-          {/* Soal yang diterima */}
           <div className="bg-slate-800 rounded-xl p-3 text-xs space-y-1">
             <p className="font-semibold text-slate-400 uppercase tracking-wider text-[10px] mb-2">Soal yang Diterima</p>
             <p className="text-slate-300"><span className="text-slate-500">Toko:</span> {mhs.id_toko}</p>
@@ -98,7 +96,6 @@ function ScoreDrawer({ mhs, onClose, onSaved }: {
             )}
           </div>
 
-          {/* Screenshot per CP */}
           <div>
             <p className="font-semibold text-slate-400 uppercase tracking-wider text-[10px] mb-2">Screenshot per Checkpoint</p>
             <div className="grid grid-cols-3 gap-2">
@@ -124,7 +121,6 @@ function ScoreDrawer({ mhs, onClose, onSaved }: {
             </div>
           </div>
 
-          {/* Input nilai */}
           <div>
             <p className="font-semibold text-slate-400 uppercase tracking-wider text-[10px] mb-3">Input Nilai per Checkpoint</p>
             <div className="space-y-2">
@@ -149,7 +145,6 @@ function ScoreDrawer({ mhs, onClose, onSaved }: {
             </div>
           </div>
 
-          {/* Total */}
           <div className="flex items-center justify-between bg-slate-800 rounded-xl p-3">
             <span className="text-slate-300 font-bold">Nilai Total</span>
             <div className="text-right">
@@ -159,7 +154,6 @@ function ScoreDrawer({ mhs, onClose, onSaved }: {
             </div>
           </div>
 
-          {/* Catatan */}
           <div>
             <label className="text-xs font-semibold text-slate-400 block mb-1.5">Catatan Dosen (opsional)</label>
             <textarea
@@ -172,7 +166,6 @@ function ScoreDrawer({ mhs, onClose, onSaved }: {
           </div>
         </div>
 
-        {/* Footer */}
         <div className="flex-shrink-0 p-4 border-t border-slate-700">
           <button
             onClick={handleSave}
@@ -202,6 +195,7 @@ export default function DosenPage() {
   const [filterStatus, setFilterStatus] = useState('ALL')
   const [selected, setSelected] = useState<HasilMahasiswa | null>(null)
   const [exporting, setExporting] = useState(false)
+  const [activeTab, setActiveTab] = useState<'hasil' | 'mahasiswa'>('hasil')
 
   const fetchData = useCallback(async () => {
     setLoading(true)
@@ -239,7 +233,6 @@ export default function DosenPage() {
     }
   }
 
-  // Check session auth
   useEffect(() => {
     if (sessionStorage.getItem('dosen_auth') === '1') setAuthed(true)
   }, [])
@@ -315,14 +308,18 @@ export default function DosenPage() {
           <span className="font-bold text-white">Dashboard Dosen — UAS E-Commerce</span>
         </div>
         <div className="flex items-center gap-2">
-          <button onClick={fetchData} disabled={loading}
-            className="px-3 py-1.5 bg-slate-800 border border-slate-700 text-slate-300 text-xs font-semibold rounded-lg hover:bg-slate-700 transition flex items-center gap-1.5">
-            {loading ? <div className="w-3 h-3 border border-slate-400/30 border-t-slate-300 rounded-full animate-spin" /> : '🔄'} Refresh
-          </button>
-          <button onClick={handleExport} disabled={exporting}
-            className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 disabled:bg-slate-600 text-white text-xs font-semibold rounded-lg transition flex items-center gap-1.5">
-            {exporting ? <div className="w-3 h-3 border border-white/30 border-t-white rounded-full animate-spin" /> : '📥'} Ekspor Nilai
-          </button>
+          {activeTab === 'hasil' && (
+            <>
+              <button onClick={fetchData} disabled={loading}
+                className="px-3 py-1.5 bg-slate-800 border border-slate-700 text-slate-300 text-xs font-semibold rounded-lg hover:bg-slate-700 transition flex items-center gap-1.5">
+                {loading ? <div className="w-3 h-3 border border-slate-400/30 border-t-slate-300 rounded-full animate-spin" /> : '🔄'} Refresh
+              </button>
+              <button onClick={handleExport} disabled={exporting}
+                className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 disabled:bg-slate-600 text-white text-xs font-semibold rounded-lg transition flex items-center gap-1.5">
+                {exporting ? <div className="w-3 h-3 border border-white/30 border-t-white rounded-full animate-spin" /> : '📥'} Ekspor Nilai
+              </button>
+            </>
+          )}
           <button onClick={() => { sessionStorage.removeItem('dosen_auth'); setAuthed(false) }}
             className="px-3 py-1.5 bg-slate-800 border border-slate-700 text-slate-400 text-xs rounded-lg hover:bg-slate-700 transition">
             Keluar
@@ -349,89 +346,112 @@ export default function DosenPage() {
           ))}
         </div>
 
-        {error && (
-          <div className="bg-red-500/10 border border-red-500/30 rounded-xl px-4 py-3 text-red-400 text-sm flex items-center gap-2">
-            <span>⚠️</span> {error}
-          </div>
+        {/* Tabs */}
+        <div className="flex gap-1 border-b border-slate-800">
+          {([
+            { key: 'hasil', label: '📊 Hasil Ujian' },
+            { key: 'mahasiswa', label: '👥 Data Mahasiswa' },
+          ] as const).map(tab => (
+            <button key={tab.key} onClick={() => setActiveTab(tab.key)}
+              className={`px-4 py-2 text-sm font-semibold rounded-t-lg transition ${
+                activeTab === tab.key
+                  ? 'bg-slate-800 text-white border border-b-slate-800 border-slate-700 -mb-px'
+                  : 'text-slate-500 hover:text-slate-300'
+              }`}>
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Tab: Hasil Ujian */}
+        {activeTab === 'hasil' && (
+          <>
+            {error && (
+              <div className="bg-red-500/10 border border-red-500/30 rounded-xl px-4 py-3 text-red-400 text-sm flex items-center gap-2">
+                <span>⚠️</span> {error}
+              </div>
+            )}
+
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-xs text-slate-500 font-semibold">Filter:</span>
+              {['ALL', ...classOptions].map((k) => (
+                <button key={k} onClick={() => setFilterKelas(k)}
+                  className={`px-3 py-1.5 text-xs font-semibold rounded-lg border transition ${
+                    filterKelas === k ? 'bg-sky-500 border-sky-500 text-white' : 'bg-slate-800 border-slate-700 text-slate-400 hover:border-slate-500'
+                  }`}>
+                  {k === 'ALL' ? 'Semua Kelas' : `Kelas ${k}`}
+                </button>
+              ))}
+              <span className="w-px h-4 bg-slate-700 mx-1" />
+              {['ALL', 'registered', 'started', 'submitted', 'timeout', 'scored'].map((s) => (
+                <button key={s} onClick={() => setFilterStatus(s)}
+                  className={`px-3 py-1.5 text-xs font-semibold rounded-lg border transition ${
+                    filterStatus === s ? 'bg-purple-600 border-purple-500 text-white' : 'bg-slate-800 border-slate-700 text-slate-400 hover:border-slate-500'
+                  }`}>
+                  {s === 'ALL' ? 'Semua Status' : s}
+                </button>
+              ))}
+              <span className="ml-auto text-xs text-slate-500">{filtered.length} mahasiswa</span>
+            </div>
+
+            <div className="bg-slate-800 border border-slate-700 rounded-2xl overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="bg-slate-900 text-slate-400 text-xs">
+                      {['NIM','Nama','Kelas','Status','Mulai','Durasi','CP Done','Nilai','Aksi'].map((h) => (
+                        <th key={h} className="px-4 py-3 text-left font-semibold whitespace-nowrap">{h}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filtered.length === 0 ? (
+                      <tr><td colSpan={9} className="px-4 py-8 text-center text-slate-500 text-sm">
+                        {loading ? 'Memuat data...' : 'Belum ada data ujian'}
+                      </td></tr>
+                    ) : filtered.map((h, i) => {
+                      const hasilRecord = h as unknown as Record<string, unknown>
+                      const cpDone = CP_ORDER.filter((cp) => {
+                        const key = `ss_${cp}` as keyof HasilMahasiswa
+                        return !!hasilRecord[key]
+                      }).length
+                      return (
+                        <tr key={h.nim} className={`border-t border-slate-700/50 hover:bg-slate-700/30 transition cursor-pointer ${i%2===1?'bg-slate-800/50':''}`}
+                          onClick={() => setSelected(h)}>
+                          <td className="px-4 py-3 font-mono text-xs text-slate-300">{h.nim}</td>
+                          <td className="px-4 py-3 font-medium text-slate-200 whitespace-nowrap">{h.nama}</td>
+                          <td className="px-4 py-3 text-center text-slate-400">{h.kelas}</td>
+                          <td className="px-4 py-3"><StatusBadge status={h.status} /></td>
+                          <td className="px-4 py-3 text-xs text-slate-400 whitespace-nowrap">
+                            {h.waktu_mulai ? new Date(h.waktu_mulai).toLocaleTimeString('id-ID', {hour:'2-digit',minute:'2-digit'}) : '—'}
+                          </td>
+                          <td className="px-4 py-3 text-xs text-slate-400 text-center">{h.durasi_menit ? `${h.durasi_menit}m` : '—'}</td>
+                          <td className="px-4 py-3 text-center">
+                            <span className={`text-xs font-bold ${cpDone === 9 ? 'text-emerald-400' : cpDone > 0 ? 'text-sky-400' : 'text-slate-600'}`}>
+                              {cpDone}/9
+                            </span>
+                          </td>
+                          <td className="px-4 py-3 text-center font-bold text-sky-400">
+                            {h.nilai_total || '—'}
+                          </td>
+                          <td className="px-4 py-3">
+                            <button className="px-2.5 py-1 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-purple-300 text-xs font-semibold rounded-lg transition"
+                              onClick={(e) => { e.stopPropagation(); setSelected(h) }}>
+                              Nilai
+                            </button>
+                          </td>
+                        </tr>
+                      )
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </>
         )}
 
-        {/* Filters */}
-        <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-xs text-slate-500 font-semibold">Filter:</span>
-          {['ALL', ...classOptions].map((k) => (
-            <button key={k} onClick={() => setFilterKelas(k)}
-              className={`px-3 py-1.5 text-xs font-semibold rounded-lg border transition ${
-                filterKelas === k ? 'bg-sky-500 border-sky-500 text-white' : 'bg-slate-800 border-slate-700 text-slate-400 hover:border-slate-500'
-              }`}>
-              {k === 'ALL' ? 'Semua Kelas' : `Kelas ${k}`}
-            </button>
-          ))}
-          <span className="w-px h-4 bg-slate-700 mx-1" />
-          {['ALL', 'registered', 'started', 'submitted', 'timeout', 'scored'].map((s) => (
-            <button key={s} onClick={() => setFilterStatus(s)}
-              className={`px-3 py-1.5 text-xs font-semibold rounded-lg border transition ${
-                filterStatus === s ? 'bg-purple-600 border-purple-500 text-white' : 'bg-slate-800 border-slate-700 text-slate-400 hover:border-slate-500'
-              }`}>
-              {s === 'ALL' ? 'Semua Status' : s}
-            </button>
-          ))}
-          <span className="ml-auto text-xs text-slate-500">{filtered.length} mahasiswa</span>
-        </div>
-
-        {/* Table */}
-        <div className="bg-slate-800 border border-slate-700 rounded-2xl overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="bg-slate-900 text-slate-400 text-xs">
-                  {['NIM','Nama','Kelas','Status','Mulai','Durasi','CP Done','Nilai','Aksi'].map((h) => (
-                    <th key={h} className="px-4 py-3 text-left font-semibold whitespace-nowrap">{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {filtered.length === 0 ? (
-                  <tr><td colSpan={9} className="px-4 py-8 text-center text-slate-500 text-sm">
-                    {loading ? 'Memuat data...' : 'Belum ada data ujian'}
-                  </td></tr>
-                ) : filtered.map((h, i) => {
-                  const hasilRecord = h as unknown as Record<string, unknown>
-                  const cpDone = CP_ORDER.filter((cp) => {
-                    const key = `ss_${cp}` as keyof HasilMahasiswa
-                    return !!hasilRecord[key]
-                  }).length
-                  return (
-                    <tr key={h.nim} className={`border-t border-slate-700/50 hover:bg-slate-700/30 transition cursor-pointer ${i%2===1?'bg-slate-800/50':''}`}
-                      onClick={() => setSelected(h)}>
-                      <td className="px-4 py-3 font-mono text-xs text-slate-300">{h.nim}</td>
-                      <td className="px-4 py-3 font-medium text-slate-200 whitespace-nowrap">{h.nama}</td>
-                      <td className="px-4 py-3 text-center text-slate-400">{h.kelas}</td>
-                      <td className="px-4 py-3"><StatusBadge status={h.status} /></td>
-                      <td className="px-4 py-3 text-xs text-slate-400 whitespace-nowrap">
-                        {h.waktu_mulai ? new Date(h.waktu_mulai).toLocaleTimeString('id-ID', {hour:'2-digit',minute:'2-digit'}) : '—'}
-                      </td>
-                      <td className="px-4 py-3 text-xs text-slate-400 text-center">{h.durasi_menit ? `${h.durasi_menit}m` : '—'}</td>
-                      <td className="px-4 py-3 text-center">
-                        <span className={`text-xs font-bold ${cpDone === 9 ? 'text-emerald-400' : cpDone > 0 ? 'text-sky-400' : 'text-slate-600'}`}>
-                          {cpDone}/9
-                        </span>
-                      </td>
-                      <td className="px-4 py-3 text-center font-bold text-sky-400">
-                        {h.nilai_total || '—'}
-                      </td>
-                      <td className="px-4 py-3">
-                        <button className="px-2.5 py-1 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-purple-300 text-xs font-semibold rounded-lg transition"
-                          onClick={(e) => { e.stopPropagation(); setSelected(h) }}>
-                          Nilai
-                        </button>
-                      </td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </table>
-          </div>
-        </div>
+        {/* Tab: Data Mahasiswa */}
+        {activeTab === 'mahasiswa' && <DataMahasiswa />}
       </div>
 
       {/* Score Drawer */}
