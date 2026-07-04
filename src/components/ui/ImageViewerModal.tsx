@@ -6,18 +6,17 @@ interface ImageViewerModalProps {
   url: string
   title?: string
   onClose: () => void
+  footer?: React.ReactNode
 }
 
 function getDriveDirectUrl(url: string): string {
   if (!url) return url
 
-  // Format: https://drive.google.com/file/d/FILE_ID/view?...
   const fileMatch = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/)
   if (fileMatch) {
     return `https://lh3.googleusercontent.com/d/${fileMatch[1]}`
   }
 
-  // Format: https://drive.google.com/open?id=FILE_ID
   const openMatch = url.match(/[?&]id=([a-zA-Z0-9_-]+)/)
   if (openMatch) {
     return `https://lh3.googleusercontent.com/d/${openMatch[1]}`
@@ -26,7 +25,7 @@ function getDriveDirectUrl(url: string): string {
   return url
 }
 
-export default function ImageViewerModal({ url, title, onClose }: ImageViewerModalProps) {
+export default function ImageViewerModal({ url, title, onClose, footer }: ImageViewerModalProps) {
   const [imgError, setImgError] = useState(false)
   const directUrl = getDriveDirectUrl(url)
 
@@ -87,6 +86,11 @@ export default function ImageViewerModal({ url, title, onClose }: ImageViewerMod
             />
           )}
         </div>
+        {footer && (
+          <div className="flex-shrink-0 border-t border-slate-700 px-4 py-3">
+            {footer}
+          </div>
+        )}
       </div>
     </div>
   )

@@ -39,7 +39,7 @@ function ScoreDrawer({ mhs, onClose, onSaved }: {
   const [catatan, setCatatan] = useState(mhs.catatan || '')
   const [saving, setSaving]   = useState(false)
   const [saved, setSaved]     = useState(false)
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
+  const [previewUrl, setPreviewUrl] = useState<{ url: string; cp: keyof typeof CHECKPOINT_META } | null>(null)
 
   useEffect(() => {
     const init: Record<string, number> = {}
@@ -109,7 +109,7 @@ function ScoreDrawer({ mhs, onClose, onSaved }: {
                   <div key={cp} className="aspect-square rounded-xl overflow-hidden bg-slate-800 border border-slate-700 relative">
                     {url ? (
                       <button
-                        onClick={() => setPreviewUrl(url)}
+                        onClick={() => setPreviewUrl({ url, cp })}
                         className="w-full h-full flex flex-col items-center justify-center text-emerald-400 text-xs font-bold hover:bg-slate-700 transition gap-1"
                       >
                         <span>{meta.icon}</span>
@@ -184,13 +184,56 @@ function ScoreDrawer({ mhs, onClose, onSaved }: {
         </div>
       </div>
 
-      {previewUrl && (
-        <ImageViewerModal
-          url={previewUrl}
-          title={`Screenshot — ${mhs.nama}`}
-          onClose={() => setPreviewUrl(null)}
-        />
-      )}
+      {previewUrl && (() => {
+        const meta = CHECKPOINT_META[previewUrl.cp]
+        const currentNilai = nilai[previewUrl.cp] ?? 0
+        const poinDiperoleh = Math.round((currentNilai / 100) * meta.bobot * 10) / 10
+        return (
+          <ImageViewerModal
+            url={previewUrl.url}
+            title={`${meta.icon} ${meta.label} — ${mhs.nama}`}
+            onClose={() => setPreviewUrl(null)}
+            footer={
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-2 text-xs text-slate-500">
+                  <span className="font-semibold text-slate-300">{meta.label}</span>
+                  <span>·</span>
+                  <span>Bobot: <span className="text-sky-400 font-bold">{meta.bobot} poin</span></span>
+                  <span>·</span>
+                  <span>Perolehan: <span className={`font-bold ${poinDiperoleh >= meta.bobot * 0.75 ? 'text-emerald-400' : poinDiperoleh > 0 ? 'text-amber-400' : 'text-slate-500'}`}>{poinDiperoleh} / {meta.bobot}</span></span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <label className="text-xs text-slate-400 font-semibold whitespace-nowrap">Nilai (0–100):</label>
+                  <input
+                    type="number"
+                    min={0}
+                    max={100}
+                    value={currentNilai}
+                    onChange={(e) => {
+                      const v = Math.min(100, Math.max(0, Number(e.target.value)))
+                      setNilai((prev) => ({ ...prev, [previewUrl.cp]: v }))
+                    }}
+                    className="w-20 px-3 py-1.5 bg-slate-800 border border-slate-600 text-white text-sm font-bold rounded-lg text-center focus:outline-none focus:border-sky-500"
+                    autoFocus
+                  />
+                  <div className="flex-1 bg-slate-800 rounded-full h-2 overflow-hidden">
+                    <div
+                      className={`h-full rounded-full transition-all ${currentNilai >= 75 ? 'bg-emerald-500' : currentNilai > 0 ? 'bg-amber-500' : 'bg-slate-700'}`}
+                      style={{ width: `${currentNilai}%` }}
+                    />
+                  </div>
+                  <button
+                    onClick={() => setPreviewUrl(null)}
+                    className="px-4 py-1.5 bg-sky-500 hover:bg-sky-400 text-white text-xs font-bold rounded-lg transition whitespace-nowrap"
+                  >
+                    Simpan & Tutup
+                  </button>
+                </div>
+              </div>
+            }
+          />
+        )
+      })()}
     </div>
   )
 }
