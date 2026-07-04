@@ -5,6 +5,7 @@ import { apiGetHasil, apiGetSummary, apiUpdateNilai, apiExportNilai } from '@/li
 import type { HasilMahasiswa } from '@/types'
 import { CP_ORDER, CHECKPOINT_META } from '@/types'
 import DataMahasiswa from '@/components/dosen/DataMahasiswa'
+import ImageViewerModal from '@/components/ui/ImageViewerModal'
 
 const DOSEN_CODE = process.env.NEXT_PUBLIC_DOSEN_CODE || 'DOSEN2026!'
 
@@ -38,6 +39,7 @@ function ScoreDrawer({ mhs, onClose, onSaved }: {
   const [catatan, setCatatan] = useState(mhs.catatan || '')
   const [saving, setSaving]   = useState(false)
   const [saved, setSaved]     = useState(false)
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
 
   useEffect(() => {
     const init: Record<string, number> = {}
@@ -102,14 +104,17 @@ function ScoreDrawer({ mhs, onClose, onSaved }: {
               {CP_ORDER.map((cp) => {
                 const ssKey = `ss_${cp}` as keyof HasilMahasiswa
                 const url = mhsRecord[ssKey] as string
+                const meta = CHECKPOINT_META[cp]
                 return (
                   <div key={cp} className="aspect-square rounded-xl overflow-hidden bg-slate-800 border border-slate-700 relative">
                     {url ? (
-                      <a href={url} target="_blank" rel="noopener noreferrer">
-                        <div className="w-full h-full flex items-center justify-center text-emerald-400 text-xs font-bold hover:bg-slate-700 transition">
-                          ✅ {cp.toUpperCase()}
-                        </div>
-                      </a>
+                      <button
+                        onClick={() => setPreviewUrl(url)}
+                        className="w-full h-full flex flex-col items-center justify-center text-emerald-400 text-xs font-bold hover:bg-slate-700 transition gap-1"
+                      >
+                        <span>{meta.icon}</span>
+                        <span>✅ {cp.toUpperCase()}</span>
+                      </button>
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-slate-600 text-xs">
                         — {cp.toUpperCase()}
@@ -178,6 +183,14 @@ function ScoreDrawer({ mhs, onClose, onSaved }: {
           </button>
         </div>
       </div>
+
+      {previewUrl && (
+        <ImageViewerModal
+          url={previewUrl}
+          title={`Screenshot — ${mhs.nama}`}
+          onClose={() => setPreviewUrl(null)}
+        />
+      )}
     </div>
   )
 }

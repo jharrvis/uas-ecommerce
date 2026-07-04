@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useExamStore } from '@/store/examStore'
 import UploadZone from './UploadZone'
+import ImageViewerModal from '@/components/ui/ImageViewerModal'
 import type { CheckpointId, Produk, Toko } from '@/types'
 import { CHECKPOINT_META } from '@/types'
 
@@ -18,6 +19,7 @@ export default function Checkpoint({ cp, nim, toko, produk, isExamLocked }: Chec
   const session             = useExamStore((s) => s.session)
   const setCheckpointStatus = useExamStore((s) => s.setCheckpointStatus)
   const [open, setOpen]     = useState(false)
+  const [showImageModal, setShowImageModal] = useState(false)
 
   if (!session) return null
 
@@ -97,34 +99,41 @@ export default function Checkpoint({ cp, nim, toko, produk, isExamLocked }: Chec
           {cp === 'cp08' && <CP08Content produk={produk} />}
           {cp === 'cp09' && <CP09Content toko={toko} produk={produk} />}
 
-          {/* Upload zone */}
-          {!isDone && (
-            <div className="mt-4 pt-4 border-t border-slate-700/50">
-              <p className="text-xs font-semibold text-slate-400 mb-2 flex items-center gap-1.5">
-                <span>📸</span> Upload screenshot sebagai bukti penyelesaian
-              </p>
-              <UploadZone
-                nim={nim}
-                cp={cp}
-                disabled={disabled}
-                onUploaded={handleUploaded}
-              />
-            </div>
-          )}
+          {/* Upload zone - always show for re-upload */}
+          <div className="mt-4 pt-4 border-t border-slate-700/50">
+            <p className="text-xs font-semibold text-slate-400 mb-2 flex items-center gap-1.5">
+              <span>📸</span> {isDone ? 'Ganti screenshot' : 'Upload screenshot sebagai bukti penyelesaian'}
+            </p>
+            <UploadZone
+              nim={nim}
+              cp={cp}
+              disabled={disabled}
+              existingUrl={cpState.screenshotUrl}
+              onUploaded={handleUploaded}
+            />
+          </div>
 
-          {isDone && (
+          {isDone && cpState.screenshotUrl && (
             <div className="flex items-center gap-2 p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-xl">
               <span>✅</span>
               <p className="text-emerald-400 text-sm font-semibold">Checkpoint selesai!</p>
-              {cpState.screenshotUrl && (
-                <a href={cpState.screenshotUrl} target="_blank" rel="noopener noreferrer"
-                  className="ml-auto text-xs text-sky-400 underline hover:text-sky-300">
-                  Lihat screenshot ↗
-                </a>
-              )}
+              <button
+                onClick={() => setShowImageModal(true)}
+                className="ml-auto text-xs text-sky-400 underline hover:text-sky-300"
+              >
+                Lihat screenshot
+              </button>
             </div>
           )}
         </div>
+      )}
+
+      {showImageModal && cpState.screenshotUrl && (
+        <ImageViewerModal
+          url={cpState.screenshotUrl}
+          title={`${meta.label} — Screenshot`}
+          onClose={() => setShowImageModal(false)}
+        />
       )}
     </div>
   )

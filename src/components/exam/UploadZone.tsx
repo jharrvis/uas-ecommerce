@@ -3,6 +3,7 @@
 import { useRef, useState, useCallback } from 'react'
 import { apiUploadScreenshot } from '@/lib/sheets'
 import { useOfflineQueue } from '@/hooks/useOfflineQueue'
+import ImageViewerModal from '@/components/ui/ImageViewerModal'
 import type { CheckpointId } from '@/types'
 
 interface UploadZoneProps {
@@ -21,6 +22,7 @@ export default function UploadZone({ nim, cp, disabled, existingUrl, onUploaded 
   const [error, setError]         = useState('')
   const [uploadedUrl, setUploadedUrl] = useState(existingUrl || '')
   const [queued, setQueued]       = useState(false)
+  const [showModal, setShowModal] = useState(false)
 
   const { enqueue } = useOfflineQueue((cpId, url) => {
     if (cpId === cp) { setUploadedUrl(url); setQueued(false); onUploaded(url) }
@@ -75,25 +77,41 @@ export default function UploadZone({ nim, cp, disabled, existingUrl, onUploaded 
   // ── Already uploaded ──
   if ((uploadedUrl && uploadedUrl !== 'queued') && !uploading) {
     return (
-      <div className="border border-emerald-500/30 bg-emerald-500/5 rounded-xl p-3 flex items-center gap-3">
-        {preview ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={preview} alt="ss" className="w-14 h-14 rounded-lg object-cover flex-shrink-0 border border-emerald-500/20" />
-        ) : null}
-        <div className="flex-1 min-w-0">
-          <p className="text-emerald-400 text-sm font-semibold">✅ Screenshot diupload</p>
-          <a href={uploadedUrl} target="_blank" rel="noopener noreferrer"
-            className="text-sky-400 text-xs underline truncate block mt-0.5 hover:text-sky-300">
-            Lihat di Google Drive ↗
-          </a>
+      <>
+        <div className="border border-emerald-500/30 bg-emerald-500/5 rounded-xl p-3 flex items-center gap-3">
+          {preview ? (
+            <button onClick={() => setShowModal(true)} className="flex-shrink-0">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={preview} alt="ss" className="w-14 h-14 rounded-lg object-cover border border-emerald-500/20 hover:opacity-80 transition cursor-zoom-in" />
+            </button>
+          ) : (
+            <button onClick={() => setShowModal(true)}
+              className="w-14 h-14 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-xs font-bold hover:bg-emerald-500/20 transition flex-shrink-0">
+              👁
+            </button>
+          )}
+          <div className="flex-1 min-w-0">
+            <p className="text-emerald-400 text-sm font-semibold">✅ Screenshot diupload</p>
+            <button onClick={() => setShowModal(true)}
+              className="text-sky-400 text-xs underline mt-0.5 hover:text-sky-300 block text-left">
+              Lihat screenshot
+            </button>
+          </div>
+          {!disabled && (
+            <button onClick={() => { setUploadedUrl(''); setPreview(null) }}
+              className="text-slate-500 hover:text-slate-300 text-xs px-2 py-1 rounded-lg hover:bg-slate-700 transition">
+              Ganti
+            </button>
+          )}
         </div>
-        {!disabled && (
-          <button onClick={() => { setUploadedUrl(''); setPreview(null) }}
-            className="text-slate-500 hover:text-slate-300 text-xs px-2 py-1 rounded-lg hover:bg-slate-700 transition">
-            Ganti
-          </button>
+        {showModal && (
+          <ImageViewerModal
+            url={preview || uploadedUrl}
+            title="Screenshot Checkpoint"
+            onClose={() => setShowModal(false)}
+          />
         )}
-      </div>
+      </>
     )
   }
 
