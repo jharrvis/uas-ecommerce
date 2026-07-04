@@ -149,6 +149,8 @@ function doPost(e) {
       case 'uploadScreenshot': result = uploadScreenshot(body); break;
       case 'updateNilai'     : result = updateNilai(body);      break;
       case 'exportNilai'     : result = exportNilai(body);      break;
+      case 'upsertMahasiswa' : result = upsertMahasiswa(body);  break;
+      case 'importMahasiswa' : result = importMahasiswa(body);  break;
       default:
         result = { success: false, message: 'Action tidak dikenal: ' + action };
     }
@@ -255,6 +257,100 @@ function getMahasiswaList(kelas) {
   }
 
   return { success: true, mahasiswa, total: mahasiswa.length };
+}
+
+/**
+ * Tambah/Edit Mahasiswa (Upsert)
+ * body: { nim, nama, kelas, foto, website_ujian, aktif }
+ */
+function upsertMahasiswa(body) {
+  const { nim, nama, kelas, foto, website_ujian, aktif } = body;
+  if (!nim) return { success: false, message: 'NIM wajib diisi' };
+
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const sheet = ss.getSheetByName(SHEET.MAHASISWA);
+  const data = sheet.getDataRange().getValues();
+  
+  let rowIdx = -1;
+  // Cari NIM
+  for (let i = 1; i < data.length; i++) {
+    if (String(data[i][COL_MHS.NIM - 1]).trim() === String(nim).trim()) {
+      rowIdx = i + 1;
+      break;
+    }
+  }
+
+  const rowData = [
+    nim,
+    nama || '',
+    kelas || '',
+    foto || '',
+    website_ujian || '',
+    aktif !== undefined ? aktif : true
+  ];
+
+  if (rowIdx > -1) {
+    // Update
+    sheet.getRange(rowIdx, 1, 1, 6).setValues([rowData]);
+  } else {
+    // Insert
+    sheet.appendRow(rowData);
+  }
+
+  SpreadsheetApp.flush();
+  return { success: true, message: `Mahasiswa ${nim} berhasil disimpan.` };
+}
+
+/**
+ * Import banyak mahasiswa sekaligus (Batch Upsert)
+ * body: { data: [{nim, nama, kelas, foto, website_ujian, aktif}, ...] }
+ */
+function importMahasiswa(body) {
+  const list = body.data;
+  if (!list || !Array.isArray(list) || list.length === 0) {
+    return { success: false, message: 'Data mahasiswa tidak valid atau kosong' };
+  }
+
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const sheet = ss.getSheetByName(SHEET.MAHASISWA);
+  const data = sheet.getDataRange().getValues();
+  
+  // Buat map existing data
+  const existingMap = {};
+  for (let i = 1; i < data.length; i++) {
+    const nim = String(data[i][COL_MHS.NIM - 1]).trim();
+    if (nim) existingMap[nim] = i + 1; // row index
+  }
+
+  let added = 0;
+  let updated = 0;
+
+  list.forEach(mhs => {
+    if (!mhs.nim) return;
+    const nim = String(mhs.nim).trim();
+    
+    const rowData = [
+      nim,
+      mhs.nama || '',
+      mhs.kelas || '',
+      mhs.foto || '',
+      mhs.website_ujian || '',
+      mhs.aktif !== undefined ? mhs.aktif : true
+    ];
+
+    if (existingMap[nim]) {
+      // Update existing
+      sheet.getRange(existingMap[nim], 1, 1, 6).setValues([rowData]);
+      updated++;
+    } else {
+      // Add new
+      sheet.appendRow(rowData);
+      added++;
+    }
+  });
+
+  SpreadsheetApp.flush();
+  return { success: true, message: `Import selesai: ${added} ditambahkan, ${updated} diperbarui.` };
 }
 
 // ─────────────────────────────────────────────

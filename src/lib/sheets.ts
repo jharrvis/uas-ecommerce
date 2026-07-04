@@ -139,6 +139,14 @@ export async function apiExportNilai(kelas?: string) {
   return appsPost('exportNilai', { kelas })
 }
 
+export async function apiUpsertMahasiswa(mhs: Partial<Mahasiswa> & { nim: string }) {
+  return appsPost('upsertMahasiswa', mhs)
+}
+
+export async function apiImportMahasiswa(data: (Partial<Mahasiswa> & { nim: string })[]) {
+  return appsPost('importMahasiswa', { data })
+}
+
 // ─── Utils ─────────────────────────────────────────────────
 
 async function fileToBase64(file: File): Promise<string> {
