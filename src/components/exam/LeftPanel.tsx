@@ -95,7 +95,7 @@ export default function LeftPanel({
             </div>
             <button
               onClick={onStartExam}
-              className="w-full py-2.5 bg-sky-500 hover:bg-sky-400 active:scale-95 text-white font-bold rounded-xl text-sm transition-all shadow-lg shadow-sky-500/20 flex items-center justify-center gap-2"
+              className="w-full py-2.5 bg-sky-500 hover:bg-sky-400 active:scale-95 text-white font-bold rounded-xl text-sm transition-all flex items-center justify-center gap-2"
             >
               ▶ Mulai Kerjakan
             </button>

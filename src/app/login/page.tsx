@@ -106,35 +106,35 @@ export default function LoginPage() {
 
   if (!hydrated) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4">
-        <div className="text-slate-300 text-sm">Memulihkan sesi...</div>
+      <div className="min-h-screen flex items-center justify-center p-4">
+        <div className="text-slate-500 text-sm">Memulihkan sesi...</div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4">
+    <div className="min-h-screen flex items-center justify-center p-4">
       <div className="w-full max-w-md fade-in">
 
         {/* Logo / Brand */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-sky-500/20 border border-sky-500/30 mb-4">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-sky-500/10 border border-sky-500/20 mb-4">
             <span className="text-3xl">🎓</span>
           </div>
-          <h1 className="text-2xl font-bold text-white tracking-tight">UAS Praktik E-Commerce</h1>
-          <p className="text-slate-400 text-sm mt-1">STIEAMA · AK8IC115 · Genap 2025/2026</p>
+          <h1 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">UAS Praktik E-Commerce</h1>
+          <p className="text-slate-500 text-sm mt-1">STIEAMA · AK8IC115 · Genap 2025/2026</p>
         </div>
 
         {/* Card */}
-        <div className="bg-slate-800/80 backdrop-blur border border-slate-700 rounded-2xl p-8 shadow-2xl">
-          <h2 className="text-xl font-bold text-white mb-1">Masuk dengan NIM</h2>
-          <p className="text-slate-400 text-sm mb-6">
+        <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-8">
+          <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-1">Masuk dengan NIM</h2>
+          <p className="text-slate-500 text-sm mb-6">
             Soal akan diacak otomatis berdasarkan NIM Anda.
           </p>
 
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <label className="block text-sm font-semibold text-slate-300 mb-2">
+              <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
                 Nomor Induk Mahasiswa (NIM)
               </label>
               <input
@@ -144,7 +144,7 @@ export default function LoginPage() {
                 placeholder="Contoh: 2022105020"
                 maxLength={20}
                 disabled={loading}
-                className="w-full px-4 py-3.5 bg-slate-900 border border-slate-600 rounded-xl text-white placeholder-slate-500 font-mono text-base focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 transition disabled:opacity-50"
+                className="w-full px-4 py-3.5 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 font-mono text-base focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 transition disabled:opacity-50"
               />
             </div>
 
@@ -155,10 +155,10 @@ export default function LoginPage() {
               </div>
             )}
 
-            <button
+              <button
               type="submit"
               disabled={loading || !nim.trim()}
-              className="w-full py-3 px-6 bg-sky-500 hover:bg-sky-400 disabled:bg-slate-600 disabled:cursor-not-allowed text-white font-bold rounded-xl transition-all duration-200 flex items-center justify-center gap-2 shadow-lg shadow-sky-500/20"
+              className="w-full py-3 px-6 bg-sky-500 hover:bg-sky-400 disabled:bg-slate-600 disabled:cursor-not-allowed text-white font-bold rounded-xl transition-all duration-200 flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>
@@ -170,27 +170,6 @@ export default function LoginPage() {
               )}
             </button>
           </form>
-        </div>
-
-        {/* Petunjuk */}
-        <div className="mt-6 bg-slate-800/40 border border-slate-700/50 rounded-xl p-5">
-          <h3 className="text-sm font-bold text-slate-300 mb-3">📋 Alur Ujian</h3>
-          <ol className="space-y-2.5 text-sm text-slate-400">
-            {[
-              'Login dengan NIM → soal muncul otomatis',
-              'Klik Mulai Kerjakan untuk memulai timer',
-              'Kerjakan di OpenCart sesuai soal',
-              'Upload screenshot tiap checkpoint selesai',
-              'Klik Selesai & Kumpulkan saat semua CP done',
-            ].map((t, i) => (
-              <li key={i} className="flex items-start gap-2.5">
-                <span className="flex-shrink-0 w-5 h-5 rounded-full bg-sky-500/20 text-sky-400 text-xs font-bold flex items-center justify-center mt-0.5">
-                  {i + 1}
-                </span>
-                {t}
-              </li>
-            ))}
-          </ol>
         </div>
 
         <p className="text-center text-slate-500 text-sm mt-6">

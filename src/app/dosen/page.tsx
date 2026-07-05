@@ -322,23 +322,23 @@ export default function DosenPage() {
 
   if (!authed) {
     return (
-      <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4">
+      <div className="min-h-screen flex items-center justify-center p-4">
         <div className="w-full max-w-sm fade-in">
           <div className="text-center mb-6">
             <div className="w-14 h-14 rounded-2xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-3xl mx-auto mb-3">👩‍🏫</div>
-            <h1 className="text-xl font-bold text-white">Dashboard Dosen</h1>
-            <p className="text-slate-400 text-sm mt-1">UAS E-Commerce — STIEAMA</p>
+            <h1 className="text-xl font-bold text-slate-900 dark:text-white">Dashboard Dosen</h1>
+            <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">UAS E-Commerce — STIEAMA</p>
           </div>
-          <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6">
+          <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-6">
             <form onSubmit={handleLogin} className="space-y-4">
               <div>
-                <label className="block text-sm font-semibold text-slate-300 mb-2">Kode Akses Dosen</label>
+                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Kode Akses Dosen</label>
                 <input
                   type="password"
                   value={code}
                   onChange={(e) => { setCode(e.target.value); setCodeErr('') }}
                   placeholder="Masukkan kode akses"
-                  className="w-full px-4 py-3 bg-slate-900 border border-slate-600 rounded-xl text-white focus:outline-none focus:border-purple-500 transition"
+                  className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:border-purple-500 transition"
                 />
                 {codeErr && <p className="text-red-400 text-xs mt-1">{codeErr}</p>}
               </div>

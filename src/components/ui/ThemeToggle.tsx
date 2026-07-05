@@ -34,7 +34,7 @@ export default function ThemeToggle() {
     <button
       type="button"
       onClick={toggleTheme}
-      className="theme-toggle-btn fixed bottom-4 left-4 z-[10000] flex h-10 w-10 items-center justify-center rounded-full border border-slate-700 bg-slate-900/90 text-slate-200 shadow-lg backdrop-blur transition hover:bg-slate-800"
+      className="theme-toggle-btn fixed bottom-4 left-4 z-[10000] flex h-10 w-10 items-center justify-center rounded-full border border-slate-700 bg-slate-900/90 text-slate-200 backdrop-blur transition hover:bg-slate-800"
       aria-label="Ganti tema"
       title={theme === 'dark' ? 'Beralih ke Light Mode' : 'Beralih ke Dark Mode'}
     >

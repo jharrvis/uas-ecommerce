@@ -45,16 +45,16 @@ export default function RightPanel({ isExamLocked, onSubmit, submitting }: Right
   const nextTab = currentIndex < tabs.length - 1 ? tabs[currentIndex + 1] : null
 
   return (
-    <main className="h-full flex flex-col bg-slate-950 rounded-xl overflow-hidden shadow-2xl border border-slate-800">
+    <main className="h-full flex flex-col overflow-hidden">
       
       {/* ── Tab Bar Horizontal ── */}
-      <div className="flex overflow-x-auto scrollbar-thin bg-slate-900 border-b border-slate-800 flex-shrink-0">
+      <div className="flex overflow-x-auto scrollbar-thin bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex-shrink-0">
         <button
           onClick={() => setActiveTab('summary')}
           className={`whitespace-nowrap px-5 py-3.5 text-sm font-bold border-b-2 transition-all ${
             activeTab === 'summary' 
-              ? 'border-sky-500 text-sky-400 bg-sky-500/5' 
-              : 'border-transparent text-slate-500 hover:text-slate-300 hover:bg-slate-800'
+              ? 'border-sky-500 text-sky-500 dark:text-sky-400 bg-sky-50 dark:bg-sky-500/5' 
+              : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
           }`}
         >
           📋 Ringkasan Ujian
@@ -71,10 +71,10 @@ export default function RightPanel({ isExamLocked, onSubmit, submitting }: Right
               onClick={() => setActiveTab(cp)}
               className={`whitespace-nowrap px-5 py-3.5 text-sm font-bold border-b-2 transition-all flex items-center gap-2 ${
                 activeTab === cp 
-                  ? 'border-sky-500 text-sky-400 bg-sky-500/5' 
+                  ? 'border-sky-500 text-sky-500 dark:text-sky-400 bg-sky-50 dark:bg-sky-500/5' 
                   : isDone
-                    ? 'border-transparent text-emerald-500 hover:bg-slate-800'
-                    : 'border-transparent text-slate-500 hover:text-slate-300 hover:bg-slate-800'
+                    ? 'border-transparent text-emerald-600 dark:text-emerald-500 hover:bg-slate-50 dark:hover:bg-slate-800'
+                    : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
               }`}
             >
               {isDone ? '✅' : '⚪'} {meta.label}
@@ -84,20 +84,20 @@ export default function RightPanel({ isExamLocked, onSubmit, submitting }: Right
       </div>
 
       {/* ── Tab Content Area ── */}
-      <div className="flex-1 overflow-y-auto scrollbar-thin p-5 md:p-8">
+      <div className="flex-1 overflow-y-auto scrollbar-thin p-5 md:p-8 bg-slate-50 dark:bg-slate-950">
         
         {/* Konten Tab Summary */}
         {activeTab === 'summary' && (
           <div className="fade-in max-w-4xl mx-auto space-y-6">
-            <div className="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl p-6">
+            <div className="bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl p-6">
               <div className="flex items-start gap-4 mb-5">
-                <div className="w-14 h-14 rounded-xl bg-sky-500/15 border border-sky-500/20 flex items-center justify-center text-3xl flex-shrink-0">
+                <div className="w-14 h-14 rounded-xl bg-sky-100 dark:bg-sky-500/15 border border-sky-200 dark:border-sky-500/20 flex items-center justify-center text-3xl flex-shrink-0">
                   🏪
                 </div>
                 <div>
-                  <div className="text-xs font-bold uppercase tracking-widest text-sky-400 mb-1">Soal Ujian Anda</div>
-                  <h2 className="text-2xl font-extrabold text-white tracking-tight leading-tight">{toko.nama_toko}</h2>
-                  <p className="text-slate-400 text-sm mt-1 flex items-center gap-1.5">
+                  <div className="text-xs font-bold uppercase tracking-widest text-sky-600 dark:text-sky-400 mb-1">Soal Ujian Anda</div>
+                  <h2 className="text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight">{toko.nama_toko}</h2>
+                  <p className="text-slate-600 dark:text-slate-400 text-sm mt-1 flex items-center gap-1.5">
                     <span>📍</span>{toko.alamat}
                   </p>
                 </div>
@@ -212,7 +212,7 @@ export default function RightPanel({ isExamLocked, onSubmit, submitting }: Right
                 <button
                   onClick={onSubmit}
                   disabled={!canSubmit || submitting}
-                  className="w-full py-4 bg-emerald-500 hover:bg-emerald-400 disabled:bg-slate-700 disabled:text-slate-500 disabled:cursor-not-allowed text-white text-lg font-black rounded-xl transition-all shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2"
+                  className="w-full py-4 bg-emerald-500 hover:bg-emerald-400 disabled:bg-slate-700 disabled:text-slate-500 disabled:cursor-not-allowed text-white text-lg font-black rounded-xl transition-all flex items-center justify-center gap-2"
                 >
                   {submitting ? (
                     <><div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Mengirim...</>
@@ -227,7 +227,7 @@ export default function RightPanel({ isExamLocked, onSubmit, submitting }: Right
 
         {/* Konten Tab Checkpoint (CP01-09) */}
         {activeTab !== 'summary' && (
-          <div className="fade-in max-w-4xl mx-auto bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-xl">
+          <div className="fade-in max-w-4xl mx-auto">
             <Checkpoint
               cp={activeTab}
               nim={nim}
@@ -241,12 +241,12 @@ export default function RightPanel({ isExamLocked, onSubmit, submitting }: Right
       </div>
 
       {/* ── Footer Navigasi Prev/Next ── */}
-      <div className="flex items-center justify-between p-4 bg-slate-900 border-t border-slate-800 flex-shrink-0">
+      <div className="flex items-center justify-between p-4 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 flex-shrink-0">
         <div>
           {prevTab && (
             <button
               onClick={() => setActiveTab(prevTab)}
-              className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-bold rounded-xl transition flex items-center gap-2"
+              className="px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-sm font-bold rounded-xl transition flex items-center gap-2"
             >
               <span>←</span>
               <span className="hidden sm:inline">{prevTab === 'summary' ? 'Ringkasan' : CHECKPOINT_META[prevTab].label}</span>

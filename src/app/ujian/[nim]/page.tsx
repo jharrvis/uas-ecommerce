@@ -123,7 +123,7 @@ export default function UjianPage() {
 
       <header className="flex-shrink-0 bg-slate-950 border-b border-slate-800 px-4 py-2.5 flex items-center justify-between gap-3 z-10">
         <div className="flex items-center gap-2.5 min-w-0">
-          <div className="w-2 h-2 rounded-full bg-sky-400 shadow-[0_0_6px] shadow-sky-400 flex-shrink-0" />
+          <div className="w-2 h-2 rounded-full bg-sky-400 flex-shrink-0" />
           <span className="font-bold text-white text-sm truncate">UAS Praktik E-Commerce</span>
           <span className="hidden sm:inline text-slate-600 text-xs">STIEAMA · AK8IC115</span>
         </div>

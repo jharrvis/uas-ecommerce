@@ -41,7 +41,7 @@ export default function ImageViewerModal({ url, title, onClose, footer }: ImageV
       onClick={onClose}
     >
       <div
-        className="relative max-w-4xl w-full max-h-[90vh] flex flex-col bg-slate-900 rounded-2xl border border-slate-700 shadow-2xl overflow-hidden"
+        className="relative max-w-4xl w-full max-h-[90vh] flex flex-col bg-slate-900 rounded-2xl border border-slate-700 overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between px-4 py-3 border-b border-slate-700 flex-shrink-0">
