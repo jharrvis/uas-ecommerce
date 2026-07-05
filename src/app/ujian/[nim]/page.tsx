@@ -99,10 +99,10 @@ export default function UjianPage() {
 
   if (!hydrated || !ready || !session) {
     return (
-      <div className="min-h-screen bg-slate-900 flex items-center justify-center">
+      <div className="min-h-screen bg-slate-50 dark:bg-slate-900 flex items-center justify-center">
         <div className="text-center">
-          <div className="w-10 h-10 border-2 border-sky-400/30 border-t-sky-400 rounded-full animate-spin mx-auto mb-3" />
-          <p className="text-slate-400 text-sm">Memuat soal ujian...</p>
+          <div className="w-10 h-10 border-2 border-sky-500/30 border-t-sky-500 rounded-full animate-spin mx-auto mb-3" />
+          <p className="text-slate-500 dark:text-slate-400 text-sm">Memuat soal ujian...</p>
         </div>
       </div>
     )
@@ -112,20 +112,20 @@ export default function UjianPage() {
 
   const timerColor =
     isDanger
-      ? 'text-red-400 border-red-500/50 bg-red-500/10 timer-pulse'
+      ? 'text-red-500 dark:text-red-400 border-red-200 dark:border-red-500/50 bg-red-50 dark:bg-red-500/10 timer-pulse'
       : isWarning
-        ? 'text-amber-400 border-amber-500/50 bg-amber-500/10'
-        : 'text-emerald-400 border-emerald-500/30 bg-emerald-500/10'
+        ? 'text-amber-600 dark:text-amber-400 border-amber-200 dark:border-amber-500/50 bg-amber-50 dark:bg-amber-500/10'
+        : 'text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-500/30 bg-emerald-50 dark:bg-emerald-500/10'
 
   return (
-    <div className="h-screen bg-slate-900 flex flex-col overflow-hidden">
+    <div className="h-screen bg-slate-50 dark:bg-slate-900 flex flex-col overflow-hidden">
       <ToastContainer />
 
-      <header className="flex-shrink-0 bg-slate-950 border-b border-slate-800 px-4 py-2.5 flex items-center justify-between gap-3 z-10">
+      <header className="flex-shrink-0 bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 px-4 py-2.5 flex items-center justify-between gap-3 z-10">
         <div className="flex items-center gap-2.5 min-w-0">
-          <div className="w-2 h-2 rounded-full bg-sky-400 flex-shrink-0" />
-          <span className="font-bold text-white text-sm truncate">UAS Praktik E-Commerce</span>
-          <span className="hidden sm:inline text-slate-600 text-xs">STIEAMA · AK8IC115</span>
+          <div className="w-2 h-2 rounded-full bg-sky-500 flex-shrink-0" />
+          <span className="font-bold text-slate-900 dark:text-white text-sm truncate">UAS Praktik E-Commerce</span>
+          <span className="hidden sm:inline text-slate-500 text-xs">STIEAMA · AK8IC115</span>
         </div>
 
         <div className="flex items-center gap-2 flex-shrink-0">
@@ -143,7 +143,7 @@ export default function UjianPage() {
 
           <button
             onClick={handleLogout}
-            className="px-3 py-1.5 bg-slate-800 border border-slate-700 text-slate-300 text-xs font-semibold rounded-lg hover:bg-slate-700 transition"
+            className="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs font-semibold rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition"
           >
             Logout
           </button>
@@ -151,7 +151,7 @@ export default function UjianPage() {
       </header>
 
       {isRunning && (
-        <div className="h-0.5 bg-slate-800 flex-shrink-0">
+        <div className="h-0.5 bg-slate-200 dark:bg-slate-800 flex-shrink-0">
           <div
             className={`h-full transition-all duration-1000 ${
               isDanger ? 'bg-red-500' : isWarning ? 'bg-amber-500' : 'bg-emerald-500'
@@ -162,7 +162,7 @@ export default function UjianPage() {
       )}
 
       <div className="flex-1 overflow-hidden grid grid-cols-1 md:grid-cols-[320px_1fr] lg:grid-cols-[340px_1fr]">
-        <div className="hidden md:flex flex-col bg-slate-900 border-r border-slate-800 p-4 overflow-hidden">
+        <div className="hidden md:flex flex-col bg-slate-50 dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 p-4 overflow-hidden">
           <LeftPanel
             durationMinutes={duration}
             timerFormatted={formatted}
@@ -173,10 +173,10 @@ export default function UjianPage() {
           />
         </div>
 
-        <div className="bg-slate-950 overflow-y-auto scrollbar-thin">
-          <div className="md:hidden sticky top-0 z-10 bg-slate-900/95 backdrop-blur border-b border-slate-800 px-4 py-2 flex items-center justify-between gap-3">
+        <div className="bg-white dark:bg-slate-950 overflow-y-auto scrollbar-thin">
+          <div className="md:hidden sticky top-0 z-10 bg-white/95 dark:bg-slate-900/95 backdrop-blur border-b border-slate-200 dark:border-slate-800 px-4 py-2 flex items-center justify-between gap-3">
             <div className="min-w-0">
-              <p className="font-bold text-white text-sm truncate">{session.nama}</p>
+              <p className="font-bold text-slate-900 dark:text-white text-sm truncate">{session.nama}</p>
               <p className="text-slate-500 text-xs">{session.tokoSoal.nama_toko}</p>
             </div>
             <div className="flex items-center gap-2 flex-shrink-0">
@@ -193,7 +193,7 @@ export default function UjianPage() {
                   href={session.website_ujian}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-3 py-1.5 bg-slate-800 border border-slate-700 text-sky-400 text-xs font-semibold rounded-lg"
+                  className="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sky-600 dark:text-sky-400 text-xs font-semibold rounded-lg"
                 >
                   OpenCart
                 </a>
@@ -201,7 +201,7 @@ export default function UjianPage() {
             </div>
           </div>
 
-          <div className="p-4 md:p-6">
+          <div className="h-full flex flex-col">
             <RightPanel
               isExamLocked={isLocked}
               onSubmit={() => setShowSubmitDlg(true)}

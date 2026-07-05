@@ -181,29 +181,29 @@ export default function RightPanel({ isExamLocked, onSubmit, submitting }: Right
 
             {/* Area Pengumpulan Ujian di Tab Summary */}
             {session.status === 'submitted' ? (
-              <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-2xl p-8 text-center">
+              <div className="bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/30 rounded-2xl p-8 text-center">
                 <p className="text-5xl mb-4">✅</p>
-                <p className="text-emerald-400 font-black text-2xl">Ujian Sudah Dikumpulkan</p>
-                <p className="text-slate-400 text-base mt-2">Tunggu penilaian dari dosen pengampu.</p>
+                <p className="text-emerald-600 dark:text-emerald-400 font-black text-2xl">Ujian Sudah Dikumpulkan</p>
+                <p className="text-slate-500 dark:text-slate-400 text-base mt-2">Tunggu penilaian dari dosen pengampu.</p>
               </div>
             ) : session.status === 'started' ? (
-              <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 sm:p-8">
+              <div className="bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-6 sm:p-8">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                   <div>
-                    <h3 className="text-xl font-bold text-white">Kumpulkan Ujian</h3>
-                    <p className="text-slate-400 text-sm mt-1">
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-white">Kumpulkan Ujian</h3>
+                    <p className="text-slate-600 dark:text-slate-400 text-sm mt-1">
                       {allDone
                         ? 'Semua checkpoint selesai! Pastikan Anda sudah mengecek ulang.'
                         : `Masih ada ${CP_ORDER.length - completed} checkpoint yang belum selesai.`}
                     </p>
                   </div>
                   <div className="text-left sm:text-right">
-                    <p className="text-3xl font-black text-sky-400">{completed}<span className="text-lg text-slate-500 font-normal"> / {CP_ORDER.length} CP</span></p>
+                    <p className="text-3xl font-black text-sky-500 dark:text-sky-400">{completed}<span className="text-lg text-slate-400 dark:text-slate-500 font-normal"> / {CP_ORDER.length} CP</span></p>
                   </div>
                 </div>
 
                 {!allDone && (
-                  <div className="flex items-center gap-3 p-4 bg-amber-500/10 border border-amber-500/30 rounded-xl mb-6 text-sm text-amber-400 font-medium">
+                  <div className="flex items-center gap-3 p-4 bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/30 rounded-xl mb-6 text-sm text-amber-700 dark:text-amber-400 font-medium">
                     <span className="text-lg">⚠️</span>
                     Selesaikan semua checkpoint (Tab CP01 - CP09 di atas) sebelum mengumpulkan ujian.
                   </div>

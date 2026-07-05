@@ -43,13 +43,13 @@ export default function Checkpoint({ cp, nim, toko, produk, isExamLocked }: Chec
 
   return (
     <div className="space-y-6 fade-in">
-      <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-700/50">
-        <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl bg-sky-500/20 text-sky-400 flex-shrink-0">
+      <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-200 dark:border-slate-700/50">
+        <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl bg-sky-50 dark:bg-sky-500/20 text-sky-500 dark:text-sky-400 flex-shrink-0">
           {meta.icon}
         </div>
         <div>
-          <h3 className="font-bold text-slate-200 text-lg">{meta.label}</h3>
-          <p className="text-slate-500 text-sm">{meta.tab} · Bobot: <span className="text-sky-400 font-bold">{meta.bobot} poin</span></p>
+          <h3 className="font-bold text-slate-900 dark:text-slate-200 text-lg">{meta.label}</h3>
+          <p className="text-slate-500 text-sm">{meta.tab} · Bobot: <span className="text-sky-500 dark:text-sky-400 font-bold">{meta.bobot} poin</span></p>
         </div>
       </div>
 
@@ -63,8 +63,8 @@ export default function Checkpoint({ cp, nim, toko, produk, isExamLocked }: Chec
       {cp === 'cp08' && <CP08Content produk={produk} />}
       {cp === 'cp09' && <CP09Content toko={toko} produk={produk} />}
 
-      <div className="mt-8 pt-6 border-t border-slate-700/50">
-        <p className="text-sm font-semibold text-slate-300 mb-3 flex items-center gap-2">
+      <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-700/50">
+        <p className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3 flex items-center gap-2">
           📸 {isDone ? 'Screenshot telah diupload — Anda bisa menggantinya jika perlu' : 'Upload screenshot sebagai bukti penyelesaian'}
         </p>
         <UploadZone
@@ -106,18 +106,18 @@ export default function Checkpoint({ cp, nim, toko, produk, isExamLocked }: Chec
 /* ── Checkpoint Content Components ── */
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
-  return <h4 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2.5 mt-5">{children}</h4>
+  return <h4 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2.5 mt-5">{children}</h4>
 }
 
 function InfoTable({ rows }: { rows: [string, React.ReactNode][] }) {
   return (
-    <div className="border border-slate-700 rounded-xl overflow-hidden bg-slate-800">
+    <div className="border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden bg-white dark:bg-slate-800">
       {rows.map(([label, value], i) => (
-        <div key={i} className={`flex ${i % 2 === 1 ? 'bg-slate-800/80' : 'bg-slate-800/30'}`}>
-          <div className="w-2/5 px-4 py-3 text-slate-400 font-semibold text-sm border-r border-slate-700 flex-shrink-0">
+        <div key={i} className={`flex ${i % 2 === 1 ? 'bg-slate-50 dark:bg-slate-800/80' : 'bg-white dark:bg-slate-800/30'}`}>
+          <div className="w-2/5 px-4 py-3 text-slate-500 dark:text-slate-400 font-semibold text-sm border-r border-slate-200 dark:border-slate-700 flex-shrink-0">
             {label}
           </div>
-          <div className="flex-1 px-4 py-3 text-slate-200 text-sm font-mono break-all font-medium">{value}</div>
+          <div className="flex-1 px-4 py-3 text-slate-800 dark:text-slate-200 text-sm font-mono break-all font-medium">{value}</div>
         </div>
       ))}
     </div>
@@ -126,9 +126,9 @@ function InfoTable({ rows }: { rows: [string, React.ReactNode][] }) {
 
 function Callout({ type, children }: { type: 'info' | 'warning' | 'tip'; children: React.ReactNode }) {
   const styles = {
-    info:    'bg-sky-500/10 border-sky-500/30 text-sky-300',
-    warning: 'bg-amber-500/10 border-amber-500/30 text-amber-300',
-    tip:     'bg-emerald-500/10 border-emerald-500/30 text-emerald-300',
+    info:    'bg-sky-50 dark:bg-sky-500/10 border-sky-200 dark:border-sky-500/30 text-sky-700 dark:text-sky-300',
+    warning: 'bg-amber-50 dark:bg-amber-500/10 border-amber-200 dark:border-amber-500/30 text-amber-700 dark:text-amber-300',
+    tip:     'bg-emerald-50 dark:bg-emerald-500/10 border-emerald-200 dark:border-emerald-500/30 text-emerald-700 dark:text-emerald-300',
   }
   const icons = { info: 'ℹ️', warning: '⚠️', tip: '💡' }
   return (
@@ -272,12 +272,12 @@ function CP05Content({ toko, produk }: { produk: Produk[]; toko: Toko }) {
           {safeArray<{group:string;name:string;value:string}>(p.attributes).length > 0 && (
             <>
               <SectionTitle>Attributes</SectionTitle>
-              <div className="border border-slate-700 rounded-xl overflow-hidden bg-slate-800">
+              <div className="border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden bg-white dark:bg-slate-800">
                 {safeArray<{group:string;name:string;value:string}>(p.attributes).map((a, j) => (
-                  <div key={j} className={`flex text-sm ${j % 2 === 1 ? 'bg-slate-800/80' : 'bg-slate-800/30'}`}>
-                    <div className="w-1/4 px-4 py-3 text-slate-400 border-r border-slate-700 font-medium">{a.group}</div>
-                    <div className="w-1/3 px-4 py-3 text-slate-300 border-r border-slate-700">{a.name}</div>
-                    <div className="flex-1 px-4 py-3 text-sky-400 font-bold">{a.value}</div>
+                  <div key={j} className={`flex text-sm ${j % 2 === 1 ? 'bg-slate-50 dark:bg-slate-800/80' : 'bg-white dark:bg-slate-800/30'}`}>
+                    <div className="w-1/4 px-4 py-3 text-slate-500 dark:text-slate-400 border-r border-slate-200 dark:border-slate-700 font-medium">{a.group}</div>
+                    <div className="w-1/3 px-4 py-3 text-slate-700 dark:text-slate-300 border-r border-slate-200 dark:border-slate-700">{a.name}</div>
+                    <div className="flex-1 px-4 py-3 text-sky-600 dark:text-sky-400 font-bold">{a.value}</div>
                   </div>
                 ))}
               </div>
@@ -288,19 +288,19 @@ function CP05Content({ toko, produk }: { produk: Produk[]; toko: Toko }) {
             <>
               <SectionTitle>Options (Varian)</SectionTitle>
               {safeArray<{name:string;type:string;values:{label:string;price_modifier:number;qty:number}[]}>(p.options).map((opt, j) => (
-                <div key={j} className="border border-slate-700 rounded-xl overflow-hidden bg-slate-800 mb-3">
-                  <div className="bg-slate-700/50 px-4 py-3 flex items-center gap-3">
-                    <span className="text-slate-100 text-sm font-bold">{opt.name}</span>
-                    <span className="text-xs px-2 py-1 bg-sky-500/20 text-sky-400 rounded-full font-mono">{opt.type}</span>
+                <div key={j} className="border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden bg-white dark:bg-slate-800 mb-3">
+                  <div className="bg-slate-100 dark:bg-slate-700/50 px-4 py-3 flex items-center gap-3">
+                    <span className="text-slate-900 dark:text-slate-100 text-sm font-bold">{opt.name}</span>
+                    <span className="text-xs px-2 py-1 bg-sky-100 dark:bg-sky-500/20 text-sky-600 dark:text-sky-400 rounded-full font-mono">{opt.type}</span>
                   </div>
                   {opt.values.map((v, k) => (
-                    <div key={k} className={`flex text-sm ${k % 2 === 1 ? 'bg-slate-800/80' : 'bg-slate-800/30'}`}>
-                      <div className="flex-1 px-4 py-3 text-slate-300 font-medium">{v.label}</div>
-                      <div className="w-32 px-4 py-3 text-amber-400 text-right font-mono">
+                    <div key={k} className={`flex text-sm ${k % 2 === 1 ? 'bg-slate-50 dark:bg-slate-800/80' : 'bg-white dark:bg-slate-800/30'}`}>
+                      <div className="flex-1 px-4 py-3 text-slate-700 dark:text-slate-300 font-medium">{v.label}</div>
+                      <div className="w-32 px-4 py-3 text-amber-600 dark:text-amber-400 text-right font-mono">
                         {v.price_modifier > 0 ? '+Rp ' + v.price_modifier.toLocaleString('id-ID') :
                          v.price_modifier < 0 ? '-Rp ' + Math.abs(v.price_modifier).toLocaleString('id-ID') : '—'}
                       </div>
-                      <div className="w-20 px-4 py-3 text-slate-400 text-right">{v.qty} pcs</div>
+                      <div className="w-20 px-4 py-3 text-slate-500 dark:text-slate-400 text-right">{v.qty} pcs</div>
                     </div>
                   ))}
                 </div>
@@ -385,7 +385,7 @@ function CP08Content({ produk }: { produk: Produk[] }) {
           <div className="mt-3 flex flex-wrap gap-2.5">
             {[p.gambar_1, p.gambar_2, p.gambar_3].filter(Boolean).map((url, j) => (
               <a key={j} href={url} target="_blank" rel="noopener noreferrer"
-                className="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 text-sm font-semibold rounded-lg border border-slate-600 transition">
+                className="px-4 py-2 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 text-sm font-semibold rounded-lg border border-slate-300 dark:border-slate-600 transition">
                 📥 Gambar {j + 1}
               </a>
             ))}
@@ -408,11 +408,11 @@ function CP09Content({ toko, produk }: { produk: Produk[]; toko: Toko }) {
       </Callout>
       <SectionTitle>Banner yang Dipasang</SectionTitle>
       {produk.map((p, i) => (
-        <div key={p.id} className="flex items-center gap-4 p-4 bg-slate-800 border border-slate-700 rounded-xl">
+        <div key={p.id} className="flex items-center gap-4 p-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl">
           <span className="text-3xl">🖼️</span>
           <div className="min-w-0">
-            <p className="text-slate-200 text-base font-bold">{p.nama_produk}</p>
-            <p className="text-slate-400 text-sm">Gunakan gambar produk sebagai banner</p>
+            <p className="text-slate-900 dark:text-slate-200 text-base font-bold">{p.nama_produk}</p>
+            <p className="text-slate-500 dark:text-slate-400 text-sm">Gunakan gambar produk sebagai banner</p>
           </div>
         </div>
       ))}
