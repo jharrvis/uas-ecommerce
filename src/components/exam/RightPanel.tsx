@@ -108,27 +108,27 @@ export default function RightPanel({ isExamLocked, onSubmit, submitting }: Right
                   { icon: '✉️', label: 'Email', value: toko.email },
                   { icon: '📞', label: 'Telepon', value: toko.telepon },
                 ].map((item) => (
-                  <div key={item.label} className="flex items-center gap-3 p-3.5 bg-slate-800 border border-slate-700 rounded-xl">
+                  <div key={item.label} className="flex items-center gap-3 p-3.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl">
                     <span className="text-xl flex-shrink-0">{item.icon}</span>
                     <div className="min-w-0">
-                      <p className="text-xs text-slate-400 font-semibold">{item.label}</p>
-                      <p className="text-slate-200 text-sm font-mono truncate">{item.value}</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 font-semibold">{item.label}</p>
+                      <p className="text-slate-900 dark:text-slate-200 text-sm font-mono truncate">{item.value}</p>
                     </div>
                   </div>
                 ))}
               </div>
 
-              <div className="bg-slate-800 border border-slate-700 rounded-xl p-5 mb-5">
-                <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Latar Belakang Bisnis</p>
-                <p className="text-slate-200 text-base leading-relaxed">{toko.deskripsi_bisnis}</p>
+              <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5 mb-5">
+                <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Latar Belakang Bisnis</p>
+                <p className="text-slate-700 dark:text-slate-200 text-base leading-relaxed">{toko.deskripsi_bisnis}</p>
               </div>
 
               {eventPromo.length > 0 && (
                 <div className="mb-5">
-                  <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2.5">Event Promosi</p>
+                  <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2.5">Event Promosi</p>
                   <div className="flex flex-wrap gap-2">
                     {eventPromo.map((ev) => (
-                      <span key={ev} className="px-3 py-1.5 bg-amber-500/15 border border-amber-500/30 text-amber-400 text-sm font-bold rounded-full">
+                      <span key={ev} className="px-3 py-1.5 bg-amber-50 dark:bg-amber-500/15 border border-amber-200 dark:border-amber-500/30 text-amber-700 dark:text-amber-400 text-sm font-bold rounded-full">
                         {ev}
                       </span>
                     ))}
@@ -137,18 +137,18 @@ export default function RightPanel({ isExamLocked, onSubmit, submitting }: Right
               )}
 
               <div>
-                <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2.5">
+                <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2.5">
                   Produk yang Akan Anda Input ({produk.length} produk)
                 </p>
                 <div className="space-y-2.5">
                   {produk.map((p, i) => (
-                    <div key={p.id} className="flex items-center gap-4 p-3.5 bg-slate-800 border border-slate-700 rounded-xl">
-                      <div className="w-8 h-8 rounded-lg bg-sky-500/20 text-sky-400 text-sm font-black flex items-center justify-center flex-shrink-0">
+                    <div key={p.id} className="flex items-center gap-4 p-3.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl">
+                      <div className="w-8 h-8 rounded-lg bg-sky-50 dark:bg-sky-500/20 text-sky-600 dark:text-sky-400 text-sm font-black flex items-center justify-center flex-shrink-0">
                         {i + 1}
                       </div>
                       <div className="min-w-0 flex-1">
-                        <p className="text-slate-100 text-base font-bold leading-tight truncate">{p.nama_produk}</p>
-                        <p className="text-slate-400 text-sm mt-0.5">{p.manufacturer} · {fmt(p.harga)}</p>
+                        <p className="text-slate-900 dark:text-slate-100 text-base font-bold leading-tight truncate">{p.nama_produk}</p>
+                        <p className="text-slate-500 dark:text-slate-400 text-sm mt-0.5">{p.manufacturer} · {fmt(p.harga)}</p>
                       </div>
                     </div>
                   ))}
@@ -156,11 +156,11 @@ export default function RightPanel({ isExamLocked, onSubmit, submitting }: Right
               </div>
             </div>
 
-            <div className="bg-sky-500/5 border border-sky-500/20 rounded-2xl p-6">
-              <h3 className="text-lg font-bold text-sky-400 mb-4 flex items-center gap-2">
+            <div className="bg-sky-50 dark:bg-sky-500/5 border border-sky-200 dark:border-sky-500/20 rounded-2xl p-6">
+              <h3 className="text-lg font-bold text-sky-700 dark:text-sky-400 mb-4 flex items-center gap-2">
                 <span>📋</span> Instruksi Utama Pengerjaan
               </h3>
-              <ol className="space-y-3 text-base text-slate-300">
+              <ol className="space-y-3 text-base text-slate-700 dark:text-slate-300">
                 {[
                   `Lengkapi data toko <strong>${toko.nama_toko}</strong> di OpenCart (nama, alamat, email, telepon, logo).`,
                   `Tambahkan manufacturer ${manufacturers.join(' dan ')} beserta logonya ke carousel halaman depan.`,
@@ -170,7 +170,7 @@ export default function RightPanel({ isExamLocked, onSubmit, submitting }: Right
                   'Pasang banner slideshow produk Anda di halaman depan toko.',
                 ].map((text, i) => (
                   <li key={i} className="flex items-start gap-3">
-                    <span className="flex-shrink-0 w-6 h-6 rounded-full bg-sky-500/20 text-sky-400 text-sm font-bold flex items-center justify-center mt-0.5">
+                    <span className="flex-shrink-0 w-6 h-6 rounded-full bg-sky-100 dark:bg-sky-500/20 text-sky-600 dark:text-sky-400 text-sm font-bold flex items-center justify-center mt-0.5">
                       {i + 1}
                     </span>
                     <span dangerouslySetInnerHTML={{ __html: text }} />
