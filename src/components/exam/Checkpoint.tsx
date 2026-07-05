@@ -7,6 +7,14 @@ import ImageViewerModal from '@/components/ui/ImageViewerModal'
 import type { CheckpointId, Produk, Toko } from '@/types'
 import { CHECKPOINT_META } from '@/types'
 
+function safeArray<T>(val: unknown): T[] {
+  if (Array.isArray(val)) return val
+  if (typeof val === 'string') {
+    try { const parsed = JSON.parse(val); if (Array.isArray(parsed)) return parsed } catch {}
+  }
+  return []
+}
+
 interface CheckpointProps {
   cp: CheckpointId
   nim: string
@@ -192,7 +200,7 @@ function CP02Content({ produk }: { produk: Produk[] }) {
 /* CP-03: Kategori */
 function CP03Content({ produk }: { produk: Produk[] }) {
   const allCats = produk.reduce<string[]>((acc, item) => {
-    item.kategori.forEach((category) => {
+    safeArray<string>(item.kategori).forEach((category) => {
       if (!acc.includes(category)) acc.push(category)
     })
     return acc
@@ -258,14 +266,14 @@ function CP05Content({ toko, produk }: { produk: Produk[]; toko: Toko }) {
           <SectionTitle>Produk {i + 1}: Links</SectionTitle>
           <InfoTable rows={[
             ['Manufacturer', p.manufacturer],
-            ['Categories', p.kategori.join(', ')],
+            ['Categories', safeArray<string>(p.kategori).join(', ')],
           ]} />
 
-          {p.attributes && p.attributes.length > 0 && (
+          {safeArray<{group:string;name:string;value:string}>(p.attributes).length > 0 && (
             <>
               <SectionTitle>Attributes</SectionTitle>
               <div className="border border-slate-700 rounded-xl overflow-hidden bg-slate-800">
-                {p.attributes.map((a, j) => (
+                {safeArray<{group:string;name:string;value:string}>(p.attributes).map((a, j) => (
                   <div key={j} className={`flex text-sm ${j % 2 === 1 ? 'bg-slate-800/80' : 'bg-slate-800/30'}`}>
                     <div className="w-1/4 px-4 py-3 text-slate-400 border-r border-slate-700 font-medium">{a.group}</div>
                     <div className="w-1/3 px-4 py-3 text-slate-300 border-r border-slate-700">{a.name}</div>
@@ -276,10 +284,10 @@ function CP05Content({ toko, produk }: { produk: Produk[]; toko: Toko }) {
             </>
           )}
 
-          {p.options && p.options.length > 0 && (
+          {safeArray<{name:string;type:string;values:{label:string;price_modifier:number;qty:number}[]}>(p.options).length > 0 && (
             <>
               <SectionTitle>Options (Varian)</SectionTitle>
-              {p.options.map((opt, j) => (
+              {safeArray<{name:string;type:string;values:{label:string;price_modifier:number;qty:number}[]}>(p.options).map((opt, j) => (
                 <div key={j} className="border border-slate-700 rounded-xl overflow-hidden bg-slate-800 mb-3">
                   <div className="bg-slate-700/50 px-4 py-3 flex items-center gap-3">
                     <span className="text-slate-100 text-sm font-bold">{opt.name}</span>
