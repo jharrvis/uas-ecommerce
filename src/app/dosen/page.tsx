@@ -5,6 +5,7 @@ import { apiGetHasil, apiGetSummary, apiUpdateNilai, apiExportNilai } from '@/li
 import type { HasilMahasiswa } from '@/types'
 import { CP_ORDER, CHECKPOINT_META } from '@/types'
 import DataMahasiswa from '@/components/dosen/DataMahasiswa'
+import DataProduk from '@/components/dosen/DataProduk'
 import ImageViewerModal from '@/components/ui/ImageViewerModal'
 
 const DOSEN_CODE = process.env.NEXT_PUBLIC_DOSEN_CODE || 'DOSEN2026!'
@@ -251,7 +252,7 @@ export default function DosenPage() {
   const [filterStatus, setFilterStatus] = useState('ALL')
   const [selected, setSelected] = useState<HasilMahasiswa | null>(null)
   const [exporting, setExporting] = useState(false)
-  const [activeTab, setActiveTab] = useState<'hasil' | 'mahasiswa'>('hasil')
+  const [activeTab, setActiveTab] = useState<'hasil' | 'mahasiswa' | 'produk'>('hasil')
 
   const fetchData = useCallback(async () => {
     setLoading(true)
@@ -403,16 +404,17 @@ export default function DosenPage() {
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-1 border-b border-slate-800">
+        <div className="flex overflow-x-auto scrollbar-thin gap-1 border-b border-slate-200 dark:border-slate-800">
           {([
             { key: 'hasil', label: '📊 Hasil Ujian' },
             { key: 'mahasiswa', label: '👥 Data Mahasiswa' },
+            { key: 'produk', label: '📦 Data Produk' },
           ] as const).map(tab => (
             <button key={tab.key} onClick={() => setActiveTab(tab.key)}
-              className={`px-4 py-2 text-sm font-semibold rounded-t-lg transition ${
+              className={`whitespace-nowrap px-4 py-2.5 text-sm font-bold rounded-t-lg transition ${
                 activeTab === tab.key
-                  ? 'bg-slate-800 text-white border border-b-slate-800 border-slate-700 -mb-px'
-                  : 'text-slate-500 hover:text-slate-300'
+                  ? 'bg-white dark:bg-slate-800 text-sky-600 dark:text-sky-400 border border-b-white dark:border-b-slate-800 border-slate-200 dark:border-slate-700 -mb-px'
+                  : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 bg-slate-50 dark:bg-slate-900/50'
               }`}>
               {tab.label}
             </button>
@@ -508,6 +510,9 @@ export default function DosenPage() {
 
         {/* Tab: Data Mahasiswa */}
         {activeTab === 'mahasiswa' && <DataMahasiswa />}
+
+        {/* Tab: Data Produk */}
+        {activeTab === 'produk' && <DataProduk />}
       </div>
 
       {/* Score Drawer */}

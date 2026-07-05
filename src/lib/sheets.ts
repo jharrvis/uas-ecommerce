@@ -147,6 +147,18 @@ export async function apiImportMahasiswa(data: (Partial<Mahasiswa> & { nim: stri
   return appsPost('importMahasiswa', { data })
 }
 
+export async function apiUpsertProduk(produk: Partial<Produk> & { id: string }) {
+  return appsPost('upsertProduk', produk)
+}
+
+export async function apiImportProduk(items: (Partial<Produk> & { id: string })[]) {
+  return appsPost('importProduk', { items })
+}
+
+export async function apiDeleteProduk(id: string) {
+  return appsPost('deleteProduk', { id })
+}
+
 // ─── Utils ─────────────────────────────────────────────────
 
 async function fileToBase64(file: File): Promise<string> {

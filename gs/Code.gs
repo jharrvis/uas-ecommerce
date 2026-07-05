@@ -151,6 +151,9 @@ function doPost(e) {
       case 'exportNilai'     : result = exportNilai(body);      break;
       case 'upsertMahasiswa' : result = upsertMahasiswa(body);  break;
       case 'importMahasiswa' : result = importMahasiswa(body);  break;
+      case 'upsertProduk'    : result = upsertProduk(body);     break;
+      case 'importProduk'    : result = importProduk(body);     break;
+      case 'deleteProduk'    : result = deleteProduk(body);     break;
       default:
         result = { success: false, message: 'Action tidak dikenal: ' + action };
     }
@@ -892,6 +895,122 @@ function setupSheets() {
     '5. Copy URL ke .env.local Next.js',
     ui.ButtonSet.OK
   );
+}
+
+// ─────────────────────────────────────────────
+// PRODUK (MANAJEMEN OLEH DOSEN)
+// ─────────────────────────────────────────────
+
+function upsertProduk(body) {
+  const { id } = body;
+  if (!id) return { success: false, message: 'ID Produk wajib diisi' };
+
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const sheet = ss.getSheetByName(SHEET.PRODUK);
+  const data = sheet.getDataRange().getValues();
+  const headers = data[0];
+
+  let rowIndex = -1;
+  for (let i = 1; i < data.length; i++) {
+    if (String(data[i][0]).trim() === String(id).trim()) {
+      rowIndex = i + 1;
+      break;
+    }
+  }
+
+  const rowData = headers.map(header => {
+    const key = header.toLowerCase();
+    
+    // Khusus untuk array (kategori, options, attributes), pastikan disave sebagai string JSON jika bentuknya array
+    if (['kategori', 'options', 'attributes'].includes(key) && Array.isArray(body[key])) {
+      return JSON.stringify(body[key]);
+    }
+
+    if (body[key] !== undefined) return body[key];
+    
+    // Jika update tapi field tidak dikirim, pertahankan data lama
+    if (rowIndex > -1) {
+      const oldVal = data[rowIndex - 1][headers.indexOf(header)];
+      return oldVal;
+    }
+    
+    return '';
+  });
+
+  if (rowIndex > -1) {
+    sheet.getRange(rowIndex, 1, 1, rowData.length).setValues([rowData]);
+    return { success: true, message: `Produk ${id} berhasil diupdate` };
+  } else {
+    sheet.appendRow(rowData);
+    return { success: true, message: `Produk ${id} berhasil ditambahkan` };
+  }
+}
+
+function importProduk(body) {
+  const { items } = body; // array of objects
+  if (!items || !Array.isArray(items) || items.length === 0) {
+    return { success: false, message: 'Tidak ada data produk yang diimport' };
+  }
+
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const sheet = ss.getSheetByName(SHEET.PRODUK);
+  const data = sheet.getDataRange().getValues();
+  const headers = data[0];
+
+  let added = 0;
+  let updated = 0;
+
+  items.forEach(item => {
+    if (!item.id) return;
+    
+    let rowIndex = -1;
+    for (let i = 1; i < data.length; i++) {
+      if (String(data[i][0]).trim() === String(item.id).trim()) {
+        rowIndex = i + 1;
+        break;
+      }
+    }
+
+    const rowData = headers.map(header => {
+      const key = header.toLowerCase();
+      // Khusus field array di-stringify jika perlu
+      if (['kategori', 'options', 'attributes'].includes(key) && Array.isArray(item[key])) {
+        return JSON.stringify(item[key]);
+      }
+      if (item[key] !== undefined) return item[key];
+      if (rowIndex > -1) return data[rowIndex - 1][headers.indexOf(header)];
+      return '';
+    });
+
+    if (rowIndex > -1) {
+      sheet.getRange(rowIndex, 1, 1, rowData.length).setValues([rowData]);
+      updated++;
+    } else {
+      sheet.appendRow(rowData);
+      added++;
+      data.push(rowData); // update local array for next iterations checking
+    }
+  });
+
+  return { success: true, message: `Berhasil import: ${added} ditambahkan, ${updated} diupdate` };
+}
+
+function deleteProduk(body) {
+  const { id } = body;
+  if (!id) return { success: false, message: 'ID Produk wajib diisi' };
+
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const sheet = ss.getSheetByName(SHEET.PRODUK);
+  const data = sheet.getDataRange().getValues();
+
+  for (let i = 1; i < data.length; i++) {
+    if (String(data[i][0]).trim() === String(id).trim()) {
+      sheet.deleteRow(i + 1);
+      return { success: true, message: `Produk ${id} berhasil dihapus` };
+    }
+  }
+
+  return { success: false, message: `Produk ${id} tidak ditemukan` };
 }
 
 function _createSheetIfNotExist(ss, name, headers) {
