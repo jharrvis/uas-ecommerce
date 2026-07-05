@@ -56,12 +56,12 @@ export default function LeftPanel({
             </div>
           )}
           <div className="min-w-0">
-            <p className="font-bold text-white text-sm leading-tight truncate">{session.nama}</p>
-            <p className="text-slate-400 text-xs">NIM: <span className="font-mono">{session.nim}</span></p>
+            <p className="font-bold text-white text-base leading-tight truncate">{session.nama}</p>
+            <p className="text-slate-400 text-sm mt-0.5">NIM: <span className="font-mono">{session.nim}</span></p>
             <p className="text-slate-500 text-xs">Kelas {session.kelas}</p>
           </div>
         </div>
-        <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-xs font-semibold ${statusConfig.color}`}>
+        <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-semibold ${statusConfig.color}`}>
           <div className={`w-1.5 h-1.5 rounded-full ${statusConfig.dot}`} />
           {statusConfig.label}
         </div>
@@ -69,7 +69,7 @@ export default function LeftPanel({
 
       {/* ── Timer ── */}
       <div className="bg-slate-800 border border-slate-700 rounded-2xl p-4 flex-shrink-0">
-        <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2.5">⏱ Waktu Ujian</p>
+        <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2.5">⏱ Waktu Ujian</p>
         {session.startedAt ? (
           <>
             <div className={`flex items-center justify-between px-3 py-2.5 border rounded-xl mb-2 ${timerColor} ${timerDanger ? 'timer-pulse' : ''}`}>
@@ -106,10 +106,10 @@ export default function LeftPanel({
 
       {/* ── Website OpenCart ── */}
       <div className="bg-slate-800 border border-slate-700 rounded-2xl p-4 flex-shrink-0">
-        <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">🌐 Website Praktek</p>
+        <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">🌐 Website Praktek</p>
         {session.website_ujian ? (
           <>
-            <p className="text-sky-400 text-[11px] font-mono break-all mb-2.5 leading-relaxed">{session.website_ujian}</p>
+            <p className="text-sky-400 text-xs font-mono break-all mb-3 leading-relaxed">{session.website_ujian}</p>
             <a
               href={session.website_ujian}
               target="_blank"
@@ -130,7 +130,7 @@ export default function LeftPanel({
       {/* ── Progress ── */}
       <div className="bg-slate-800 border border-slate-700 rounded-2xl p-4 flex-1 min-h-0 overflow-hidden flex flex-col">
         <div className="flex items-center justify-between mb-2 flex-shrink-0">
-          <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">📋 Progress</p>
+          <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">📋 Progress</p>
           <span className="text-xs font-bold text-sky-400">{completed}/{total}</span>
         </div>
 
@@ -152,12 +152,12 @@ export default function LeftPanel({
             const isLock  = cpState.status === 'locked'
 
             return (
-              <div key={cp} className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs transition-all ${
+              <div key={cp} className={`flex items-center gap-2 px-2.5 py-2 rounded-lg text-sm transition-all ${
                 isDone ? 'bg-emerald-500/10 border border-emerald-500/20' :
                 isAct  ? 'bg-sky-500/10 border border-sky-500/30 ring-1 ring-sky-500/20' :
                          'border border-transparent'
               }`}>
-                <span className={`text-sm flex-shrink-0 ${isLock ? 'opacity-25' : ''}`}>
+                <span className={`text-base flex-shrink-0 ${isLock ? 'opacity-25' : ''}`}>
                   {isDone ? '✅' : isAct ? '⚡' : '🔒'}
                 </span>
                 <span className={`flex-1 truncate font-medium leading-tight ${
@@ -165,7 +165,7 @@ export default function LeftPanel({
                 }`}>
                   {meta.label}
                 </span>
-                <span className={`flex-shrink-0 text-[10px] font-bold ${
+                <span className={`flex-shrink-0 text-xs font-bold ${
                   isDone ? 'text-emerald-500' : isAct ? 'text-sky-500' : 'text-slate-700'
                 }`}>
                   {meta.bobot}pt

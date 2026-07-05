@@ -1,8 +1,10 @@
 'use client'
 
+import { useState } from 'react'
 import { useExamStore } from '@/store/examStore'
 import Checkpoint from './Checkpoint'
-import { CP_ORDER } from '@/types'
+import type { CheckpointId } from '@/types'
+import { CP_ORDER, CHECKPOINT_META } from '@/types'
 
 interface RightPanelProps {
   isExamLocked: boolean
@@ -13,6 +15,9 @@ interface RightPanelProps {
 export default function RightPanel({ isExamLocked, onSubmit, submitting }: RightPanelProps) {
   const session = useExamStore((s) => s.session)
   const completedCount = useExamStore((s) => s.completedCount)
+
+  // State untuk Tab Navigasi. Default ke 'summary', setelah itu cp01-cp09
+  const [activeTab, setActiveTab] = useState<CheckpointId | 'summary'>('summary')
 
   if (!session) return null
 
@@ -33,158 +38,235 @@ export default function RightPanel({ isExamLocked, onSubmit, submitting }: Right
 
   const fmt = (n: number) => 'Rp ' + n.toLocaleString('id-ID')
 
-  return (
-    <main className="h-full flex flex-col overflow-y-auto scrollbar-thin">
-      <div className="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl p-6 mb-5 flex-shrink-0">
-        <div className="flex items-start gap-4 mb-5">
-          <div className="w-14 h-14 rounded-xl bg-sky-500/15 border border-sky-500/20 flex items-center justify-center text-2xl flex-shrink-0">
-            🏪
-          </div>
-          <div>
-            <div className="text-[10px] font-bold uppercase tracking-widest text-sky-400 mb-1">Soal Ujian Anda</div>
-            <h2 className="text-xl font-extrabold text-white tracking-tight leading-tight">{toko.nama_toko}</h2>
-            <p className="text-slate-400 text-sm mt-0.5 flex items-center gap-1.5">
-              <span>📍</span>{toko.alamat}
-            </p>
-          </div>
-        </div>
+  // Helper untuk navigasi Prev/Next
+  const tabs = ['summary' as const, ...CP_ORDER]
+  const currentIndex = tabs.indexOf(activeTab)
+  const prevTab = currentIndex > 0 ? tabs[currentIndex - 1] : null
+  const nextTab = currentIndex < tabs.length - 1 ? tabs[currentIndex + 1] : null
 
-        <div className="grid grid-cols-2 gap-2 mb-4">
-          {[
-            { icon: '✉️', label: 'Email', value: toko.email },
-            { icon: '📞', label: 'Telepon', value: toko.telepon },
-          ].map((item) => (
-            <div key={item.label} className="flex items-center gap-2 p-2.5 bg-slate-700/40 rounded-xl">
-              <span className="text-base flex-shrink-0">{item.icon}</span>
-              <div className="min-w-0">
-                <p className="text-[10px] text-slate-500 font-semibold">{item.label}</p>
-                <p className="text-slate-300 text-xs font-mono truncate">{item.value}</p>
+  return (
+    <main className="h-full flex flex-col bg-slate-950 rounded-xl overflow-hidden shadow-2xl border border-slate-800">
+      
+      {/* ── Tab Bar Horizontal ── */}
+      <div className="flex overflow-x-auto scrollbar-thin bg-slate-900 border-b border-slate-800 flex-shrink-0">
+        <button
+          onClick={() => setActiveTab('summary')}
+          className={`whitespace-nowrap px-5 py-3.5 text-sm font-bold border-b-2 transition-all ${
+            activeTab === 'summary' 
+              ? 'border-sky-500 text-sky-400 bg-sky-500/5' 
+              : 'border-transparent text-slate-500 hover:text-slate-300 hover:bg-slate-800'
+          }`}
+        >
+          📋 Ringkasan Ujian
+        </button>
+
+        {CP_ORDER.map((cp) => {
+          const cpState = session.checkpoints[cp]
+          const isDone = cpState.status === 'done'
+          const meta = CHECKPOINT_META[cp]
+
+          return (
+            <button
+              key={cp}
+              onClick={() => setActiveTab(cp)}
+              className={`whitespace-nowrap px-5 py-3.5 text-sm font-bold border-b-2 transition-all flex items-center gap-2 ${
+                activeTab === cp 
+                  ? 'border-sky-500 text-sky-400 bg-sky-500/5' 
+                  : isDone
+                    ? 'border-transparent text-emerald-500 hover:bg-slate-800'
+                    : 'border-transparent text-slate-500 hover:text-slate-300 hover:bg-slate-800'
+              }`}
+            >
+              {isDone ? '✅' : '⚪'} {meta.label}
+            </button>
+          )
+        })}
+      </div>
+
+      {/* ── Tab Content Area ── */}
+      <div className="flex-1 overflow-y-auto scrollbar-thin p-5 md:p-8">
+        
+        {/* Konten Tab Summary */}
+        {activeTab === 'summary' && (
+          <div className="fade-in max-w-4xl mx-auto space-y-6">
+            <div className="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl p-6">
+              <div className="flex items-start gap-4 mb-5">
+                <div className="w-14 h-14 rounded-xl bg-sky-500/15 border border-sky-500/20 flex items-center justify-center text-3xl flex-shrink-0">
+                  🏪
+                </div>
+                <div>
+                  <div className="text-xs font-bold uppercase tracking-widest text-sky-400 mb-1">Soal Ujian Anda</div>
+                  <h2 className="text-2xl font-extrabold text-white tracking-tight leading-tight">{toko.nama_toko}</h2>
+                  <p className="text-slate-400 text-sm mt-1 flex items-center gap-1.5">
+                    <span>📍</span>{toko.alamat}
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-5">
+                {[
+                  { icon: '✉️', label: 'Email', value: toko.email },
+                  { icon: '📞', label: 'Telepon', value: toko.telepon },
+                ].map((item) => (
+                  <div key={item.label} className="flex items-center gap-3 p-3.5 bg-slate-800 border border-slate-700 rounded-xl">
+                    <span className="text-xl flex-shrink-0">{item.icon}</span>
+                    <div className="min-w-0">
+                      <p className="text-xs text-slate-400 font-semibold">{item.label}</p>
+                      <p className="text-slate-200 text-sm font-mono truncate">{item.value}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="bg-slate-800 border border-slate-700 rounded-xl p-5 mb-5">
+                <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Latar Belakang Bisnis</p>
+                <p className="text-slate-200 text-base leading-relaxed">{toko.deskripsi_bisnis}</p>
+              </div>
+
+              {eventPromo.length > 0 && (
+                <div className="mb-5">
+                  <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2.5">Event Promosi</p>
+                  <div className="flex flex-wrap gap-2">
+                    {eventPromo.map((ev) => (
+                      <span key={ev} className="px-3 py-1.5 bg-amber-500/15 border border-amber-500/30 text-amber-400 text-sm font-bold rounded-full">
+                        {ev}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div>
+                <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2.5">
+                  Produk yang Akan Anda Input ({produk.length} produk)
+                </p>
+                <div className="space-y-2.5">
+                  {produk.map((p, i) => (
+                    <div key={p.id} className="flex items-center gap-4 p-3.5 bg-slate-800 border border-slate-700 rounded-xl">
+                      <div className="w-8 h-8 rounded-lg bg-sky-500/20 text-sky-400 text-sm font-black flex items-center justify-center flex-shrink-0">
+                        {i + 1}
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <p className="text-slate-100 text-base font-bold leading-tight truncate">{p.nama_produk}</p>
+                        <p className="text-slate-400 text-sm mt-0.5">{p.manufacturer} · {fmt(p.harga)}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
-          ))}
-        </div>
 
-        <div className="bg-slate-700/30 border border-slate-600/50 rounded-xl p-4 mb-4">
-          <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Latar Belakang</p>
-          <p className="text-slate-300 text-sm leading-relaxed">{toko.deskripsi_bisnis}</p>
-        </div>
-
-        {eventPromo.length > 0 && (
-          <div className="mb-4">
-            <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Event Promosi</p>
-            <div className="flex flex-wrap gap-2">
-              {eventPromo.map((ev) => (
-                <span key={ev} className="px-2.5 py-1 bg-amber-500/15 border border-amber-500/25 text-amber-300 text-xs font-semibold rounded-full">
-                  {ev}
-                </span>
-              ))}
+            <div className="bg-sky-500/5 border border-sky-500/20 rounded-2xl p-6">
+              <h3 className="text-lg font-bold text-sky-400 mb-4 flex items-center gap-2">
+                <span>📋</span> Instruksi Utama Pengerjaan
+              </h3>
+              <ol className="space-y-3 text-base text-slate-300">
+                {[
+                  `Lengkapi data toko <strong>${toko.nama_toko}</strong> di OpenCart (nama, alamat, email, telepon, logo).`,
+                  `Tambahkan manufacturer ${manufacturers.join(' dan ')} beserta logonya ke carousel halaman depan.`,
+                  'Buat kategori yang diperlukan untuk produk-produk Anda.',
+                  `Input ${produk.length} produk lengkap sesuai data di masing-masing checkpoint.`,
+                  `Terapkan strategi diskon dan harga spesial untuk event ${eventPromo.slice(0, 2).join(' dan ') || 'promosi'}.`,
+                  'Pasang banner slideshow produk Anda di halaman depan toko.',
+                ].map((text, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <span className="flex-shrink-0 w-6 h-6 rounded-full bg-sky-500/20 text-sky-400 text-sm font-bold flex items-center justify-center mt-0.5">
+                      {i + 1}
+                    </span>
+                    <span dangerouslySetInnerHTML={{ __html: text }} />
+                  </li>
+                ))}
+              </ol>
             </div>
+
+            {/* Area Pengumpulan Ujian di Tab Summary */}
+            {session.status === 'submitted' ? (
+              <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-2xl p-8 text-center">
+                <p className="text-5xl mb-4">✅</p>
+                <p className="text-emerald-400 font-black text-2xl">Ujian Sudah Dikumpulkan</p>
+                <p className="text-slate-400 text-base mt-2">Tunggu penilaian dari dosen pengampu.</p>
+              </div>
+            ) : session.status === 'started' ? (
+              <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 sm:p-8">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                  <div>
+                    <h3 className="text-xl font-bold text-white">Kumpulkan Ujian</h3>
+                    <p className="text-slate-400 text-sm mt-1">
+                      {allDone
+                        ? 'Semua checkpoint selesai! Pastikan Anda sudah mengecek ulang.'
+                        : `Masih ada ${CP_ORDER.length - completed} checkpoint yang belum selesai.`}
+                    </p>
+                  </div>
+                  <div className="text-left sm:text-right">
+                    <p className="text-3xl font-black text-sky-400">{completed}<span className="text-lg text-slate-500 font-normal"> / {CP_ORDER.length} CP</span></p>
+                  </div>
+                </div>
+
+                {!allDone && (
+                  <div className="flex items-center gap-3 p-4 bg-amber-500/10 border border-amber-500/30 rounded-xl mb-6 text-sm text-amber-400 font-medium">
+                    <span className="text-lg">⚠️</span>
+                    Selesaikan semua checkpoint (Tab CP01 - CP09 di atas) sebelum mengumpulkan ujian.
+                  </div>
+                )}
+
+                <button
+                  onClick={onSubmit}
+                  disabled={!canSubmit || submitting}
+                  className="w-full py-4 bg-emerald-500 hover:bg-emerald-400 disabled:bg-slate-700 disabled:text-slate-500 disabled:cursor-not-allowed text-white text-lg font-black rounded-xl transition-all shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2"
+                >
+                  {submitting ? (
+                    <><div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Mengirim...</>
+                  ) : (
+                    'Selesai & Kumpulkan Ujian'
+                  )}
+                </button>
+              </div>
+            ) : null}
           </div>
         )}
 
+        {/* Konten Tab Checkpoint (CP01-09) */}
+        {activeTab !== 'summary' && (
+          <div className="fade-in max-w-4xl mx-auto bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-xl">
+            <Checkpoint
+              cp={activeTab}
+              nim={nim}
+              toko={toko}
+              produk={produk}
+              isExamLocked={isExamLocked}
+            />
+          </div>
+        )}
+
+      </div>
+
+      {/* ── Footer Navigasi Prev/Next ── */}
+      <div className="flex items-center justify-between p-4 bg-slate-900 border-t border-slate-800 flex-shrink-0">
         <div>
-          <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
-            Produk yang Akan Anda Input ({produk.length} produk)
-          </p>
-          <div className="space-y-2">
-            {produk.map((p, i) => (
-              <div key={p.id} className="flex items-center gap-3 p-3 bg-slate-700/40 rounded-xl">
-                <div className="w-7 h-7 rounded-lg bg-sky-500/20 text-sky-400 text-xs font-bold flex items-center justify-center flex-shrink-0">
-                  {i + 1}
-                </div>
-                <div className="min-w-0 flex-1">
-                  <p className="text-slate-200 text-sm font-semibold leading-tight truncate">{p.nama_produk}</p>
-                  <p className="text-slate-400 text-xs">{p.manufacturer} · {fmt(p.harga)}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div className="bg-sky-500/5 border border-sky-500/20 rounded-2xl p-4 mb-5 flex-shrink-0">
-        <h3 className="font-bold text-sky-300 mb-3 flex items-center gap-2">
-          <span>📋</span> Instruksi Pengerjaan
-        </h3>
-        <ol className="space-y-2 text-sm text-slate-300">
-          {[
-            `Lengkapi data toko <strong>${toko.nama_toko}</strong> di OpenCart (nama, alamat, email, telepon, logo).`,
-            `Tambahkan manufacturer ${manufacturers.join(' dan ')} beserta logonya ke carousel halaman depan.`,
-            'Buat kategori yang diperlukan untuk produk-produk Anda.',
-            `Input ${produk.length} produk lengkap sesuai data di masing-masing checkpoint.`,
-            `Terapkan strategi diskon dan harga spesial untuk event ${eventPromo.slice(0, 2).join(' dan ') || 'promosi'}.`,
-            'Pasang banner slideshow produk Anda di halaman depan toko.',
-          ].map((text, i) => (
-            <li key={i} className="flex items-start gap-2.5">
-              <span className="flex-shrink-0 w-5 h-5 rounded-full bg-sky-500/20 text-sky-400 text-xs font-bold flex items-center justify-center mt-0.5">
-                {i + 1}
-              </span>
-              <span dangerouslySetInnerHTML={{ __html: text }} />
-            </li>
-          ))}
-        </ol>
-      </div>
-
-      <div className="space-y-3 mb-6">
-        <h3 className="text-sm font-bold text-slate-300 flex items-center gap-2 px-1">
-          <span>🎯</span> 9 Checkpoint Pengerjaan
-          <span className="ml-auto text-xs font-normal text-slate-500">{completed}/9 selesai</span>
-        </h3>
-        {CP_ORDER.map((cp) => (
-          <Checkpoint
-            key={cp}
-            cp={cp}
-            nim={nim}
-            toko={toko}
-            produk={produk}
-            isExamLocked={isExamLocked}
-          />
-        ))}
-      </div>
-
-      {session.status === 'submitted' ? (
-        <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-2xl p-5 text-center flex-shrink-0">
-          <p className="text-4xl mb-2">✅</p>
-          <p className="text-emerald-300 font-bold text-lg">Ujian Sudah Dikumpulkan</p>
-          <p className="text-slate-400 text-sm mt-1">Tunggu penilaian dari dosen pengampu.</p>
-        </div>
-      ) : session.status === 'started' ? (
-        <div className="bg-slate-800 border border-slate-700 rounded-2xl p-5 flex-shrink-0">
-          <div className="flex items-center justify-between mb-3">
-            <div>
-              <p className="text-slate-200 font-bold">Kumpulkan Ujian</p>
-              <p className="text-slate-400 text-xs mt-0.5">
-                {allDone
-                  ? 'Semua checkpoint selesai, siap dikumpulkan.'
-                  : `${CP_ORDER.length - completed} checkpoint belum selesai`}
-              </p>
-            </div>
-            <div className="text-right">
-              <p className="text-2xl font-bold text-sky-400">{completed}</p>
-              <p className="text-xs text-slate-500">/ {CP_ORDER.length} CP</p>
-            </div>
-          </div>
-
-          {!allDone && (
-            <div className="flex items-center gap-2 p-3 bg-amber-500/10 border border-amber-500/20 rounded-xl mb-3 text-xs text-amber-300">
-              <span>⚠️</span>
-              Anda boleh mengerjakan checkpoint dalam urutan bebas, tetapi semua bukti harus lengkap sebelum dikumpulkan.
-            </div>
+          {prevTab && (
+            <button
+              onClick={() => setActiveTab(prevTab)}
+              className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-bold rounded-xl transition flex items-center gap-2"
+            >
+              <span>←</span>
+              <span className="hidden sm:inline">{prevTab === 'summary' ? 'Ringkasan' : CHECKPOINT_META[prevTab].label}</span>
+              <span className="sm:hidden">Prev</span>
+            </button>
           )}
-
-          <button
-            onClick={onSubmit}
-            disabled={!canSubmit || submitting}
-            className="w-full py-3 bg-emerald-500 hover:bg-emerald-400 disabled:bg-slate-600 disabled:cursor-not-allowed text-white font-bold rounded-xl transition-all shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2"
-          >
-            {submitting ? (
-              <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Mengirim...</>
-            ) : (
-              'Selesai & Kumpulkan'
-            )}
-          </button>
         </div>
-      ) : null}
+        <div>
+          {nextTab && (
+            <button
+              onClick={() => setActiveTab(nextTab)}
+              className="px-4 py-2 bg-sky-500 hover:bg-sky-400 text-white text-sm font-bold rounded-xl transition flex items-center gap-2"
+            >
+              <span className="hidden sm:inline">{nextTab !== 'summary' ? CHECKPOINT_META[nextTab].label : 'Ringkasan'}</span>
+              <span className="sm:hidden">Next</span>
+              <span>→</span>
+            </button>
+          )}
+        </div>
+      </div>
     </main>
   )
 }

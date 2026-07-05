@@ -127,7 +127,7 @@ export default function LoginPage() {
 
         {/* Card */}
         <div className="bg-slate-800/80 backdrop-blur border border-slate-700 rounded-2xl p-8 shadow-2xl">
-          <h2 className="text-lg font-bold text-white mb-1">Masuk dengan NIM</h2>
+          <h2 className="text-xl font-bold text-white mb-1">Masuk dengan NIM</h2>
           <p className="text-slate-400 text-sm mb-6">
             Soal akan diacak otomatis berdasarkan NIM Anda.
           </p>
@@ -144,7 +144,7 @@ export default function LoginPage() {
                 placeholder="Contoh: 2022105020"
                 maxLength={20}
                 disabled={loading}
-                className="w-full px-4 py-3 bg-slate-900 border border-slate-600 rounded-xl text-white placeholder-slate-500 font-mono text-lg focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 transition disabled:opacity-50"
+                className="w-full px-4 py-3.5 bg-slate-900 border border-slate-600 rounded-xl text-white placeholder-slate-500 font-mono text-base focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 transition disabled:opacity-50"
               />
             </div>
 
@@ -175,7 +175,7 @@ export default function LoginPage() {
         {/* Petunjuk */}
         <div className="mt-6 bg-slate-800/40 border border-slate-700/50 rounded-xl p-5">
           <h3 className="text-sm font-bold text-slate-300 mb-3">📋 Alur Ujian</h3>
-          <ol className="space-y-2 text-sm text-slate-400">
+          <ol className="space-y-2.5 text-sm text-slate-400">
             {[
               'Login dengan NIM → soal muncul otomatis',
               'Klik Mulai Kerjakan untuk memulai timer',
@@ -183,7 +183,7 @@ export default function LoginPage() {
               'Upload screenshot tiap checkpoint selesai',
               'Klik Selesai & Kumpulkan saat semua CP done',
             ].map((t, i) => (
-              <li key={i} className="flex items-start gap-2">
+              <li key={i} className="flex items-start gap-2.5">
                 <span className="flex-shrink-0 w-5 h-5 rounded-full bg-sky-500/20 text-sky-400 text-xs font-bold flex items-center justify-center mt-0.5">
                   {i + 1}
                 </span>
@@ -193,7 +193,7 @@ export default function LoginPage() {
           </ol>
         </div>
 
-        <p className="text-center text-slate-600 text-xs mt-6">
+        <p className="text-center text-slate-500 text-sm mt-6">
           Hubungi dosen jika NIM tidak dikenali oleh sistem.
         </p>
       </div>
