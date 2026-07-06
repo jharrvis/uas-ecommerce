@@ -538,10 +538,76 @@ function getHasil(kelas) {
  * body: { nim, cp, fileName, mimeType, base64Data }
  */
 function uploadScreenshot(body) {
-  const { nim, cp, fileName, mimeType, base64Data } = body;
-  if (!nim || !cp || !base64Data) {
-    return { success: false, message: 'nim, cp, dan base64Data wajib diisi' };
+  const { nim, cp, fileName, mimeType, base64Data, isProductAsset } = body;
+  if (!base64Data) {
+    return { success: false, message: 'base64Data wajib diisi' };
   }
+
+  const config      = getConfigObject();
+  const rootFolderId = config.drive_folder_root_id;
+  if (!rootFolderId) {
+    return { success: false, message: 'drive_folder_root_id belum diisi di Sheet Config' };
+  }
+
+  const rootFolder = DriveApp.getFolderById(rootFolderId);
+  let targetFolder;
+
+  if (isProductAsset) {
+    // Mode Upload Gambar Produk Dosen
+    const folderName = 'Assets_Produk_UAS';
+    const existing = rootFolder.getFoldersByName(folderName);
+    if (existing.hasNext()) {
+      targetFolder = existing.next();
+    } else {
+      targetFolder = rootFolder.createFolder(folderName);
+      targetFolder.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+    }
+  } else {
+    // Mode Upload Screenshot Ujian Mahasiswa
+    if (!nim || !cp) return { success: false, message: 'nim dan cp wajib diisi untuk screenshot mahasiswa' };
+    const folderName = nim + '_' + getNamaMhs(nim);
+    const existing = rootFolder.getFoldersByName(folderName);
+    if (existing.hasNext()) {
+      targetFolder = existing.next();
+    } else {
+      targetFolder = rootFolder.createFolder(folderName);
+      targetFolder.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+    }
+  }
+
+  // Decode base64 dan buat file
+  const ts       = Utilities.formatDate(new Date(), 'Asia/Jakarta', 'yyyyMMdd_HHmmss');
+  let safeName;
+  if (isProductAsset) {
+    safeName = (fileName || ('product_' + ts + '.jpg')).replace(/[^a-zA-Z0-9._-]/g, '_');
+  } else {
+    safeName = (fileName || (cp + '_' + ts + '.jpg')).replace(/[^a-zA-Z0-9._-]/g, '_');
+  }
+  
+  const blob     = Utilities.newBlob(
+    Utilities.base64Decode(base64Data),
+    mimeType || 'image/jpeg',
+    safeName
+  );
+  
+  const file = targetFolder.createFile(blob);
+  file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+
+  const file_url   = file.getUrl();
+  const folder_url = targetFolder.getUrl();
+
+  // Jika ini screenshot mahasiswa, simpan log di sheet Hasil_Ujian
+  if (!isProductAsset && nim && cp) {
+    logEvent({
+      action: 'logEvent',
+      event: 'cp_done',
+      nim,
+      data: { cp, screenshot_url: file_url }
+    });
+  }
+
+  return { success: true, file_url, folder_url };
+}
 
   const config      = getConfigObject();
   const rootFolderId = config.drive_folder_root_id;

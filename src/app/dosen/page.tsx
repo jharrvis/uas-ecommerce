@@ -73,51 +73,51 @@ function ScoreDrawer({ mhs, onClose, onSaved }: {
 
   return (
     <div className="fixed inset-0 z-50 flex">
-      <div className="flex-1 bg-black/60" onClick={onClose} />
-      <div className="w-full max-w-lg bg-slate-900 border-l border-slate-700 flex flex-col overflow-hidden">
+      <div className="flex-1 bg-slate-900/40 dark:bg-black/60 backdrop-blur-sm" onClick={onClose} />
+      <div className="w-full max-w-lg bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-700 flex flex-col overflow-hidden">
 
-        <div className="flex items-center justify-between p-4 border-b border-slate-700 flex-shrink-0">
+        <div className="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-700 flex-shrink-0 bg-slate-50 dark:bg-slate-950">
           <div>
-            <p className="font-bold text-white">{mhs.nama}</p>
-            <p className="text-slate-400 text-xs">NIM: {mhs.nim} · Kelas {mhs.kelas}</p>
+            <p className="font-bold text-slate-900 dark:text-white">{mhs.nama}</p>
+            <p className="text-slate-500 dark:text-slate-400 text-xs">NIM: {mhs.nim} · Kelas {mhs.kelas}</p>
           </div>
-          <button onClick={onClose} className="text-slate-400 hover:text-white text-xl w-8 h-8 flex items-center justify-center">×</button>
+          <button onClick={onClose} className="text-slate-400 hover:text-slate-700 dark:hover:text-white text-xl w-8 h-8 flex items-center justify-center">×</button>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        <div className="flex-1 overflow-y-auto p-5 space-y-5 scrollbar-thin">
 
-          <div className="bg-slate-800 rounded-xl p-3 text-xs space-y-1">
-            <p className="font-semibold text-slate-400 uppercase tracking-wider text-[10px] mb-2">Soal yang Diterima</p>
-            <p className="text-slate-300"><span className="text-slate-500">Toko:</span> {mhs.id_toko}</p>
-            <p className="text-slate-300"><span className="text-slate-500">Produk:</span> {mhs.id_produk}</p>
-            <p className="text-slate-300"><span className="text-slate-500">Durasi:</span> {mhs.durasi_menit ? `${mhs.durasi_menit} menit` : '—'}</p>
+          <div className="bg-slate-50 dark:bg-slate-800 rounded-xl p-4 text-xs space-y-1 border border-slate-200 dark:border-slate-700">
+            <p className="font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-[10px] mb-2">Soal yang Diterima</p>
+            <p className="text-slate-700 dark:text-slate-300"><span className="text-slate-500">Toko:</span> {mhs.id_toko}</p>
+            <p className="text-slate-700 dark:text-slate-300"><span className="text-slate-500">Produk:</span> {mhs.id_produk}</p>
+            <p className="text-slate-700 dark:text-slate-300"><span className="text-slate-500">Durasi:</span> {mhs.durasi_menit ? `${mhs.durasi_menit} menit` : '—'}</p>
             {mhs.drive_folder_url && (
               <a href={mhs.drive_folder_url} target="_blank" rel="noopener noreferrer"
-                className="text-sky-400 underline hover:text-sky-300 block">
+                className="text-sky-600 dark:text-sky-400 font-semibold underline hover:text-sky-700 dark:hover:text-sky-300 block mt-2">
                 📁 Buka folder screenshot ↗
               </a>
             )}
           </div>
 
           <div>
-            <p className="font-semibold text-slate-400 uppercase tracking-wider text-[10px] mb-2">Screenshot per Checkpoint</p>
+            <p className="font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-[10px] mb-2">Screenshot per Checkpoint</p>
             <div className="grid grid-cols-3 gap-2">
               {CP_ORDER.map((cp) => {
                 const ssKey = `ss_${cp}` as keyof HasilMahasiswa
                 const url = mhsRecord[ssKey] as string
                 const meta = CHECKPOINT_META[cp]
                 return (
-                  <div key={cp} className="aspect-square rounded-xl overflow-hidden bg-slate-800 border border-slate-700 relative">
+                  <div key={cp} className="aspect-square rounded-xl overflow-hidden bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 relative">
                     {url ? (
                       <button
                         onClick={() => setPreviewUrl({ url, cp })}
-                        className="w-full h-full flex flex-col items-center justify-center text-emerald-400 text-xs font-bold hover:bg-slate-700 transition gap-1"
+                        className="w-full h-full flex flex-col items-center justify-center text-emerald-600 dark:text-emerald-400 text-xs font-bold hover:bg-slate-100 dark:hover:bg-slate-700 transition gap-1"
                       >
                         <span>{meta.icon}</span>
                         <span>✅ {cp.toUpperCase()}</span>
                       </button>
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-slate-600 text-xs">
+                      <div className="w-full h-full flex items-center justify-center text-slate-400 dark:text-slate-600 text-xs font-medium">
                         — {cp.toUpperCase()}
                       </div>
                     )}
@@ -128,22 +128,22 @@ function ScoreDrawer({ mhs, onClose, onSaved }: {
           </div>
 
           <div>
-            <p className="font-semibold text-slate-400 uppercase tracking-wider text-[10px] mb-3">Input Nilai per Checkpoint</p>
-            <div className="space-y-2">
+            <p className="font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-[10px] mb-3">Input Nilai per Checkpoint</p>
+            <div className="space-y-2.5">
               {CP_ORDER.map((cp) => {
                 const meta = CHECKPOINT_META[cp]
                 return (
-                  <div key={cp} className="flex items-center gap-3">
-                    <span className="text-base w-6 flex-shrink-0">{meta.icon}</span>
-                    <span className="flex-1 text-slate-300 text-xs truncate">{meta.label}</span>
-                    <span className="text-slate-600 text-xs w-10 text-right flex-shrink-0">/{meta.bobot}pt</span>
+                  <div key={cp} className="flex items-center gap-3 p-2 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700/50">
+                    <span className="text-base w-6 flex-shrink-0 text-center">{meta.icon}</span>
+                    <span className="flex-1 text-slate-700 dark:text-slate-300 text-xs font-semibold truncate">{meta.label}</span>
+                    <span className="text-slate-500 dark:text-slate-600 text-xs w-10 text-right flex-shrink-0 font-bold">/{meta.bobot}pt</span>
                     <input
                       type="number"
                       min={0}
                       max={100}
                       value={nilai[cp] ?? 0}
                       onChange={(e) => setNilai((prev) => ({ ...prev, [cp]: Math.min(100, Math.max(0, Number(e.target.value))) }))}
-                      className="w-16 px-2 py-1 bg-slate-800 border border-slate-600 text-white text-sm rounded-lg text-center focus:outline-none focus:border-sky-500"
+                      className="w-16 px-2 py-1.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white text-sm font-bold rounded-md text-center focus:outline-none focus:border-sky-500"
                     />
                   </div>
                 )
@@ -151,32 +151,32 @@ function ScoreDrawer({ mhs, onClose, onSaved }: {
             </div>
           </div>
 
-          <div className="flex items-center justify-between bg-slate-800 rounded-xl p-3">
-            <span className="text-slate-300 font-bold">Nilai Total</span>
+          <div className="flex items-center justify-between bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-4">
+            <span className="text-slate-700 dark:text-slate-300 font-bold">Nilai Total</span>
             <div className="text-right">
-              <span className="text-2xl font-extrabold text-sky-400">{Math.round(total)}</span>
-              <span className="text-slate-400 text-sm ml-1">/ 100</span>
-              <span className="ml-2 px-2 py-0.5 bg-purple-500/20 text-purple-300 text-sm font-bold rounded-full">{grade}</span>
+              <span className="text-3xl font-black text-sky-600 dark:text-sky-400">{Math.round(total)}</span>
+              <span className="text-slate-500 dark:text-slate-400 text-sm font-bold ml-1">/ 100</span>
+              <span className="ml-2 px-3 py-1 bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-300 text-sm font-black rounded-full border border-purple-200 dark:border-purple-500/30">{grade}</span>
             </div>
           </div>
 
           <div>
-            <label className="text-xs font-semibold text-slate-400 block mb-1.5">Catatan Dosen (opsional)</label>
+            <label className="text-xs font-bold text-slate-500 dark:text-slate-400 block mb-2">Catatan Dosen (opsional)</label>
             <textarea
               value={catatan}
               onChange={(e) => setCatatan(e.target.value)}
               rows={3}
-              className="w-full px-3 py-2 bg-slate-800 border border-slate-700 text-slate-300 text-sm rounded-xl focus:outline-none focus:border-sky-500 resize-none"
+              className="w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-300 text-sm rounded-xl focus:outline-none focus:border-sky-500 resize-none"
               placeholder="Catatan untuk mahasiswa..."
             />
           </div>
         </div>
 
-        <div className="flex-shrink-0 p-4 border-t border-slate-700">
+        <div className="flex-shrink-0 p-4 border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950">
           <button
             onClick={handleSave}
             disabled={saving}
-            className="w-full py-2.5 bg-sky-500 hover:bg-sky-400 disabled:bg-slate-600 text-white font-bold rounded-xl transition flex items-center justify-center gap-2"
+            className="w-full py-3 bg-sky-500 hover:bg-sky-400 disabled:bg-slate-300 dark:disabled:bg-slate-600 disabled:text-slate-500 text-white font-bold rounded-xl transition flex items-center justify-center gap-2"
           >
             {saved ? '✅ Tersimpan!' : saving ? (
               <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Menyimpan...</>
@@ -356,29 +356,29 @@ export default function DosenPage() {
   const sumData = summary as { total?: number; registered?: number; started?: number; submitted?: number; timeout?: number; scored?: number }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-200">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-200">
 
       {/* Header */}
-      <header className="bg-slate-900 border-b border-slate-800 px-6 py-3 flex items-center justify-between">
+      <header className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-6 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2.5">
-          <div className="w-2 h-2 rounded-full bg-purple-400 shadow-[0_0_6px] shadow-purple-400" />
-          <span className="font-bold text-white">Dashboard Dosen — UAS E-Commerce</span>
+          <div className="w-2 h-2 rounded-full bg-purple-500 dark:bg-purple-400 flex-shrink-0" />
+          <span className="font-bold text-slate-900 dark:text-white">Dashboard Dosen — UAS E-Commerce</span>
         </div>
         <div className="flex items-center gap-2">
           {activeTab === 'hasil' && (
             <>
               <button onClick={fetchData} disabled={loading}
-                className="px-3 py-1.5 bg-slate-800 border border-slate-700 text-slate-300 text-xs font-semibold rounded-lg hover:bg-slate-700 transition flex items-center gap-1.5">
-                {loading ? <div className="w-3 h-3 border border-slate-400/30 border-t-slate-300 rounded-full animate-spin" /> : '🔄'} Refresh
+                className="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs font-semibold rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition flex items-center gap-1.5">
+                {loading ? <div className="w-3 h-3 border border-slate-400/30 border-t-slate-500 dark:border-t-slate-300 rounded-full animate-spin" /> : '🔄'} Refresh
               </button>
               <button onClick={handleExport} disabled={exporting}
-                className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 disabled:bg-slate-600 text-white text-xs font-semibold rounded-lg transition flex items-center gap-1.5">
+                className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 disabled:bg-slate-400 dark:disabled:bg-slate-600 text-white text-xs font-semibold rounded-lg transition flex items-center gap-1.5">
                 {exporting ? <div className="w-3 h-3 border border-white/30 border-t-white rounded-full animate-spin" /> : '📥'} Ekspor Nilai
               </button>
             </>
           )}
           <button onClick={() => { sessionStorage.removeItem('dosen_auth'); setAuthed(false) }}
-            className="px-3 py-1.5 bg-slate-800 border border-slate-700 text-slate-400 text-xs rounded-lg hover:bg-slate-700 transition">
+            className="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 text-xs font-semibold rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition">
             Keluar
           </button>
         </div>
@@ -389,14 +389,14 @@ export default function DosenPage() {
         {/* Summary cards */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
           {[
-            { label: 'Total', value: sumData.total || 0,      color: 'text-slate-300' },
-            { label: 'Belum Mulai', value: sumData.registered || 0, color: 'text-slate-400' },
-            { label: 'Sedang',  value: sumData.started || 0,   color: 'text-sky-400' },
-            { label: 'Selesai', value: sumData.submitted || 0, color: 'text-emerald-400' },
-            { label: 'Timeout', value: sumData.timeout || 0,   color: 'text-red-400' },
-            { label: 'Dinilai', value: sumData.scored || 0,    color: 'text-purple-400' },
+            { label: 'Total', value: sumData.total || 0,      color: 'text-slate-800 dark:text-slate-300' },
+            { label: 'Belum Mulai', value: sumData.registered || 0, color: 'text-slate-500 dark:text-slate-400' },
+            { label: 'Sedang',  value: sumData.started || 0,   color: 'text-sky-600 dark:text-sky-400' },
+            { label: 'Selesai', value: sumData.submitted || 0, color: 'text-emerald-600 dark:text-emerald-400' },
+            { label: 'Timeout', value: sumData.timeout || 0,   color: 'text-red-600 dark:text-red-400' },
+            { label: 'Dinilai', value: sumData.scored || 0,    color: 'text-purple-600 dark:text-purple-400' },
           ].map((item) => (
-            <div key={item.label} className="bg-slate-800 border border-slate-700 rounded-xl p-3 text-center">
+            <div key={item.label} className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-center">
               <p className={`text-2xl font-extrabold ${item.color}`}>{item.value}</p>
               <p className="text-slate-500 text-xs mt-0.5">{item.label}</p>
             </div>
@@ -435,16 +435,16 @@ export default function DosenPage() {
               {['ALL', ...classOptions].map((k) => (
                 <button key={k} onClick={() => setFilterKelas(k)}
                   className={`px-3 py-1.5 text-xs font-semibold rounded-lg border transition ${
-                    filterKelas === k ? 'bg-sky-500 border-sky-500 text-white' : 'bg-slate-800 border-slate-700 text-slate-400 hover:border-slate-500'
+                    filterKelas === k ? 'bg-sky-500 border-sky-500 text-white' : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-slate-400 dark:hover:border-slate-500'
                   }`}>
                   {k === 'ALL' ? 'Semua Kelas' : `Kelas ${k}`}
                 </button>
               ))}
-              <span className="w-px h-4 bg-slate-700 mx-1" />
+              <span className="w-px h-4 bg-slate-300 dark:bg-slate-700 mx-1" />
               {['ALL', 'registered', 'started', 'submitted', 'timeout', 'scored'].map((s) => (
                 <button key={s} onClick={() => setFilterStatus(s)}
                   className={`px-3 py-1.5 text-xs font-semibold rounded-lg border transition ${
-                    filterStatus === s ? 'bg-purple-600 border-purple-500 text-white' : 'bg-slate-800 border-slate-700 text-slate-400 hover:border-slate-500'
+                    filterStatus === s ? 'bg-purple-600 border-purple-500 text-white' : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-slate-400 dark:hover:border-slate-500'
                   }`}>
                   {s === 'ALL' ? 'Semua Status' : s}
                 </button>
@@ -452,11 +452,11 @@ export default function DosenPage() {
               <span className="ml-auto text-xs text-slate-500">{filtered.length} mahasiswa</span>
             </div>
 
-            <div className="bg-slate-800 border border-slate-700 rounded-2xl overflow-hidden">
+            <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="bg-slate-900 text-slate-400 text-xs">
+                    <tr className="bg-slate-50 dark:bg-slate-900 text-slate-500 dark:text-slate-400 text-xs border-b border-slate-200 dark:border-slate-700">
                       {['NIM','Nama','Kelas','Status','Mulai','Durasi','CP Done','Nilai','Aksi'].map((h) => (
                         <th key={h} className="px-4 py-3 text-left font-semibold whitespace-nowrap">{h}</th>
                       ))}
@@ -474,26 +474,26 @@ export default function DosenPage() {
                         return !!hasilRecord[key]
                       }).length
                       return (
-                        <tr key={h.nim} className={`border-t border-slate-700/50 hover:bg-slate-700/30 transition cursor-pointer ${i%2===1?'bg-slate-800/50':''}`}
+                        <tr key={h.nim} className={`border-b border-slate-100 dark:border-slate-700/50 hover:bg-slate-50 dark:hover:bg-slate-700/30 transition cursor-pointer ${i%2===1?'bg-slate-50 dark:bg-slate-800/50':''}`}
                           onClick={() => setSelected(h)}>
-                          <td className="px-4 py-3 font-mono text-xs text-slate-300">{h.nim}</td>
-                          <td className="px-4 py-3 font-medium text-slate-200 whitespace-nowrap">{h.nama}</td>
-                          <td className="px-4 py-3 text-center text-slate-400">{h.kelas}</td>
+                          <td className="px-4 py-3 font-mono text-xs text-slate-700 dark:text-slate-300">{h.nim}</td>
+                          <td className="px-4 py-3 font-medium text-slate-900 dark:text-slate-200 whitespace-nowrap">{h.nama}</td>
+                          <td className="px-4 py-3 text-center text-slate-600 dark:text-slate-400">{h.kelas}</td>
                           <td className="px-4 py-3"><StatusBadge status={h.status} /></td>
-                          <td className="px-4 py-3 text-xs text-slate-400 whitespace-nowrap">
+                          <td className="px-4 py-3 text-xs text-slate-500 dark:text-slate-400 whitespace-nowrap">
                             {h.waktu_mulai ? new Date(h.waktu_mulai).toLocaleTimeString('id-ID', {hour:'2-digit',minute:'2-digit'}) : '—'}
                           </td>
-                          <td className="px-4 py-3 text-xs text-slate-400 text-center">{h.durasi_menit ? `${h.durasi_menit}m` : '—'}</td>
+                          <td className="px-4 py-3 text-xs text-slate-500 dark:text-slate-400 text-center">{h.durasi_menit ? `${h.durasi_menit}m` : '—'}</td>
                           <td className="px-4 py-3 text-center">
-                            <span className={`text-xs font-bold ${cpDone === 9 ? 'text-emerald-400' : cpDone > 0 ? 'text-sky-400' : 'text-slate-600'}`}>
+                            <span className={`text-xs font-bold ${cpDone === 9 ? 'text-emerald-500 dark:text-emerald-400' : cpDone > 0 ? 'text-sky-600 dark:text-sky-400' : 'text-slate-400 dark:text-slate-600'}`}>
                               {cpDone}/9
                             </span>
                           </td>
-                          <td className="px-4 py-3 text-center font-bold text-sky-400">
+                          <td className="px-4 py-3 text-center font-bold text-sky-600 dark:text-sky-400">
                             {h.nilai_total || '—'}
                           </td>
                           <td className="px-4 py-3">
-                            <button className="px-2.5 py-1 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 text-purple-300 text-xs font-semibold rounded-lg transition"
+                            <button className="px-2.5 py-1 bg-purple-50 dark:bg-purple-500/20 hover:bg-purple-100 dark:hover:bg-purple-500/30 border border-purple-200 dark:border-purple-500/30 text-purple-700 dark:text-purple-300 text-xs font-semibold rounded-lg transition"
                               onClick={(e) => { e.stopPropagation(); setSelected(h) }}>
                               Nilai
                             </button>

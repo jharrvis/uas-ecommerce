@@ -139,14 +139,14 @@ export default function DataMahasiswa() {
   return (
     <div className="space-y-6">
       {/* Header Actions */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-800 p-4 rounded-xl border border-slate-700">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
         <div className="flex items-center gap-2">
-          <button onClick={handleAdd} className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white text-sm font-bold rounded-lg transition">
+          <button onClick={handleAdd} className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-slate-900 dark:text-white text-sm font-bold rounded-lg transition">
             + Tambah Mahasiswa
           </button>
           
           <button onClick={() => fileInputRef.current?.click()} disabled={importing}
-            className="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white text-sm font-bold rounded-lg transition flex items-center gap-2">
+            className="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-slate-900 dark:text-white text-sm font-bold rounded-lg transition flex items-center gap-2">
             {importing ? <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"/> : '📁'} Import CSV
           </button>
           <input type="file" accept=".csv" ref={fileInputRef} onChange={handleImportCSV} className="hidden" />
@@ -160,7 +160,7 @@ export default function DataMahasiswa() {
           {['ALL', ...classOptions].map(k => (
             <button key={k} onClick={() => setFilterKelas(k)}
               className={`px-3 py-1.5 text-xs font-semibold rounded-lg border transition ${
-                filterKelas === k ? 'bg-sky-500 border-sky-500 text-white' : 'bg-slate-800 border-slate-700 text-slate-400 hover:bg-slate-700'
+                filterKelas === k ? 'bg-sky-500 border-sky-500 text-slate-900 dark:text-white' : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:bg-slate-700'
               }`}>
               {k === 'ALL' ? 'Semua' : `Kelas ${k}`}
             </button>
@@ -172,11 +172,11 @@ export default function DataMahasiswa() {
       {success && <div className="p-3 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-sm rounded-lg">✅ {success}</div>}
 
       {/* Table */}
-      <div className="bg-slate-800 border border-slate-700 rounded-xl overflow-hidden">
+      <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="bg-slate-900 text-slate-400 text-xs text-left">
+              <tr className="bg-slate-50 dark:bg-slate-900 text-slate-500 dark:text-slate-400 text-xs text-left">
                 <th className="px-4 py-3 font-semibold">NIM</th>
                 <th className="px-4 py-3 font-semibold">Nama</th>
                 <th className="px-4 py-3 font-semibold">Kelas</th>
@@ -191,10 +191,10 @@ export default function DataMahasiswa() {
               ) : filtered.length === 0 ? (
                 <tr><td colSpan={6} className="px-4 py-8 text-center text-slate-500">Tidak ada data</td></tr>
               ) : filtered.map((m, i) => (
-                <tr key={m.nim} className={`border-t border-slate-700/50 hover:bg-slate-700/30 ${i % 2 === 1 ? 'bg-slate-800/50' : ''}`}>
+                <tr key={m.nim} className={`border-t border-slate-200 dark:border-slate-700/50 hover:bg-slate-700/30 ${i % 2 === 1 ? 'bg-white dark:bg-slate-800/50' : ''}`}>
                   <td className="px-4 py-3 font-mono text-xs text-slate-300">{m.nim}</td>
                   <td className="px-4 py-3 font-medium text-slate-200">{m.nama}</td>
-                  <td className="px-4 py-3 text-slate-400">{m.kelas}</td>
+                  <td className="px-4 py-3 text-slate-500 dark:text-slate-400">{m.kelas}</td>
                   <td className="px-4 py-3 text-xs">
                     {m.website_ujian ? (
                       <a href={m.website_ujian} target="_blank" rel="noreferrer" className="text-sky-400 hover:underline break-all">
@@ -210,7 +210,7 @@ export default function DataMahasiswa() {
                   </td>
                   <td className="px-4 py-3 text-center">
                     <button onClick={() => handleEdit(m)}
-                      className="px-3 py-1 bg-slate-700 hover:bg-slate-600 text-white text-xs font-semibold rounded transition">
+                      className="px-3 py-1 bg-slate-700 hover:bg-slate-600 text-slate-900 dark:text-white text-xs font-semibold rounded transition">
                       Edit
                     </button>
                   </td>
@@ -223,55 +223,55 @@ export default function DataMahasiswa() {
 
       {/* Form Modal */}
       {showForm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60">
-          <div className="w-full max-w-md bg-slate-800 border border-slate-700 rounded-2xl shadow-xl overflow-hidden fade-in">
-            <div className="flex justify-between items-center p-4 border-b border-slate-700 bg-slate-900">
-              <h3 className="font-bold text-white">{formData.nim ? 'Edit Mahasiswa' : 'Tambah Mahasiswa'}</h3>
-              <button onClick={() => setShowForm(false)} className="text-slate-400 hover:text-white">×</button>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          <div className="w-full max-w-md bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-xl overflow-hidden fade-in">
+            <div className="flex justify-between items-center p-4 border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+              <h3 className="font-bold text-slate-900 dark:text-white">{formData.nim ? 'Edit Mahasiswa' : 'Tambah Mahasiswa'}</h3>
+              <button onClick={() => setShowForm(false)} className="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-white">×</button>
             </div>
             <form onSubmit={handleSave} className="p-4 space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-400 mb-1">NIM (Wajib)</label>
+                <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">NIM (Wajib)</label>
                 <input type="text" value={formData.nim} onChange={e => setFormData({...formData, nim: e.target.value})}
                   disabled={!!mahasiswa.find(m => m.nim === formData.nim)}
-                  className="w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white text-sm focus:border-sky-500 outline-none disabled:opacity-50" required />
+                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg text-slate-900 dark:text-white text-sm focus:border-sky-500 outline-none disabled:opacity-50" required />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-slate-400 mb-1">Nama (Wajib)</label>
+                <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">Nama (Wajib)</label>
                 <input type="text" value={formData.nama} onChange={e => setFormData({...formData, nama: e.target.value})}
-                  className="w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white text-sm focus:border-sky-500 outline-none" required />
+                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg text-slate-900 dark:text-white text-sm focus:border-sky-500 outline-none" required />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-400 mb-1">Kelas</label>
+                  <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">Kelas</label>
                   <input type="text" value={formData.kelas} onChange={e => setFormData({...formData, kelas: e.target.value})}
-                    className="w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white text-sm focus:border-sky-500 outline-none" />
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg text-slate-900 dark:text-white text-sm focus:border-sky-500 outline-none" />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-slate-400 mb-1">Status</label>
+                  <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">Status</label>
                   <select value={formData.aktif ? 'true' : 'false'} onChange={e => setFormData({...formData, aktif: e.target.value === 'true'})}
-                    className="w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white text-sm focus:border-sky-500 outline-none">
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg text-slate-900 dark:text-white text-sm focus:border-sky-500 outline-none">
                     <option value="true">Aktif</option>
                     <option value="false">Nonaktif</option>
                   </select>
                 </div>
               </div>
               <div>
-                <label className="block text-xs font-semibold text-slate-400 mb-1">URL Website Ujian (OpenCart)</label>
+                <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">URL Website Ujian (OpenCart)</label>
                 <input type="text" value={formData.website_ujian} onChange={e => setFormData({...formData, website_ujian: e.target.value})}
-                  className="w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white text-sm focus:border-sky-500 outline-none" placeholder="https://" />
+                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg text-slate-900 dark:text-white text-sm focus:border-sky-500 outline-none" placeholder="https://" />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-slate-400 mb-1">URL Foto (Opsional)</label>
+                <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">URL Foto (Opsional)</label>
                 <input type="text" value={formData.foto} onChange={e => setFormData({...formData, foto: e.target.value})}
-                  className="w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white text-sm focus:border-sky-500 outline-none" placeholder="https://" />
+                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg text-slate-900 dark:text-white text-sm focus:border-sky-500 outline-none" placeholder="https://" />
               </div>
               
               <div className="pt-4 flex gap-3">
                 <button type="button" onClick={() => setShowForm(false)}
-                  className="flex-1 py-2 bg-slate-700 hover:bg-slate-600 text-white text-sm font-semibold rounded-lg transition">Batal</button>
+                  className="flex-1 py-2 bg-slate-700 hover:bg-slate-600 text-slate-900 dark:text-white text-sm font-semibold rounded-lg transition">Batal</button>
                 <button type="submit" disabled={saving}
-                  className="flex-1 py-2 bg-purple-600 hover:bg-purple-500 disabled:opacity-50 text-white text-sm font-bold rounded-lg transition flex items-center justify-center gap-2">
+                  className="flex-1 py-2 bg-purple-600 hover:bg-purple-500 disabled:opacity-50 text-slate-900 dark:text-white text-sm font-bold rounded-lg transition flex items-center justify-center gap-2">
                   {saving ? <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"/> : 'Simpan'}
                 </button>
               </div>

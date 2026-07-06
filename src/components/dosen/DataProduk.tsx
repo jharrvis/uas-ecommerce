@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { apiGetPool, apiUpsertProduk, apiImportProduk, apiDeleteProduk } from '@/lib/sheets'
+import { apiGetPool, apiUpsertProduk, apiImportProduk, apiDeleteProduk, apiUploadProductAsset } from '@/lib/sheets'
 import type { Produk } from '@/types'
 
 export default function DataProduk() {
@@ -28,6 +28,7 @@ export default function DataProduk() {
   // CSV State
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [importing, setImporting] = useState(false)
+  const [uploadingImage, setUploadingImage] = useState<string | null>(null)
 
   const fetchData = async () => {
     setLoading(true)
@@ -113,6 +114,30 @@ export default function DataProduk() {
       setError(e instanceof Error ? e.message : 'Gagal menyimpan produk')
     }
     setSaving(false)
+  }
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, field: 'gambar_1' | 'gambar_2' | 'gambar_3' | 'logo_manufacturer') => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    if (file.size > 10 * 1024 * 1024) {
+      setError('Ukuran gambar maksimal 10MB')
+      return
+    }
+
+    setUploadingImage(field)
+    setError('')
+    
+    try {
+      const res = await apiUploadProductAsset(field, file)
+      setFormData(prev => ({ ...prev, [field]: res.file_url }))
+      setSuccess(`Berhasil mengupload ${field}`)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Gagal mengupload gambar')
+    }
+    
+    setUploadingImage(null)
+    e.target.value = '' // reset input
   }
 
   const handleImportCSV = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -352,29 +377,54 @@ export default function DataProduk() {
                 </div>
 
                 <div className="border-t border-slate-200 dark:border-slate-800 pt-4 space-y-4">
-                  <h4 className="text-sm font-bold text-slate-800 dark:text-slate-200">URL Gambar (Drive/Web)</h4>
-                  <p className="text-xs text-slate-500">Anda dapat memodifikasi JSON secara advance via Sheets. Form ini mempermudah URL gambar dasar.</p>
+                  <h4 className="text-sm font-bold text-slate-800 dark:text-slate-200">Gambar Produk & Aset (Otomatis Upload ke Google Drive)</h4>
+                  <p className="text-xs text-slate-500">Anda dapat langsung memilih file dari komputer, kami akan menguploadnya ke Drive dan mengisi URL secara otomatis.</p>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-bold text-slate-500 mb-1.5">Gambar 1</label>
-                      <input type="text" value={formData.gambar_1} onChange={e => setFormData({...formData, gambar_1: e.target.value})}
-                        className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-xs font-mono focus:border-sky-500 outline-none" />
+                    {/* Komponen Upload Gambar 1 */}
+                    <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl p-3 flex flex-col gap-2">
+                      <label className="text-xs font-bold text-slate-500">Gambar Utama (Gambar 1)</label>
+                      <div className="flex gap-2">
+                        <input type="text" value={formData.gambar_1} onChange={e => setFormData({...formData, gambar_1: e.target.value})}
+                          className="flex-1 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg text-xs font-mono focus:border-sky-500 outline-none" placeholder="https://..." />
+                        <label className="px-3 py-2 bg-sky-50 dark:bg-sky-500/10 hover:bg-sky-100 dark:hover:bg-sky-500/20 text-sky-600 dark:text-sky-400 border border-sky-200 dark:border-sky-500/30 text-xs font-bold rounded-lg cursor-pointer transition flex items-center justify-center shrink-0">
+                          {uploadingImage === 'gambar_1' ? <div className="w-3 h-3 border-2 border-sky-400 border-t-transparent rounded-full animate-spin"/> : 'Upload'}
+                          <input type="file" accept="image/*" className="hidden" disabled={!!uploadingImage} onChange={e => handleImageUpload(e, 'gambar_1')} />
+                        </label>
+                      </div>
                     </div>
-                    <div>
-                      <label className="block text-xs font-bold text-slate-500 mb-1.5">Gambar 2</label>
-                      <input type="text" value={formData.gambar_2} onChange={e => setFormData({...formData, gambar_2: e.target.value})}
-                        className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-xs font-mono focus:border-sky-500 outline-none" />
+
+                    {/* Komponen Upload Gambar 2 */}
+                    <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl p-3 flex flex-col gap-2">
+                      <label className="text-xs font-bold text-slate-500">Gambar Variasi (Gambar 2)</label>
+                      <div className="flex gap-2">
+                        <input type="text" value={formData.gambar_2} onChange={e => setFormData({...formData, gambar_2: e.target.value})}
+                          className="flex-1 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg text-xs font-mono focus:border-sky-500 outline-none" placeholder="https://..." />
+                        <label className="px-3 py-2 bg-sky-50 dark:bg-sky-500/10 hover:bg-sky-100 dark:hover:bg-sky-500/20 text-sky-600 dark:text-sky-400 border border-sky-200 dark:border-sky-500/30 text-xs font-bold rounded-lg cursor-pointer transition flex items-center justify-center shrink-0">
+                          {uploadingImage === 'gambar_2' ? <div className="w-3 h-3 border-2 border-sky-400 border-t-transparent rounded-full animate-spin"/> : 'Upload'}
+                          <input type="file" accept="image/*" className="hidden" disabled={!!uploadingImage} onChange={e => handleImageUpload(e, 'gambar_2')} />
+                        </label>
+                      </div>
                     </div>
-                    <div>
-                      <label className="block text-xs font-bold text-slate-500 mb-1.5">Logo Manufacturer</label>
-                      <input type="text" value={formData.logo_manufacturer} onChange={e => setFormData({...formData, logo_manufacturer: e.target.value})}
-                        className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-xs font-mono focus:border-sky-500 outline-none" />
+
+                    {/* Komponen Upload Logo Manufacture */}
+                    <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl p-3 flex flex-col gap-2">
+                      <label className="text-xs font-bold text-slate-500">Logo Manufacturer (Brand)</label>
+                      <div className="flex gap-2">
+                        <input type="text" value={formData.logo_manufacturer} onChange={e => setFormData({...formData, logo_manufacturer: e.target.value})}
+                          className="flex-1 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg text-xs font-mono focus:border-sky-500 outline-none" placeholder="https://..." />
+                        <label className="px-3 py-2 bg-sky-50 dark:bg-sky-500/10 hover:bg-sky-100 dark:hover:bg-sky-500/20 text-sky-600 dark:text-sky-400 border border-sky-200 dark:border-sky-500/30 text-xs font-bold rounded-lg cursor-pointer transition flex items-center justify-center shrink-0">
+                          {uploadingImage === 'logo_manufacturer' ? <div className="w-3 h-3 border-2 border-sky-400 border-t-transparent rounded-full animate-spin"/> : 'Upload'}
+                          <input type="file" accept="image/*" className="hidden" disabled={!!uploadingImage} onChange={e => handleImageUpload(e, 'logo_manufacturer')} />
+                        </label>
+                      </div>
                     </div>
-                    <div>
-                      <label className="block text-xs font-bold text-slate-500 mb-1.5">Brand / Manufacturer</label>
+
+                    {/* Manufacture Name Input */}
+                    <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl p-3 flex flex-col justify-end gap-2">
+                      <label className="text-xs font-bold text-slate-500">Nama Brand / Manufacturer</label>
                       <input type="text" value={formData.manufacturer} onChange={e => setFormData({...formData, manufacturer: e.target.value})}
-                        className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-sm focus:border-sky-500 outline-none" />
+                        className="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg text-sm focus:border-sky-500 outline-none" placeholder="Misal: IKEA, Samsung" />
                     </div>
                   </div>
                 </div>

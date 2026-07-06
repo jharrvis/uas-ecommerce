@@ -124,6 +124,20 @@ export async function apiUploadScreenshot(
     fileName: `${cp}_${nim}_${Date.now()}.${file.name.split('.').pop()}`,
     mimeType: file.type,
     base64Data,
+    isProductAsset: false,
+  })
+}
+
+export async function apiUploadProductAsset(
+  prefix: string,
+  file: File
+): Promise<{ file_url: string }> {
+  const base64Data = await fileToBase64(file)
+  return appsPost('uploadScreenshot', {
+    fileName: `asset_${prefix}_${Date.now()}.${file.name.split('.').pop()}`,
+    mimeType: file.type,
+    base64Data,
+    isProductAsset: true,
   })
 }
 
