@@ -6,6 +6,7 @@ import UploadZone from './UploadZone'
 import ImageViewerModal from '@/components/ui/ImageViewerModal'
 import type { CheckpointId, Produk, Toko } from '@/types'
 import { CHECKPOINT_META } from '@/types'
+import { getDriveDirectUrl } from '@/lib/utils'
 
 function safeArray<T>(val: unknown): T[] {
   if (Array.isArray(val)) return val
@@ -158,7 +159,10 @@ function CP01Content({ toko }: { toko: Toko }) {
       {toko.logo_url && (
         <Callout type="tip">
           Upload logo toko ke OpenCart via <strong>Admin → System → Settings → Store Logo</strong>.
-          <br />URL logo: <span className="font-mono break-all">{toko.logo_url}</span>
+          <div className="mt-2">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={getDriveDirectUrl(toko.logo_url)} alt="logo toko" className="h-16 object-contain rounded bg-white p-1 border border-slate-200" />
+          </div>
         </Callout>
       )}
     </div>
@@ -185,7 +189,12 @@ function CP02Content({ produk }: { produk: Produk[] }) {
           <InfoTable rows={[
             ['Manufacturer Name', p.manufacturer],
             ['SEO Keyword', p.manufacturer.toLowerCase().replace(/\s+/g, '-')],
-            ['Logo', p.logo_manufacturer || '(upload logo yang sesuai)'],
+            ['Logo', p.logo_manufacturer ? (
+              <div className="mt-1 mb-1">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={getDriveDirectUrl(p.logo_manufacturer)} alt="logo" className="h-12 object-contain rounded bg-white p-1 border border-slate-200" />
+              </div>
+            ) : '(upload logo yang sesuai)'],
           ]} />
         </div>
       ))}
@@ -382,11 +391,17 @@ function CP08Content({ produk }: { produk: Produk[] }) {
           <InfoTable rows={[
             ['SEO Keyword', <code key="seo" className="text-sky-400 font-bold">{p.seo_keyword}</code>],
           ]} />
-          <div className="mt-3 flex flex-wrap gap-2.5">
+          <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-3">
             {[p.gambar_1, p.gambar_2, p.gambar_3].filter(Boolean).map((url, j) => (
               <a key={j} href={url} target="_blank" rel="noopener noreferrer"
-                className="px-4 py-2 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 text-sm font-semibold rounded-lg border border-slate-300 dark:border-slate-600 transition">
-                📥 Gambar {j + 1}
+                className="group block rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 transition hover:border-sky-400">
+                <div className="aspect-square w-full relative">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={getDriveDirectUrl(url)} alt={`g${j+1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+                </div>
+                <div className="px-3 py-2 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700 text-center text-xs font-bold text-slate-600 dark:text-slate-300">
+                  Gambar {j + 1} ↗
+                </div>
               </a>
             ))}
             {![p.gambar_1, p.gambar_2, p.gambar_3].some(Boolean) && (

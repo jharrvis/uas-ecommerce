@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { apiGetPool, apiUpsertProduk, apiImportProduk, apiDeleteProduk, apiUploadProductAsset } from '@/lib/sheets'
+import { getDriveDirectUrl } from '@/lib/utils'
 import type { Produk } from '@/types'
 
 export default function DataProduk() {
@@ -385,8 +386,14 @@ export default function DataProduk() {
                     <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl p-3 flex flex-col gap-2">
                       <label className="text-xs font-bold text-slate-500">Gambar Utama (Gambar 1)</label>
                       <div className="flex gap-2">
+                        {formData.gambar_1 && (
+                          <div className="w-10 h-10 rounded border border-slate-300 dark:border-slate-600 overflow-hidden shrink-0">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src={getDriveDirectUrl(formData.gambar_1)} alt="g1" className="w-full h-full object-cover" />
+                          </div>
+                        )}
                         <input type="text" value={formData.gambar_1} onChange={e => setFormData({...formData, gambar_1: e.target.value})}
-                          className="flex-1 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg text-xs font-mono focus:border-sky-500 outline-none" placeholder="https://..." />
+                          className="flex-1 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg text-xs font-mono focus:border-sky-500 outline-none min-w-0" placeholder="https://..." />
                         <label className="px-3 py-2 bg-sky-50 dark:bg-sky-500/10 hover:bg-sky-100 dark:hover:bg-sky-500/20 text-sky-600 dark:text-sky-400 border border-sky-200 dark:border-sky-500/30 text-xs font-bold rounded-lg cursor-pointer transition flex items-center justify-center shrink-0">
                           {uploadingImage === 'gambar_1' ? <div className="w-3 h-3 border-2 border-sky-400 border-t-transparent rounded-full animate-spin"/> : 'Upload'}
                           <input type="file" accept="image/*" className="hidden" disabled={!!uploadingImage} onChange={e => handleImageUpload(e, 'gambar_1')} />
@@ -398,8 +405,14 @@ export default function DataProduk() {
                     <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl p-3 flex flex-col gap-2">
                       <label className="text-xs font-bold text-slate-500">Gambar Variasi (Gambar 2)</label>
                       <div className="flex gap-2">
+                        {formData.gambar_2 && (
+                          <div className="w-10 h-10 rounded border border-slate-300 dark:border-slate-600 overflow-hidden shrink-0">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src={getDriveDirectUrl(formData.gambar_2)} alt="g2" className="w-full h-full object-cover" />
+                          </div>
+                        )}
                         <input type="text" value={formData.gambar_2} onChange={e => setFormData({...formData, gambar_2: e.target.value})}
-                          className="flex-1 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg text-xs font-mono focus:border-sky-500 outline-none" placeholder="https://..." />
+                          className="flex-1 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg text-xs font-mono focus:border-sky-500 outline-none min-w-0" placeholder="https://..." />
                         <label className="px-3 py-2 bg-sky-50 dark:bg-sky-500/10 hover:bg-sky-100 dark:hover:bg-sky-500/20 text-sky-600 dark:text-sky-400 border border-sky-200 dark:border-sky-500/30 text-xs font-bold rounded-lg cursor-pointer transition flex items-center justify-center shrink-0">
                           {uploadingImage === 'gambar_2' ? <div className="w-3 h-3 border-2 border-sky-400 border-t-transparent rounded-full animate-spin"/> : 'Upload'}
                           <input type="file" accept="image/*" className="hidden" disabled={!!uploadingImage} onChange={e => handleImageUpload(e, 'gambar_2')} />
@@ -411,8 +424,14 @@ export default function DataProduk() {
                     <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl p-3 flex flex-col gap-2">
                       <label className="text-xs font-bold text-slate-500">Logo Manufacturer (Brand)</label>
                       <div className="flex gap-2">
+                        {formData.logo_manufacturer && (
+                          <div className="w-10 h-10 rounded border border-slate-300 dark:border-slate-600 overflow-hidden shrink-0">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src={getDriveDirectUrl(formData.logo_manufacturer)} alt="logo" className="w-full h-full object-cover" />
+                          </div>
+                        )}
                         <input type="text" value={formData.logo_manufacturer} onChange={e => setFormData({...formData, logo_manufacturer: e.target.value})}
-                          className="flex-1 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg text-xs font-mono focus:border-sky-500 outline-none" placeholder="https://..." />
+                          className="flex-1 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg text-xs font-mono focus:border-sky-500 outline-none min-w-0" placeholder="https://..." />
                         <label className="px-3 py-2 bg-sky-50 dark:bg-sky-500/10 hover:bg-sky-100 dark:hover:bg-sky-500/20 text-sky-600 dark:text-sky-400 border border-sky-200 dark:border-sky-500/30 text-xs font-bold rounded-lg cursor-pointer transition flex items-center justify-center shrink-0">
                           {uploadingImage === 'logo_manufacturer' ? <div className="w-3 h-3 border-2 border-sky-400 border-t-transparent rounded-full animate-spin"/> : 'Upload'}
                           <input type="file" accept="image/*" className="hidden" disabled={!!uploadingImage} onChange={e => handleImageUpload(e, 'logo_manufacturer')} />

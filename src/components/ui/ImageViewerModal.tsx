@@ -1,28 +1,13 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { getDriveDirectUrl } from '@/lib/utils'
 
 interface ImageViewerModalProps {
   url: string
   title?: string
   onClose: () => void
   footer?: React.ReactNode
-}
-
-function getDriveDirectUrl(url: string): string {
-  if (!url) return url
-
-  const fileMatch = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/)
-  if (fileMatch) {
-    return `https://lh3.googleusercontent.com/d/${fileMatch[1]}`
-  }
-
-  const openMatch = url.match(/[?&]id=([a-zA-Z0-9_-]+)/)
-  if (openMatch) {
-    return `https://lh3.googleusercontent.com/d/${openMatch[1]}`
-  }
-
-  return url
 }
 
 export default function ImageViewerModal({ url, title, onClose, footer }: ImageViewerModalProps) {
