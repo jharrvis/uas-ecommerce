@@ -609,65 +609,6 @@ function uploadScreenshot(body) {
   return { success: true, file_url, folder_url };
 }
 
-  const config      = getConfigObject();
-  const rootFolderId = config.drive_folder_root_id;
-  if (!rootFolderId) {
-    return { success: false, message: 'drive_folder_root_id belum diisi di Sheet Config' };
-  }
-
-  // Cari atau buat subfolder per NIM
-  const rootFolder  = DriveApp.getFolderById(rootFolderId);
-  const folderName  = nim + '_' + getNamaMhs(nim);
-  let nimFolder;
-
-  const existing = rootFolder.getFoldersByName(folderName);
-  if (existing.hasNext()) {
-    nimFolder = existing.next();
-  } else {
-    nimFolder = rootFolder.createFolder(folderName);
-    // Set permission: anyone with link can view
-    nimFolder.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
-  }
-
-  // Decode base64 dan buat file
-  const ts       = Utilities.formatDate(new Date(), 'Asia/Jakarta', 'yyyyMMdd_HHmmss');
-  const safeName = (fileName || (cp + '_' + ts + '.jpg')).replace(/[^a-zA-Z0-9._-]/g, '_');
-  const blob     = Utilities.newBlob(
-    Utilities.base64Decode(base64Data),
-    mimeType || 'image/jpeg',
-    safeName
-  );
-
-  const file = nimFolder.createFile(blob);
-  file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
-  const fileUrl  = file.getUrl();
-  const folderUrl = nimFolder.getUrl();
-
-  // Update URL screenshot di sheet Hasil
-  const ss    = SpreadsheetApp.openById(SPREADSHEET_ID);
-  const sheet = ss.getSheetByName(SHEET.HASIL);
-  const data  = sheet.getDataRange().getValues();
-
-  for (let i = 1; i < data.length; i++) {
-    if (String(data[i][COL_HASIL.NIM - 1]).trim() === String(nim).trim()) {
-      const rowIdx = i + 1;
-      const cpNum  = parseInt(cp.replace('cp', ''), 10);
-      const ssCol  = COL_HASIL.SS_CP01 + cpNum - 1;
-      sheet.getRange(rowIdx, ssCol).setValue(fileUrl);
-      sheet.getRange(rowIdx, COL_HASIL.DRIVE_FOLDER_URL).setValue(folderUrl);
-      SpreadsheetApp.flush();
-      break;
-    }
-  }
-
-  return {
-    success   : true,
-    file_url  : fileUrl,
-    folder_url: folderUrl,
-    file_name : safeName,
-    timestamp : new Date().toISOString(),
-  };
-}
 
 // ─────────────────────────────────────────────
 // NILAI DOSEN
