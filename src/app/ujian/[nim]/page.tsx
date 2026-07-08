@@ -1,9 +1,10 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { useExamStore } from '@/store/examStore'
-import { apiGetConfig, apiLogEvent } from '@/lib/sheets'
+import { apiGetConfig, apiGetPool, apiLogEvent } from '@/lib/sheets'
+import { pickProducts, pickToko } from '@/lib/shuffle'
 import { useAntiCheat } from '@/hooks/useAntiCheat'
 import { useCountdown } from '@/hooks/useCountdown'
 import LeftPanel from '@/components/exam/LeftPanel'
@@ -20,12 +21,14 @@ export default function UjianPage() {
   const startExam = useExamStore((s) => s.startExam)
   const submitExam = useExamStore((s) => s.submitExam)
   const clearSession = useExamStore((s) => s.clearSession)
+  const setSession = useExamStore((s) => s.setSession)
 
   const [duration, setDuration] = useState(90)
   const [submitting, setSubmitting] = useState(false)
   const [ready, setReady] = useState(false)
   const [showSubmitDlg, setShowSubmitDlg] = useState(false)
   const [violationCount, setViolationCount] = useState(0)
+  const refreshedSessionNimRef = useRef<string | null>(null)
 
   useEffect(() => {
     if (!hydrated) return
@@ -42,11 +45,35 @@ export default function UjianPage() {
       return
     }
 
+    const shouldRefreshPool = refreshedSessionNimRef.current !== session.nim
+
     apiGetConfig()
-      .then(({ config }) => setDuration(Number(config.durasi_ujian_menit) || 90))
+      .then(async ({ config }) => {
+        setDuration(Number(config.durasi_ujian_menit) || 90)
+        if (!shouldRefreshPool) return
+
+        const { toko: poolToko, produk: poolProduk } = await apiGetPool()
+        const tokoSoal = pickToko(poolToko, session.nim)
+        const produkPool = poolProduk.filter(
+          (p) => String(p.id_toko).trim() === String(tokoSoal.id).trim()
+        )
+        const produkSoal = pickProducts(
+          produkPool,
+          session.nim,
+          Number(config.produk_per_mahasiswa) || produkPool.length
+        )
+
+        refreshedSessionNimRef.current = session.nim
+
+        setSession({
+          ...session,
+          tokoSoal,
+          produkSoal,
+        })
+      })
       .catch(() => {})
       .finally(() => setReady(true))
-  }, [hydrated, params.nim, router, session])
+  }, [hydrated, params.nim, router, session, setSession])
 
   const handleExpire = useCallback(() => {
     toast.error('Waktu habis! Timer berhenti, tetapi pengerjaan tetap dapat dilanjutkan.')

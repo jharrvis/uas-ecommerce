@@ -602,7 +602,8 @@ function uploadScreenshot(body) {
       action: 'logEvent',
       event: 'cp_done',
       nim,
-      data: { cp, screenshot_url: file_url }
+      cp,
+      screenshot_url: file_url
     });
   }
 

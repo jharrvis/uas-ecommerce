@@ -142,6 +142,15 @@ function Callout({ type, children }: { type: 'info' | 'warning' | 'tip'; childre
 
 /* CP-01: Data Toko */
 function CP01Content({ toko }: { toko: Toko }) {
+  const t = {
+    nama_toko: toko.nama_toko || '—',
+    alamat: toko.alamat || '—',
+    email: toko.email || '—',
+    telepon: toko.telepon || '—',
+    deskripsi_bisnis: toko.deskripsi_bisnis || '',
+    logo_url: toko.logo_url || ''
+  }
+
   return (
     <div className="space-y-4">
       <Callout type="info">
@@ -149,19 +158,19 @@ function CP01Content({ toko }: { toko: Toko }) {
       </Callout>
       <SectionTitle>Data yang Harus Diisi</SectionTitle>
       <InfoTable rows={[
-        ['Store Name',  toko.nama_toko],
-        ['Store Owner', toko.nama_toko],
-        ['Address',     toko.alamat],
-        ['Email',       toko.email],
-        ['Telephone',   toko.telepon],
-        ['Meta Title',  toko.nama_toko],
+        ['Store Name',  t.nama_toko],
+        ['Store Owner', t.nama_toko],
+        ['Address',     t.alamat],
+        ['Email',       t.email],
+        ['Telephone',   t.telepon],
+        ['Meta Title',  t.nama_toko],
       ]} />
-      {toko.logo_url && (
+      {t.logo_url && (
         <Callout type="tip">
           Upload logo toko ke OpenCart via <strong>Admin → System → Settings → Store Logo</strong>.
           <div className="mt-2">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={getDriveDirectUrl(toko.logo_url)} alt="logo toko" className="h-16 object-contain rounded bg-white p-1 border border-slate-200" />
+            <img src={getDriveDirectUrl(t.logo_url)} alt="logo toko" className="h-16 object-contain rounded bg-white p-1 border border-slate-200" />
           </div>
         </Callout>
       )}
