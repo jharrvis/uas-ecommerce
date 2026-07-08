@@ -16,6 +16,37 @@ function safeArray<T>(val: unknown): T[] {
   return []
 }
 
+function isJsonFragment(value: unknown): boolean {
+  if (typeof value !== 'string') return false
+  const text = value.trim()
+  return text.startsWith('{') ||
+    text.startsWith('[') ||
+    text.includes('\\"') ||
+    text.includes('":') ||
+    text.includes('}]')
+}
+
+function safeText(value: unknown, fallback = '—'): string {
+  if (value === null || value === undefined) return fallback
+  const text = String(value).trim()
+  if (!text || isJsonFragment(text)) return fallback
+  return text
+}
+
+function safeNumber(value: unknown): number | null {
+  if (typeof value === 'number' && Number.isFinite(value)) return value
+  if (typeof value !== 'string') return null
+
+  const text = value.trim()
+  if (!/^-?\d+(\.\d+)?$/.test(text)) return null
+  return Number(text)
+}
+
+function safePrice(value: unknown, fmt: (n: number) => string): string {
+  const numberValue = safeNumber(value)
+  return numberValue === null ? '—' : fmt(numberValue)
+}
+
 interface CheckpointProps {
   cp: CheckpointId
   nim: string
@@ -342,15 +373,15 @@ function CP06Content({ produk, fmt }: { produk: Produk[]; fmt: (n: number) => st
         <div key={p.id}>
           <SectionTitle>Produk {i + 1}: {p.nama_produk}</SectionTitle>
           <div className="p-4 bg-amber-500/5 border border-amber-500/20 rounded-xl mb-3 text-sm text-amber-500 font-medium italic">
-            &quot;{p.deskripsi_diskon}&quot;
+            &quot;{safeText(p.deskripsi_diskon, 'Gunakan strategi diskon yang sesuai untuk produk ini.')}&quot;
           </div>
           <InfoTable rows={[
             ['Customer Group', 'Default'],
-            ['Quantity (min.)', String(p.discount_min_qty)],
+            ['Quantity (min.)', safeText(p.discount_min_qty)],
             ['Priority', '0'],
-            ['Price', fmt(p.discount_harga)],
-            ['Date Start', p.discount_mulai],
-            ['Date End', p.discount_selesai],
+            ['Price', safePrice(p.discount_harga, fmt)],
+            ['Date Start', safeText(p.discount_mulai)],
+            ['Date End', safeText(p.discount_selesai)],
           ]} />
         </div>
       ))}
@@ -372,14 +403,14 @@ function CP07Content({ produk, fmt }: { produk: Produk[]; fmt: (n: number) => st
         <div key={p.id}>
           <SectionTitle>Produk {i + 1}: {p.nama_produk}</SectionTitle>
           <div className="p-4 bg-emerald-500/5 border border-emerald-500/20 rounded-xl mb-3 text-sm text-emerald-500 font-medium italic">
-            &quot;{p.deskripsi_special}&quot;
+            &quot;{safeText(p.deskripsi_special, 'Gunakan harga spesial yang sesuai untuk event promosi produk ini.')}&quot;
           </div>
           <InfoTable rows={[
             ['Customer Group', 'Default'],
             ['Priority', '0'],
-            ['Price', fmt(p.special_harga)],
-            ['Date Start', p.special_mulai],
-            ['Date End', p.special_selesai],
+            ['Price', safePrice(p.special_harga, fmt)],
+            ['Date Start', safeText(p.special_mulai)],
+            ['Date End', safeText(p.special_selesai)],
           ]} />
         </div>
       ))}

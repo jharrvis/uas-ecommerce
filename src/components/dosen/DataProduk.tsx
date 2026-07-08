@@ -140,6 +140,59 @@ export default function DataProduk() {
     e.target.value = '' // reset input
   }
 
+  const parseCsv = (text: string): string[][] => {
+    const rows: string[][] = []
+    let row: string[] = []
+    let cell = ''
+    let inQuotes = false
+
+    for (let i = 0; i < text.length; i++) {
+      const char = text[i]
+      const next = text[i + 1]
+
+      if (char === '"' && text[i - 1] !== '\\') {
+        if (inQuotes && next === '"') {
+          cell += '"'
+          i++
+        } else {
+          inQuotes = !inQuotes
+        }
+        continue
+      }
+
+      if (char === ',' && !inQuotes) {
+        row.push(cell.trim())
+        cell = ''
+        continue
+      }
+
+      if ((char === '\n' || char === '\r') && !inQuotes) {
+        if (char === '\r' && next === '\n') i++
+        row.push(cell.trim())
+        if (row.some(Boolean)) rows.push(row)
+        row = []
+        cell = ''
+        continue
+      }
+
+      cell += char
+    }
+
+    row.push(cell.trim())
+    if (row.some(Boolean)) rows.push(row)
+    return rows
+  }
+
+  const parseJsonArray = (value: string) => {
+    if (!value) return []
+    try {
+      const parsed = JSON.parse(value.replace(/\\"/g, '"'))
+      return Array.isArray(parsed) ? parsed : []
+    } catch {
+      return []
+    }
+  }
+
   const handleImportCSV = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
@@ -150,27 +203,25 @@ export default function DataProduk() {
 
     try {
       const text = await file.text()
-      const rows = text.split('\n').filter(r => r.trim())
-      const headers = rows[0].split(',').map(h => h.trim().toLowerCase())
+      const rows = parseCsv(text)
+      const headers = rows[0].map(h => h.trim().toLowerCase())
       
       if (!headers.includes('id') || !headers.includes('id_toko') || !headers.includes('nama_produk')) {
         throw new Error('CSV harus minimal memiliki kolom: id, id_toko, nama_produk')
       }
 
       const dataToImport = rows.slice(1).map(row => {
-        const values = row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || []
-        const obj: Record<string, any> = {}
+        const obj: Record<string, unknown> = {}
         
         headers.forEach((h, i) => {
-          let val = values[i] ? values[i].replace(/^"|"$/g, '').trim() : ''
+          const val = row[i]?.trim() || ''
           
           if (['harga', 'stok', 'berat_kg', 'discount_min_qty', 'discount_harga', 'special_harga'].includes(h)) {
             obj[h] = Number(val) || 0
           } else if (h === 'kategori') {
-            obj[h] = val ? val.split(',').map(v => v.trim()).filter(Boolean) : []
+            obj[h] = val ? val.split(/[;,]/).map(v => v.trim()).filter(Boolean) : []
           } else if (h === 'options' || h === 'attributes') {
-            // Complex fields - leave as empty array for simplicity
-            obj[h] = []
+            obj[h] = parseJsonArray(val)
           } else {
             obj[h] = val
           }
@@ -180,7 +231,7 @@ export default function DataProduk() {
 
       if (dataToImport.length === 0) throw new Error('Tidak ada data valid yang bisa diimport')
 
-      const res = await apiImportProduk(dataToImport as Produk[])
+      const res = await apiImportProduk(dataToImport as unknown as Produk[])
       const resData = res as { message?: string }
       setSuccess(resData.message || `Berhasil import ${dataToImport.length} produk`)
       fetchData()
