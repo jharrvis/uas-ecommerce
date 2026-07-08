@@ -52,13 +52,12 @@ export default function DataProduk() {
   )
 
   const handleEdit = (p: Produk) => {
+    const { attributes, options, ...rest } = p
     setFormData({
-      ...p,
-      // Konversi array ke string untuk edit form yang simple
-      kategori: p.kategori || [],
-      attributes: p.attributes || [],
-      options: p.options || []
-    })
+      ...rest,
+      kategori: Array.isArray(rest.kategori) ? rest.kategori.join(', ') : String(rest.kategori || ''),
+      manufacturer: String(rest.manufacturer || '')
+    } as any)
     setShowForm(true)
     setError('')
     setSuccess('')
@@ -159,7 +158,6 @@ export default function DataProduk() {
       }
 
       const dataToImport = rows.slice(1).map(row => {
-        // Split dengan regex yang mengabaikan koma di dalam tanda kutip
         const values = row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || []
         const obj: Record<string, any> = {}
         
@@ -169,7 +167,10 @@ export default function DataProduk() {
           if (['harga', 'stok', 'berat_kg', 'discount_min_qty', 'discount_harga', 'special_harga'].includes(h)) {
             obj[h] = Number(val) || 0
           } else if (h === 'kategori') {
-            obj[h] = val ? val.split(';').map(v => v.trim()) : []
+            obj[h] = val ? val.split(',').map(v => v.trim()).filter(Boolean) : []
+          } else if (h === 'options' || h === 'attributes') {
+            // Complex fields - leave as empty array for simplicity
+            obj[h] = []
           } else {
             obj[h] = val
           }
