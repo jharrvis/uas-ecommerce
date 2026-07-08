@@ -5,6 +5,7 @@ import { useExamStore } from '@/store/examStore'
 import Checkpoint from './Checkpoint'
 import type { CheckpointId } from '@/types'
 import { CP_ORDER, CHECKPOINT_META } from '@/types'
+import { getTokoBrands } from '@/lib/utils'
 
 interface RightPanelProps {
   isExamLocked: boolean
@@ -31,10 +32,7 @@ export default function RightPanel({ isExamLocked, onSubmit, submitting }: Right
         .split(';')
         .map((item) => item.trim())
         .filter(Boolean)
-  const manufacturers = produk.reduce<string[]>((acc, item) => {
-    if (!acc.includes(item.manufacturer)) acc.push(item.manufacturer)
-    return acc
-  }, [])
+  const manufacturers = getTokoBrands(toko).map((brand) => brand.name)
 
   const fmt = (n: number) => 'Rp ' + n.toLocaleString('id-ID')
 

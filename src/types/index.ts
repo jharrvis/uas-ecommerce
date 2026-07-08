@@ -19,7 +19,18 @@ export interface Toko {
   telepon: string
   deskripsi_bisnis: string
   logo_url: string
+  brand_1_name: string
+  brand_1_logo: string
+  brand_2_name: string
+  brand_2_logo: string
+  brand_3_name: string
+  brand_3_logo: string
+  brand_4_name: string
+  brand_4_logo: string
+  slideshow_1: string
+  slideshow_2: string
   event_promo: string[]
+  aktif: boolean
 }
 
 export interface OptionValue {
@@ -79,6 +90,7 @@ export interface Produk {
   special_selesai: string
   deskripsi_diskon: string
   deskripsi_special: string
+  gambar_produk?: string[]
   gambar_1: string
   gambar_2: string
   gambar_3: string

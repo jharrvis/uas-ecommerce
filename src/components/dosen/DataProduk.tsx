@@ -2,8 +2,9 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { apiGetPool, apiUpsertProduk, apiImportProduk, apiDeleteProduk, apiUploadProductAsset } from '@/lib/sheets'
-import { getDriveDirectUrl } from '@/lib/utils'
+import { getDriveDirectUrl, getProductImages } from '@/lib/utils'
 import type { Produk } from '@/types'
+import TableControls, { getPageCount, getPageItems } from './TableControls'
 
 export default function DataProduk() {
   const [produk, setProduk] = useState<Produk[]>([])
@@ -12,6 +13,9 @@ export default function DataProduk() {
   const [success, setSuccess] = useState('')
 
   const [filterToko, setFilterToko] = useState('ALL')
+  const [search, setSearch] = useState('')
+  const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(10)
   
   // Form State
   const [showForm, setShowForm] = useState(false)
@@ -22,7 +26,7 @@ export default function DataProduk() {
     manufacturer: '', logo_manufacturer: '',
     deskripsi_diskon: '', discount_min_qty: 0, discount_harga: 0, discount_mulai: '', discount_selesai: '',
     deskripsi_special: '', special_harga: 0, special_mulai: '', special_selesai: '',
-    seo_keyword: '', gambar_1: '', gambar_2: '', gambar_3: '',
+    seo_keyword: '', gambar_produk: [], gambar_1: '', gambar_2: '', gambar_3: '',
     attributes: [], options: []
   })
 
@@ -47,16 +51,29 @@ export default function DataProduk() {
     fetchData()
   }, [])
 
-  const filtered = produk.filter(p => 
-    filterToko === 'ALL' || String(p.id_toko) === filterToko
-  )
+  const filtered = produk.filter((p) => {
+    if (filterToko !== 'ALL' && String(p.id_toko) !== filterToko) return false
+    const q = search.trim().toLowerCase()
+    if (q && ![
+      p.id,
+      p.id_toko,
+      p.sku,
+      p.nama_produk,
+      p.manufacturer,
+      Array.isArray(p.kategori) ? p.kategori.join(' ') : p.kategori,
+    ].join(' ').toLowerCase().includes(q)) return false
+    return true
+  })
+  const pageCount = getPageCount(filtered.length, pageSize)
+  const pageItems = getPageItems(filtered, Math.min(page, pageCount), pageSize)
 
   const handleEdit = (p: Produk) => {
     const { attributes, options, ...rest } = p
     setFormData({
       ...rest,
       kategori: Array.isArray(rest.kategori) ? rest.kategori.join(', ') : String(rest.kategori || ''),
-      manufacturer: String(rest.manufacturer || '')
+      manufacturer: String(rest.manufacturer || ''),
+      gambar_produk: getProductImages(p),
     } as any)
     setShowForm(true)
     setError('')
@@ -66,7 +83,7 @@ export default function DataProduk() {
   const handleAdd = () => {
     setFormData({
       id: `P${Date.now()}`, id_toko: '', sku: '', nama_produk: '',
-      kategori: [], attributes: [], options: [], harga: 0, stok: 10
+      kategori: [], attributes: [], options: [], harga: 0, stok: 10, gambar_produk: []
     })
     setShowForm(true)
     setError('')
@@ -105,6 +122,10 @@ export default function DataProduk() {
       await apiUpsertProduk({
         ...formData,
         kategori: parsedKategori,
+        gambar_produk: productImages,
+        gambar_1: productImages[0] || '',
+        gambar_2: productImages[1] || '',
+        gambar_3: productImages[2] || '',
       } as Produk)
       
       setSuccess(`Produk ${formData.nama_produk} berhasil disimpan`)
@@ -116,7 +137,23 @@ export default function DataProduk() {
     setSaving(false)
   }
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, field: 'gambar_1' | 'gambar_2' | 'gambar_3' | 'logo_manufacturer') => {
+  const editableProductImages = Array.isArray(formData.gambar_produk)
+    ? formData.gambar_produk.map(String)
+    : getProductImages(formData)
+  const productImages = editableProductImages.map((url) => url.trim()).filter(Boolean)
+
+  const setProductImages = (images: string[]) => {
+    const cleaned = images.map((url) => url.trim()).filter(Boolean)
+    setFormData((prev) => ({
+      ...prev,
+      gambar_produk: images,
+      gambar_1: cleaned[0] || '',
+      gambar_2: cleaned[1] || '',
+      gambar_3: cleaned[2] || '',
+    }))
+  }
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const file = e.target.files?.[0]
     if (!file) return
 
@@ -125,13 +162,15 @@ export default function DataProduk() {
       return
     }
 
-    setUploadingImage(field)
+    setUploadingImage(`gambar_${index}`)
     setError('')
     
     try {
-      const res = await apiUploadProductAsset(field, file)
-      setFormData(prev => ({ ...prev, [field]: res.file_url }))
-      setSuccess(`Berhasil mengupload ${field}`)
+      const res = await apiUploadProductAsset(`produk_${formData.id || 'baru'}_${index + 1}`, file)
+      const nextImages = [...editableProductImages]
+      nextImages[index] = res.file_url
+      setProductImages(nextImages)
+      setSuccess(`Berhasil mengupload gambar ${index + 1}`)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Gagal mengupload gambar')
     }
@@ -222,6 +261,8 @@ export default function DataProduk() {
             obj[h] = val ? val.split(/[;,]/).map(v => v.trim()).filter(Boolean) : []
           } else if (h === 'options' || h === 'attributes') {
             obj[h] = parseJsonArray(val)
+          } else if (h === 'gambar_produk') {
+            obj[h] = parseJsonArray(val)
           } else {
             obj[h] = val
           }
@@ -244,8 +285,8 @@ export default function DataProduk() {
   }
 
   const downloadTemplate = () => {
-    const headers = "id,id_toko,sku,nama_produk,kategori,harga,stok,berat_kg,dimensi,manufacturer,seo_keyword,gambar_1,gambar_2,gambar_3"
-    const sample = "P001,T01,SKU-01,Meja Kayu,Furniture;Living Room,500000,10,15,100x50x75,IKEA,meja-kayu-ikea,https://gambar1.jpg,,"
+    const headers = "id,id_toko,sku,nama_produk,kategori,harga,stok,berat_kg,dimensi,manufacturer,seo_keyword,gambar_produk,gambar_1,gambar_2,gambar_3"
+    const sample = "P001,T01,SKU-01,Meja Kayu,Furniture;Living Room,500000,10,15,100x50x75,IKEA,meja-kayu-ikea,\"[\\\"https://gambar1.jpg\\\",\\\"https://gambar2.jpg\\\"]\",https://gambar1.jpg,https://gambar2.jpg,"
     const csvContent = `data:text/csv;charset=utf-8,${headers}\n${sample}\n`
     const encodedUri = encodeURI(csvContent)
     const link = document.createElement("a")
@@ -284,7 +325,7 @@ export default function DataProduk() {
           <span className="text-xs font-bold text-slate-500">Toko:</span>
           <select 
             value={filterToko} 
-            onChange={e => setFilterToko(e.target.value)}
+            onChange={e => { setFilterToko(e.target.value); setPage(1) }}
             className="px-3 py-1.5 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg text-sm focus:outline-none focus:border-sky-500"
           >
             <option value="ALL">Semua Toko</option>
@@ -295,6 +336,18 @@ export default function DataProduk() {
 
       {error && <div className="p-3 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 text-red-600 dark:text-red-400 text-sm rounded-lg font-medium">⚠️ {error}</div>}
       {success && <div className="p-3 bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-sm rounded-lg font-medium">✅ {success}</div>}
+
+      <TableControls
+        search={search}
+        onSearchChange={(value) => { setSearch(value); setPage(1) }}
+        pageSize={pageSize}
+        onPageSizeChange={(value) => { setPageSize(value); setPage(1) }}
+        page={Math.min(page, pageCount)}
+        pageCount={pageCount}
+        total={produk.length}
+        filteredTotal={filtered.length}
+        onPageChange={setPage}
+      />
 
       {/* Table */}
       <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden">
@@ -315,7 +368,9 @@ export default function DataProduk() {
                 <tr><td colSpan={6} className="px-4 py-8 text-center text-slate-500">Memuat data produk...</td></tr>
               ) : filtered.length === 0 ? (
                 <tr><td colSpan={6} className="px-4 py-8 text-center text-slate-500">Tidak ada data produk</td></tr>
-              ) : filtered.map((p, i) => (
+              ) : pageItems.map((p) => {
+                const images = getProductImages(p)
+                return (
                 <tr key={p.id} className={`border-b border-slate-100 dark:border-slate-700/50 hover:bg-slate-50 dark:hover:bg-slate-700/30`}>
                   <td className="px-4 py-3">
                     <p className="font-mono text-xs font-bold text-slate-700 dark:text-slate-300">{p.id}</p>
@@ -336,11 +391,17 @@ export default function DataProduk() {
                     <p className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">{p.stok} stok</p>
                   </td>
                   <td className="px-4 py-3 text-center">
-                    <div className="flex gap-1 justify-center">
-                      {p.gambar_1 ? <span title="Ada Gbr 1" className="text-emerald-500">🖼️</span> : <span className="opacity-20">🖼️</span>}
-                      {p.gambar_2 ? <span title="Ada Gbr 2" className="text-emerald-500">🖼️</span> : <span className="opacity-20">🖼️</span>}
-                      {p.logo_manufacturer ? <span title="Ada Logo" className="text-sky-500">👑</span> : <span className="opacity-20">👑</span>}
+                    <div className="flex items-center justify-center gap-1.5">
+                      {images.slice(0, 4).map((url, index) => (
+                        <div key={`${url}-${index}`} className="w-8 h-8 rounded border border-slate-200 dark:border-slate-700 overflow-hidden bg-slate-100 dark:bg-slate-900">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src={getDriveDirectUrl(url)} alt={`${p.nama_produk} ${index + 1}`} className="w-full h-full object-cover" />
+                        </div>
+                      ))}
+                      {images.length === 0 && <span className="text-xs text-red-500 font-semibold">Belum ada</span>}
+                      {images.length > 4 && <span className="text-[10px] text-slate-500 font-bold">+{images.length - 4}</span>}
                     </div>
+                    {images.length > 0 && <p className="text-[10px] text-slate-500 mt-1">{images.length} gambar</p>}
                   </td>
                   <td className="px-4 py-3 text-center">
                     <div className="flex gap-2 justify-center">
@@ -353,7 +414,8 @@ export default function DataProduk() {
                     </div>
                   </td>
                 </tr>
-              ))}
+                )
+              })}
             </tbody>
           </table>
         </div>
@@ -429,75 +491,61 @@ export default function DataProduk() {
                   </div>
                 </div>
 
+
                 <div className="border-t border-slate-200 dark:border-slate-800 pt-4 space-y-4">
-                  <h4 className="text-sm font-bold text-slate-800 dark:text-slate-200">Gambar Produk & Aset (Otomatis Upload ke Google Drive)</h4>
-                  <p className="text-xs text-slate-500">Anda dapat langsung memilih file dari komputer, kami akan menguploadnya ke Drive dan mengisi URL secara otomatis.</p>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {/* Komponen Upload Gambar 1 */}
-                    <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl p-3 flex flex-col gap-2">
-                      <label className="text-xs font-bold text-slate-500">Gambar Utama (Gambar 1)</label>
-                      <div className="flex gap-2">
-                        {formData.gambar_1 && (
-                          <div className="w-10 h-10 rounded border border-slate-300 dark:border-slate-600 overflow-hidden shrink-0">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src={getDriveDirectUrl(formData.gambar_1)} alt="g1" className="w-full h-full object-cover" />
-                          </div>
-                        )}
-                        <input type="text" value={formData.gambar_1} onChange={e => setFormData({...formData, gambar_1: e.target.value})}
-                          className="flex-1 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg text-xs font-mono focus:border-sky-500 outline-none min-w-0" placeholder="https://..." />
-                        <label className="px-3 py-2 bg-sky-50 dark:bg-sky-500/10 hover:bg-sky-100 dark:hover:bg-sky-500/20 text-sky-600 dark:text-sky-400 border border-sky-200 dark:border-sky-500/30 text-xs font-bold rounded-lg cursor-pointer transition flex items-center justify-center shrink-0">
-                          {uploadingImage === 'gambar_1' ? <div className="w-3 h-3 border-2 border-sky-400 border-t-transparent rounded-full animate-spin"/> : 'Upload'}
-                          <input type="file" accept="image/*" className="hidden" disabled={!!uploadingImage} onChange={e => handleImageUpload(e, 'gambar_1')} />
-                        </label>
-                      </div>
+                  <div className="flex items-center justify-between gap-3">
+                    <div>
+                      <h4 className="text-sm font-bold text-slate-800 dark:text-slate-200">Gambar Produk Dinamis</h4>
+                      <p className="text-xs text-slate-500 mt-1">Tambahkan gambar sebanyak yang diperlukan. Tiga gambar pertama tetap disinkronkan ke kolom lama gambar_1, gambar_2, gambar_3.</p>
                     </div>
-
-                    {/* Komponen Upload Gambar 2 */}
-                    <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl p-3 flex flex-col gap-2">
-                      <label className="text-xs font-bold text-slate-500">Gambar Variasi (Gambar 2)</label>
-                      <div className="flex gap-2">
-                        {formData.gambar_2 && (
-                          <div className="w-10 h-10 rounded border border-slate-300 dark:border-slate-600 overflow-hidden shrink-0">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src={getDriveDirectUrl(formData.gambar_2)} alt="g2" className="w-full h-full object-cover" />
-                          </div>
-                        )}
-                        <input type="text" value={formData.gambar_2} onChange={e => setFormData({...formData, gambar_2: e.target.value})}
-                          className="flex-1 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg text-xs font-mono focus:border-sky-500 outline-none min-w-0" placeholder="https://..." />
-                        <label className="px-3 py-2 bg-sky-50 dark:bg-sky-500/10 hover:bg-sky-100 dark:hover:bg-sky-500/20 text-sky-600 dark:text-sky-400 border border-sky-200 dark:border-sky-500/30 text-xs font-bold rounded-lg cursor-pointer transition flex items-center justify-center shrink-0">
-                          {uploadingImage === 'gambar_2' ? <div className="w-3 h-3 border-2 border-sky-400 border-t-transparent rounded-full animate-spin"/> : 'Upload'}
-                          <input type="file" accept="image/*" className="hidden" disabled={!!uploadingImage} onChange={e => handleImageUpload(e, 'gambar_2')} />
-                        </label>
-                      </div>
-                    </div>
-
-                    {/* Komponen Upload Logo Manufacture */}
-                    <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl p-3 flex flex-col gap-2">
-                      <label className="text-xs font-bold text-slate-500">Logo Manufacturer (Brand)</label>
-                      <div className="flex gap-2">
-                        {formData.logo_manufacturer && (
-                          <div className="w-10 h-10 rounded border border-slate-300 dark:border-slate-600 overflow-hidden shrink-0">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src={getDriveDirectUrl(formData.logo_manufacturer)} alt="logo" className="w-full h-full object-cover" />
-                          </div>
-                        )}
-                        <input type="text" value={formData.logo_manufacturer} onChange={e => setFormData({...formData, logo_manufacturer: e.target.value})}
-                          className="flex-1 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg text-xs font-mono focus:border-sky-500 outline-none min-w-0" placeholder="https://..." />
-                        <label className="px-3 py-2 bg-sky-50 dark:bg-sky-500/10 hover:bg-sky-100 dark:hover:bg-sky-500/20 text-sky-600 dark:text-sky-400 border border-sky-200 dark:border-sky-500/30 text-xs font-bold rounded-lg cursor-pointer transition flex items-center justify-center shrink-0">
-                          {uploadingImage === 'logo_manufacturer' ? <div className="w-3 h-3 border-2 border-sky-400 border-t-transparent rounded-full animate-spin"/> : 'Upload'}
-                          <input type="file" accept="image/*" className="hidden" disabled={!!uploadingImage} onChange={e => handleImageUpload(e, 'logo_manufacturer')} />
-                        </label>
-                      </div>
-                    </div>
-
-                    {/* Manufacture Name Input */}
-                    <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl p-3 flex flex-col justify-end gap-2">
-                      <label className="text-xs font-bold text-slate-500">Nama Brand / Manufacturer</label>
-                      <input type="text" value={formData.manufacturer} onChange={e => setFormData({...formData, manufacturer: e.target.value})}
-                        className="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg text-sm focus:border-sky-500 outline-none" placeholder="Misal: IKEA, Samsung" />
-                    </div>
+                    <button type="button" onClick={() => setProductImages([...editableProductImages, ""])}
+                      className="px-3 py-2 bg-sky-50 dark:bg-sky-500/10 hover:bg-sky-100 dark:hover:bg-sky-500/20 text-sky-600 dark:text-sky-400 border border-sky-200 dark:border-sky-500/30 text-xs font-bold rounded-lg transition">
+                      + Gambar
+                    </button>
                   </div>
+
+                  <div className="space-y-3">
+                    {(editableProductImages.length > 0 ? editableProductImages : [""]).map((url, index) => (
+                      <div key={index} className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl p-3 flex flex-col sm:flex-row gap-3 sm:items-center">
+                        <div className="w-14 h-14 rounded border border-slate-300 dark:border-slate-600 overflow-hidden shrink-0 bg-white dark:bg-slate-900">
+                          {url ? (
+                            <>
+                              {/* eslint-disable-next-line @next/next/no-img-element */}
+                              <img src={getDriveDirectUrl(url)} alt={`gambar ${index + 1}`} className="w-full h-full object-cover" />
+                            </>
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-[10px] text-slate-400">Kosong</div>
+                          )}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <label className="text-xs font-bold text-slate-500">Gambar {index + 1}</label>
+                          <input type="text" value={url} onChange={(e) => {
+                            const nextImages = [...editableProductImages]
+                            nextImages[index] = e.target.value
+                            setProductImages(nextImages)
+                          }}
+                            className="mt-1 w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg text-xs font-mono focus:border-sky-500 outline-none" placeholder="https://..." />
+                        </div>
+                        <div className="flex gap-2 shrink-0">
+                          <label className="px-3 py-2 bg-sky-50 dark:bg-sky-500/10 hover:bg-sky-100 dark:hover:bg-sky-500/20 text-sky-600 dark:text-sky-400 border border-sky-200 dark:border-sky-500/30 text-xs font-bold rounded-lg cursor-pointer transition flex items-center justify-center">
+                            {uploadingImage === `gambar_${index}` ? <div className="w-3 h-3 border-2 border-sky-400 border-t-transparent rounded-full animate-spin" /> : "Upload"}
+                            <input type="file" accept="image/*" className="hidden" disabled={!!uploadingImage} onChange={(e) => handleImageUpload(e, index)} />
+                          </label>
+                          <button type="button" onClick={() => setProductImages(editableProductImages.filter((_, imgIndex) => imgIndex !== index))}
+                            className="px-3 py-2 bg-red-50 dark:bg-red-500/10 hover:bg-red-100 dark:hover:bg-red-500/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-500/30 text-xs font-bold rounded-lg transition">
+                            Hapus
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="border-t border-slate-200 dark:border-slate-800 pt-4">
+                  <label className="block text-xs font-bold text-slate-500 mb-1.5">Nama Brand / Manufacturer</label>
+                  <input type="text" value={formData.manufacturer} onChange={e => setFormData({...formData, manufacturer: e.target.value})}
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-sm focus:border-sky-500 outline-none" placeholder="Misal: IKEA, Samsung" />
+                  <p className="text-xs text-slate-500 mt-1">Logo brand dikelola di tab Data Toko.</p>
                 </div>
 
               </form>

@@ -105,6 +105,28 @@ const BOBOT_CP = {
   cp09: 15,  // Banner Slideshow
 };
 
+const TOKO_HEADERS = [
+  'id', 'nama_toko', 'alamat', 'email', 'telepon',
+  'deskripsi_bisnis', 'logo_url',
+  'brand_1_name', 'brand_1_logo',
+  'brand_2_name', 'brand_2_logo',
+  'brand_3_name', 'brand_3_logo',
+  'brand_4_name', 'brand_4_logo',
+  'slideshow_1', 'slideshow_2',
+  'event_promo', 'aktif'
+];
+
+const PRODUK_HEADERS = [
+  'id', 'id_toko', 'nama_produk', 'manufacturer', 'logo_manufacturer',
+  'harga', 'stok', 'berat_kg', 'dimensi', 'sku', 'seo_keyword',
+  'kategori', 'attributes', 'options',
+  'discount_min_qty', 'discount_harga', 'discount_mulai', 'discount_selesai',
+  'special_harga', 'special_mulai', 'special_selesai',
+  'deskripsi_diskon', 'deskripsi_special',
+  'gambar_produk', 'gambar_1', 'gambar_2', 'gambar_3',
+  'aktif'
+];
+
 // ─────────────────────────────────────────────
 // ROUTER UTAMA
 // ─────────────────────────────────────────────
@@ -151,6 +173,8 @@ function doPost(e) {
       case 'exportNilai'     : result = exportNilai(body);      break;
       case 'upsertMahasiswa' : result = upsertMahasiswa(body);  break;
       case 'importMahasiswa' : result = importMahasiswa(body);  break;
+      case 'upsertToko'      : result = upsertToko(body);       break;
+      case 'deleteToko'      : result = deleteToko(body);       break;
       case 'upsertProduk'    : result = upsertProduk(body);     break;
       case 'importProduk'    : result = importProduk(body);     break;
       case 'deleteProduk'    : result = deleteProduk(body);     break;
@@ -369,6 +393,7 @@ function getPool() {
 
   // Toko
   const sheetToko = ss.getSheetByName(SHEET.TOKO);
+  ensureSheetHeaders(sheetToko, TOKO_HEADERS);
   const dataToko  = sheetToko.getDataRange().getValues();
   const headerToko = dataToko[0];
   const toko = [];
@@ -379,11 +404,21 @@ function getPool() {
     const aktif = String(row[headerToko.indexOf('aktif')]).toUpperCase();
     if (aktif === 'FALSE' || aktif === '0' || aktif === 'TIDAK') continue;
 
-    toko.push(rowToObj(headerToko, row));
+    const obj = rowToObj(headerToko, row);
+    ['event_promo'].forEach(field => {
+      if (obj[field] && typeof obj[field] === 'string') {
+        try { obj[field] = JSON.parse(obj[field]); }
+        catch (_) {
+          if (obj[field].includes(';')) obj[field] = obj[field].split(';').map(s => s.trim());
+        }
+      }
+    });
+    toko.push(obj);
   }
 
   // Produk
   const sheetProduk = ss.getSheetByName(SHEET.PRODUK);
+  ensureSheetHeaders(sheetProduk, PRODUK_HEADERS);
   const dataProduk  = sheetProduk.getDataRange().getValues();
   const headerProduk = dataProduk[0];
   const produk = [];
@@ -397,7 +432,7 @@ function getPool() {
     const obj = rowToObj(headerProduk, row);
 
     // Parse field JSON yang disimpan sebagai string
-    ['kategori', 'event_promo', 'options', 'attributes'].forEach(field => {
+    ['kategori', 'event_promo', 'options', 'attributes', 'gambar_produk'].forEach(field => {
       if (obj[field] && typeof obj[field] === 'string') {
         try { obj[field] = JSON.parse(obj[field]); }
         catch (_) {
@@ -406,6 +441,10 @@ function getPool() {
         }
       }
     });
+
+    if (!Array.isArray(obj.gambar_produk)) {
+      obj.gambar_produk = [obj.gambar_1, obj.gambar_2, obj.gambar_3].filter(Boolean);
+    }
 
     produk.push(obj);
   }
@@ -805,6 +844,28 @@ function rowToObj(header, row) {
   return obj;
 }
 
+function ensureSheetHeaders(sheet, requiredHeaders) {
+  const lastColumn = Math.max(sheet.getLastColumn(), 1);
+  const existingHeaders = sheet.getRange(1, 1, 1, lastColumn).getValues()[0]
+    .map(function(header) { return String(header || '').trim(); });
+
+  const missing = requiredHeaders.filter(function(header) {
+    return existingHeaders.indexOf(header) === -1;
+  });
+
+  if (missing.length === 0) return existingHeaders;
+
+  sheet.getRange(1, existingHeaders.length + 1, 1, missing.length).setValues([missing]);
+  sheet.getRange(1, 1, 1, existingHeaders.length + missing.length)
+    .setBackground('#1E3A5F')
+    .setFontColor('#FFFFFF')
+    .setFontWeight('bold')
+    .setFontSize(11);
+  SpreadsheetApp.flush();
+
+  return existingHeaders.concat(missing);
+}
+
 function getMahasiswaObj(nim) {
   const ss    = SpreadsheetApp.openById(SPREADSHEET_ID);
   const sheet = ss.getSheetByName(SHEET.MAHASISWA);
@@ -851,21 +912,9 @@ function setupSheets() {
     'nim', 'nama', 'kelas', 'foto', 'website_ujian', 'aktif'
   ]);
 
-  _createSheetIfNotExist(ss, SHEET.TOKO, [
-    'id', 'nama_toko', 'alamat', 'email', 'telepon',
-    'deskripsi_bisnis', 'logo_url', 'event_promo', 'aktif'
-  ]);
+  _createSheetIfNotExist(ss, SHEET.TOKO, TOKO_HEADERS);
 
-  _createSheetIfNotExist(ss, SHEET.PRODUK, [
-    'id', 'id_toko', 'nama_produk', 'manufacturer', 'logo_manufacturer',
-    'harga', 'stok', 'berat_kg', 'dimensi', 'sku', 'seo_keyword',
-    'kategori', 'attributes', 'options',
-    'discount_min_qty', 'discount_harga', 'discount_mulai', 'discount_selesai',
-    'special_harga', 'special_mulai', 'special_selesai',
-    'deskripsi_diskon', 'deskripsi_special',
-    'gambar_1', 'gambar_2', 'gambar_3',
-    'aktif'
-  ]);
+  _createSheetIfNotExist(ss, SHEET.PRODUK, PRODUK_HEADERS);
 
   _createSheetIfNotExist(ss, SHEET.HASIL, [
     'nim', 'nama', 'kelas',
@@ -909,12 +958,71 @@ function setupSheets() {
 // PRODUK (MANAJEMEN OLEH DOSEN)
 // ─────────────────────────────────────────────
 
+function upsertToko(body) {
+  const { id } = body;
+  if (!id) return { success: false, message: 'ID Toko wajib diisi' };
+
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const sheet = ss.getSheetByName(SHEET.TOKO);
+  ensureSheetHeaders(sheet, TOKO_HEADERS);
+  const data = sheet.getDataRange().getValues();
+  const headers = data[0];
+
+  let rowIndex = -1;
+  for (let i = 1; i < data.length; i++) {
+    if (String(data[i][0]).trim() === String(id).trim()) {
+      rowIndex = i + 1;
+      break;
+    }
+  }
+
+  const rowData = headers.map(header => {
+    const key = String(header).toLowerCase();
+
+    if (key === 'event_promo' && Array.isArray(body[key])) {
+      return JSON.stringify(body[key]);
+    }
+
+    if (body[key] !== undefined) return body[key];
+    if (rowIndex > -1) return data[rowIndex - 1][headers.indexOf(header)];
+    if (key === 'aktif') return true;
+    return '';
+  });
+
+  if (rowIndex > -1) {
+    sheet.getRange(rowIndex, 1, 1, rowData.length).setValues([rowData]);
+    return { success: true, message: `Toko ${id} berhasil diupdate` };
+  }
+
+  sheet.appendRow(rowData);
+  return { success: true, message: `Toko ${id} berhasil ditambahkan` };
+}
+
+function deleteToko(body) {
+  const { id } = body;
+  if (!id) return { success: false, message: 'ID Toko wajib diisi' };
+
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const sheet = ss.getSheetByName(SHEET.TOKO);
+  const data = sheet.getDataRange().getValues();
+
+  for (let i = 1; i < data.length; i++) {
+    if (String(data[i][0]).trim() === String(id).trim()) {
+      sheet.deleteRow(i + 1);
+      return { success: true, message: `Toko ${id} berhasil dihapus` };
+    }
+  }
+
+  return { success: false, message: `Toko ${id} tidak ditemukan` };
+}
+
 function upsertProduk(body) {
   const { id } = body;
   if (!id) return { success: false, message: 'ID Produk wajib diisi' };
 
   const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
   const sheet = ss.getSheetByName(SHEET.PRODUK);
+  ensureSheetHeaders(sheet, PRODUK_HEADERS);
   const data = sheet.getDataRange().getValues();
   const headers = data[0];
 
@@ -929,8 +1037,8 @@ function upsertProduk(body) {
   const rowData = headers.map(header => {
     const key = header.toLowerCase();
     
-    // Khusus untuk array (kategori, options, attributes), pastikan disave sebagai string JSON jika bentuknya array
-    if (['kategori', 'options', 'attributes'].includes(key) && Array.isArray(body[key])) {
+    // Khusus untuk array, pastikan disave sebagai string JSON jika bentuknya array
+    if (['kategori', 'options', 'attributes', 'gambar_produk'].includes(key) && Array.isArray(body[key])) {
       return JSON.stringify(body[key]);
     }
 
@@ -962,6 +1070,7 @@ function importProduk(body) {
 
   const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
   const sheet = ss.getSheetByName(SHEET.PRODUK);
+  ensureSheetHeaders(sheet, PRODUK_HEADERS);
   const data = sheet.getDataRange().getValues();
   const headers = data[0];
 
@@ -982,7 +1091,7 @@ function importProduk(body) {
     const rowData = headers.map(header => {
       const key = header.toLowerCase();
       // Khusus field array di-stringify jika perlu
-      if (['kategori', 'options', 'attributes'].includes(key) && Array.isArray(item[key])) {
+      if (['kategori', 'options', 'attributes', 'gambar_produk'].includes(key) && Array.isArray(item[key])) {
         return JSON.stringify(item[key]);
       }
       if (item[key] !== undefined) return item[key];

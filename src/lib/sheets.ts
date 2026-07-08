@@ -173,6 +173,14 @@ export async function apiDeleteProduk(id: string) {
   return appsPost('deleteProduk', { id })
 }
 
+export async function apiUpsertToko(toko: Partial<Toko> & { id: string }) {
+  return appsPost('upsertToko', toko)
+}
+
+export async function apiDeleteToko(id: string) {
+  return appsPost('deleteToko', { id })
+}
+
 // ─── Utils ─────────────────────────────────────────────────
 
 async function fileToBase64(file: File): Promise<string> {

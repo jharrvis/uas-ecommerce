@@ -6,7 +6,7 @@ import UploadZone from './UploadZone'
 import ImageViewerModal from '@/components/ui/ImageViewerModal'
 import type { CheckpointId, Produk, Toko } from '@/types'
 import { CHECKPOINT_META } from '@/types'
-import { getDriveDirectUrl } from '@/lib/utils'
+import { getDriveDirectUrl, getProductImages, getTokoBrands, getTokoSlideshows } from '@/lib/utils'
 
 function safeArray<T>(val: unknown): T[] {
   if (Array.isArray(val)) return val
@@ -86,7 +86,7 @@ export default function Checkpoint({ cp, nim, toko, produk, isExamLocked }: Chec
       </div>
 
       {cp === 'cp01' && <CP01Content toko={toko} />}
-      {cp === 'cp02' && <CP02Content produk={produk} />}
+      {cp === 'cp02' && <CP02Content toko={toko} />}
       {cp === 'cp03' && <CP03Content produk={produk} />}
       {cp === 'cp04' && <CP04Content produk={produk} fmt={fmt} />}
       {cp === 'cp05' && <CP05Content toko={toko} produk={produk} />}
@@ -210,34 +210,36 @@ function CP01Content({ toko }: { toko: Toko }) {
 }
 
 /* CP-02: Manufacturer & Carousel */
-function CP02Content({ produk }: { produk: Produk[] }) {
-  const manufacturers = produk.reduce<Produk[]>((acc, item) => {
-    if (!acc.some((existing) => existing.manufacturer === item.manufacturer)) {
-      acc.push(item)
-    }
-    return acc
-  }, [])
+/* CP-02: Manufacturer & Carousel */
+function CP02Content({ toko }: { toko: Toko }) {
+  const brands = getTokoBrands(toko)
+
   return (
     <div className="space-y-4">
       <Callout type="info">
-        Buka <strong>Catalog → Manufacturers → Add New</strong> untuk setiap manufacturer berikut.
-        Setelah itu, pasang logo di carousel via <strong>Extensions → Modules → Manufacturer Carousel</strong>.
+        Buka <strong>Catalog ? Manufacturers ? Add New</strong> untuk setiap manufacturer berikut.
+        Setelah itu, pasang logo di carousel via <strong>Extensions ? Modules ? Manufacturer Carousel</strong>.
       </Callout>
-      {manufacturers.map((p, i) => (
-        <div key={i} className="space-y-2">
+      {brands.map((brand, i) => (
+        <div key={`${brand.name}-${i}`} className="space-y-2">
           <SectionTitle>Manufacturer {i + 1}</SectionTitle>
           <InfoTable rows={[
-            ['Manufacturer Name', p.manufacturer],
-            ['SEO Keyword', p.manufacturer.toLowerCase().replace(/\s+/g, '-')],
-            ['Logo', p.logo_manufacturer ? (
+            ["Manufacturer Name", brand.name],
+            ["SEO Keyword", brand.name.toLowerCase().replace(/\s+/g, "-")],
+            ["Logo", brand.logo ? (
               <div className="mt-1 mb-1">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={getDriveDirectUrl(p.logo_manufacturer)} alt="logo" className="h-12 object-contain rounded bg-white p-1 border border-slate-200" />
+                <img src={getDriveDirectUrl(brand.logo)} alt="logo" className="h-12 object-contain rounded bg-white p-1 border border-slate-200" />
               </div>
-            ) : '(upload logo yang sesuai)'],
+            ) : "(upload logo yang sesuai)"],
           ]} />
         </div>
       ))}
+      {brands.length === 0 && (
+        <Callout type="warning">
+          Data brand toko belum diisi dosen. Hubungi dosen jika daftar manufacturer tidak tampil.
+        </Callout>
+      )}
       <Callout type="warning">
         Logo yang dipasang di carousel <strong>harus bisa diklik</strong> dan mengarah ke halaman
         produk berdasarkan manufacturer tersebut (bukan halaman eksternal).
@@ -425,49 +427,75 @@ function CP08Content({ produk }: { produk: Produk[] }) {
       <Callout type="info">
         Tab <strong>Image</strong>: upload gambar produk. Tab <strong>SEO</strong>: isi keyword.
       </Callout>
-      {produk.map((p, i) => (
-        <div key={p.id}>
-          <SectionTitle>Produk {i + 1}: {p.nama_produk}</SectionTitle>
-          <InfoTable rows={[
-            ['SEO Keyword', <code key="seo" className="text-sky-400 font-bold">{p.seo_keyword}</code>],
-          ]} />
-          <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-3">
-            {[p.gambar_1, p.gambar_2, p.gambar_3].filter(Boolean).map((url, j) => (
-              <a key={j} href={url} target="_blank" rel="noopener noreferrer"
-                className="group block rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 transition hover:border-sky-400">
-                <div className="aspect-square w-full relative">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={getDriveDirectUrl(url)} alt={`g${j+1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
-                </div>
-                <div className="px-3 py-2 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700 text-center text-xs font-bold text-slate-600 dark:text-slate-300">
-                  Gambar {j + 1} ↗
-                </div>
-              </a>
-            ))}
-            {![p.gambar_1, p.gambar_2, p.gambar_3].some(Boolean) && (
-              <p className="text-slate-500 text-sm italic">Gunakan gambar produk yang sesuai (cari sendiri atau minta dosen).</p>
-            )}
+      {produk.map((p, i) => {
+        const images = getProductImages(p)
+        return (
+          <div key={p.id}>
+            <SectionTitle>Produk {i + 1}: {p.nama_produk}</SectionTitle>
+            <InfoTable rows={[
+              ["SEO Keyword", <code key="seo" className="text-sky-400 font-bold">{p.seo_keyword}</code>],
+            ]} />
+            <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-3">
+              {images.map((url, j) => (
+                <a key={`${url}-${j}`} href={url} target="_blank" rel="noopener noreferrer"
+                  className="group block rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 transition hover:border-sky-400">
+                  <div className="aspect-square w-full relative">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={getDriveDirectUrl(url)} alt={`g${j + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+                  </div>
+                  <div className="px-3 py-2 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700 text-center text-xs font-bold text-slate-600 dark:text-slate-300">
+                    Gambar {j + 1} ?
+                  </div>
+                </a>
+              ))}
+              {images.length === 0 && (
+                <p className="text-slate-500 text-sm italic">Gunakan gambar produk yang sesuai (cari sendiri atau minta dosen).</p>
+              )}
+            </div>
           </div>
-        </div>
-      ))}
+        )
+      })}
     </div>
   )
 }
 
 /* CP-09: Banner Slideshow */
+/* CP-09: Banner Slideshow */
 function CP09Content({ toko, produk }: { produk: Produk[]; toko: Toko }) {
+  const slideshows = getTokoSlideshows(toko)
+
   return (
     <div className="space-y-4">
       <Callout type="info">
-        Buka <strong>Extensions → Modules → Slideshow</strong> (atau Banners). Tambahkan banner untuk setiap produk Anda.
+        Buka <strong>Extensions ? Modules ? Slideshow</strong> (atau Banners). Tambahkan banner slideshow toko berikut.
       </Callout>
-      <SectionTitle>Banner yang Dipasang</SectionTitle>
-      {produk.map((p, i) => (
+      <SectionTitle>Banner Slideshow Toko</SectionTitle>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {slideshows.map((url, index) => (
+          <a key={`${url}-${index}`} href={url} target="_blank" rel="noopener noreferrer"
+            className="group block rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 transition hover:border-sky-400">
+            <div className="aspect-[16/7] w-full relative">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={getDriveDirectUrl(url)} alt={`slideshow ${index + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+            </div>
+            <div className="px-3 py-2 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700 text-center text-xs font-bold text-slate-600 dark:text-slate-300">
+              Slideshow {index + 1} ?
+            </div>
+          </a>
+        ))}
+      </div>
+      {slideshows.length === 0 && (
+        <p className="text-slate-500 text-sm italic">Gambar slideshow toko belum diisi dosen.</p>
+      )}
+      <SectionTitle>Produk yang Dihubungkan</SectionTitle>
+      {produk.map((p) => (
         <div key={p.id} className="flex items-center gap-4 p-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl">
-          <span className="text-3xl">🖼️</span>
+          <div className="w-10 h-10 rounded-lg bg-sky-50 dark:bg-sky-500/20 text-sky-600 dark:text-sky-400 text-sm font-black flex items-center justify-center flex-shrink-0">
+            {getProductImages(p).length}
+          </div>
           <div className="min-w-0">
             <p className="text-slate-900 dark:text-slate-200 text-base font-bold">{p.nama_produk}</p>
-            <p className="text-slate-500 dark:text-slate-400 text-sm">Gunakan gambar produk sebagai banner</p>
+            <p className="text-slate-500 dark:text-slate-400 text-sm">Pastikan banner/link mengarah ke halaman produk ini</p>
           </div>
         </div>
       ))}

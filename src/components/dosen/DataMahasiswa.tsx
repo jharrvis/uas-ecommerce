@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { apiGetMahasiswaList, apiUpsertMahasiswa, apiImportMahasiswa } from '@/lib/sheets'
 import type { Mahasiswa } from '@/types'
+import TableControls, { getPageCount, getPageItems } from './TableControls'
 
 export default function DataMahasiswa() {
   const [mahasiswa, setMahasiswa] = useState<Mahasiswa[]>([])
@@ -11,6 +12,9 @@ export default function DataMahasiswa() {
   const [success, setSuccess] = useState('')
 
   const [filterKelas, setFilterKelas] = useState('ALL')
+  const [search, setSearch] = useState('')
+  const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(10)
   
   // Form State
   const [showForm, setShowForm] = useState(false)
@@ -39,9 +43,14 @@ export default function DataMahasiswa() {
     fetchData()
   }, [])
 
-  const filtered = mahasiswa.filter(m => 
-    filterKelas === 'ALL' || m.kelas.toUpperCase() === filterKelas.toUpperCase()
-  )
+  const filtered = mahasiswa.filter((m) => {
+    if (filterKelas !== 'ALL' && m.kelas.toUpperCase() !== filterKelas.toUpperCase()) return false
+    const q = search.trim().toLowerCase()
+    if (q && ![m.nim, m.nama, m.kelas, m.website_ujian].join(' ').toLowerCase().includes(q)) return false
+    return true
+  })
+  const pageCount = getPageCount(filtered.length, pageSize)
+  const pageItems = getPageItems(filtered, Math.min(page, pageCount), pageSize)
 
   const handleEdit = (m: Mahasiswa) => {
     setFormData(m)
@@ -158,7 +167,7 @@ export default function DataMahasiswa() {
         
         <div className="flex gap-2">
           {['ALL', ...classOptions].map(k => (
-            <button key={k} onClick={() => setFilterKelas(k)}
+            <button key={k} onClick={() => { setFilterKelas(k); setPage(1) }}
               className={`px-3 py-1.5 text-xs font-semibold rounded-lg border transition ${
                 filterKelas === k ? 'bg-sky-500 border-sky-500 text-slate-900 dark:text-white' : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:bg-slate-700'
               }`}>
@@ -170,6 +179,18 @@ export default function DataMahasiswa() {
 
       {error && <div className="p-3 bg-red-500/10 border border-red-500/30 text-red-400 text-sm rounded-lg">⚠️ {error}</div>}
       {success && <div className="p-3 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-sm rounded-lg">✅ {success}</div>}
+
+      <TableControls
+        search={search}
+        onSearchChange={(value) => { setSearch(value); setPage(1) }}
+        pageSize={pageSize}
+        onPageSizeChange={(value) => { setPageSize(value); setPage(1) }}
+        page={Math.min(page, pageCount)}
+        pageCount={pageCount}
+        total={mahasiswa.length}
+        filteredTotal={filtered.length}
+        onPageChange={setPage}
+      />
 
       {/* Table */}
       <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden">
@@ -190,7 +211,7 @@ export default function DataMahasiswa() {
                 <tr><td colSpan={6} className="px-4 py-8 text-center text-slate-500">Memuat data...</td></tr>
               ) : filtered.length === 0 ? (
                 <tr><td colSpan={6} className="px-4 py-8 text-center text-slate-500">Tidak ada data</td></tr>
-              ) : filtered.map((m, i) => (
+              ) : pageItems.map((m, i) => (
                 <tr key={m.nim} className={`border-t border-slate-200 dark:border-slate-700/50 hover:bg-slate-700/30 ${i % 2 === 1 ? 'bg-white dark:bg-slate-800/50' : ''}`}>
                   <td className="px-4 py-3 font-mono text-xs text-slate-300">{m.nim}</td>
                   <td className="px-4 py-3 font-medium text-slate-200">{m.nama}</td>

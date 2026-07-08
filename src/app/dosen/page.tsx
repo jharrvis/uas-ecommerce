@@ -6,6 +6,8 @@ import type { HasilMahasiswa } from '@/types'
 import { CP_ORDER, CHECKPOINT_META } from '@/types'
 import DataMahasiswa from '@/components/dosen/DataMahasiswa'
 import DataProduk from '@/components/dosen/DataProduk'
+import DataToko from '@/components/dosen/DataToko'
+import TableControls, { getPageCount, getPageItems } from '@/components/dosen/TableControls'
 import ImageViewerModal from '@/components/ui/ImageViewerModal'
 
 const DOSEN_CODE = process.env.NEXT_PUBLIC_DOSEN_CODE || 'DOSEN2026!'
@@ -252,7 +254,10 @@ export default function DosenPage() {
   const [filterStatus, setFilterStatus] = useState('ALL')
   const [selected, setSelected] = useState<HasilMahasiswa | null>(null)
   const [exporting, setExporting] = useState(false)
-  const [activeTab, setActiveTab] = useState<'hasil' | 'mahasiswa' | 'produk'>('hasil')
+  const [activeTab, setActiveTab] = useState<'hasil' | 'toko' | 'mahasiswa' | 'produk'>('hasil')
+  const [search, setSearch] = useState('')
+  const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(10)
 
   const fetchData = useCallback(async () => {
     setLoading(true)
@@ -310,8 +315,19 @@ export default function DosenPage() {
   const filtered = hasil.filter((h) => {
     if (filterKelas !== 'ALL' && h.kelas?.trim().toUpperCase() !== filterKelas) return false
     if (filterStatus !== 'ALL' && h.status !== filterStatus) return false
+    const q = search.trim().toLowerCase()
+    if (q && ![
+      h.nim,
+      h.nama,
+      h.kelas,
+      h.status,
+      h.id_toko,
+      h.id_produk,
+    ].join(' ').toLowerCase().includes(q)) return false
     return true
   })
+  const pageCount = getPageCount(filtered.length, pageSize)
+  const pageItems = getPageItems(filtered, Math.min(page, pageCount), pageSize)
 
   const classOptions: string[] = Array.from(
     new Set(
@@ -406,9 +422,10 @@ export default function DosenPage() {
         {/* Tabs */}
         <div className="flex overflow-x-auto scrollbar-thin gap-1 border-b border-slate-200 dark:border-slate-800">
           {([
-            { key: 'hasil', label: '📊 Hasil Ujian' },
-            { key: 'mahasiswa', label: '👥 Data Mahasiswa' },
-            { key: 'produk', label: '📦 Data Produk' },
+            { key: 'hasil', label: 'Hasil Ujian' },
+            { key: 'toko', label: 'Data Toko' },
+            { key: 'mahasiswa', label: 'Data Mahasiswa' },
+            { key: 'produk', label: 'Data Produk' },
           ] as const).map(tab => (
             <button key={tab.key} onClick={() => setActiveTab(tab.key)}
               className={`whitespace-nowrap px-4 py-2.5 text-sm font-bold rounded-t-lg transition ${
@@ -433,7 +450,7 @@ export default function DosenPage() {
             <div className="flex items-center gap-2 flex-wrap">
               <span className="text-xs text-slate-500 font-semibold">Filter:</span>
               {['ALL', ...classOptions].map((k) => (
-                <button key={k} onClick={() => setFilterKelas(k)}
+                <button key={k} onClick={() => { setFilterKelas(k); setPage(1) }}
                   className={`px-3 py-1.5 text-xs font-semibold rounded-lg border transition ${
                     filterKelas === k ? 'bg-sky-500 border-sky-500 text-white' : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-slate-400 dark:hover:border-slate-500'
                   }`}>
@@ -442,7 +459,7 @@ export default function DosenPage() {
               ))}
               <span className="w-px h-4 bg-slate-300 dark:bg-slate-700 mx-1" />
               {['ALL', 'registered', 'started', 'submitted', 'timeout', 'scored'].map((s) => (
-                <button key={s} onClick={() => setFilterStatus(s)}
+                <button key={s} onClick={() => { setFilterStatus(s); setPage(1) }}
                   className={`px-3 py-1.5 text-xs font-semibold rounded-lg border transition ${
                     filterStatus === s ? 'bg-purple-600 border-purple-500 text-white' : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-slate-400 dark:hover:border-slate-500'
                   }`}>
@@ -451,6 +468,18 @@ export default function DosenPage() {
               ))}
               <span className="ml-auto text-xs text-slate-500">{filtered.length} mahasiswa</span>
             </div>
+
+            <TableControls
+              search={search}
+              onSearchChange={(value) => { setSearch(value); setPage(1) }}
+              pageSize={pageSize}
+              onPageSizeChange={(value) => { setPageSize(value); setPage(1) }}
+              page={Math.min(page, pageCount)}
+              pageCount={pageCount}
+              total={hasil.length}
+              filteredTotal={filtered.length}
+              onPageChange={setPage}
+            />
 
             <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl overflow-hidden">
               <div className="overflow-x-auto">
@@ -467,7 +496,7 @@ export default function DosenPage() {
                       <tr><td colSpan={9} className="px-4 py-8 text-center text-slate-500 text-sm">
                         {loading ? 'Memuat data...' : 'Belum ada data ujian'}
                       </td></tr>
-                    ) : filtered.map((h, i) => {
+                    ) : pageItems.map((h, i) => {
                       const hasilRecord = h as unknown as Record<string, unknown>
                       const cpDone = CP_ORDER.filter((cp) => {
                         const key = `ss_${cp}` as keyof HasilMahasiswa
@@ -507,6 +536,9 @@ export default function DosenPage() {
             </div>
           </>
         )}
+
+        {/* Tab: Data Toko */}
+        {activeTab === 'toko' && <DataToko />}
 
         {/* Tab: Data Mahasiswa */}
         {activeTab === 'mahasiswa' && <DataMahasiswa />}
