@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import { useExamStore } from '@/store/examStore'
 import Checkpoint from './Checkpoint'
 import type { CheckpointId } from '@/types'
@@ -140,13 +141,39 @@ export default function RightPanel({ isExamLocked, onSubmit, submitting }: Right
                 </p>
                 <div className="space-y-2.5">
                   {produk.map((p, i) => (
-                    <div key={p.id} className="flex items-center gap-4 p-3.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl">
-                      <div className="w-8 h-8 rounded-lg bg-sky-50 dark:bg-sky-500/20 text-sky-600 dark:text-sky-400 text-sm font-black flex items-center justify-center flex-shrink-0">
-                        {i + 1}
-                      </div>
-                      <div className="min-w-0 flex-1">
+                    <div key={p.id} className="flex gap-4 p-3.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl">
+                      {/* Gambar Produk */}
+                      <div className="w-16 h-16 rounded-lg bg-slate-100 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 flex-shrink-0 overflow-hidden">
+                        {p.gambar_1 ? (
+                          <Image 
+                            src={p.gambar_1} 
+                            alt={p.nama_produk}
+                            width={64}
+                            height={64}
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              e.currentTarget.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0iI2ZmZiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2IiBmaWxsPSIjMzMzMzMzIi8+CjxyZWN0IHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0iIzMzMzMzMyIvPgo8cmVjdCB4PSIxMCIgeT0iMTAiIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0iIzMzMzMzMyIvPgo8L3N2Zz4K';
+                            }}
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-slate-400">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M21 19V5C21 3.9 20.1 3 19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19ZM8.5 13.5L11 16.51L14.5 12L19 18H5L8.5 13.5Z" fill="#94a3b8"/>
+                            </svg>
+                          </div>
+                        )}
+                       </div>
+                       
+                       <div className="min-w-0 flex-1">
                         <p className="text-slate-900 dark:text-slate-100 text-base font-bold leading-tight truncate">{p.nama_produk}</p>
                         <p className="text-slate-500 dark:text-slate-400 text-sm mt-0.5">{p.manufacturer} · {fmt(p.harga)}</p>
+                        <p className="text-slate-400 dark:text-slate-500 text-xs mt-1">SKU: {p.sku}</p>
+                      </div>
+                      
+                      <div className="flex-shrink-0">
+                        <div className="w-8 h-8 rounded-lg bg-sky-50 dark:bg-sky-500/20 text-sky-600 dark:text-sky-400 text-sm font-black flex items-center justify-center">
+                          {i + 1}
+                        </div>
                       </div>
                     </div>
                   ))}
@@ -243,11 +270,11 @@ export default function RightPanel({ isExamLocked, onSubmit, submitting }: Right
         <div>
           {prevTab && (
             <button
-              onClick={() => setActiveTab(prevTab)}
+              onClick={() => setActiveTab(prevTab as 'summary' | CheckpointId)}
               className="px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-sm font-bold rounded-xl transition flex items-center gap-2"
             >
               <span>←</span>
-              <span className="hidden sm:inline">{prevTab === 'summary' ? 'Ringkasan' : CHECKPOINT_META[prevTab].label}</span>
+              <span className="hidden sm:inline">{prevTab === 'summary' ? 'Ringkasan' : CHECKPOINT_META[prevTab as CheckpointId].label}</span>
               <span className="sm:hidden">Prev</span>
             </button>
           )}
@@ -255,10 +282,10 @@ export default function RightPanel({ isExamLocked, onSubmit, submitting }: Right
         <div>
           {nextTab && (
             <button
-              onClick={() => setActiveTab(nextTab)}
+              onClick={() => setActiveTab(nextTab as 'summary' | CheckpointId)}
               className="px-4 py-2 bg-sky-500 hover:bg-sky-400 text-white text-sm font-bold rounded-xl transition flex items-center gap-2"
             >
-              <span className="hidden sm:inline">{nextTab !== 'summary' ? CHECKPOINT_META[nextTab].label : 'Ringkasan'}</span>
+              <span className="hidden sm:inline">{nextTab !== 'summary' ? CHECKPOINT_META[nextTab as CheckpointId].label : 'Ringkasan'}</span>
               <span className="sm:hidden">Next</span>
               <span>→</span>
             </button>
