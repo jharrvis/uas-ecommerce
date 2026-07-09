@@ -6,7 +6,7 @@ import { useExamStore } from '@/store/examStore'
 import Checkpoint from './Checkpoint'
 import type { CheckpointId } from '@/types'
 import { CP_ORDER, CHECKPOINT_META } from '@/types'
-import { getTokoBrands } from '@/lib/utils'
+import { getTokoBrands, getDriveDirectUrl } from '@/lib/utils'
 
 interface RightPanelProps {
   isExamLocked: boolean
@@ -146,7 +146,7 @@ export default function RightPanel({ isExamLocked, onSubmit, submitting }: Right
                       <div className="w-16 h-16 rounded-lg bg-slate-100 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 flex-shrink-0 overflow-hidden">
                         {p.gambar_1 ? (
                           <Image 
-                            src={p.gambar_1} 
+                            src={getDriveDirectUrl(p.gambar_1)} 
                             alt={p.nama_produk}
                             width={64}
                             height={64}
@@ -162,7 +162,7 @@ export default function RightPanel({ isExamLocked, onSubmit, submitting }: Right
                             </svg>
                           </div>
                         )}
-                       </div>
+                      </div>
                        
                        <div className="min-w-0 flex-1">
                         <p className="text-slate-900 dark:text-slate-100 text-base font-bold leading-tight truncate">{p.nama_produk}</p>
