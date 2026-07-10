@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useExamStore } from '@/store/examStore'
 import UploadZone from './UploadZone'
 import ImageViewerModal from '@/components/ui/ImageViewerModal'
-import type { CheckpointId, Produk, Toko, Category } from '@/types'
+import type { CheckpointId, Produk, Toko } from '@/types'
 import { CHECKPOINT_META } from '@/types'
 import { getDriveDirectUrl, getProductImages, getTokoBrands, getTokoSlideshows } from '@/lib/utils'
 
@@ -250,61 +250,76 @@ function CP02Content({ toko }: { toko: Toko }) {
 
 /* CP-03: Kategori */
 function CP03Content({ produk }: { produk: Produk[] }) {
-  const allCategoryIds = produk.reduce<string[]>((acc, item) => {
-    // Gunakan category_ids jika ada, fallback ke kategori untuk backward compatibility
-    const categoryIds = item.category_ids || item.kategori || []
-    if (Array.isArray(categoryIds)) {
-      categoryIds.forEach((categoryId) => {
-        if (!acc.includes(categoryId)) acc.push(categoryId)
-      })
-    }
-    return acc
-  }, [])
-
-  // Fungsi untuk membangun hirarki kategori
-  const buildCategoryTree = (categories: Category[], parentId: string | null = null): Category[] => {
+  // Fungsi untuk mengekstrak kategori dari format data baru
+  const extractCategories = (produk: Produk[]): { parent: string; sub: string }[] => {
+    const categories: { parent: string; sub: string }[] = []
+    
+    produk.forEach(item => {
+      // Cek jika ada field kategori dengan format array of objects
+      if (item.kategori && Array.isArray(item.kategori)) {
+        item.kategori.forEach(categoryStr => {
+          try {
+            // Parse JSON string jika perlu
+            let categoryData
+            if (typeof categoryStr === 'string') {
+              categoryData = JSON.parse(categoryStr)
+            } else {
+              categoryData = categoryStr
+            }
+            
+            // Jika format adalah array of objects dengan parent dan sub
+            if (Array.isArray(categoryData)) {
+              categoryData.forEach(cat => {
+                if (cat.parent && cat.sub) {
+                  categories.push({ parent: cat.parent, sub: cat.sub })
+                }
+              })
+            }
+            // Jika format adalah object dengan parent dan sub
+            else if (categoryData.parent && categoryData.sub) {
+              categories.push({ parent: categoryData.parent, sub: categoryData.sub })
+            }
+          } catch (e) {
+            // Jika gagal parse, abaikan
+            console.warn('Failed to parse category:', categoryStr)
+          }
+        })
+      }
+    })
+    
     return categories
-      .filter(cat => cat.parent_id === parentId)
-      .map(cat => ({
-        ...cat,
-        children: buildCategoryTree(categories, cat.id)
-      }))
   }
 
-  // Placeholder data - nanti diambil dari API
-  const mockCategories: Category[] = [
-    { id: 'cat1', name: 'Elektronik', parent_id: null, level: 0, slug: 'elektronik', aktif: true },
-    { id: 'cat2', name: 'Smartphone', parent_id: 'cat1', level: 1, slug: 'smartphone/elektronik', aktif: true },
-    { id: 'cat3', name: 'Laptop', parent_id: 'cat1', level: 1, slug: 'laptop/elektronik', aktif: true },
-    { id: 'cat4', name: 'Fashion', parent_id: null, level: 0, slug: 'fashion', aktif: true },
-    { id: 'cat5', name: 'Pria', parent_id: 'cat4', level: 1, slug: 'pria/fashion', aktif: true },
-    { id: 'cat6', name: 'Wanita', parent_id: 'cat4', level: 1, slug: 'wanita/fashion', aktif: true },
-  ]
-
-  const categoryTree = buildCategoryTree(mockCategories)
+  const categories = extractCategories(produk)
   
-  const renderCategoryTree = (categories: Category[], level = 0) => {
-    return categories.map((category) => (
-      <div key={category.id} className="space-y-1">
-        <div className={`flex items-center gap-2 px-3 py-2 rounded-lg ${
-          level === 0 
-            ? 'bg-sky-500/15 border border-sky-500/30 text-sky-400' 
-            : level === 1 
-              ? 'bg-sky-100/50 border border-sky-200/50 text-sky-600 dark:bg-sky-500/10 dark:border-sky-500/30 dark:text-sky-400' 
-              : 'bg-slate-100/50 border border-slate-200/50 text-slate-600 dark:bg-slate-800/50 dark:border-slate-700/50 dark:text-slate-400'
-        }`}>
-          <span className="text-xs font-bold">
-            {'  '.repeat(level)}•
-          </span>
-          <span className="font-medium">{category.name}</span>
-        </div>
-        {category.children && category.children.length > 0 && (
-          <div className={`ml-4 ${level === 0 ? 'border-l-2 border-sky-200/30 dark:border-sky-500/30 pl-2' : ''}`}>
-            {renderCategoryTree(category.children, level + 1)}
-          </div>
-        )}
-      </div>
-    ))
+  // Kelompokkan kategori berdasarkan parent
+  const groupedCategories = categories.reduce((acc, cat) => {
+    if (!acc[cat.parent]) {
+      acc[cat.parent] = []
+    }
+    acc[cat.parent].push(cat.sub)
+    return acc
+  }, {} as Record<string, string[]>)
+
+  // Fungsi untuk mengelompokkan subkategori yang sama
+  const groupSubCategories = (subs: string[]): string[] => {
+    const grouped: string[] = []
+    const seen = new Set<string>()
+    
+    subs.forEach(sub => {
+      if (!seen.has(sub)) {
+        seen.add(sub)
+        // Hitung berapa kali subkategori muncul
+        const count = subs.filter(s => s === sub).length
+        if (count > 1) {
+          grouped.push(`${sub} (${count} produk)`)
+        } else {
+          grouped.push(sub)
+        }
+      }
+    })
+    
+    return grouped
   }
 
   return (
@@ -314,16 +329,37 @@ function CP03Content({ produk }: { produk: Produk[] }) {
         Jika sudah ada, cukup gunakan yang lama.
       </Callout>
       <SectionTitle>Kategori yang Dibutuhkan (Struktur Hirarki)</SectionTitle>
-      <div className="space-y-2">
-        {renderCategoryTree(categoryTree)}
+      <div className="space-y-4">
+        {Object.entries(groupedCategories).map(([parent, subs]) => (
+          <div key={parent} className="space-y-2">
+            <div className="flex items-center gap-2 px-4 py-3 bg-sky-500/15 border border-sky-500/30 text-sky-400 rounded-lg">
+              <span className="text-lg">📁</span>
+              <span className="font-bold text-base">{parent}</span>
+              <span className="text-xs bg-sky-500/20 px-2 py-1 rounded-full">
+                {subs.length} subkategori
+              </span>
+            </div>
+            <div className="ml-6 space-y-2">
+              {groupSubCategories(subs).map((sub, index) => (
+                <div key={`${parent}-${sub}-${index}`} className="flex items-center gap-3 px-4 py-2.5 bg-sky-100/50 border border-sky-200/50 text-sky-600 dark:bg-sky-500/10 dark:border-sky-500/30 dark:text-sky-400 rounded-lg">
+                  <span className="text-sm">📄</span>
+                  <span className="font-medium">{sub}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
       <Callout type="tip">
         <p className="mb-2">📋 Cara membuat kategori hirarki di OpenCart:</p>
         <ol className="text-sm space-y-1 ml-4">
-          <li>1. Buat kategori induk terlebih dahulu (misal: &ldquo;Elektronik&rdquo;)</li>
+          <li>1. Buat kategori induk terlebih dahulu (misal: &ldquo;Furnitur & Dekorasi&rdquo;)</li>
           <li>2. Buat subkategori dengan memilih kategori induk di field <strong>Parent</strong></li>
-          <li>3. Untuk sub-subkategori, pilih subkategori sebagai Parent</li>
+          <li>3. Ulangi untuk semua subkategori yang dibutuhkan</li>
         </ol>
+        <p className="text-sm text-slate-600 dark:text-slate-400 mt-3">
+          💡 <strong>Tips:</strong> Pastikan kategori induk dibuat sebelum subkategori. Gunakan field <strong>Parent</strong> untuk menunjukkan hubungan antar kategori.
+        </p>
       </Callout>
     </div>
   )
