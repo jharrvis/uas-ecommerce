@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
+import Image from 'next/image'
 import { apiDeleteToko, apiGetPool, apiUploadProductAsset, apiUpsertToko } from '@/lib/sheets'
 import { getDriveDirectUrl, getTokoBrands, getTokoSlideshows } from '@/lib/utils'
 import type { Toko } from '@/types'
@@ -120,8 +121,8 @@ export default function DataToko() {
     const file = e.target.files?.[0]
     if (!file) return
 
-    if (file.size > 10 * 1024 * 1024) {
-      setError('Ukuran gambar maksimal 10MB')
+    if (file.size > 300 * 1024) {
+      setError(`Ukuran file ${file.name} terlalu besar. Maksimal 300KB. Ukuran saat ini: ${(file.size / 1024).toFixed(1)}KB`)
       return
     }
 
@@ -170,9 +171,8 @@ export default function DataToko() {
         <label className="text-xs font-bold text-slate-500">{label}</label>
         <div className="flex gap-2">
           {value && (
-            <div className="w-10 h-10 rounded border border-slate-300 dark:border-slate-600 overflow-hidden shrink-0 bg-white">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={getDriveDirectUrl(value)} alt={label} className="w-full h-full object-cover" />
+            <div className="w-12 h-12 rounded-lg border border-slate-300 dark:border-slate-600 overflow-hidden shrink-0 bg-white shadow-sm">
+              <Image src={getDriveDirectUrl(value)} alt={label} width={48} height={48} className="w-full h-full object-contain" unoptimized />
             </div>
           )}
           <input
