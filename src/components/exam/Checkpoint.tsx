@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useExamStore } from '@/store/examStore'
 import UploadZone from './UploadZone'
 import ImageViewerModal from '@/components/ui/ImageViewerModal'
-import type { CheckpointId, Produk, Toko } from '@/types'
+import type { CheckpointId, Produk, Toko, Category } from '@/types'
 import { CHECKPOINT_META } from '@/types'
 import { getDriveDirectUrl, getProductImages, getTokoBrands, getTokoSlideshows } from '@/lib/utils'
 
@@ -250,28 +250,80 @@ function CP02Content({ toko }: { toko: Toko }) {
 
 /* CP-03: Kategori */
 function CP03Content({ produk }: { produk: Produk[] }) {
-  const allCats = produk.reduce<string[]>((acc, item) => {
-    safeArray<string>(item.kategori).forEach((category) => {
-      if (!acc.includes(category)) acc.push(category)
-    })
+  const allCategoryIds = produk.reduce<string[]>((acc, item) => {
+    // Gunakan category_ids jika ada, fallback ke kategori untuk backward compatibility
+    const categoryIds = item.category_ids || item.kategori || []
+    if (Array.isArray(categoryIds)) {
+      categoryIds.forEach((categoryId) => {
+        if (!acc.includes(categoryId)) acc.push(categoryId)
+      })
+    }
     return acc
   }, [])
+
+  // Fungsi untuk membangun hirarki kategori
+  const buildCategoryTree = (categories: Category[], parentId: string | null = null): Category[] => {
+    return categories
+      .filter(cat => cat.parent_id === parentId)
+      .map(cat => ({
+        ...cat,
+        children: buildCategoryTree(categories, cat.id)
+      }))
+  }
+
+  // Placeholder data - nanti diambil dari API
+  const mockCategories: Category[] = [
+    { id: 'cat1', name: 'Elektronik', parent_id: null, level: 0, slug: 'elektronik', aktif: true },
+    { id: 'cat2', name: 'Smartphone', parent_id: 'cat1', level: 1, slug: 'smartphone/elektronik', aktif: true },
+    { id: 'cat3', name: 'Laptop', parent_id: 'cat1', level: 1, slug: 'laptop/elektronik', aktif: true },
+    { id: 'cat4', name: 'Fashion', parent_id: null, level: 0, slug: 'fashion', aktif: true },
+    { id: 'cat5', name: 'Pria', parent_id: 'cat4', level: 1, slug: 'pria/fashion', aktif: true },
+    { id: 'cat6', name: 'Wanita', parent_id: 'cat4', level: 1, slug: 'wanita/fashion', aktif: true },
+  ]
+
+  const categoryTree = buildCategoryTree(mockCategories)
+  
+  const renderCategoryTree = (categories: Category[], level = 0) => {
+    return categories.map((category) => (
+      <div key={category.id} className="space-y-1">
+        <div className={`flex items-center gap-2 px-3 py-2 rounded-lg ${
+          level === 0 
+            ? 'bg-sky-500/15 border border-sky-500/30 text-sky-400' 
+            : level === 1 
+              ? 'bg-sky-100/50 border border-sky-200/50 text-sky-600 dark:bg-sky-500/10 dark:border-sky-500/30 dark:text-sky-400' 
+              : 'bg-slate-100/50 border border-slate-200/50 text-slate-600 dark:bg-slate-800/50 dark:border-slate-700/50 dark:text-slate-400'
+        }`}>
+          <span className="text-xs font-bold">
+            {'  '.repeat(level)}•
+          </span>
+          <span className="font-medium">{category.name}</span>
+        </div>
+        {category.children && category.children.length > 0 && (
+          <div className={`ml-4 ${level === 0 ? 'border-l-2 border-sky-200/30 dark:border-sky-500/30 pl-2' : ''}`}>
+            {renderCategoryTree(category.children, level + 1)}
+          </div>
+        )}
+      </div>
+    ))
+  }
+
   return (
     <div className="space-y-4">
       <Callout type="info">
         Buka <strong>Catalog → Categories → Add New</strong>. Buat kategori berikut jika belum tersedia.
         Jika sudah ada, cukup gunakan yang lama.
       </Callout>
-      <SectionTitle>Kategori yang Dibutuhkan</SectionTitle>
-      <div className="flex flex-wrap gap-2.5">
-        {allCats.map((cat) => (
-          <span key={cat} className="px-4 py-2 bg-sky-500/15 border border-sky-500/30 text-sky-400 text-sm font-bold rounded-full">
-            {cat}
-          </span>
-        ))}
+      <SectionTitle>Kategori yang Dibutuhkan (Struktur Hirarki)</SectionTitle>
+      <div className="space-y-2">
+        {renderCategoryTree(categoryTree)}
       </div>
       <Callout type="tip">
-        Kategori induk dibuat terlebih dahulu, kemudian subkategori menggunakan field <strong>Parent</strong>.
+        <p className="mb-2">📋 Cara membuat kategori hirarki di OpenCart:</p>
+        <ol className="text-sm space-y-1 ml-4">
+          <li>1. Buat kategori induk terlebih dahulu (misal: &ldquo;Elektronik&rdquo;)</li>
+          <li>2. Buat subkategori dengan memilih kategori induk di field <strong>Parent</strong></li>
+          <li>3. Untuk sub-subkategori, pilih subkategori sebagai Parent</li>
+        </ol>
       </Callout>
     </div>
   )

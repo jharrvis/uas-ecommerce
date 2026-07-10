@@ -1,4 +1,4 @@
-import type { Config, HasilMahasiswa, Mahasiswa, Produk, Toko } from '@/types'
+import type { Config, HasilMahasiswa, Mahasiswa, Produk, Toko, Category } from '@/types'
 
 const BASE_URL = '/api/apps-script'
 
@@ -70,6 +70,12 @@ export async function apiGetPool(): Promise<{
   produk: Produk[]
 }> {
   return appsGet('getPool')
+}
+
+export async function apiGetCategories(): Promise<{
+  categories: Category[]
+}> {
+  return appsGet('getCategories')
 }
 
 export async function apiGetConfig(): Promise<{ config: Config }> {

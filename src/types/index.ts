@@ -66,6 +66,17 @@ export interface Special {
   date_end: string
 }
 
+export interface Category {
+  id: string
+  name: string
+  parent_id?: string | null
+  level: number
+  slug: string
+  description?: string
+  aktif: boolean
+  children?: Category[]
+}
+
 export interface Produk {
   id: string
   id_toko: string
@@ -78,7 +89,8 @@ export interface Produk {
   dimensi: string
   sku: string
   seo_keyword: string
-  kategori: string[]
+  kategori?: string[]      // Backward compatibility
+  category_ids?: string[]  // New field for hirarchical categories
   attributes: ProductAttribute[]
   options: ProductOption[]
   discount_min_qty: number
