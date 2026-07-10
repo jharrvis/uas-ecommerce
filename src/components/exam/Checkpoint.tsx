@@ -1,9 +1,10 @@
 'use client'
 
-import { useState } from 'react'
-import { useExamStore } from '@/store/examStore'
+import { useRef, useState } from 'react'
+import Image from 'next/image'
 import UploadZone from './UploadZone'
 import ImageViewerModal from '@/components/ui/ImageViewerModal'
+import { useExamStore } from '@/store/examStore'
 import type { CheckpointId, Produk, Toko } from '@/types'
 import { CHECKPOINT_META } from '@/types'
 import { getDriveDirectUrl, getProductImages, getTokoBrands, getTokoSlideshows } from '@/lib/utils'
@@ -323,16 +324,12 @@ function CP03Content({ produk }: { produk: Produk[] }) {
   }
 
   return (
-    <div className="space-y-4">
-      <Callout type="info">
-        Buka <strong>Catalog → Categories → Add New</strong>. Buat kategori berikut jika belum tersedia.
-        Jika sudah ada, cukup gunakan yang lama.
-      </Callout>
-      <SectionTitle>Kategori yang Dibutuhkan (Struktur Hirarki)</SectionTitle>
+    <div className="space-y-6">
+      <SectionTitle>Kategori yang Dibutuhkan</SectionTitle>
       <div className="space-y-4">
         {Object.entries(groupedCategories).map(([parent, subs]) => (
           <div key={parent} className="space-y-2">
-            <div className="flex items-center gap-2 px-4 py-3 bg-sky-500/15 border border-sky-500/30 text-sky-400 rounded-lg">
+            <div className="flex items-center gap-3 px-4 py-3 bg-sky-500/15 border border-sky-500/30 text-sky-400 rounded-lg">
               <span className="text-lg">📁</span>
               <span className="font-bold text-base">{parent}</span>
               <span className="text-xs bg-sky-500/20 px-2 py-1 rounded-full">
@@ -350,45 +347,174 @@ function CP03Content({ produk }: { produk: Produk[] }) {
           </div>
         ))}
       </div>
-      <Callout type="tip">
-        <p className="mb-2">📋 Cara membuat kategori hirarki di OpenCart:</p>
-        <ol className="text-sm space-y-1 ml-4">
-          <li>1. Buat kategori induk terlebih dahulu (misal: &ldquo;Furnitur & Dekorasi&rdquo;)</li>
-          <li>2. Buat subkategori dengan memilih kategori induk di field <strong>Parent</strong></li>
-          <li>3. Ulangi untuk semua subkategori yang dibutuhkan</li>
-        </ol>
-        <p className="text-sm text-slate-600 dark:text-slate-400 mt-3">
-          💡 <strong>Tips:</strong> Pastikan kategori induk dibuat sebelum subkategori. Gunakan field <strong>Parent</strong> untuk menunjukkan hubungan antar kategori.
-        </p>
-      </Callout>
     </div>
   )
 }
 
 /* CP-04: General & Data */
 function CP04Content({ produk, fmt }: { produk: Produk[]; fmt: (n: number) => string }) {
+  const [expandedProducts, setExpandedProducts] = useState<{[key: string]: boolean}>({})
+
+  const toggleProduct = (productId: string) => {
+    setExpandedProducts(prev => ({
+      ...prev,
+      [productId]: !prev[productId]
+    }))
+  }
+
+  const downloadImage = async (imageUrl: string, filename: string) => {
+    try {
+      const response = await fetch(imageUrl)
+      const blob = await response.blob()
+      const url = window.URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      link.download = filename
+      document.body.appendChild(link)
+      link.click()
+      window.URL.revokeObjectURL(url)
+      document.body.removeChild(link)
+    } catch (error) {
+      console.error('Failed to download image:', error)
+    }
+  }
+
   return (
     <div className="space-y-6">
-      <Callout type="info">
-        Buka <strong>Catalog → Products → Add New</strong>. Isi tab <strong>General</strong> dan <strong>Data</strong> untuk setiap produk berikut.
-      </Callout>
-      {produk.map((p, i) => (
-        <div key={p.id}>
-          <SectionTitle>Produk {i + 1}: {p.nama_produk}</SectionTitle>
-          <InfoTable rows={[
-            ['Product Name', p.nama_produk],
-            ['Meta Tag Title', p.nama_produk],
-            ['Model', p.sku.split('-').slice(0,2).join('-')],
-            ['SKU', p.sku],
-            ['Price', fmt(p.harga)],
-            ['Quantity', String(p.stok)],
-            ['Minimum Quantity', '1'],
-            ['Weight', p.berat_kg + ' kg'],
-            ['Length × Width × Height', p.dimensi],
-            ['Status', 'Enabled'],
-          ]} />
-        </div>
-      ))}
+      <SectionTitle>Produk: General & Data</SectionTitle>
+      <div className="space-y-4">
+        {produk.map((p, i) => (
+          <div key={p.id} className="border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden bg-white dark:bg-slate-800">
+            {/* Header Produk */}
+            <div 
+              className="flex items-center justify-between p-4 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors"
+              onClick={() => toggleProduct(p.id)}
+            >
+              <div className="flex items-center gap-3">
+                <span className="w-8 h-8 rounded-lg bg-sky-100 dark:bg-sky-500/20 text-sky-600 dark:text-sky-400 text-sm font-black flex items-center justify-center">
+                  {i + 1}
+                </span>
+                <div>
+                  <h3 className="font-bold text-slate-900 dark:text-slate-100">{p.nama_produk}</h3>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">{p.manufacturer} • {fmt(p.harga)}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-slate-500 dark:text-slate-400">
+                  {expandedProducts[p.id] ? '🔼' : '🔽'}
+                </span>
+              </div>
+            </div>
+
+            {/* Accordion Content */}
+            {expandedProducts[p.id] && (
+              <div className="border-t border-slate-200 dark:border-slate-700 p-6 space-y-6">
+                {/* Gambar Produk */}
+                <div>
+                  <h4 className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">Gambar Produk</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {p.gambar_1 && (
+                      <div className="space-y-2">
+                        <div className="relative group">
+                          <Image 
+                            src={getDriveDirectUrl(p.gambar_1)} 
+                            alt={`${p.nama_produk} - Gambar 1`}
+                            width={200}
+                            height={200}
+                            className="w-full h-32 object-cover rounded-lg border border-slate-200 dark:border-slate-600"
+                            unoptimized
+                          />
+                          <button
+                            onClick={() => downloadImage(getDriveDirectUrl(p.gambar_1), `${p.nama_produk}_gambar1.jpg`)}
+                            className="absolute top-2 right-2 bg-black/70 text-white p-1.5 rounded opacity-0 group-hover:opacity-100 transition-opacity"
+                            title="Unduh Gambar"
+                          >
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                              <path d="M7 10L12 15L17 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                              <path d="M12 15V3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                          </button>
+                        </div>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 text-center">Gambar 1</p>
+                      </div>
+                    )}
+                    {p.gambar_2 && (
+                      <div className="space-y-2">
+                        <div className="relative group">
+                          <Image 
+                            src={getDriveDirectUrl(p.gambar_2)} 
+                            alt={`${p.nama_produk} - Gambar 2`}
+                            width={200}
+                            height={200}
+                            className="w-full h-32 object-cover rounded-lg border border-slate-200 dark:border-slate-600"
+                            unoptimized
+                          />
+                          <button
+                            onClick={() => downloadImage(getDriveDirectUrl(p.gambar_2), `${p.nama_produk}_gambar2.jpg`)}
+                            className="absolute top-2 right-2 bg-black/70 text-white p-1.5 rounded opacity-0 group-hover:opacity-100 transition-opacity"
+                            title="Unduh Gambar"
+                          >
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.0391 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                              <path d="M7 10L12 15L17 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                              <path d="M12 15V3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                          </button>
+                        </div>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 text-center">Gambar 2</p>
+                      </div>
+                    )}
+                    {p.gambar_3 && (
+                      <div className="space-y-2">
+                        <div className="relative group">
+                          <Image 
+                            src={getDriveDirectUrl(p.gambar_3)} 
+                            alt={`${p.nama_produk} - Gambar 3`}
+                            width={200}
+                            height={200}
+                            className="w-full h-32 object-cover rounded-lg border border-slate-200 dark:border-slate-600"
+                            unoptimized
+                          />
+                          <button
+                            onClick={() => downloadImage(getDriveDirectUrl(p.gambar_3), `${p.nama_produk}_gambar3.jpg`)}
+                            className="absolute top-2 right-2 bg-black/70 text-white p-1.5 rounded opacity-0 group-hover:opacity-100 transition-opacity"
+                            title="Unduh Gambar"
+                          >
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.0391 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                              <path d="M7 10L12 15L17 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                              <path d="M12 15V3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                          </button>
+                        </div>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 text-center">Gambar 3</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Informasi Produk */}
+                <div>
+                  <h4 className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">Informasi Produk</h4>
+                  <InfoTable rows={[
+                    ['Product Name', p.nama_produk],
+                    ['Meta Tag Title', p.nama_produk],
+                    ['Model', p.sku.split('-').slice(0,2).join('-')],
+                    ['SKU', p.sku],
+                    ['Price', fmt(p.harga)],
+                    ['Quantity', String(p.stok)],
+                    ['Minimum Quantity', '1'],
+                    ['Weight', p.berat_kg + ' kg'],
+                    ['Length × Width × Height', p.dimensi],
+                    ['Status', 'Enabled'],
+                  ]} />
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
@@ -397,9 +523,6 @@ function CP04Content({ produk, fmt }: { produk: Produk[]; fmt: (n: number) => st
 function CP05Content({ toko, produk }: { produk: Produk[]; toko: Toko }) {
   return (
     <div className="space-y-6">
-      <Callout type="info">
-        Masih di form produk. Isi tab <strong>Links</strong>, <strong>Attribute</strong>, dan <strong>Option</strong>.
-      </Callout>
       {produk.map((p, i) => (
         <div key={p.id} className="space-y-4">
           <SectionTitle>Produk {i + 1}: Links</SectionTitle>
