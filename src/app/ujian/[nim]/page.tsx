@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { useExamStore } from '@/store/examStore'
-import { apiGetConfig, apiGetPool, apiLogEvent } from '@/lib/sheets'
+import { apiGetConfig, apiGetMahasiswa, apiGetPool, apiLogEvent } from '@/lib/sheets'
 import { pickProducts, pickToko } from '@/lib/shuffle'
 import { useAntiCheat } from '@/hooks/useAntiCheat'
 import { useCountdown } from '@/hooks/useCountdown'
@@ -50,7 +50,19 @@ export default function UjianPage() {
     apiGetConfig()
       .then(async ({ config }) => {
         setDuration(Number(config.durasi_ujian_menit) || 90)
-        if (!shouldRefreshPool) return
+        const { mahasiswa } = await apiGetMahasiswa(session.nim)
+        const refreshedSessionBase = {
+          ...session,
+          nama: mahasiswa.nama,
+          kelas: mahasiswa.kelas,
+          foto: mahasiswa.foto,
+          website_ujian: mahasiswa.website_ujian,
+        }
+
+        if (!shouldRefreshPool) {
+          setSession(refreshedSessionBase)
+          return
+        }
 
         const { toko: poolToko, produk: poolProduk } = await apiGetPool()
         const tokoSoal = pickToko(poolToko, session.nim)
@@ -66,7 +78,7 @@ export default function UjianPage() {
         refreshedSessionNimRef.current = session.nim
 
         setSession({
-          ...session,
+          ...refreshedSessionBase,
           tokoSoal,
           produkSoal,
         })
