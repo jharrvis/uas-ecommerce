@@ -5,7 +5,7 @@ import Image from 'next/image'
 import UploadZone from './UploadZone'
 import ImageViewerModal from '@/components/ui/ImageViewerModal'
 import { useExamStore } from '@/store/examStore'
-import type { CheckpointId, Produk, Toko } from '@/types'
+import type { CheckpointId, ProductAttribute, ProductOption, Produk, Toko } from '@/types'
 import { CHECKPOINT_META } from '@/types'
 import { getDriveDirectUrl, getProductImages, getTokoBrands, getTokoSlideshows } from '@/lib/utils'
 
@@ -50,6 +50,55 @@ function safePrice(value: unknown, fmt: (n: number) => string): string {
 
 function buildImageDownloadUrl(imageUrl: string, filename: string): string {
   return `/api/images?url=${encodeURIComponent(imageUrl)}&filename=${encodeURIComponent(filename)}`
+}
+
+function parseProductCategories(produk: Partial<Produk>): string[] {
+  const rawCategories = Array.isArray(produk.kategori)
+    ? produk.kategori
+    : safeJsonArray(produk.kategori)
+  const labels: string[] = []
+
+  rawCategories.forEach((item) => {
+    try {
+      const parsed = typeof item === 'string' ? JSON.parse(item) : item
+
+      if (Array.isArray(parsed)) {
+        parsed.forEach((entry) => {
+          if (entry && typeof entry === 'object' && 'parent' in entry && 'sub' in entry) {
+            labels.push(`${String(entry.parent)} > ${String(entry.sub)}`)
+            return
+          }
+          if (entry !== null && entry !== undefined) {
+            labels.push(String(entry))
+          }
+        })
+        return
+      }
+
+      if (parsed && typeof parsed === 'object' && 'parent' in parsed && 'sub' in parsed) {
+        labels.push(`${String(parsed.parent)} > ${String(parsed.sub)}`)
+        return
+      }
+
+      if (parsed !== null && parsed !== undefined) {
+        labels.push(String(parsed))
+      }
+    } catch {
+      if (item !== null && item !== undefined) {
+        labels.push(String(item))
+      }
+    }
+  })
+
+  return labels.filter(Boolean)
+}
+
+function parseProductAttributes(produk: Partial<Produk>): ProductAttribute[] {
+  return safeArray<ProductAttribute>(produk.attributes)
+}
+
+function parseProductOptions(produk: Partial<Produk>): ProductOption[] {
+  return safeArray<ProductOption>(produk.options)
 }
 
 function triggerImageDownload(imageUrl: string, filename: string) {
@@ -135,7 +184,7 @@ export default function Checkpoint({ cp, nim, toko, produk, isExamLocked }: Chec
       {cp === 'cp02' && <CP02Content toko={toko} />}
       {cp === 'cp03' && <CP03Content produk={produk} />}
       {cp === 'cp04' && <CP04Content produk={produk} fmt={fmt} />}
-      {cp === 'cp05' && <CP05Content toko={toko} produk={produk} />}
+      {cp === 'cp05' && <CP05ContentV2 toko={toko} produk={produk} />}
       {cp === 'cp06' && <CP06Content produk={produk} fmt={fmt} />}
       {cp === 'cp07' && <CP07Content produk={produk} fmt={fmt} />}
       {cp === 'cp08' && <CP08Content produk={produk} />}
@@ -598,6 +647,119 @@ function CP05Content({ toko, produk }: { produk: Produk[]; toko: Toko }) {
           )}
         </div>
       ))}
+    </div>
+  )
+}
+
+function CP05ContentV2({ toko, produk }: { produk: Produk[]; toko: Toko }) {
+  const [expandedProducts, setExpandedProducts] = useState<{[key: string]: boolean}>({})
+
+  const toggleProduct = (productId: string) => {
+    setExpandedProducts(prev => ({
+      ...prev,
+      [productId]: !prev[productId]
+    }))
+  }
+
+  return (
+    <div className="space-y-6">
+      {produk.map((p, i) => {
+        const categories = parseProductCategories(p)
+        const attributes = parseProductAttributes(p)
+        const options = parseProductOptions(p)
+
+        return (
+          <div key={p.id} className="border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden bg-white dark:bg-slate-800">
+            <div
+              className="flex items-center justify-between p-4 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors"
+              onClick={() => toggleProduct(p.id)}
+            >
+              <div className="flex items-center gap-3">
+                <span className="w-8 h-8 rounded-lg bg-sky-100 dark:bg-sky-500/20 text-sky-600 dark:text-sky-400 text-sm font-black flex items-center justify-center">
+                  {i + 1}
+                </span>
+                <div>
+                  <h3 className="font-bold text-slate-900 dark:text-slate-100">{p.nama_produk}</h3>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">
+                    {p.manufacturer} â€¢ {categories.length} kategori â€¢ {options.length} varian
+                  </p>
+                </div>
+              </div>
+              <span className="text-xs text-slate-500 dark:text-slate-400">
+                {expandedProducts[p.id] ? 'ðŸ”¼' : 'ðŸ”½'}
+              </span>
+            </div>
+
+            {expandedProducts[p.id] && (
+              <div className="border-t border-slate-200 dark:border-slate-700 p-6 space-y-6">
+                <div>
+                  <h4 className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">Links</h4>
+                  <InfoTable rows={[
+                    ['Manufacturer', p.manufacturer],
+                    ['Categories', categories.length > 0 ? categories.join(', ') : 'â€”'],
+                  ]} />
+                </div>
+
+                <div>
+                  <h4 className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">Attributes</h4>
+                  {attributes.length > 0 ? (
+                    <div className="space-y-2">
+                      {attributes.map((a, j) => (
+                        <div
+                          key={`${a.group}-${a.name}-${j}`}
+                          className="flex items-start gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 dark:border-slate-700 dark:bg-slate-800/70"
+                        >
+                          <span className="rounded-md bg-slate-200 px-2 py-1 text-xs font-bold text-slate-600 dark:bg-slate-700 dark:text-slate-300">
+                            {a.group}
+                          </span>
+                          <div className="min-w-0 flex-1">
+                            <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">{a.name}</p>
+                            <p className="text-sm text-sky-600 dark:text-sky-400 break-words">{a.value}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-sm text-slate-500 italic">Tidak ada attribute tambahan.</p>
+                  )}
+                </div>
+
+                <div>
+                  <h4 className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">Options (Varian)</h4>
+                  {options.length > 0 ? (
+                    <div className="space-y-3">
+                      {options.map((opt, j) => (
+                        <div key={`${opt.name}-${j}`} className="border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden bg-white dark:bg-slate-800">
+                          <div className="bg-slate-100 dark:bg-slate-700/50 px-4 py-3 flex items-center gap-3">
+                            <span className="text-slate-900 dark:text-slate-100 text-sm font-bold">{opt.name}</span>
+                            <span className="text-xs px-2 py-1 bg-sky-100 dark:bg-sky-500/20 text-sky-600 dark:text-sky-400 rounded-full font-mono">
+                              {opt.type}
+                            </span>
+                          </div>
+                          <div className="space-y-px bg-slate-200 dark:bg-slate-700">
+                            {opt.values.map((v, k) => (
+                              <div key={`${v.label}-${k}`} className="grid grid-cols-[1fr_auto_auto] gap-3 bg-white px-4 py-3 text-sm dark:bg-slate-800/80">
+                                <div className="font-medium text-slate-700 dark:text-slate-300">{v.label}</div>
+                                <div className="text-right font-mono text-amber-600 dark:text-amber-400">
+                                  {v.price_modifier > 0 ? '+Rp ' + v.price_modifier.toLocaleString('id-ID') :
+                                   v.price_modifier < 0 ? '-Rp ' + Math.abs(v.price_modifier).toLocaleString('id-ID') : 'â€”'}
+                                </div>
+                                <div className="text-right text-slate-500 dark:text-slate-400">{v.qty} pcs</div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-sm text-slate-500 italic">Tidak ada varian produk.</p>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        )
+      })}
     </div>
   )
 }
