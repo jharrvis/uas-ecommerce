@@ -229,7 +229,7 @@ export default function UjianPage() {
               )}
               {session.website_ujian && (
                 <a
-                  href={session.website_ujian}
+                  href={session.website_ujian.startsWith('http') ? session.website_ujian : `https://${session.website_ujian}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sky-600 dark:text-sky-400 text-xs font-semibold rounded-lg"

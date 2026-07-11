@@ -111,7 +111,7 @@ export default function LeftPanel({
           <>
             <p className="text-sky-600 dark:text-sky-400 text-xs font-mono break-all mb-3 leading-relaxed">{session.website_ujian}</p>
             <a
-              href={session.website_ujian}
+              href={session.website_ujian.startsWith('http') ? session.website_ujian : `https://${session.website_ujian}`}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 py-2 bg-sky-50 dark:bg-sky-500/10 hover:bg-sky-100 dark:hover:bg-sky-500/20 border border-sky-200 dark:border-sky-500/30 text-sky-600 dark:text-sky-400 text-sm font-semibold rounded-xl transition w-full"

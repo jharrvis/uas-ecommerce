@@ -218,8 +218,8 @@ export default function DataMahasiswa() {
                   <td className="px-4 py-3 text-slate-500 dark:text-slate-400">{m.kelas}</td>
                   <td className="px-4 py-3 text-xs">
                     {m.website_ujian ? (
-                      <a href={m.website_ujian} target="_blank" rel="noreferrer" className="text-sky-400 hover:underline break-all">
-                        {m.website_ujian}
+                      <a href={m.website_ujian.startsWith('http') ? m.website_ujian : `https://${m.website_ujian}`} target="_blank" rel="noreferrer" className="text-sky-400 hover:underline break-all">
+                        {m.website_ujian.startsWith('http') ? m.website_ujian : `https://${m.website_ujian}`}
                       </a>
                     ) : <span className="text-slate-600">—</span>}
                   </td>
