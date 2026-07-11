@@ -364,7 +364,9 @@ function CP04Content({ produk, fmt }: { produk: Produk[]; fmt: (n: number) => st
 
   const downloadImage = async (imageUrl: string, filename: string) => {
     try {
-      const response = await fetch(imageUrl)
+      // Use the proxy endpoint to bypass CORS
+      const proxyUrl = `/api/images?url=${encodeURIComponent(imageUrl)}`
+      const response = await fetch(proxyUrl)
       const blob = await response.blob()
       const url = window.URL.createObjectURL(blob)
       const link = document.createElement('a')
@@ -376,6 +378,7 @@ function CP04Content({ produk, fmt }: { produk: Produk[]; fmt: (n: number) => st
       document.body.removeChild(link)
     } catch (error) {
       console.error('Failed to download image:', error)
+      alert('Gagal mengunduh gambar. Silakan coba lagi atau hubungi dosen.')
     }
   }
 
