@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
   const imageUrl = searchParams.get('url')
+  const filename = sanitizeFilename(searchParams.get('filename') || 'image.jpg')
 
   if (!imageUrl) {
     return NextResponse.json(
@@ -12,16 +13,7 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    let finalUrl = imageUrl
-    
-    // Handle Google Drive URLs by converting to direct download format
-    if (imageUrl.includes('drive.google.com')) {
-      const fileId = extractDriveFileId(imageUrl)
-      if (fileId) {
-        // Use direct download format instead of thumbnail
-        finalUrl = `https://drive.google.com/uc?export=download&id=${fileId}`
-      }
-    }
+    const finalUrl = toProxySourceUrl(imageUrl)
 
     // Fetch the image from the final URL
     const response = await fetch(finalUrl, {
@@ -31,6 +23,7 @@ export async function GET(req: NextRequest) {
         'Accept': 'image/*,*/*;q=0.8',
       },
       cache: 'force-cache',
+      redirect: 'follow',
     })
 
     if (!response.ok) {
@@ -49,6 +42,7 @@ export async function GET(req: NextRequest) {
       headers: {
         'Content-Type': contentType,
         'Content-Length': buffer.byteLength.toString(),
+        'Content-Disposition': `attachment; filename="${filename}"`,
         'Cache-Control': 'public, max-age=31536000, immutable',
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'GET',
@@ -66,6 +60,19 @@ export async function GET(req: NextRequest) {
       { status: 500 }
     )
   }
+}
+
+function toProxySourceUrl(url: string): string {
+  if (!url.includes('drive.google.com')) {
+    return url
+  }
+
+  const fileId = extractDriveFileId(url)
+  if (!fileId) {
+    return url
+  }
+
+  return `https://drive.google.com/thumbnail?id=${fileId}&sz=w1200`
 }
 
 function extractDriveFileId(url: string): string | null {
@@ -88,4 +95,13 @@ function extractDriveFileId(url: string): string | null {
   }
 
   return null
+}
+
+function sanitizeFilename(filename: string): string {
+  const cleaned = filename
+    .replace(/[<>:"/\\|?*\x00-\x1F]/g, '_')
+    .replace(/\s+/g, '_')
+    .trim()
+
+  return cleaned || 'image.jpg'
 }

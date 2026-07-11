@@ -48,6 +48,51 @@ function safePrice(value: unknown, fmt: (n: number) => string): string {
   return numberValue === null ? '—' : fmt(numberValue)
 }
 
+function buildImageDownloadUrl(imageUrl: string, filename: string): string {
+  return `/api/images?url=${encodeURIComponent(imageUrl)}&filename=${encodeURIComponent(filename)}`
+}
+
+function triggerImageDownload(imageUrl: string, filename: string) {
+  const link = document.createElement('a')
+  link.href = buildImageDownloadUrl(imageUrl, filename)
+  link.download = filename
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+}
+
+function sanitizeFileBaseName(value: string): string {
+  return value
+    .replace(/[<>:"/\\|?*\x00-\x1F]/g, '_')
+    .replace(/\s+/g, '_')
+    .trim() || 'image'
+}
+
+function DownloadImageButton({
+  imageUrl,
+  filename,
+  className = '',
+}: {
+  imageUrl: string
+  filename: string
+  className?: string
+}) {
+  return (
+    <button
+      type="button"
+      onClick={() => triggerImageDownload(imageUrl, filename)}
+      className={className}
+      title="Unduh Gambar"
+    >
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M7 10L12 15L17 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M12 15V3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+    </button>
+  )
+}
+
 interface CheckpointProps {
   cp: CheckpointId
   nim: string
@@ -200,9 +245,16 @@ function CP01Content({ toko }: { toko: Toko }) {
       {t.logo_url && (
         <Callout type="tip">
           Upload logo toko ke OpenCart via <strong>Admin → System → Settings → Store Logo</strong>.
-          <div className="mt-2">
+          <div className="mt-2 inline-flex flex-col gap-2">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={getDriveDirectUrl(t.logo_url)} alt="logo toko" className="h-16 object-contain rounded bg-white p-1 border border-slate-200" />
+            <button
+              type="button"
+              onClick={() => triggerImageDownload(getDriveDirectUrl(t.logo_url), 'logo_toko.jpg')}
+              className="w-fit rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-bold text-white transition hover:bg-emerald-500"
+            >
+              Unduh Logo
+            </button>
           </div>
         </Callout>
       )}
@@ -228,9 +280,19 @@ function CP02Content({ toko }: { toko: Toko }) {
             ["Manufacturer Name", brand.name],
             ["SEO Keyword", brand.name.toLowerCase().replace(/\s+/g, "-")],
             ["Logo", brand.logo ? (
-              <div className="mt-1 mb-1">
+              <div className="mt-1 mb-1 inline-flex flex-col gap-2">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={getDriveDirectUrl(brand.logo)} alt="logo" className="h-12 object-contain rounded bg-white p-1 border border-slate-200" />
+                <button
+                  type="button"
+                  onClick={() => triggerImageDownload(
+                    getDriveDirectUrl(brand.logo),
+                    `${sanitizeFileBaseName(brand.name || `manufacturer_${i + 1}`)}_logo.jpg`
+                  )}
+                  className="w-fit rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-bold text-white transition hover:bg-emerald-500"
+                >
+                  Unduh Logo
+                </button>
               </div>
             ) : "(upload logo yang sesuai)"],
           ]} />
@@ -362,26 +424,6 @@ function CP04Content({ produk, fmt }: { produk: Produk[]; fmt: (n: number) => st
     }))
   }
 
-  const downloadImage = async (imageUrl: string, filename: string) => {
-    try {
-      // Use the proxy endpoint to bypass CORS
-      const proxyUrl = `/api/images?url=${encodeURIComponent(imageUrl)}`
-      const response = await fetch(proxyUrl)
-      const blob = await response.blob()
-      const url = window.URL.createObjectURL(blob)
-      const link = document.createElement('a')
-      link.href = url
-      link.download = filename
-      document.body.appendChild(link)
-      link.click()
-      window.URL.revokeObjectURL(url)
-      document.body.removeChild(link)
-    } catch (error) {
-      console.error('Failed to download image:', error)
-      alert('Gagal mengunduh gambar. Silakan coba lagi atau hubungi dosen.')
-    }
-  }
-
   return (
     <div className="space-y-6">
       <SectionTitle>Produk: General & Data</SectionTitle>
@@ -427,17 +469,11 @@ function CP04Content({ produk, fmt }: { produk: Produk[]; fmt: (n: number) => st
                             className="w-full h-32 object-cover rounded-lg border border-slate-200 dark:border-slate-600"
                             unoptimized
                           />
-                          <button
-                            onClick={() => downloadImage(getDriveDirectUrl(p.gambar_1), `${p.nama_produk}_gambar1.jpg`)}
-                            className="absolute top-2 right-2 bg-black/70 text-white p-1.5 rounded opacity-0 group-hover:opacity-100 transition-opacity"
-                            title="Unduh Gambar"
-                          >
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                              <path d="M7 10L12 15L17 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                              <path d="M12 15V3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                            </svg>
-                          </button>
+                          <DownloadImageButton
+                            imageUrl={getDriveDirectUrl(p.gambar_1)}
+                            filename={`${sanitizeFileBaseName(p.nama_produk)}_gambar1.jpg`}
+                            className="absolute top-2 right-2 rounded bg-black/70 p-1.5 text-white opacity-0 transition-opacity group-hover:opacity-100"
+                          />
                         </div>
                         <p className="text-xs text-slate-500 dark:text-slate-400 text-center">Gambar 1</p>
                       </div>
@@ -453,17 +489,11 @@ function CP04Content({ produk, fmt }: { produk: Produk[]; fmt: (n: number) => st
                             className="w-full h-32 object-cover rounded-lg border border-slate-200 dark:border-slate-600"
                             unoptimized
                           />
-                          <button
-                            onClick={() => downloadImage(getDriveDirectUrl(p.gambar_2), `${p.nama_produk}_gambar2.jpg`)}
-                            className="absolute top-2 right-2 bg-black/70 text-white p-1.5 rounded opacity-0 group-hover:opacity-100 transition-opacity"
-                            title="Unduh Gambar"
-                          >
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.0391 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                              <path d="M7 10L12 15L17 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                              <path d="M12 15V3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                            </svg>
-                          </button>
+                          <DownloadImageButton
+                            imageUrl={getDriveDirectUrl(p.gambar_2)}
+                            filename={`${sanitizeFileBaseName(p.nama_produk)}_gambar2.jpg`}
+                            className="absolute top-2 right-2 rounded bg-black/70 p-1.5 text-white opacity-0 transition-opacity group-hover:opacity-100"
+                          />
                         </div>
                         <p className="text-xs text-slate-500 dark:text-slate-400 text-center">Gambar 2</p>
                       </div>
@@ -479,17 +509,11 @@ function CP04Content({ produk, fmt }: { produk: Produk[]; fmt: (n: number) => st
                             className="w-full h-32 object-cover rounded-lg border border-slate-200 dark:border-slate-600"
                             unoptimized
                           />
-                          <button
-                            onClick={() => downloadImage(getDriveDirectUrl(p.gambar_3), `${p.nama_produk}_gambar3.jpg`)}
-                            className="absolute top-2 right-2 bg-black/70 text-white p-1.5 rounded opacity-0 group-hover:opacity-100 transition-opacity"
-                            title="Unduh Gambar"
-                          >
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.0391 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                              <path d="M7 10L12 15L17 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                              <path d="M12 15V3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                            </svg>
-                          </button>
+                          <DownloadImageButton
+                            imageUrl={getDriveDirectUrl(p.gambar_3)}
+                            filename={`${sanitizeFileBaseName(p.nama_produk)}_gambar3.jpg`}
+                            className="absolute top-2 right-2 rounded bg-black/70 p-1.5 text-white opacity-0 transition-opacity group-hover:opacity-100"
+                          />
                         </div>
                         <p className="text-xs text-slate-500 dark:text-slate-400 text-center">Gambar 3</p>
                       </div>
@@ -651,16 +675,31 @@ function CP08Content({ produk }: { produk: Produk[] }) {
             ]} />
             <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-3">
               {images.map((url, j) => (
-                <a key={`${url}-${j}`} href={url} target="_blank" rel="noopener noreferrer"
+                <div key={`${url}-${j}`}
                   className="group block rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 transition hover:border-sky-400">
                   <div className="aspect-square w-full relative">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={getDriveDirectUrl(url)} alt={`g${j + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+                    <DownloadImageButton
+                      imageUrl={getDriveDirectUrl(url)}
+                      filename={`${sanitizeFileBaseName(p.nama_produk)}_seo_gambar${j + 1}.jpg`}
+                      className="absolute right-2 top-2 rounded bg-black/70 p-1.5 text-white opacity-0 transition-opacity group-hover:opacity-100"
+                    />
                   </div>
-                  <div className="px-3 py-2 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700 text-center text-xs font-bold text-slate-600 dark:text-slate-300">
-                    Gambar {j + 1} ?
+                  <div className="flex items-center justify-between gap-2 px-3 py-2 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-600 dark:text-slate-300">
+                    <span>Gambar {j + 1}</span>
+                    <button
+                      type="button"
+                      onClick={() => triggerImageDownload(
+                        getDriveDirectUrl(url),
+                        `${sanitizeFileBaseName(p.nama_produk)}_seo_gambar${j + 1}.jpg`
+                      )}
+                      className="rounded-md bg-emerald-600 px-2 py-1 text-[11px] text-white transition hover:bg-emerald-500"
+                    >
+                      Unduh
+                    </button>
                   </div>
-                </a>
+                </div>
               ))}
               {images.length === 0 && (
                 <p className="text-slate-500 text-sm italic">Gunakan gambar produk yang sesuai (cari sendiri atau minta dosen).</p>
@@ -686,16 +725,28 @@ function CP09Content({ toko, produk }: { produk: Produk[]; toko: Toko }) {
       <SectionTitle>Banner Slideshow Toko</SectionTitle>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {slideshows.map((url, index) => (
-          <a key={`${url}-${index}`} href={url} target="_blank" rel="noopener noreferrer"
+          <div key={`${url}-${index}`}
             className="group block rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 transition hover:border-sky-400">
             <div className="aspect-[16/7] w-full relative">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={getDriveDirectUrl(url)} alt={`slideshow ${index + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+              <DownloadImageButton
+                imageUrl={getDriveDirectUrl(url)}
+                filename={`slideshow_${index + 1}.jpg`}
+                className="absolute right-2 top-2 rounded bg-black/70 p-1.5 text-white opacity-0 transition-opacity group-hover:opacity-100"
+              />
             </div>
-            <div className="px-3 py-2 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700 text-center text-xs font-bold text-slate-600 dark:text-slate-300">
-              Slideshow {index + 1} ?
+            <div className="flex items-center justify-between gap-2 px-3 py-2 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-600 dark:text-slate-300">
+              <span>Slideshow {index + 1}</span>
+              <button
+                type="button"
+                onClick={() => triggerImageDownload(getDriveDirectUrl(url), `slideshow_${index + 1}.jpg`)}
+                className="rounded-md bg-emerald-600 px-2 py-1 text-[11px] text-white transition hover:bg-emerald-500"
+              >
+                Unduh
+              </button>
             </div>
-          </a>
+          </div>
         ))}
       </div>
       {slideshows.length === 0 && (
