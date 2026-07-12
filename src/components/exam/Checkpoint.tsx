@@ -5,6 +5,7 @@ import Image from 'next/image'
 import UploadZone from './UploadZone'
 import ImageViewerModal from '@/components/ui/ImageViewerModal'
 import { useExamStore } from '@/store/examStore'
+import { apiLogEvent } from '@/lib/sheets'
 import type { CheckpointId, ProductAttribute, ProductOption, Produk, Toko } from '@/types'
 import { CHECKPOINT_META } from '@/types'
 import { getDriveDirectUrl, getProductImages, getTokoBrands, getTokoSlideshows } from '@/lib/utils'
@@ -174,7 +175,13 @@ export default function Checkpoint({ cp, nim, toko, produk, isExamLocked }: Chec
       : []
 
   const handleUploaded = (urls: string[]) => {
-    setCheckpointStatus(cp, 'done', urls)
+    const validUrls = urls.filter((url) => url && url !== 'queued')
+    const nextStatus = validUrls.length > 0 || urls.includes('queued') ? 'done' : 'active'
+    setCheckpointStatus(cp, nextStatus, urls)
+    void apiLogEvent('cp_done', nim, {
+      cp,
+      screenshot_url: JSON.stringify(validUrls),
+    })
   }
 
   const fmt = (n: number) => 'Rp ' + n.toLocaleString('id-ID')

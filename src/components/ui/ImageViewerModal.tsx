@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
-import { getDriveDirectUrl } from '@/lib/utils'
+import { getImageProxyUrl } from '@/lib/utils'
 
 interface ImageViewerModalProps {
   url?: string
@@ -91,7 +91,7 @@ export default function ImageViewerModal({
           ) : (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              src={getDriveDirectUrl(activeUrl)}
+              src={getImageProxyUrl(activeUrl, 'checkpoint-preview.jpg')}
               alt={title || 'Screenshot'}
               className="max-h-full max-w-full rounded-xl object-contain"
               onError={() => setImgError(true)}
@@ -118,7 +118,7 @@ export default function ImageViewerModal({
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={getDriveDirectUrl(item)}
+                    src={getImageProxyUrl(item, `checkpoint-thumb-${index + 1}.jpg`)}
                     alt={`Thumbnail ${index + 1}`}
                     className="h-16 w-full object-cover"
                   />

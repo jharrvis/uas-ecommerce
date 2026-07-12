@@ -4,6 +4,7 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
   const imageUrl = searchParams.get('url')
   const filename = sanitizeFilename(searchParams.get('filename') || 'image.jpg')
+  const download = searchParams.get('download') === '1'
 
   if (!imageUrl) {
     return NextResponse.json(
@@ -42,7 +43,7 @@ export async function GET(req: NextRequest) {
       headers: {
         'Content-Type': contentType,
         'Content-Length': buffer.byteLength.toString(),
-        'Content-Disposition': `attachment; filename="${filename}"`,
+        'Content-Disposition': `${download ? 'attachment' : 'inline'}; filename="${filename}"`,
         'Cache-Control': 'public, max-age=31536000, immutable',
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'GET',

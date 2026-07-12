@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { apiUploadScreenshot } from '@/lib/sheets'
 import { useOfflineQueue } from '@/hooks/useOfflineQueue'
 import ImageViewerModal from '@/components/ui/ImageViewerModal'
+import { getImageProxyUrl } from '@/lib/utils'
 import type { CheckpointId } from '@/types'
 
 interface UploadZoneProps {
@@ -122,6 +123,22 @@ export default function UploadZone({
     if (!disabled) void handleFiles(e.dataTransfer.files)
   }
 
+  const syncUploadedState = useCallback((nextUploaded: string[], nextPreviews: string[]) => {
+    setUploadedUrls(nextUploaded)
+    setPreviewUrls(nextPreviews)
+    onUploaded(queued ? [...nextUploaded, 'queued'] : nextUploaded)
+  }, [onUploaded, queued])
+
+  const handleRemoveAt = useCallback((index: number) => {
+    const nextUploaded = uploadedUrls.filter((_, currentIndex) => currentIndex !== index)
+    const nextPreviews = previewUrls.filter((_, currentIndex) => currentIndex !== index)
+    syncUploadedState(nextUploaded, nextPreviews)
+  }, [previewUrls, syncUploadedState, uploadedUrls])
+
+  const handleClearAll = useCallback(() => {
+    syncUploadedState([], [])
+  }, [syncUploadedState])
+
   if ((uploadedUrls.length > 0 || queued) && !uploading) {
     return (
       <>
@@ -135,7 +152,7 @@ export default function UploadZone({
               {previewUrls[0] || uploadedUrls[0] ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
-                  src={previewUrls[0] || uploadedUrls[0]}
+                  src={previewUrls[0] || getImageProxyUrl(uploadedUrls[0], 'checkpoint-cover.jpg')}
                   alt="Screenshot"
                   className="h-full w-full object-cover"
                 />
@@ -167,32 +184,57 @@ export default function UploadZone({
             </div>
 
             {!disabled && (
-              <button
-                type="button"
-                onClick={() => inputRef.current?.click()}
-                className="rounded-lg px-2 py-1 text-xs text-slate-500 transition hover:bg-slate-700 hover:text-slate-300"
-              >
-                Tambah
-              </button>
+              <div className="flex items-center gap-2">
+                {uploadedUrls.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={handleClearAll}
+                    className="rounded-lg px-2 py-1 text-xs text-rose-400 transition hover:bg-rose-500/10 hover:text-rose-300"
+                  >
+                    Hapus semua
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={() => inputRef.current?.click()}
+                  className="rounded-lg px-2 py-1 text-xs text-slate-500 transition hover:bg-slate-700 hover:text-slate-300"
+                >
+                  Tambah
+                </button>
+              </div>
             )}
           </div>
 
           {uploadedUrls.length > 0 && (
             <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
               {uploadedUrls.map((url, index) => (
-                <button
+                <div
                   key={`${url}-${index}`}
-                  type="button"
-                  onClick={() => setShowModal(true)}
-                  className="overflow-hidden rounded-lg border border-emerald-500/20"
+                  className="relative overflow-hidden rounded-lg border border-emerald-500/20"
                 >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={previewUrls[index] || url}
-                    alt={`Screenshot ${index + 1}`}
-                    className="h-20 w-full object-cover"
-                  />
-                </button>
+                  <button
+                    type="button"
+                    onClick={() => setShowModal(true)}
+                    className="block w-full"
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={previewUrls[index] || getImageProxyUrl(url, `checkpoint-${index + 1}.jpg`)}
+                      alt={`Screenshot ${index + 1}`}
+                      className="h-20 w-full object-cover"
+                    />
+                  </button>
+                  {!disabled && (
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveAt(index)}
+                      className="absolute right-1 top-1 rounded bg-black/70 px-1.5 py-0.5 text-[10px] font-bold text-white transition hover:bg-rose-600"
+                      title="Hapus screenshot ini"
+                    >
+                      Hapus
+                    </button>
+                  )}
+                </div>
               ))}
             </div>
           )}

@@ -11,6 +11,26 @@ export function getDriveDirectUrl(url: string): string {
   return url
 }
 
+export function getImageProxyUrl(
+  url: string,
+  filename = 'image.jpg',
+  download = false
+): string {
+  if (!url) return url
+  if (url.startsWith('data:')) return url
+
+  const params = new URLSearchParams({
+    url,
+    filename,
+  })
+
+  if (download) {
+    params.set('download', '1')
+  }
+
+  return `/api/images?${params.toString()}`
+}
+
 function getDriveFileId(url: string): string {
   // Format: https://drive.google.com/file/d/FILE_ID/view?...
   const fileMatch = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/)
