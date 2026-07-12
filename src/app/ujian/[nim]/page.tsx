@@ -112,8 +112,10 @@ export default function UjianPage() {
   }
 
   const handleLogout = () => {
+    refreshedSessionNimRef.current = null
     clearSession()
-    router.replace('/login')
+    useExamStore.persist.clearStorage()
+    window.location.replace('/login')
   }
 
   const handleSubmitConfirm = async () => {
