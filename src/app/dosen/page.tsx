@@ -26,6 +26,25 @@ function isTruthy(value: unknown): boolean {
   return text === 'true' || text === '1' || text === 'ya' || text === 'yes'
 }
 
+function parseScreenshotList(value: unknown): string[] {
+  if (!value) return []
+  if (Array.isArray(value)) {
+    return value.map((item) => String(item || '').trim()).filter(Boolean)
+  }
+
+  const text = String(value).trim()
+  if (!text) return []
+
+  try {
+    const parsed = JSON.parse(text)
+    if (Array.isArray(parsed)) {
+      return parsed.map((item) => String(item || '').trim()).filter(Boolean)
+    }
+  } catch {}
+
+  return [text]
+}
+
 /* ── Status badge ── */
 function StatusBadge({ status }: { status: string }) {
   const map: Record<string, string> = {
@@ -56,7 +75,7 @@ function ScoreDrawer({ mhs, onClose, onSaved }: {
   const [catatan, setCatatan] = useState(mhs.catatan || '')
   const [saving, setSaving]   = useState(false)
   const [saved, setSaved]     = useState(false)
-  const [previewUrl, setPreviewUrl] = useState<{ url: string; cp: keyof typeof CHECKPOINT_META } | null>(null)
+  const [previewData, setPreviewData] = useState<{ urls: string[]; cp: keyof typeof CHECKPOINT_META } | null>(null)
 
   useEffect(() => {
     const init: Record<string, number> = {}
@@ -120,17 +139,20 @@ function ScoreDrawer({ mhs, onClose, onSaved }: {
             <div className="grid grid-cols-3 gap-2">
               {CP_ORDER.map((cp) => {
                 const ssKey = `ss_${cp}` as keyof HasilMahasiswa
-                const url = mhsRecord[ssKey] as string
+                const urls = parseScreenshotList(mhsRecord[ssKey])
                 const meta = CHECKPOINT_META[cp]
                 return (
                   <div key={cp} className="aspect-square rounded-xl overflow-hidden bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 relative">
-                    {url ? (
+                    {urls.length > 0 ? (
                       <button
-                        onClick={() => setPreviewUrl({ url, cp })}
+                        onClick={() => setPreviewData({ urls, cp })}
                         className="w-full h-full flex flex-col items-center justify-center text-emerald-600 dark:text-emerald-400 text-xs font-bold hover:bg-slate-100 dark:hover:bg-slate-700 transition gap-1"
                       >
                         <span>{meta.icon}</span>
                         <span>✅ {cp.toUpperCase()}</span>
+                        <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-semibold text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300">
+                          {urls.length} gambar
+                        </span>
                       </button>
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-slate-400 dark:text-slate-600 text-xs font-medium">
@@ -201,20 +223,22 @@ function ScoreDrawer({ mhs, onClose, onSaved }: {
         </div>
       </div>
 
-      {previewUrl && (() => {
-        const meta = CHECKPOINT_META[previewUrl.cp]
-        const currentNilai = nilai[previewUrl.cp] ?? 0
+      {previewData && (() => {
+        const meta = CHECKPOINT_META[previewData.cp]
+        const currentNilai = nilai[previewData.cp] ?? 0
         const poinDiperoleh = Math.round((currentNilai / 100) * meta.bobot * 10) / 10
         return (
           <ImageViewerModal
-            url={previewUrl.url}
+            urls={previewData.urls}
             title={`${meta.icon} ${meta.label} — ${mhs.nama}`}
-            onClose={() => setPreviewUrl(null)}
+            onClose={() => setPreviewData(null)}
             footer={
               <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-2 text-xs text-slate-500">
                   <span className="font-semibold text-slate-300">{meta.label}</span>
                   <span>·</span>
+                  <span>Screenshot: <span className="text-emerald-400 font-bold">{previewData.urls.length}</span></span>
+                  <span>|</span>
                   <span>Bobot: <span className="text-sky-400 font-bold">{meta.bobot} poin</span></span>
                   <span>·</span>
                   <span>Perolehan: <span className={`font-bold ${poinDiperoleh >= meta.bobot * 0.75 ? 'text-emerald-400' : poinDiperoleh > 0 ? 'text-amber-400' : 'text-slate-500'}`}>{poinDiperoleh} / {meta.bobot}</span></span>
@@ -228,7 +252,7 @@ function ScoreDrawer({ mhs, onClose, onSaved }: {
                     value={currentNilai}
                     onChange={(e) => {
                       const v = Math.min(100, Math.max(0, Number(e.target.value)))
-                      setNilai((prev) => ({ ...prev, [previewUrl.cp]: v }))
+                      setNilai((prev) => ({ ...prev, [previewData.cp]: v }))
                     }}
                     className="w-20 px-3 py-1.5 bg-slate-800 border border-slate-600 text-white text-sm font-bold rounded-lg text-center focus:outline-none focus:border-sky-500"
                     autoFocus
@@ -240,7 +264,7 @@ function ScoreDrawer({ mhs, onClose, onSaved }: {
                     />
                   </div>
                   <button
-                    onClick={() => setPreviewUrl(null)}
+                    onClick={() => setPreviewData(null)}
                     className="px-4 py-1.5 bg-sky-500 hover:bg-sky-400 text-white text-xs font-bold rounded-lg transition whitespace-nowrap"
                   >
                     Simpan & Tutup
