@@ -167,9 +167,14 @@ export default function Checkpoint({ cp, nim, toko, produk, isExamLocked }: Chec
   const cpState = session.checkpoints[cp]
   const isDone  = cpState.status === 'done'
   const disabled = isExamLocked
+  const screenshotUrls = cpState.screenshotUrls?.length
+    ? cpState.screenshotUrls.filter((url) => url && url !== 'queued')
+    : cpState.screenshotUrl && cpState.screenshotUrl !== 'queued'
+      ? [cpState.screenshotUrl]
+      : []
 
-  const handleUploaded = (url: string) => {
-    setCheckpointStatus(cp, 'done', url)
+  const handleUploaded = (urls: string[]) => {
+    setCheckpointStatus(cp, 'done', urls)
   }
 
   const fmt = (n: number) => 'Rp ' + n.toLocaleString('id-ID')
@@ -201,20 +206,23 @@ export default function Checkpoint({ cp, nim, toko, produk, isExamLocked }: Chec
           📸 {isDone ? 'Screenshot telah diupload — Anda bisa menggantinya jika perlu' : 'Upload screenshot sebagai bukti penyelesaian'}
         </p>
         <UploadZone
+          key={cp}
           nim={nim}
           cp={cp}
           disabled={disabled}
-          existingUrl={cpState.screenshotUrl}
+          existingUrls={screenshotUrls}
           onUploaded={handleUploaded}
         />
       </div>
 
-      {isDone && cpState.screenshotUrl && (
+      {isDone && screenshotUrls.length > 0 && (
         <div className="mt-4 flex items-center gap-3 p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-xl">
           <span className="text-xl">✅</span>
           <div className="flex-1">
             <p className="text-emerald-400 text-sm font-bold">Checkpoint Selesai</p>
-            <p className="text-emerald-500/70 text-xs">Bukti sudah tersimpan dengan aman.</p>
+            <p className="text-emerald-500/70 text-xs">
+              {screenshotUrls.length} bukti screenshot sudah tersimpan.
+            </p>
           </div>
           <button
             onClick={() => setShowImageModal(true)}
@@ -225,9 +233,9 @@ export default function Checkpoint({ cp, nim, toko, produk, isExamLocked }: Chec
         </div>
       )}
 
-      {showImageModal && cpState.screenshotUrl && (
+      {showImageModal && screenshotUrls.length > 0 && (
         <ImageViewerModal
-          url={cpState.screenshotUrl}
+          urls={screenshotUrls}
           title={`${meta.label} — Screenshot`}
           onClose={() => setShowImageModal(false)}
         />

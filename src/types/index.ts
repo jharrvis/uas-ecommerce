@@ -117,6 +117,7 @@ export type CheckpointStatus = 'locked' | 'active' | 'done'
 export interface CheckpointState {
   status: CheckpointStatus
   screenshotUrl?: string
+  screenshotUrls?: string[]
   completedAt?: string
 }
 

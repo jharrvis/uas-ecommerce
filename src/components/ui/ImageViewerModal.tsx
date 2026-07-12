@@ -1,76 +1,133 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { getDriveDirectUrl } from '@/lib/utils'
 
 interface ImageViewerModalProps {
-  url: string
+  url?: string
+  urls?: string[]
   title?: string
   onClose: () => void
   footer?: React.ReactNode
 }
 
-export default function ImageViewerModal({ url, title, onClose, footer }: ImageViewerModalProps) {
+export default function ImageViewerModal({
+  url,
+  urls,
+  title,
+  onClose,
+  footer,
+}: ImageViewerModalProps) {
+  const gallery = useMemo(
+    () => (urls && urls.length > 0 ? urls : url ? [url] : []).filter(Boolean),
+    [url, urls]
+  )
+  const [activeIndex, setActiveIndex] = useState(0)
   const [imgError, setImgError] = useState(false)
-  const directUrl = getDriveDirectUrl(url)
 
   useEffect(() => {
-    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+    }
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
   }, [onClose])
 
+  useEffect(() => {
+    setActiveIndex(0)
+    setImgError(false)
+  }, [url, urls])
+
+  const activeUrl = gallery[activeIndex]
+
+  if (!activeUrl) return null
+
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm"
       onClick={onClose}
     >
       <div
-        className="relative max-w-4xl w-full max-h-[90vh] flex flex-col bg-slate-900 rounded-2xl border border-slate-700 overflow-hidden"
+        className="relative flex max-h-[90vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-slate-700 bg-slate-900"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between px-4 py-3 border-b border-slate-700 flex-shrink-0">
-          <p className="text-sm font-semibold text-slate-300 truncate">{title || 'Screenshot'}</p>
+        <div className="flex flex-shrink-0 items-center justify-between border-b border-slate-700 px-4 py-3">
+          <p className="truncate text-sm font-semibold text-slate-300">
+            {title || 'Screenshot'}
+            {gallery.length > 1 ? ` (${activeIndex + 1}/${gallery.length})` : ''}
+          </p>
           <div className="flex items-center gap-2">
             <a
-              href={url}
+              href={activeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-300 text-xs font-semibold rounded-lg transition"
+              className="rounded-lg bg-slate-700 px-3 py-1.5 text-xs font-semibold text-slate-300 transition hover:bg-slate-600"
             >
-              Buka di Drive ↗
+              Buka di Drive
             </a>
             <button
+              type="button"
               onClick={onClose}
-              className="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-700 rounded-lg transition text-xl"
+              className="flex h-8 w-8 items-center justify-center rounded-lg text-xl text-slate-400 transition hover:bg-slate-700 hover:text-white"
             >
               ×
             </button>
           </div>
         </div>
-        <div className="flex-1 overflow-auto flex items-center justify-center p-4 min-h-0 min-h-[300px]">
+
+        <div className="flex min-h-[300px] min-h-0 flex-1 items-center justify-center overflow-auto p-4">
           {imgError ? (
-            <div className="text-center space-y-3">
-              <p className="text-slate-400 text-sm">Gambar tidak dapat ditampilkan langsung.</p>
+            <div className="space-y-3 text-center">
+              <p className="text-sm text-slate-400">Gambar tidak dapat ditampilkan langsung.</p>
               <a
-                href={url}
+                href={activeUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block px-4 py-2 bg-sky-600 hover:bg-sky-500 text-white text-sm font-semibold rounded-xl transition"
+                className="inline-block rounded-xl bg-sky-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-sky-500"
               >
-                Buka di Google Drive ↗
+                Buka di Google Drive
               </a>
             </div>
           ) : (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              src={directUrl}
+              src={getDriveDirectUrl(activeUrl)}
               alt={title || 'Screenshot'}
-              className="max-w-full max-h-full object-contain rounded-xl"
+              className="max-h-full max-w-full rounded-xl object-contain"
               onError={() => setImgError(true)}
             />
           )}
         </div>
+
+        {gallery.length > 1 && (
+          <div className="flex-shrink-0 border-t border-slate-700 px-4 py-3">
+            <div className="grid grid-cols-4 gap-2 sm:grid-cols-6">
+              {gallery.map((item, index) => (
+                <button
+                  key={`${item}-${index}`}
+                  type="button"
+                  onClick={() => {
+                    setActiveIndex(index)
+                    setImgError(false)
+                  }}
+                  className={`overflow-hidden rounded-lg border ${
+                    index === activeIndex
+                      ? 'border-sky-400 ring-1 ring-sky-400'
+                      : 'border-slate-700 hover:border-slate-500'
+                  }`}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={getDriveDirectUrl(item)}
+                    alt={`Thumbnail ${index + 1}`}
+                    className="h-16 w-full object-cover"
+                  />
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
         {footer && (
           <div className="flex-shrink-0 border-t border-slate-700 px-4 py-3">
             {footer}

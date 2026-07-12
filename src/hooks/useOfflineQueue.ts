@@ -65,7 +65,15 @@ export function useOfflineQueue(onUploaded: (cp: CheckpointId, url: string) => v
   // Enqueue a failed upload for later retry
   const enqueue = useCallback((nim: string, cp: CheckpointId, dataUrl: string, fileName: string) => {
     const queue = getQueue()
-    queue.push({ id: `${Date.now()}_${cp}`, nim, cp, fileName, dataUrl, retries: 0, createdAt: new Date().toISOString() })
+    queue.push({
+      id: `${Date.now()}_${cp}_${Math.random().toString(36).slice(2, 8)}`,
+      nim,
+      cp,
+      fileName,
+      dataUrl,
+      retries: 0,
+      createdAt: new Date().toISOString(),
+    })
     saveQueue(queue)
     toast.warning('Koneksi bermasalah. Upload disimpan dan akan otomatis dikirim saat online.')
   }, [])

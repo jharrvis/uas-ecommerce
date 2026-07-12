@@ -17,7 +17,11 @@ interface ExamStore {
   startExam: () => void
   lockExam: () => void
   submitExam: () => void
-  setCheckpointStatus: (cp: CheckpointId, status: CheckpointStatus, url?: string) => void
+  setCheckpointStatus: (
+    cp: CheckpointId,
+    status: CheckpointStatus,
+    screenshots?: string | string[]
+  ) => void
   clearSession: () => void
   // Computed helpers
   activeCheckpoint: () => CheckpointId | null
@@ -73,14 +77,30 @@ export const useExamStore = create<ExamStore>()(
           }
         }),
 
-      setCheckpointStatus: (cp, status, url) =>
+      setCheckpointStatus: (cp, status, screenshots) =>
         set((state) => {
           if (!state.session) return state
           const checkpoints = { ...state.session.checkpoints }
+          const currentUrls = checkpoints[cp].screenshotUrls?.length
+            ? checkpoints[cp].screenshotUrls
+            : checkpoints[cp].screenshotUrl
+              ? [checkpoints[cp].screenshotUrl]
+              : []
+          const screenshotUrls = Array.isArray(screenshots)
+            ? screenshots
+            : screenshots
+              ? [screenshots]
+              : currentUrls
+
           checkpoints[cp] = {
             ...checkpoints[cp],
             status,
-            ...(url ? { screenshotUrl: url } : {}),
+            ...(screenshotUrls.length > 0
+              ? {
+                  screenshotUrl: screenshotUrls[0],
+                  screenshotUrls,
+                }
+              : {}),
             ...(status === 'done' ? { completedAt: new Date().toISOString() } : {}),
           }
 
