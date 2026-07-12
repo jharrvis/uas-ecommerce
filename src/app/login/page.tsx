@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import {
   apiGetHasil,
   apiGetMahasiswa,
@@ -71,7 +71,6 @@ function restoreExamStatus(hasil: HasilMahasiswa | null): ExamStatus {
 
 export default function LoginPage() {
   const router = useRouter()
-  const searchParams = useSearchParams()
   const hydrated = useExamStore((s) => s.hydrated)
   const session = useExamStore((s) => s.session)
   const setSession = useExamStore((s) => s.setSession)
@@ -96,14 +95,15 @@ export default function LoginPage() {
   }, [hydrated, router, session])
 
   useEffect(() => {
-    const nimFromQuery = searchParams.get('nim')
+    const params = new URLSearchParams(window.location.search)
+    const nimFromQuery = params.get('nim')
     if (nimFromQuery) {
       setNim(nimFromQuery)
     }
-    if (searchParams.get('expired') === '1') {
+    if (params.get('expired') === '1') {
       setError('Waktu ujian habis. Login kembali untuk melihat status ujian Anda.')
     }
-  }, [searchParams])
+  }, [])
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault()
