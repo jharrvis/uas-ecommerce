@@ -27,6 +27,8 @@ export default function UploadZone({
   existingUrls = [],
   onUploaded,
 }: UploadZoneProps) {
+  const existingUrlsKey = existingUrls.join('|')
+  const syncKeyRef = useRef('')
   const inputRef = useRef<HTMLInputElement>(null)
   const [dragging, setDragging] = useState(false)
   const [uploading, setUploading] = useState(false)
@@ -39,13 +41,17 @@ export default function UploadZone({
   const [showModal, setShowModal] = useState(false)
 
   useEffect(() => {
+    const nextSyncKey = `${cp}:${existingUrlsKey}`
+    if (syncKeyRef.current === nextSyncKey) return
+    syncKeyRef.current = nextSyncKey
+
     setUploadedUrls(existingUrls.filter((url) => url && url !== 'queued'))
     setQueued(existingUrls.includes('queued'))
     setPreviewUrls([])
     setShowModal(false)
     setError('')
     setUploading(false)
-  }, [cp, existingUrls])
+  }, [cp, existingUrls, existingUrlsKey])
 
   const { enqueue } = useOfflineQueue((cpId, url) => {
     if (cpId !== cp) return

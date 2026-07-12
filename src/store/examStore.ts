@@ -95,12 +95,8 @@ export const useExamStore = create<ExamStore>()(
           checkpoints[cp] = {
             ...checkpoints[cp],
             status,
-            ...(screenshotUrls.length > 0
-              ? {
-                  screenshotUrl: screenshotUrls[0],
-                  screenshotUrls,
-                }
-              : {}),
+            screenshotUrl: screenshotUrls[0],
+            screenshotUrls,
             ...(status === 'done' ? { completedAt: new Date().toISOString() } : {}),
           }
 
