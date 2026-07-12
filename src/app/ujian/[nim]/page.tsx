@@ -88,9 +88,18 @@ export default function UjianPage() {
   }, [hydrated, params.nim, router, session, setSession])
 
   const handleExpire = useCallback(() => {
-    toast.error('Waktu habis! Timer berhenti, tetapi pengerjaan tetap dapat dilanjutkan.')
-    apiLogEvent('timeout', params.nim).catch(console.warn)
-  }, [params.nim])
+    toast.error('Waktu habis. Anda akan logout otomatis.')
+    apiLogEvent('timeout', params.nim)
+      .catch(console.warn)
+      .finally(() => {
+        window.setTimeout(() => {
+          refreshedSessionNimRef.current = null
+          clearSession()
+          useExamStore.persist.clearStorage()
+          window.location.replace(`/login?expired=1&nim=${encodeURIComponent(params.nim)}`)
+        }, 1200)
+      })
+  }, [clearSession, params.nim])
 
   const { formatted, isDanger, isWarning, pct, isRunning } = useCountdown({
     durationMs: duration * 60 * 1000,

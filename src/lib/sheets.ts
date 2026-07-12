@@ -173,6 +173,14 @@ export async function apiExportNilai(kelas?: string) {
   return appsPost('exportNilai', { kelas })
 }
 
+export async function apiRequestRetake(nim: string) {
+  return appsPost('requestRetake', { nim })
+}
+
+export async function apiApproveRetake(nim: string) {
+  return appsPost('approveRetake', { nim })
+}
+
 export async function apiUpsertMahasiswa(mhs: Partial<Mahasiswa> & { nim: string }) {
   return appsPost('upsertMahasiswa', mhs)
 }

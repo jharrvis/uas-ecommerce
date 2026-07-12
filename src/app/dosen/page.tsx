@@ -1,7 +1,13 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { apiGetHasil, apiGetSummary, apiUpdateNilai, apiExportNilai } from '@/lib/sheets'
+import {
+  apiApproveRetake,
+  apiExportNilai,
+  apiGetHasil,
+  apiGetSummary,
+  apiUpdateNilai,
+} from '@/lib/sheets'
 import type { HasilMahasiswa } from '@/types'
 import { CP_ORDER, CHECKPOINT_META } from '@/types'
 import DataMahasiswa from '@/components/dosen/DataMahasiswa'
@@ -11,6 +17,12 @@ import TableControls, { getPageCount, getPageItems } from '@/components/dosen/Ta
 import ImageViewerModal from '@/components/ui/ImageViewerModal'
 
 const DOSEN_CODE = process.env.NEXT_PUBLIC_DOSEN_CODE || 'DOSEN2026!'
+
+function isTruthy(value: unknown): boolean {
+  if (typeof value === 'boolean') return value
+  const text = String(value || '').trim().toLowerCase()
+  return text === 'true' || text === '1' || text === 'ya' || text === 'yes'
+}
 
 /* ── Status badge ── */
 function StatusBadge({ status }: { status: string }) {
@@ -312,6 +324,17 @@ export default function DosenPage() {
     }
   }
 
+  const handleApproveRetake = async (nim: string) => {
+    if (!window.confirm(`Setujui retake ujian untuk NIM ${nim}?`)) return
+    try {
+      await apiApproveRetake(nim)
+      await fetchData()
+    } catch (e) {
+      console.error(e)
+      window.alert('Gagal menyetujui retake.')
+    }
+  }
+
   const filtered = hasil.filter((h) => {
     if (filterKelas !== 'ALL' && h.kelas?.trim().toUpperCase() !== filterKelas) return false
     if (filterStatus !== 'ALL' && h.status !== filterStatus) return false
@@ -502,6 +525,9 @@ export default function DosenPage() {
                         const key = `ss_${cp}` as keyof HasilMahasiswa
                         return !!hasilRecord[key]
                       }).length
+                      const canApproveRetake =
+                        String(h.status || '').trim().toLowerCase() === 'timeout' &&
+                        isTruthy(h.retake_requested)
                       return (
                         <tr key={h.nim} className={`border-b border-slate-100 dark:border-slate-700/50 hover:bg-slate-50 dark:hover:bg-slate-700/30 transition cursor-pointer ${i%2===1?'bg-slate-50 dark:bg-slate-800/50':''}`}
                           onClick={() => setSelected(h)}>
@@ -522,10 +548,23 @@ export default function DosenPage() {
                             {h.nilai_total || '—'}
                           </td>
                           <td className="px-4 py-3">
-                            <button className="px-2.5 py-1 bg-purple-50 dark:bg-purple-500/20 hover:bg-purple-100 dark:hover:bg-purple-500/30 border border-purple-200 dark:border-purple-500/30 text-purple-700 dark:text-purple-300 text-xs font-semibold rounded-lg transition"
-                              onClick={(e) => { e.stopPropagation(); setSelected(h) }}>
-                              Nilai
-                            </button>
+                            <div className="flex items-center gap-2">
+                              <button className="px-2.5 py-1 bg-purple-50 dark:bg-purple-500/20 hover:bg-purple-100 dark:hover:bg-purple-500/30 border border-purple-200 dark:border-purple-500/30 text-purple-700 dark:text-purple-300 text-xs font-semibold rounded-lg transition"
+                                onClick={(e) => { e.stopPropagation(); setSelected(h) }}>
+                                Nilai
+                              </button>
+                              {canApproveRetake && (
+                                <button
+                                  className="px-2.5 py-1 bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-700 text-xs font-semibold rounded-lg transition dark:bg-amber-500/20 dark:border-amber-500/30 dark:text-amber-300"
+                                  onClick={(e) => {
+                                    e.stopPropagation()
+                                    void handleApproveRetake(h.nim)
+                                  }}
+                                >
+                                  Setujui Retake
+                                </button>
+                              )}
+                            </div>
                           </td>
                         </tr>
                       )

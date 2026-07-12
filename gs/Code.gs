@@ -90,7 +90,24 @@ const COL_HASIL = {
   NILAI_TOTAL : 30,
   GRADE       : 31,
   CATATAN     : 32,
+  RETAKE_REQUESTED    : 33,
+  RETAKE_REQUESTED_AT : 34,
+  RETAKE_APPROVED_AT  : 35,
+  RETAKE_COUNT        : 36,
 };
+
+const HASIL_HEADERS = [
+  'nim', 'nama', 'kelas',
+  'id_toko', 'id_produk',
+  'waktu_login', 'waktu_mulai', 'waktu_submit', 'durasi_menit',
+  'status', 'drive_folder_url',
+  'ss_cp01', 'ss_cp02', 'ss_cp03', 'ss_cp04', 'ss_cp05',
+  'ss_cp06', 'ss_cp07', 'ss_cp08', 'ss_cp09',
+  'nilai_cp01', 'nilai_cp02', 'nilai_cp03', 'nilai_cp04', 'nilai_cp05',
+  'nilai_cp06', 'nilai_cp07', 'nilai_cp08', 'nilai_cp09',
+  'nilai_total', 'grade', 'catatan',
+  'retake_requested', 'retake_requested_at', 'retake_approved_at', 'retake_count'
+];
 
 // Bobot nilai per checkpoint (total = 100)
 const BOBOT_CP = {
@@ -172,6 +189,8 @@ function doPost(e) {
       case 'uploadScreenshot': result = uploadScreenshot(body); break;
       case 'updateNilai'     : result = updateNilai(body);      break;
       case 'exportNilai'     : result = exportNilai(body);      break;
+      case 'requestRetake'   : result = requestRetake(body);    break;
+      case 'approveRetake'   : result = approveRetake(body);    break;
       case 'upsertMahasiswa' : result = upsertMahasiswa(body);  break;
       case 'importMahasiswa' : result = importMahasiswa(body);  break;
       case 'upsertToko'      : result = upsertToko(body);       break;
@@ -472,6 +491,7 @@ function logEvent(body) {
 
   const ss    = SpreadsheetApp.openById(SPREADSHEET_ID);
   const sheet = ss.getSheetByName(SHEET.HASIL);
+  ensureSheetHeaders(sheet, HASIL_HEADERS);
   const data  = sheet.getDataRange().getValues();
   const now   = new Date().toISOString();
 
@@ -487,11 +507,13 @@ function logEvent(body) {
   // Jika belum ada, buat baris baru
   if (rowIdx === -1) {
     const mhs = getMahasiswaObj(nim);
-    const newRow = new Array(COL_HASIL.CATATAN).fill('');
+    const newRow = new Array(COL_HASIL.RETAKE_COUNT).fill('');
     newRow[COL_HASIL.NIM - 1]   = nim;
     newRow[COL_HASIL.NAMA - 1]  = mhs ? mhs.nama : '';
     newRow[COL_HASIL.KELAS - 1] = mhs ? mhs.kelas : '';
     newRow[COL_HASIL.STATUS - 1] = 'registered';
+    newRow[COL_HASIL.RETAKE_REQUESTED - 1] = 'FALSE';
+    newRow[COL_HASIL.RETAKE_COUNT - 1] = 0;
     sheet.appendRow(newRow);
     rowIdx = sheet.getLastRow();
   }
@@ -504,6 +526,7 @@ function logEvent(body) {
       if (body.id_toko)   sheet.getRange(rowIdx, COL_HASIL.ID_TOKO).setValue(body.id_toko);
       if (body.id_produk) sheet.getRange(rowIdx, COL_HASIL.ID_PRODUK).setValue(JSON.stringify(body.id_produk));
       if (body.status !== undefined) sheet.getRange(rowIdx, COL_HASIL.STATUS).setValue('registered');
+      sheet.getRange(rowIdx, COL_HASIL.RETAKE_REQUESTED).setValue('FALSE');
       break;
 
     case 'start':
@@ -555,6 +578,7 @@ function logEvent(body) {
 function getHasil(kelas) {
   const ss    = SpreadsheetApp.openById(SPREADSHEET_ID);
   const sheet = ss.getSheetByName(SHEET.HASIL);
+  ensureSheetHeaders(sheet, HASIL_HEADERS);
   const data  = sheet.getDataRange().getValues();
   const header = data[0];
   const hasil = [];
@@ -567,6 +591,76 @@ function getHasil(kelas) {
   }
 
   return { success: true, hasil, total: hasil.length };
+}
+
+function requestRetake(body) {
+  const nim = body && body.nim ? String(body.nim).trim() : '';
+  if (!nim) return { success: false, message: 'nim wajib diisi' };
+
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const sheet = ss.getSheetByName(SHEET.HASIL);
+  ensureSheetHeaders(sheet, HASIL_HEADERS);
+  const data = sheet.getDataRange().getValues();
+  const now = new Date().toISOString();
+
+  for (let i = 1; i < data.length; i++) {
+    if (String(data[i][COL_HASIL.NIM - 1]).trim() !== nim) continue;
+    const status = String(data[i][COL_HASIL.STATUS - 1]).trim().toLowerCase();
+    if (status !== 'timeout') {
+      return { success: false, message: 'Retake hanya dapat diajukan setelah timeout.' };
+    }
+
+    const rowIdx = i + 1;
+    sheet.getRange(rowIdx, COL_HASIL.RETAKE_REQUESTED).setValue('TRUE');
+    sheet.getRange(rowIdx, COL_HASIL.RETAKE_REQUESTED_AT).setValue(now);
+    SpreadsheetApp.flush();
+    return { success: true, nim, requested_at: now };
+  }
+
+  return { success: false, message: 'Data hasil ujian untuk NIM tidak ditemukan.' };
+}
+
+function approveRetake(body) {
+  const nim = body && body.nim ? String(body.nim).trim() : '';
+  if (!nim) return { success: false, message: 'nim wajib diisi' };
+
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const sheet = ss.getSheetByName(SHEET.HASIL);
+  ensureSheetHeaders(sheet, HASIL_HEADERS);
+  const data = sheet.getDataRange().getValues();
+  const now = new Date().toISOString();
+
+  for (let i = 1; i < data.length; i++) {
+    if (String(data[i][COL_HASIL.NIM - 1]).trim() !== nim) continue;
+
+    const rowIdx = i + 1;
+    const currentCount = Number(data[i][COL_HASIL.RETAKE_COUNT - 1]) || 0;
+
+    sheet.getRange(rowIdx, COL_HASIL.WAKTU_MULAI).setValue('');
+    sheet.getRange(rowIdx, COL_HASIL.WAKTU_SUBMIT).setValue('');
+    sheet.getRange(rowIdx, COL_HASIL.DURASI_MENIT).setValue('');
+    sheet.getRange(rowIdx, COL_HASIL.STATUS).setValue('registered');
+    sheet.getRange(rowIdx, COL_HASIL.DRIVE_FOLDER_URL).setValue('');
+    sheet.getRange(rowIdx, COL_HASIL.RETAKE_REQUESTED).setValue('FALSE');
+    sheet.getRange(rowIdx, COL_HASIL.RETAKE_REQUESTED_AT).setValue('');
+    sheet.getRange(rowIdx, COL_HASIL.RETAKE_APPROVED_AT).setValue(now);
+    sheet.getRange(rowIdx, COL_HASIL.RETAKE_COUNT).setValue(currentCount + 1);
+    sheet.getRange(rowIdx, COL_HASIL.CATATAN).setValue('');
+
+    for (var cpCol = COL_HASIL.SS_CP01; cpCol <= COL_HASIL.SS_CP09; cpCol++) {
+      sheet.getRange(rowIdx, cpCol).setValue('');
+    }
+    for (var nilaiCol = COL_HASIL.NILAI_CP01; nilaiCol <= COL_HASIL.NILAI_CP09; nilaiCol++) {
+      sheet.getRange(rowIdx, nilaiCol).setValue('');
+    }
+    sheet.getRange(rowIdx, COL_HASIL.NILAI_TOTAL).setValue('');
+    sheet.getRange(rowIdx, COL_HASIL.GRADE).setValue('');
+
+    SpreadsheetApp.flush();
+    return { success: true, nim, approved_at: now };
+  }
+
+  return { success: false, message: 'Data hasil ujian untuk NIM tidak ditemukan.' };
 }
 
 // ─────────────────────────────────────────────
@@ -665,6 +759,7 @@ function updateNilai(body) {
 
   const ss    = SpreadsheetApp.openById(SPREADSHEET_ID);
   const sheet = ss.getSheetByName(SHEET.HASIL);
+  ensureSheetHeaders(sheet, HASIL_HEADERS);
   const data  = sheet.getDataRange().getValues();
 
   for (let i = 1; i < data.length; i++) {
@@ -704,6 +799,7 @@ function updateNilai(body) {
 function exportNilai(body) {
   const ss        = SpreadsheetApp.openById(SPREADSHEET_ID);
   const sheetHasil = ss.getSheetByName(SHEET.HASIL);
+  ensureSheetHeaders(sheetHasil, HASIL_HEADERS);
   const data      = sheetHasil.getDataRange().getValues();
   const header    = data[0];
 
@@ -803,6 +899,7 @@ function getConfigObject() {
 function getSummary() {
   const ss    = SpreadsheetApp.openById(SPREADSHEET_ID);
   const sheet = ss.getSheetByName(SHEET.HASIL);
+  ensureSheetHeaders(sheet, HASIL_HEADERS);
   const data  = sheet.getDataRange().getValues();
 
   const summary = {
@@ -917,17 +1014,7 @@ function setupSheets() {
 
   _createSheetIfNotExist(ss, SHEET.PRODUK, PRODUK_HEADERS);
 
-  _createSheetIfNotExist(ss, SHEET.HASIL, [
-    'nim', 'nama', 'kelas',
-    'id_toko', 'id_produk',
-    'waktu_login', 'waktu_mulai', 'waktu_submit', 'durasi_menit',
-    'status', 'drive_folder_url',
-    'ss_cp01', 'ss_cp02', 'ss_cp03', 'ss_cp04', 'ss_cp05',
-    'ss_cp06', 'ss_cp07', 'ss_cp08', 'ss_cp09',
-    'nilai_cp01', 'nilai_cp02', 'nilai_cp03', 'nilai_cp04', 'nilai_cp05',
-    'nilai_cp06', 'nilai_cp07', 'nilai_cp08', 'nilai_cp09',
-    'nilai_total', 'grade', 'catatan'
-  ]);
+  _createSheetIfNotExist(ss, SHEET.HASIL, HASIL_HEADERS);
 
   _createSheetIfNotExist(ss, SHEET.CONFIG, ['key', 'value', 'keterangan']);
 

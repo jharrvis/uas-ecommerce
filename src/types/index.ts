@@ -168,6 +168,10 @@ export interface HasilMahasiswa {
   nilai_total: number
   grade: string
   catatan: string
+  retake_requested?: string | boolean
+  retake_requested_at?: string
+  retake_approved_at?: string
+  retake_count?: number | string
 }
 
 export interface ApiResponse<T = unknown> {
