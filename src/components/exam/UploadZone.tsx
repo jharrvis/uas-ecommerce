@@ -40,6 +40,10 @@ export default function UploadZone({
   const [queued, setQueued] = useState(existingUrls.includes('queued'))
   const [showModal, setShowModal] = useState(false)
 
+  const reloadPage = useCallback(() => {
+    window.setTimeout(() => window.location.reload(), 150)
+  }, [])
+
   useEffect(() => {
     const nextSyncKey = `${cp}:${existingUrlsKey}`
     if (syncKeyRef.current === nextSyncKey) return
@@ -121,7 +125,11 @@ export default function UploadZone({
     }
 
     setUploading(false)
-  }, [cp, enqueue, nim, onUploaded, prepareFile, previewUrls, queued, uploadedUrls])
+
+    if (nextUploaded.length > uploadedUrls.length) {
+      reloadPage()
+    }
+  }, [cp, enqueue, nim, onUploaded, prepareFile, previewUrls, queued, reloadPage, uploadedUrls])
 
   const onDrop = (e: React.DragEvent) => {
     e.preventDefault()
@@ -139,11 +147,13 @@ export default function UploadZone({
     const nextUploaded = uploadedUrls.filter((_, currentIndex) => currentIndex !== index)
     const nextPreviews = previewUrls.filter((_, currentIndex) => currentIndex !== index)
     syncUploadedState(nextUploaded, nextPreviews)
-  }, [previewUrls, syncUploadedState, uploadedUrls])
+    reloadPage()
+  }, [previewUrls, reloadPage, syncUploadedState, uploadedUrls])
 
   const handleClearAll = useCallback(() => {
     syncUploadedState([], [])
-  }, [syncUploadedState])
+    reloadPage()
+  }, [reloadPage, syncUploadedState])
 
   if ((uploadedUrls.length > 0 || queued) && !uploading) {
     return (
