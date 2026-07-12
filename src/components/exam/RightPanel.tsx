@@ -187,6 +187,7 @@ export default function RightPanel({ isExamLocked, onSubmit, submitting }: Right
               </h3>
               <ol className="space-y-3 text-base text-slate-700 dark:text-slate-300">
                 {[
+                  'Link website praktek tersedia di bagian kiri halaman. Login ke URL website praktek/admin dengan username <strong>admin</strong> dan password <strong>admin</strong>.',
                   `Lengkapi data toko <strong>${toko.nama_toko}</strong> di OpenCart (nama, alamat, email, telepon, logo).`,
                   `Tambahkan manufacturer ${manufacturers.join(' dan ')} beserta logonya ke carousel halaman depan.`,
                   'Buat kategori yang diperlukan untuk produk-produk Anda.',
