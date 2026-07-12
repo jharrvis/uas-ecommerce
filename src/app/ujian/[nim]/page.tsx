@@ -89,6 +89,28 @@ export default function UjianPage() {
       .finally(() => setReady(true))
   }, [hydrated, params.nim, router, session, setSession])
 
+  useEffect(() => {
+    if (!hydrated || !session) return
+
+    const checkMode = async () => {
+      try {
+        const { config } = await apiGetConfig()
+        const mode = String(config.mode_ujian || 'aktif').toLowerCase()
+        if (mode === 'aktif') return
+
+        refreshedSessionNimRef.current = null
+        clearSession()
+        useExamStore.persist.clearStorage()
+        window.location.replace(`/login?mode=${encodeURIComponent(mode)}&nim=${encodeURIComponent(params.nim)}`)
+      } catch {
+        // ignore polling failure, keep current exam page active
+      }
+    }
+
+    const interval = window.setInterval(checkMode, 15000)
+    return () => window.clearInterval(interval)
+  }, [clearSession, hydrated, params.nim, session])
+
   const handleExpire = useCallback(() => {
     toast.error('Waktu habis. Anda akan logout otomatis.')
     apiLogEvent('timeout', params.nim)

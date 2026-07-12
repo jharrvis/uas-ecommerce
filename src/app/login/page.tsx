@@ -103,6 +103,12 @@ export default function LoginPage() {
     if (params.get('expired') === '1') {
       setError('Waktu ujian habis. Login kembali untuk melihat status ujian Anda.')
     }
+    if (params.get('mode') === 'jeda') {
+      setError('Ujian dijeda oleh dosen. Silakan login kembali setelah dibuka lagi.')
+    }
+    if (params.get('mode') === 'selesai') {
+      setError('Ujian ditutup oleh dosen. Login dinonaktifkan.')
+    }
   }, [])
 
   async function handleLogin(e: React.FormEvent) {
