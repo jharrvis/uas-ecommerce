@@ -2,12 +2,13 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { apiGetPool, apiUpsertProduk, apiImportProduk, apiDeleteProduk, apiUploadProductAsset } from '@/lib/sheets'
-import { getDriveDirectUrl, getProductImages } from '@/lib/utils'
-import type { Produk } from '@/types'
+import { getDriveDirectUrl, getProductImages, getTokoBrands } from '@/lib/utils'
+import type { Produk, Toko } from '@/types'
 import TableControls, { getPageCount, getPageItems } from './TableControls'
 
 export default function DataProduk() {
   const [produk, setProduk] = useState<Produk[]>([])
+  const [toko, setToko] = useState<Toko[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
@@ -41,6 +42,7 @@ export default function DataProduk() {
     try {
       const res = await apiGetPool()
       setProduk(res.produk)
+      setToko(res.toko)
     } catch (e) {
       setError('Gagal memuat data produk')
     }
@@ -298,6 +300,10 @@ export default function DataProduk() {
   }
 
   const tokoOptions = Array.from(new Set(produk.map(p => String(p.id_toko)))).sort()
+  const selectedToko = toko.find((item) => String(item.id) === String(formData.id_toko || ''))
+  const manufacturerOptions = selectedToko
+    ? getTokoBrands(selectedToko).filter((brand) => brand.name)
+    : []
 
   const fmt = (n: number) => 'Rp ' + (n || 0).toLocaleString('id-ID')
 
@@ -444,8 +450,36 @@ export default function DataProduk() {
                   </div>
                   <div>
                     <label className="block text-xs font-bold text-slate-500 mb-1.5">ID Toko (Wajib)</label>
-                    <input type="text" value={formData.id_toko} onChange={e => setFormData({...formData, id_toko: e.target.value})}
-                      className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-sm focus:border-sky-500 outline-none" required placeholder="Contoh: T01" />
+                    <select
+                      value={String(formData.id_toko || '')}
+                      onChange={e => {
+                        const nextTokoId = e.target.value
+                        const nextToko = toko.find((item) => String(item.id) === nextTokoId)
+                        const nextManufacturers = nextToko
+                          ? getTokoBrands(nextToko).filter((brand) => brand.name)
+                          : []
+                        const currentManufacturer = String(formData.manufacturer || '')
+                        const matchedManufacturer = nextManufacturers.find(
+                          (brand) => brand.name === currentManufacturer
+                        )
+
+                        setFormData({
+                          ...formData,
+                          id_toko: nextTokoId,
+                          manufacturer: matchedManufacturer ? matchedManufacturer.name : '',
+                          logo_manufacturer: matchedManufacturer ? matchedManufacturer.logo : '',
+                        })
+                      }}
+                      className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-sm focus:border-sky-500 outline-none"
+                      required
+                    >
+                      <option value="">Pilih toko</option>
+                      {tokoOptions.map((tokoId) => (
+                        <option key={tokoId} value={tokoId}>
+                          {tokoId}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                 </div>
 
@@ -543,9 +577,40 @@ export default function DataProduk() {
 
                 <div className="border-t border-slate-200 dark:border-slate-800 pt-4">
                   <label className="block text-xs font-bold text-slate-500 mb-1.5">Nama Brand / Manufacturer</label>
-                  <input type="text" value={formData.manufacturer} onChange={e => setFormData({...formData, manufacturer: e.target.value})}
-                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-sm focus:border-sky-500 outline-none" placeholder="Misal: IKEA, Samsung" />
-                  <p className="text-xs text-slate-500 mt-1">Logo brand dikelola di tab Data Toko.</p>
+                  {manufacturerOptions.length > 0 ? (
+                    <>
+                      <select
+                        value={String(formData.manufacturer || '')}
+                        onChange={e => {
+                          const nextManufacturer = manufacturerOptions.find(
+                            (brand) => brand.name === e.target.value
+                          )
+                          setFormData({
+                            ...formData,
+                            manufacturer: e.target.value,
+                            logo_manufacturer: nextManufacturer?.logo || '',
+                          })
+                        }}
+                        className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-sm focus:border-sky-500 outline-none"
+                      >
+                        <option value="">Pilih manufacturer dari data toko</option>
+                        {manufacturerOptions.map((brand) => (
+                          <option key={brand.name} value={brand.name}>
+                            {brand.name}
+                          </option>
+                        ))}
+                      </select>
+                      <p className="text-xs text-slate-500 mt-1">
+                        Pilihan diambil dari brand yang diisi pada data toko.
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <input type="text" value={formData.manufacturer} onChange={e => setFormData({...formData, manufacturer: e.target.value})}
+                        className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-sm focus:border-sky-500 outline-none" placeholder="Pilih toko dulu atau isi manual" />
+                      <p className="text-xs text-slate-500 mt-1">Logo brand dikelola di tab Data Toko.</p>
+                    </>
+                  )}
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border-t border-slate-200 dark:border-slate-800 pt-4">
