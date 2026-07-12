@@ -186,15 +186,15 @@ export default function Checkpoint({ cp, nim, toko, produk, isExamLocked }: Chec
         </div>
       </div>
 
-      {cp === 'cp01' && <CP01Content toko={toko} />}
-      {cp === 'cp02' && <CP02Content toko={toko} />}
+      {cp === 'cp01' && <CP01ContentV2 toko={toko} />}
+      {cp === 'cp02' && <CP02ContentV2 toko={toko} />}
       {cp === 'cp03' && <CP03Content produk={produk} />}
       {cp === 'cp04' && <CP04Content produk={produk} fmt={fmt} />}
       {cp === 'cp05' && <CP05ContentV3 toko={toko} produk={produk} />}
-      {cp === 'cp06' && <CP06Content produk={produk} fmt={fmt} />}
-      {cp === 'cp07' && <CP07Content produk={produk} fmt={fmt} />}
-      {cp === 'cp08' && <CP08Content produk={produk} />}
-      {cp === 'cp09' && <CP09Content toko={toko} produk={produk} />}
+      {cp === 'cp06' && <CP06ContentV2 produk={produk} fmt={fmt} />}
+      {cp === 'cp07' && <CP07ContentV2 produk={produk} fmt={fmt} />}
+      {cp === 'cp08' && <CP08ContentV2 produk={produk} />}
+      {cp === 'cp09' && <CP09ContentV2 toko={toko} produk={produk} />}
 
       <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-700/50">
         <p className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3 flex items-center gap-2">
@@ -963,6 +963,239 @@ function CP09Content({ toko, produk }: { produk: Produk[]; toko: Toko }) {
       <Callout type="info">
         Buka <strong>Extensions ? Modules ? Slideshow</strong> (atau Banners). Tambahkan banner slideshow toko berikut.
       </Callout>
+      <SectionTitle>Banner Slideshow Toko</SectionTitle>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {slideshows.map((url, index) => (
+          <div key={`${url}-${index}`}
+            className="group block rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 transition hover:border-sky-400">
+            <div className="aspect-[16/7] w-full relative">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={getDriveDirectUrl(url)} alt={`slideshow ${index + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+              <DownloadImageButton
+                imageUrl={getDriveDirectUrl(url)}
+                filename={`slideshow_${index + 1}.jpg`}
+                className="absolute right-2 top-2 rounded bg-black/70 p-1.5 text-white opacity-0 transition-opacity group-hover:opacity-100"
+              />
+            </div>
+            <div className="flex items-center justify-between gap-2 px-3 py-2 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-600 dark:text-slate-300">
+              <span>Slideshow {index + 1}</span>
+              <button
+                type="button"
+                onClick={() => triggerImageDownload(getDriveDirectUrl(url), `slideshow_${index + 1}.jpg`)}
+                className="rounded-md bg-emerald-600 px-2 py-1 text-[11px] text-white transition hover:bg-emerald-500"
+              >
+                Unduh
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+      {slideshows.length === 0 && (
+        <p className="text-slate-500 text-sm italic">Gambar slideshow toko belum diisi dosen.</p>
+      )}
+      <SectionTitle>Produk yang Dihubungkan</SectionTitle>
+      {produk.map((p) => (
+        <div key={p.id} className="flex items-center gap-4 p-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl">
+          <div className="w-10 h-10 rounded-lg bg-sky-50 dark:bg-sky-500/20 text-sky-600 dark:text-sky-400 text-sm font-black flex items-center justify-center flex-shrink-0">
+            {getProductImages(p).length}
+          </div>
+          <div className="min-w-0">
+            <p className="text-slate-900 dark:text-slate-200 text-base font-bold">{p.nama_produk}</p>
+            <p className="text-slate-500 dark:text-slate-400 text-sm">Pastikan banner/link mengarah ke halaman produk ini</p>
+          </div>
+        </div>
+      ))}
+      <Callout type="warning">
+        Setiap banner harus memiliki <strong>link</strong> yang mengarah ke halaman produk tersebut.
+        Pastikan slideshow tampil di halaman depan toko.
+      </Callout>
+    </div>
+  )
+}
+
+function CP01ContentV2({ toko }: { toko: Toko }) {
+  const t = {
+    nama_toko: toko.nama_toko || 'â€”',
+    alamat: toko.alamat || 'â€”',
+    email: toko.email || 'â€”',
+    telepon: toko.telepon || 'â€”',
+    logo_url: toko.logo_url || ''
+  }
+
+  return (
+    <div className="space-y-4">
+      <SectionTitle>Data yang Harus Diisi</SectionTitle>
+      <InfoTable rows={[
+        ['Store Name',  t.nama_toko],
+        ['Store Owner', t.nama_toko],
+        ['Address',     t.alamat],
+        ['Email',       t.email],
+        ['Telephone',   t.telepon],
+        ['Meta Title',  t.nama_toko],
+      ]} />
+      {t.logo_url && (
+        <Callout type="tip">
+          Gunakan logo toko berikut sebagai referensi.
+          <div className="mt-2 inline-flex flex-col gap-2">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={getDriveDirectUrl(t.logo_url)} alt="logo toko" className="h-16 object-contain rounded bg-white p-1 border border-slate-200" />
+            <button
+              type="button"
+              onClick={() => triggerImageDownload(getDriveDirectUrl(t.logo_url), 'logo_toko.jpg')}
+              className="w-fit rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-bold text-white transition hover:bg-emerald-500"
+            >
+              Unduh Logo
+            </button>
+          </div>
+        </Callout>
+      )}
+    </div>
+  )
+}
+
+function CP02ContentV2({ toko }: { toko: Toko }) {
+  const brands = getTokoBrands(toko)
+
+  return (
+    <div className="space-y-4">
+      {brands.map((brand, i) => (
+        <div key={`${brand.name}-${i}`} className="space-y-2">
+          <SectionTitle>Manufacturer {i + 1}</SectionTitle>
+          <InfoTable rows={[
+            ['Manufacturer Name', brand.name],
+            ['SEO Keyword', brand.name.toLowerCase().replace(/\s+/g, '-')],
+            ['Logo', brand.logo ? (
+              <div className="mt-1 mb-1 inline-flex flex-col gap-2">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={getDriveDirectUrl(brand.logo)} alt="logo" className="h-12 object-contain rounded bg-white p-1 border border-slate-200" />
+                <button
+                  type="button"
+                  onClick={() => triggerImageDownload(
+                    getDriveDirectUrl(brand.logo),
+                    `${sanitizeFileBaseName(brand.name || `manufacturer_${i + 1}`)}_logo.jpg`
+                  )}
+                  className="w-fit rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-bold text-white transition hover:bg-emerald-500"
+                >
+                  Unduh Logo
+                </button>
+              </div>
+            ) : '(upload logo yang sesuai)'],
+          ]} />
+        </div>
+      ))}
+      {brands.length === 0 && (
+        <Callout type="warning">
+          Data brand toko belum diisi dosen. Hubungi dosen jika daftar manufacturer tidak tampil.
+        </Callout>
+      )}
+      <Callout type="warning">
+        Logo yang dipasang di carousel <strong>harus bisa diklik</strong> dan mengarah ke halaman
+        produk berdasarkan manufacturer tersebut (bukan halaman eksternal).
+      </Callout>
+    </div>
+  )
+}
+
+function CP06ContentV2({ produk, fmt }: { produk: Produk[]; fmt: (n: number) => string }) {
+  return (
+    <div className="space-y-6">
+      {produk.map((p, i) => (
+        <div key={p.id}>
+          <SectionTitle>Produk {i + 1}: {p.nama_produk}</SectionTitle>
+          <div className="p-4 bg-amber-500/5 border border-amber-500/20 rounded-xl mb-3 text-sm text-amber-500 font-medium italic">
+            &quot;{safeText(p.deskripsi_diskon, 'Gunakan strategi diskon yang sesuai untuk produk ini.')}&quot;
+          </div>
+          <InfoTable rows={[
+            ['Customer Group', 'Default'],
+            ['Quantity (min.)', safeText(p.discount_min_qty)],
+            ['Priority', '0'],
+            ['Price', safePrice(p.discount_harga, fmt)],
+            ['Date Start', safeText(p.discount_mulai)],
+            ['Date End', safeText(p.discount_selesai)],
+          ]} />
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function CP07ContentV2({ produk, fmt }: { produk: Produk[]; fmt: (n: number) => string }) {
+  return (
+    <div className="space-y-6">
+      {produk.map((p, i) => (
+        <div key={p.id}>
+          <SectionTitle>Produk {i + 1}: {p.nama_produk}</SectionTitle>
+          <div className="p-4 bg-emerald-500/5 border border-emerald-500/20 rounded-xl mb-3 text-sm text-emerald-500 font-medium italic">
+            &quot;{safeText(p.deskripsi_special, 'Gunakan harga spesial yang sesuai untuk event promosi produk ini.')}&quot;
+          </div>
+          <InfoTable rows={[
+            ['Customer Group', 'Default'],
+            ['Priority', '0'],
+            ['Price', safePrice(p.special_harga, fmt)],
+            ['Date Start', safeText(p.special_mulai)],
+            ['Date End', safeText(p.special_selesai)],
+          ]} />
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function CP08ContentV2({ produk }: { produk: Produk[] }) {
+  return (
+    <div className="space-y-6">
+      {produk.map((p, i) => {
+        const images = getProductImages(p)
+        return (
+          <div key={p.id}>
+            <SectionTitle>Produk {i + 1}: {p.nama_produk}</SectionTitle>
+            <InfoTable rows={[
+              ['SEO Keyword', <code key="seo" className="text-sky-400 font-bold">{p.seo_keyword}</code>],
+            ]} />
+            <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-3">
+              {images.map((url, j) => (
+                <div key={`${url}-${j}`}
+                  className="group block rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 transition hover:border-sky-400">
+                  <div className="aspect-square w-full relative">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={getDriveDirectUrl(url)} alt={`g${j + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+                    <DownloadImageButton
+                      imageUrl={getDriveDirectUrl(url)}
+                      filename={`${sanitizeFileBaseName(p.nama_produk)}_seo_gambar${j + 1}.jpg`}
+                      className="absolute right-2 top-2 rounded bg-black/70 p-1.5 text-white opacity-0 transition-opacity group-hover:opacity-100"
+                    />
+                  </div>
+                  <div className="flex items-center justify-between gap-2 px-3 py-2 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-600 dark:text-slate-300">
+                    <span>Gambar {j + 1}</span>
+                    <button
+                      type="button"
+                      onClick={() => triggerImageDownload(
+                        getDriveDirectUrl(url),
+                        `${sanitizeFileBaseName(p.nama_produk)}_seo_gambar${j + 1}.jpg`
+                      )}
+                      className="rounded-md bg-emerald-600 px-2 py-1 text-[11px] text-white transition hover:bg-emerald-500"
+                    >
+                      Unduh
+                    </button>
+                  </div>
+                </div>
+              ))}
+              {images.length === 0 && (
+                <p className="text-slate-500 text-sm italic">Gunakan gambar produk yang sesuai (cari sendiri atau minta dosen).</p>
+              )}
+            </div>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+function CP09ContentV2({ toko, produk }: { produk: Produk[]; toko: Toko }) {
+  const slideshows = getTokoSlideshows(toko)
+
+  return (
+    <div className="space-y-4">
       <SectionTitle>Banner Slideshow Toko</SectionTitle>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {slideshows.map((url, index) => (
