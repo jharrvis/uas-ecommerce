@@ -191,6 +191,7 @@ function doPost(e) {
       case 'exportNilai'     : result = exportNilai(body);      break;
       case 'requestRetake'   : result = requestRetake(body);    break;
       case 'approveRetake'   : result = approveRetake(body);    break;
+      case 'updateConfig'    : result = updateConfig(body);     break;
       case 'upsertMahasiswa' : result = upsertMahasiswa(body);  break;
       case 'importMahasiswa' : result = importMahasiswa(body);  break;
       case 'upsertToko'      : result = upsertToko(body);       break;
@@ -879,6 +880,34 @@ function getConfig() {
   return { success: true, config: getConfigObject() };
 }
 
+function updateConfig(body) {
+  const config = body.config;
+  if (!config || typeof config !== 'object') {
+    return { success: false, message: 'config wajib diisi' };
+  }
+
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const sheet = ss.getSheetByName(SHEET.CONFIG);
+  const data = sheet.getDataRange().getValues();
+  const rowsByKey = {};
+
+  for (let i = 1; i < data.length; i++) {
+    const key = String(data[i][0] || '').trim();
+    if (key) rowsByKey[key] = i + 1;
+  }
+
+  Object.keys(config).forEach(function (key) {
+    if (rowsByKey[key]) {
+      sheet.getRange(rowsByKey[key], 2).setValue(config[key]);
+    } else {
+      sheet.appendRow([key, config[key], 'Updated from dashboard dosen']);
+    }
+  });
+
+  SpreadsheetApp.flush();
+  return { success: true, config: getConfigObject() };
+}
+
 function getConfigObject() {
   const ss    = SpreadsheetApp.openById(SPREADSHEET_ID);
   const sheet = ss.getSheetByName(SHEET.CONFIG);
@@ -1247,6 +1276,7 @@ function _fillConfigDefaults(ss) {
     ['durasi_ujian_menit',    90,              'Durasi timer ujian dalam menit'],
     ['produk_per_mahasiswa',  2,               'Jumlah produk yang diacak per mahasiswa'],
     ['mode_ujian',            'aktif',         'aktif | jeda | selesai'],
+    ['anti_cheat_enabled',    'OFF',           'ON | OFF untuk deteksi pelanggaran browser'],
     ['kode_dosen',            'DOSEN2026!',    'Kode akses halaman dosen — GANTI sebelum ujian!'],
     ['drive_folder_root_id',  '',              'ID folder Google Drive untuk screenshots — wajib diisi'],
     ['max_upload_mb',         10,              'Batas ukuran file screenshot (MB)'],

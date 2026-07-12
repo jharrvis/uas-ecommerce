@@ -142,6 +142,7 @@ export interface Config {
   durasi_ujian_menit: number
   produk_per_mahasiswa: number
   mode_ujian: string
+  anti_cheat_enabled?: string
   mata_kuliah: string
   kode_mk: string
   semester: string

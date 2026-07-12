@@ -28,6 +28,7 @@ export default function UjianPage() {
   const [ready, setReady] = useState(false)
   const [showSubmitDlg, setShowSubmitDlg] = useState(false)
   const [violationCount, setViolationCount] = useState(0)
+  const [antiCheatEnabled, setAntiCheatEnabled] = useState(false)
   const refreshedSessionNimRef = useRef<string | null>(null)
 
   useEffect(() => {
@@ -50,6 +51,7 @@ export default function UjianPage() {
     apiGetConfig()
       .then(async ({ config }) => {
         setDuration(Number(config.durasi_ujian_menit) || 90)
+        setAntiCheatEnabled(String(config.anti_cheat_enabled || 'OFF').toUpperCase() === 'ON')
         const { mahasiswa } = await apiGetMahasiswa(session.nim)
         const refreshedSessionBase = {
           ...session,
@@ -109,7 +111,7 @@ export default function UjianPage() {
 
   useAntiCheat({
     nim: params.nim,
-    enabled: session?.status === 'started',
+    enabled: session?.status === 'started' && antiCheatEnabled,
     onViolation: (_, count) => setViolationCount(count),
   })
 

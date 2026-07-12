@@ -96,6 +96,10 @@ export async function apiGetConfig(): Promise<{ config: Config }> {
   return appsGet('getConfig')
 }
 
+export async function apiUpdateConfig(config: Partial<Config> & Record<string, unknown>) {
+  return appsPost('updateConfig', { config })
+}
+
 export async function apiGetHasil(kelas?: string): Promise<{
   hasil: HasilMahasiswa[]
   total: number

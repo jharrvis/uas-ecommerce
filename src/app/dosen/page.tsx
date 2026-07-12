@@ -4,11 +4,13 @@ import { useState, useEffect, useCallback } from 'react'
 import {
   apiApproveRetake,
   apiExportNilai,
+  apiGetConfig,
   apiGetHasil,
   apiGetSummary,
+  apiUpdateConfig,
   apiUpdateNilai,
 } from '@/lib/sheets'
-import type { HasilMahasiswa } from '@/types'
+import type { Config, HasilMahasiswa } from '@/types'
 import { CP_ORDER, CHECKPOINT_META } from '@/types'
 import DataMahasiswa from '@/components/dosen/DataMahasiswa'
 import DataProduk from '@/components/dosen/DataProduk'
@@ -266,10 +268,12 @@ export default function DosenPage() {
   const [filterStatus, setFilterStatus] = useState('ALL')
   const [selected, setSelected] = useState<HasilMahasiswa | null>(null)
   const [exporting, setExporting] = useState(false)
-  const [activeTab, setActiveTab] = useState<'hasil' | 'toko' | 'mahasiswa' | 'produk'>('hasil')
+  const [activeTab, setActiveTab] = useState<'hasil' | 'toko' | 'mahasiswa' | 'produk' | 'config'>('hasil')
   const [search, setSearch] = useState('')
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(10)
+  const [config, setConfig] = useState<Partial<Config>>({})
+  const [savingConfig, setSavingConfig] = useState(false)
 
   const fetchData = useCallback(async () => {
     setLoading(true)
@@ -285,6 +289,12 @@ export default function DosenPage() {
       setSummary(s.summary as unknown as Record<string, number>)
     } catch (e) {
       console.error('Gagal memuat summary:', e)
+    }
+    try {
+      const c = await apiGetConfig()
+      setConfig(c.config)
+    } catch (e) {
+      console.error('Gagal memuat config:', e)
     }
     setLoading(false)
   }, [])
@@ -332,6 +342,20 @@ export default function DosenPage() {
     } catch (e) {
       console.error(e)
       window.alert('Gagal menyetujui retake.')
+    }
+  }
+
+  const handleSaveConfig = async () => {
+    setSavingConfig(true)
+    try {
+      await apiUpdateConfig(config)
+      await fetchData()
+      window.alert('Config berhasil disimpan.')
+    } catch (e) {
+      console.error(e)
+      window.alert('Gagal menyimpan config.')
+    } finally {
+      setSavingConfig(false)
     }
   }
 
@@ -449,6 +473,7 @@ export default function DosenPage() {
             { key: 'toko', label: 'Data Toko' },
             { key: 'mahasiswa', label: 'Data Mahasiswa' },
             { key: 'produk', label: 'Data Produk' },
+            { key: 'config', label: 'Config' },
           ] as const).map(tab => (
             <button key={tab.key} onClick={() => setActiveTab(tab.key)}
               className={`whitespace-nowrap px-4 py-2.5 text-sm font-bold rounded-t-lg transition ${
@@ -584,6 +609,92 @@ export default function DosenPage() {
 
         {/* Tab: Data Produk */}
         {activeTab === 'produk' && <DataProduk />}
+
+        {/* Tab: Config */}
+        {activeTab === 'config' && (
+          <div className="max-w-3xl rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-700 dark:bg-slate-800">
+            <div className="mb-6">
+              <h2 className="text-xl font-bold text-slate-900 dark:text-white">Config Ujian</h2>
+              <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+                Pengaturan ini dibaca aplikasi saat login dan saat halaman ujian dimuat.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <label className="space-y-2">
+                <span className="block text-sm font-semibold text-slate-700 dark:text-slate-300">
+                  Mode Ujian
+                </span>
+                <select
+                  value={String(config.mode_ujian || 'aktif')}
+                  onChange={(e) => setConfig((prev) => ({ ...prev, mode_ujian: e.target.value }))}
+                  className="w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-slate-900 focus:border-sky-500 focus:outline-none dark:border-slate-600 dark:bg-slate-900 dark:text-white"
+                >
+                  <option value="aktif">aktif</option>
+                  <option value="jeda">jeda</option>
+                  <option value="selesai">selesai</option>
+                </select>
+              </label>
+
+              <label className="space-y-2">
+                <span className="block text-sm font-semibold text-slate-700 dark:text-slate-300">
+                  Anti Cheat
+                </span>
+                <select
+                  value={String(config.anti_cheat_enabled || 'OFF')}
+                  onChange={(e) => setConfig((prev) => ({ ...prev, anti_cheat_enabled: e.target.value }))}
+                  className="w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-slate-900 focus:border-sky-500 focus:outline-none dark:border-slate-600 dark:bg-slate-900 dark:text-white"
+                >
+                  <option value="OFF">OFF</option>
+                  <option value="ON">ON</option>
+                </select>
+              </label>
+
+              <label className="space-y-2">
+                <span className="block text-sm font-semibold text-slate-700 dark:text-slate-300">
+                  Durasi Ujian (menit)
+                </span>
+                <input
+                  type="number"
+                  min={1}
+                  value={Number(config.durasi_ujian_menit || 90)}
+                  onChange={(e) => setConfig((prev) => ({
+                    ...prev,
+                    durasi_ujian_menit: Number(e.target.value) || 90,
+                  }))}
+                  className="w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-slate-900 focus:border-sky-500 focus:outline-none dark:border-slate-600 dark:bg-slate-900 dark:text-white"
+                />
+              </label>
+
+              <label className="space-y-2">
+                <span className="block text-sm font-semibold text-slate-700 dark:text-slate-300">
+                  Produk per Mahasiswa
+                </span>
+                <input
+                  type="number"
+                  min={1}
+                  value={Number(config.produk_per_mahasiswa || 2)}
+                  onChange={(e) => setConfig((prev) => ({
+                    ...prev,
+                    produk_per_mahasiswa: Number(e.target.value) || 2,
+                  }))}
+                  className="w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-slate-900 focus:border-sky-500 focus:outline-none dark:border-slate-600 dark:bg-slate-900 dark:text-white"
+                />
+              </label>
+            </div>
+
+            <div className="mt-6 flex justify-end">
+              <button
+                type="button"
+                onClick={() => void handleSaveConfig()}
+                disabled={savingConfig}
+                className="rounded-xl bg-sky-500 px-5 py-3 text-sm font-bold text-white transition hover:bg-sky-400 disabled:bg-slate-500"
+              >
+                {savingConfig ? 'Menyimpan...' : 'Simpan Config'}
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Score Drawer */}
