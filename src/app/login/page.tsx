@@ -2,10 +2,60 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { apiGetMahasiswa, apiGetPool, apiLogEvent } from '@/lib/sheets'
+import { apiGetHasil, apiGetMahasiswa, apiGetPool, apiLogEvent } from '@/lib/sheets'
 import { pickProducts, pickToko } from '@/lib/shuffle'
 import { buildInitialCheckpoints, useExamStore } from '@/store/examStore'
-import type { ExamSession } from '@/types'
+import type { CheckpointId, ExamSession, ExamStatus, HasilMahasiswa } from '@/types'
+
+function parseScreenshotList(value: unknown): string[] {
+  if (!value) return []
+  if (Array.isArray(value)) {
+    return value.map((item) => String(item || '').trim()).filter(Boolean)
+  }
+  if (typeof value !== 'string') return []
+
+  const trimmed = value.trim()
+  if (!trimmed) return []
+
+  try {
+    const parsed = JSON.parse(trimmed)
+    if (Array.isArray(parsed)) {
+      return parsed.map((item) => String(item || '').trim()).filter(Boolean)
+    }
+  } catch {}
+
+  return [trimmed]
+}
+
+function restoreCheckpoints(hasil: HasilMahasiswa | null) {
+  const checkpoints = buildInitialCheckpoints()
+  if (!hasil) return checkpoints
+
+  const cpList: CheckpointId[] = [
+    'cp01', 'cp02', 'cp03', 'cp04', 'cp05', 'cp06', 'cp07', 'cp08', 'cp09',
+  ]
+
+  cpList.forEach((cp) => {
+    const key = `ss_${cp}` as keyof HasilMahasiswa
+    const urls = parseScreenshotList(hasil[key])
+    if (urls.length === 0) return
+
+    checkpoints[cp] = {
+      status: 'done',
+      screenshotUrl: urls[0],
+      screenshotUrls: urls,
+    }
+  })
+
+  return checkpoints
+}
+
+function restoreExamStatus(hasil: HasilMahasiswa | null): ExamStatus {
+  const rawStatus = String(hasil?.status || '').trim().toLowerCase()
+  if (rawStatus === 'submitted') return 'submitted'
+  if (rawStatus === 'started' || rawStatus === 'timeout') return 'started'
+  return 'registered'
+}
 
 export default function LoginPage() {
   const router = useRouter()
@@ -36,7 +86,13 @@ export default function LoginPage() {
 
     try {
       // 1. Validasi NIM ke Apps Script
-      const { mahasiswa, config } = await apiGetMahasiswa(trimmed)
+      const [{ mahasiswa, config }, { hasil: hasilList }] = await Promise.all([
+        apiGetMahasiswa(trimmed),
+        apiGetHasil(),
+      ])
+      const hasil = hasilList.find(
+        (item) => String(item.nim || '').trim() === trimmed
+      ) || null
 
       // 2. Cek mode ujian
       if (config.mode_ujian === 'selesai') {
@@ -70,7 +126,8 @@ export default function LoginPage() {
       )
 
       // 5. Build initial checkpoints
-      const checkpoints = buildInitialCheckpoints()
+      const checkpoints = restoreCheckpoints(hasil)
+      const restoredStatus = restoreExamStatus(hasil)
 
       // 6. Build session
       const session: ExamSession = {
@@ -81,10 +138,10 @@ export default function LoginPage() {
         website_ujian: mahasiswa.website_ujian,
         tokoSoal,
         produkSoal,
-        status: 'registered',
-        registeredAt: new Date().toISOString(),
-        startedAt: null,
-        submittedAt: null,
+        status: restoredStatus,
+        registeredAt: hasil?.waktu_login ? String(hasil.waktu_login) : new Date().toISOString(),
+        startedAt: hasil?.waktu_mulai ? String(hasil.waktu_mulai) : null,
+        submittedAt: hasil?.waktu_submit ? String(hasil.waktu_submit) : null,
         checkpoints,
       }
 

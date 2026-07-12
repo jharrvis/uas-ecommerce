@@ -1,4 +1,11 @@
-import type { Config, HasilMahasiswa, Mahasiswa, Produk, Toko, Category } from '@/types'
+import type {
+  Category,
+  Config,
+  HasilMahasiswa,
+  Mahasiswa,
+  Produk,
+  Toko,
+} from '@/types'
 
 const BASE_URL = '/api/apps-script'
 
