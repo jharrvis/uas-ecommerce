@@ -285,8 +285,8 @@ export default function DataProduk() {
   }
 
   const downloadTemplate = () => {
-    const headers = "id,id_toko,sku,nama_produk,kategori,harga,stok,berat_kg,dimensi,manufacturer,seo_keyword,gambar_produk,gambar_1,gambar_2,gambar_3"
-    const sample = "P001,T01,SKU-01,Meja Kayu,Furniture;Living Room,500000,10,15,100x50x75,IKEA,meja-kayu-ikea,\"[\\\"https://gambar1.jpg\\\",\\\"https://gambar2.jpg\\\"]\",https://gambar1.jpg,https://gambar2.jpg,"
+    const headers = "id,id_toko,sku,nama_produk,kategori,harga,stok,berat_kg,dimensi,manufacturer,seo_keyword,discount_min_qty,discount_harga,discount_mulai,discount_selesai,special_harga,special_mulai,special_selesai,deskripsi_diskon,deskripsi_special,gambar_produk,gambar_1,gambar_2,gambar_3"
+    const sample = "P001,T01,SKU-01,Meja Kayu,Furniture;Living Room,500000,10,15,100x50x75,IKEA,meja-kayu-ikea,3,450000,2026-08-01,2026-08-31,475000,2026-08-17,2026-08-20,\"Diskon grosir untuk pembelian minimal 3 unit\",\"Harga spesial promo Agustusan\",\"[\\\"https://gambar1.jpg\\\",\\\"https://gambar2.jpg\\\"]\",https://gambar1.jpg,https://gambar2.jpg,"
     const csvContent = `data:text/csv;charset=utf-8,${headers}\n${sample}\n`
     const encodedUri = encodeURI(csvContent)
     const link = document.createElement("a")
@@ -546,6 +546,117 @@ export default function DataProduk() {
                   <input type="text" value={formData.manufacturer} onChange={e => setFormData({...formData, manufacturer: e.target.value})}
                     className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-sm focus:border-sky-500 outline-none" placeholder="Misal: IKEA, Samsung" />
                   <p className="text-xs text-slate-500 mt-1">Logo brand dikelola di tab Data Toko.</p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border-t border-slate-200 dark:border-slate-800 pt-4">
+                  <div className="space-y-4 rounded-xl border border-amber-200 bg-amber-50/60 p-4 dark:border-amber-500/20 dark:bg-amber-500/5">
+                    <div>
+                      <h4 className="text-sm font-bold text-amber-700 dark:text-amber-300">Strategi Diskon</h4>
+                      <p className="mt-1 text-xs text-amber-600 dark:text-amber-400">Dipakai untuk tab Discount pada soal ujian.</p>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-slate-500 mb-1.5">Deskripsi Diskon</label>
+                      <textarea
+                        value={formData.deskripsi_diskon || ''}
+                        onChange={e => setFormData({...formData, deskripsi_diskon: e.target.value})}
+                        rows={3}
+                        className="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg text-sm focus:border-sky-500 outline-none"
+                        placeholder="Contoh: Diskon grosir untuk pembelian minimal 3 unit."
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-xs font-bold text-slate-500 mb-1.5">Minimum Qty</label>
+                        <input
+                          type="number"
+                          value={formData.discount_min_qty ?? 0}
+                          onChange={e => setFormData({...formData, discount_min_qty: Number(e.target.value)})}
+                          className="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg text-sm focus:border-sky-500 outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-bold text-slate-500 mb-1.5">Harga Diskon</label>
+                        <input
+                          type="number"
+                          value={formData.discount_harga ?? 0}
+                          onChange={e => setFormData({...formData, discount_harga: Number(e.target.value)})}
+                          className="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg text-sm focus:border-sky-500 outline-none"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-xs font-bold text-slate-500 mb-1.5">Tanggal Mulai</label>
+                        <input
+                          type="date"
+                          value={formData.discount_mulai || ''}
+                          onChange={e => setFormData({...formData, discount_mulai: e.target.value})}
+                          className="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg text-sm focus:border-sky-500 outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-bold text-slate-500 mb-1.5">Tanggal Selesai</label>
+                        <input
+                          type="date"
+                          value={formData.discount_selesai || ''}
+                          onChange={e => setFormData({...formData, discount_selesai: e.target.value})}
+                          className="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg text-sm focus:border-sky-500 outline-none"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4 rounded-xl border border-emerald-200 bg-emerald-50/60 p-4 dark:border-emerald-500/20 dark:bg-emerald-500/5">
+                    <div>
+                      <h4 className="text-sm font-bold text-emerald-700 dark:text-emerald-300">Harga Spesial</h4>
+                      <p className="mt-1 text-xs text-emerald-600 dark:text-emerald-400">Dipakai untuk tab Special pada soal ujian.</p>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-slate-500 mb-1.5">Deskripsi Harga Spesial</label>
+                      <textarea
+                        value={formData.deskripsi_special || ''}
+                        onChange={e => setFormData({...formData, deskripsi_special: e.target.value})}
+                        rows={3}
+                        className="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg text-sm focus:border-sky-500 outline-none"
+                        placeholder="Contoh: Harga spesial promo 17 Agustus."
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-slate-500 mb-1.5">Harga Spesial</label>
+                      <input
+                        type="number"
+                        value={formData.special_harga ?? 0}
+                        onChange={e => setFormData({...formData, special_harga: Number(e.target.value)})}
+                        className="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg text-sm focus:border-sky-500 outline-none"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-xs font-bold text-slate-500 mb-1.5">Tanggal Mulai</label>
+                        <input
+                          type="date"
+                          value={formData.special_mulai || ''}
+                          onChange={e => setFormData({...formData, special_mulai: e.target.value})}
+                          className="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg text-sm focus:border-sky-500 outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-bold text-slate-500 mb-1.5">Tanggal Selesai</label>
+                        <input
+                          type="date"
+                          value={formData.special_selesai || ''}
+                          onChange={e => setFormData({...formData, special_selesai: e.target.value})}
+                          className="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg text-sm focus:border-sky-500 outline-none"
+                        />
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
               </form>

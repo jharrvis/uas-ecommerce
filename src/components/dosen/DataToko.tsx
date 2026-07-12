@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import Image from 'next/image'
-import { apiDeleteToko, apiGetPool, apiUploadProductAsset, apiUpsertToko } from '@/lib/sheets'
+import { apiDeleteToko, apiGetTokoList, apiUploadProductAsset, apiUpsertToko } from '@/lib/sheets'
 import { getDriveDirectUrl, getTokoBrands, getTokoSlideshows } from '@/lib/utils'
 import type { Toko } from '@/types'
 import TableControls, { getPageCount, getPageItems } from './TableControls'
@@ -41,6 +41,7 @@ export default function DataToko() {
   const [uploadingField, setUploadingField] = useState<string | null>(null)
   const [formData, setFormData] = useState<TokoForm>(emptyToko)
   const [search, setSearch] = useState('')
+  const [statusFilter, setStatusFilter] = useState<'ALL' | 'ACTIVE' | 'INACTIVE'>('ALL')
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(10)
 
@@ -48,7 +49,7 @@ export default function DataToko() {
     setLoading(true)
     setError('')
     try {
-      const res = await apiGetPool()
+      const res = await apiGetTokoList()
       setToko(res.toko)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Gagal memuat data toko')
@@ -63,16 +64,21 @@ export default function DataToko() {
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase()
-    if (!q) return toko
-    return toko.filter((item) => [
+    return toko.filter((item) => {
+      const isActive = item.aktif !== false
+      if (statusFilter === 'ACTIVE' && !isActive) return false
+      if (statusFilter === 'INACTIVE' && isActive) return false
+      if (!q) return true
+      return [
       item.id,
       item.nama_toko,
       item.alamat,
       item.email,
       item.telepon,
       ...getTokoBrands(item).map((brand) => brand.name),
-    ].join(' ').toLowerCase().includes(q))
-  }, [search, toko])
+      ].join(' ').toLowerCase().includes(q)
+    })
+  }, [search, statusFilter, toko])
 
   const pageCount = getPageCount(filtered.length, pageSize)
   const pageItems = getPageItems(filtered, Math.min(page, pageCount), pageSize)
@@ -84,6 +90,11 @@ export default function DataToko() {
 
   const updateSearch = (value: string) => {
     setSearch(value)
+    setPage(1)
+  }
+
+  const updateStatusFilter = (value: 'ALL' | 'ACTIVE' | 'INACTIVE') => {
+    setStatusFilter(value)
     setPage(1)
   }
 
@@ -197,7 +208,18 @@ export default function DataToko() {
         <button onClick={handleAdd} className="px-4 py-2 bg-sky-500 hover:bg-sky-400 text-white text-sm font-bold rounded-lg transition">
           + Tambah Toko
         </button>
-        <span className="text-xs text-slate-500">{toko.length} toko terdaftar</span>
+        <div className="flex items-center gap-3">
+          <select
+            value={statusFilter}
+            onChange={(e) => updateStatusFilter(e.target.value as 'ALL' | 'ACTIVE' | 'INACTIVE')}
+            className="rounded-lg border border-slate-300 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-700 outline-none focus:border-sky-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
+          >
+            <option value="ALL">Semua Status</option>
+            <option value="ACTIVE">Aktif</option>
+            <option value="INACTIVE">Nonaktif</option>
+          </select>
+          <span className="text-xs text-slate-500">{toko.length} toko terdaftar</span>
+        </div>
       </div>
 
       {error && <div className="p-3 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 text-red-600 dark:text-red-400 text-sm rounded-lg font-medium">{error}</div>}

@@ -52,45 +52,51 @@ function buildImageDownloadUrl(imageUrl: string, filename: string): string {
   return `/api/images?url=${encodeURIComponent(imageUrl)}&filename=${encodeURIComponent(filename)}`
 }
 
-function parseProductCategories(produk: Partial<Produk>): string[] {
-  const rawCategories = Array.isArray(produk.kategori)
-    ? produk.kategori
-    : safeArray<unknown>(produk.kategori)
-  const labels: string[] = []
+function extractCategoryPairs(value: unknown): { parent: string; sub: string }[] {
+  if (value === null || value === undefined || value === '') return []
 
-  rawCategories.forEach((item) => {
+  if (typeof value === 'string') {
+    const trimmed = value.trim()
+    if (!trimmed) return []
+
     try {
-      const parsed = typeof item === 'string' ? JSON.parse(item) : item
-
-      if (Array.isArray(parsed)) {
-        parsed.forEach((entry) => {
-          if (entry && typeof entry === 'object' && 'parent' in entry && 'sub' in entry) {
-            labels.push(`${String(entry.parent)} > ${String(entry.sub)}`)
-            return
-          }
-          if (entry !== null && entry !== undefined) {
-            labels.push(String(entry))
-          }
-        })
-        return
-      }
-
-      if (parsed && typeof parsed === 'object' && 'parent' in parsed && 'sub' in parsed) {
-        labels.push(`${String(parsed.parent)} > ${String(parsed.sub)}`)
-        return
-      }
-
-      if (parsed !== null && parsed !== undefined) {
-        labels.push(String(parsed))
-      }
+      return extractCategoryPairs(JSON.parse(trimmed))
     } catch {
-      if (item !== null && item !== undefined) {
-        labels.push(String(item))
-      }
+      return trimmed
+        .split(/\r?\n|[;,]/)
+        .map((item) => item.trim())
+        .filter(Boolean)
+        .map((item) => {
+          const [parent, sub] = item.split('>').map((part) => part.trim())
+          return parent && sub ? { parent, sub } : { parent: item, sub: '' }
+        })
+        .filter((item) => item.parent && item.sub)
     }
-  })
+  }
 
-  return labels.filter(Boolean)
+  if (Array.isArray(value)) {
+    return value.flatMap((entry) => extractCategoryPairs(entry))
+  }
+
+  if (typeof value === 'object') {
+    const category = value as Record<string, unknown>
+    if (category.parent && category.sub) {
+      return [{ parent: String(category.parent).trim(), sub: String(category.sub).trim() }]
+    }
+  }
+
+  return []
+}
+
+function getProductCategoryPairs(produk: Partial<Produk>): { parent: string; sub: string }[] {
+  const rawProduk = produk as Record<string, unknown>
+  const fromKategoriDisplay = extractCategoryPairs(rawProduk.kategori_display)
+  if (fromKategoriDisplay.length > 0) return fromKategoriDisplay
+  return extractCategoryPairs(produk.kategori)
+}
+
+function parseProductCategories(produk: Partial<Produk>): string[] {
+  return getProductCategoryPairs(produk).map((item) => `${item.parent} > ${item.sub}`)
 }
 
 function parseProductAttributes(produk: Partial<Produk>): ProductAttribute[] {
@@ -362,47 +368,7 @@ function CP02Content({ toko }: { toko: Toko }) {
 
 /* CP-03: Kategori */
 function CP03Content({ produk }: { produk: Produk[] }) {
-  // Fungsi untuk mengekstrak kategori dari format data baru
-  const extractCategories = (produk: Produk[]): { parent: string; sub: string }[] => {
-    const categories: { parent: string; sub: string }[] = []
-    
-    produk.forEach(item => {
-      // Cek jika ada field kategori dengan format array of objects
-      if (item.kategori && Array.isArray(item.kategori)) {
-        item.kategori.forEach(categoryStr => {
-          try {
-            // Parse JSON string jika perlu
-            let categoryData
-            if (typeof categoryStr === 'string') {
-              categoryData = JSON.parse(categoryStr)
-            } else {
-              categoryData = categoryStr
-            }
-            
-            // Jika format adalah array of objects dengan parent dan sub
-            if (Array.isArray(categoryData)) {
-              categoryData.forEach(cat => {
-                if (cat.parent && cat.sub) {
-                  categories.push({ parent: cat.parent, sub: cat.sub })
-                }
-              })
-            }
-            // Jika format adalah object dengan parent dan sub
-            else if (categoryData.parent && categoryData.sub) {
-              categories.push({ parent: categoryData.parent, sub: categoryData.sub })
-            }
-          } catch (e) {
-            // Jika gagal parse, abaikan
-            console.warn('Failed to parse category:', categoryStr)
-          }
-        })
-      }
-    })
-    
-    return categories
-  }
-
-  const categories = extractCategories(produk)
+  const categories = produk.flatMap((item) => getProductCategoryPairs(item))
   
   // Kelompokkan kategori berdasarkan parent
   const groupedCategories = categories.reduce((acc, cat) => {

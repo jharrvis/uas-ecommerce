@@ -72,6 +72,13 @@ export async function apiGetPool(): Promise<{
   return appsGet('getPool')
 }
 
+export async function apiGetTokoList(): Promise<{
+  toko: Toko[]
+  total: number
+}> {
+  return appsGet('getTokoList')
+}
+
 export async function apiGetCategories(): Promise<{
   categories: Category[]
 }> {

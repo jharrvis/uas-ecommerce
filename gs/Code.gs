@@ -140,6 +140,7 @@ function doGet(e) {
       case 'getMahasiswa': result = getMahasiswa(e.parameter.nim);       break;
       case 'getMahasiswaList': result = getMahasiswaList(e.parameter.kelas); break;
       case 'getPool'     : result = getPool();                           break;
+      case 'getTokoList' : result = getTokoList();                       break;
       case 'getHasil'    : result = getHasil(e.parameter.kelas);         break;
       case 'getConfig'   : result = getConfig();                         break;
       case 'getSummary'  : result = getSummary();                        break;
@@ -1254,4 +1255,38 @@ function resetHasil() {
     }
     ui.alert('✅ Data Hasil_Ujian telah direset.');
   }
+}
+function getTokoList() {
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const sheetToko = ss.getSheetByName(SHEET.TOKO);
+  ensureSheetHeaders(sheetToko, TOKO_HEADERS);
+  const dataToko = sheetToko.getDataRange().getValues();
+  const headerToko = dataToko[0];
+  const toko = [];
+
+  for (let i = 1; i < dataToko.length; i++) {
+    const row = dataToko[i];
+    if (!row[0]) continue;
+
+    const obj = rowToObj(headerToko, row);
+    ['event_promo'].forEach(field => {
+      if (obj[field] && typeof obj[field] === 'string') {
+        try { obj[field] = JSON.parse(obj[field]); }
+        catch (_) {
+          if (obj[field].includes(';')) obj[field] = obj[field].split(';').map(s => s.trim());
+        }
+      }
+    });
+
+    const aktif = String(obj.aktif).toUpperCase();
+    obj.aktif = !(aktif === 'FALSE' || aktif === '0' || aktif === 'TIDAK');
+    toko.push(obj);
+  }
+
+  return {
+    success: true,
+    toko,
+    total: toko.length,
+    timestamp: new Date().toISOString(),
+  };
 }
