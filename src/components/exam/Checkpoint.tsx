@@ -979,6 +979,9 @@ function CP09Content({ toko, produk }: { produk: Produk[]; toko: Toko }) {
       <Callout type="info">
         Buka <strong>Extensions ? Modules ? Slideshow</strong> (atau Banners). Tambahkan banner slideshow toko berikut.
       </Callout>
+      <Callout type="info">
+        Tampilkan juga semua produk di beranda pada kolom <strong>Featured</strong> atau produk unggulan.
+      </Callout>
       <SectionTitle>Banner Slideshow Toko</SectionTitle>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {slideshows.map((url, index) => (
@@ -1023,7 +1026,7 @@ function CP09Content({ toko, produk }: { produk: Produk[]; toko: Toko }) {
       ))}
       <Callout type="warning">
         Setiap banner harus memiliki <strong>link</strong> yang mengarah ke halaman produk tersebut.
-        Pastikan slideshow tampil di halaman depan toko.
+        Pastikan slideshow tampil di halaman depan toko dan semua produk muncul pada bagian <strong>Featured</strong> atau produk unggulan.
       </Callout>
     </div>
   )

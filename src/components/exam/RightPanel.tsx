@@ -194,6 +194,7 @@ export default function RightPanel({ isExamLocked, onSubmit, submitting }: Right
                   `Input ${produk.length} produk lengkap sesuai data di masing-masing checkpoint.`,
                   `Terapkan strategi diskon dan harga spesial untuk event ${eventPromo.slice(0, 2).join(' dan ') || 'promosi'}.`,
                   'Pasang banner slideshow produk Anda di halaman depan toko.',
+                  'Tampilkan semua produk di beranda pada kolom <strong>Featured</strong> atau produk unggulan.',
                 ].map((text, i) => (
                   <li key={i} className="flex items-start gap-3">
                     <span className="flex-shrink-0 w-6 h-6 rounded-full bg-sky-100 dark:bg-sky-500/20 text-sky-600 dark:text-sky-400 text-sm font-bold flex items-center justify-center mt-0.5">
