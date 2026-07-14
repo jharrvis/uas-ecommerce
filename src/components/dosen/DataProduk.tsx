@@ -23,6 +23,7 @@ export default function DataProduk() {
   const [saving, setSaving] = useState(false)
   const [formData, setFormData] = useState<Partial<Produk>>({
     id: '', id_toko: '', sku: '', nama_produk: '', kategori: [],
+    description: '',
     harga: 0, stok: 0, berat_kg: 0, dimensi: '',
     manufacturer: '', logo_manufacturer: '',
     deskripsi_diskon: '', discount_min_qty: 0, discount_harga: 0, discount_mulai: '', discount_selesai: '',
@@ -85,6 +86,7 @@ export default function DataProduk() {
   const handleAdd = () => {
     setFormData({
       id: `P${Date.now()}`, id_toko: '', sku: '', nama_produk: '',
+      description: '',
       kategori: [], attributes: [], options: [], harga: 0, stok: 10, gambar_produk: []
     })
     setShowForm(true)
@@ -287,8 +289,8 @@ export default function DataProduk() {
   }
 
   const downloadTemplate = () => {
-    const headers = "id,id_toko,sku,nama_produk,kategori,harga,stok,berat_kg,dimensi,manufacturer,seo_keyword,discount_min_qty,discount_harga,discount_mulai,discount_selesai,special_harga,special_mulai,special_selesai,deskripsi_diskon,deskripsi_special,gambar_produk,gambar_1,gambar_2,gambar_3"
-    const sample = "P001,T01,SKU-01,Meja Kayu,Furniture;Living Room,500000,10,15,100x50x75,IKEA,meja-kayu-ikea,3,450000,2026-08-01,2026-08-31,475000,2026-08-17,2026-08-20,\"Diskon grosir untuk pembelian minimal 3 unit\",\"Harga spesial promo Agustusan\",\"[\\\"https://gambar1.jpg\\\",\\\"https://gambar2.jpg\\\"]\",https://gambar1.jpg,https://gambar2.jpg,"
+    const headers = "id,id_toko,sku,nama_produk,description,kategori,harga,stok,berat_kg,dimensi,manufacturer,seo_keyword,discount_min_qty,discount_harga,discount_mulai,discount_selesai,special_harga,special_mulai,special_selesai,deskripsi_diskon,deskripsi_special,gambar_produk,gambar_1,gambar_2,gambar_3"
+    const sample = "P001,T01,SKU-01,Meja Kayu,Meja kayu minimalis untuk ruang tamu dan ruang keluarga,Furniture;Living Room,500000,10,15,100x50x75,IKEA,meja-kayu-ikea,3,450000,2026-08-01,2026-08-31,475000,2026-08-17,2026-08-20,\"Diskon grosir untuk pembelian minimal 3 unit\",\"Harga spesial promo Agustusan\",\"[\\\"https://gambar1.jpg\\\",\\\"https://gambar2.jpg\\\"]\",https://gambar1.jpg,https://gambar2.jpg,"
     const csvContent = `data:text/csv;charset=utf-8,${headers}\n${sample}\n`
     const encodedUri = encodeURI(csvContent)
     const link = document.createElement("a")
@@ -385,6 +387,11 @@ export default function DataProduk() {
                   <td className="px-4 py-3 min-w-[200px]">
                     <p className="font-medium text-slate-900 dark:text-slate-100">{p.nama_produk}</p>
                     <p className="text-xs text-slate-500 font-mono mt-0.5">{p.sku}</p>
+                    {p.description && (
+                      <p className="mt-1 max-w-[320px] truncate text-[11px] text-slate-500 dark:text-slate-400" title={p.description}>
+                        {p.description}
+                      </p>
+                    )}
                   </td>
                   <td className="px-4 py-3">
                     <p className="text-xs text-slate-700 dark:text-slate-300">{p.manufacturer}</p>
@@ -488,6 +495,17 @@ export default function DataProduk() {
                     <label className="block text-xs font-bold text-slate-500 mb-1.5">Nama Produk</label>
                     <input type="text" value={formData.nama_produk} onChange={e => setFormData({...formData, nama_produk: e.target.value})}
                       className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-sm focus:border-sky-500 outline-none" required />
+                  </div>
+
+                  <div className="md:col-span-2">
+                    <label className="block text-xs font-bold text-slate-500 mb-1.5">Deskripsi Produk</label>
+                    <textarea
+                      value={String(formData.description || '')}
+                      onChange={e => setFormData({...formData, description: e.target.value})}
+                      rows={4}
+                      className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-sm focus:border-sky-500 outline-none"
+                      placeholder="Deskripsi singkat produk untuk tab General & Data."
+                    />
                   </div>
                   
                   <div>

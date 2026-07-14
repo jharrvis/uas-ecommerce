@@ -81,6 +81,7 @@ export interface Produk {
   id: string
   id_toko: string
   nama_produk: string
+  description?: string
   manufacturer: string
   logo_manufacturer: string
   harga: number

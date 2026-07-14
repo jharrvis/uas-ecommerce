@@ -556,6 +556,7 @@ function CP04Content({ produk, fmt }: { produk: Produk[]; fmt: (n: number) => st
                   <h4 className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">Informasi Produk</h4>
                   <InfoTable rows={[
                     ['Product Name', p.nama_produk],
+                    ['Description', p.description || 'Belum diisi'],
                     ['Manufacturer', p.manufacturer],
                     ['Meta Tag Title', p.nama_produk],
                     ['Model', p.sku.split('-').slice(0,2).join('-')],
@@ -568,6 +569,15 @@ function CP04Content({ produk, fmt }: { produk: Produk[]; fmt: (n: number) => st
                     ['Status', 'Enabled'],
                   ]} />
                 </div>
+
+                {p.description && (
+                  <div>
+                    <h4 className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">Deskripsi Produk</h4>
+                    <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm leading-relaxed text-slate-700 dark:border-slate-700 dark:bg-slate-900/50 dark:text-slate-300">
+                      {p.description}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>
