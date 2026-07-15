@@ -570,14 +570,6 @@ function CP04Content({ produk, fmt }: { produk: Produk[]; fmt: (n: number) => st
                   ]} />
                 </div>
 
-                {p.description && (
-                  <div>
-                    <h4 className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">Deskripsi Produk</h4>
-                    <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm leading-relaxed text-slate-700 dark:border-slate-700 dark:bg-slate-900/50 dark:text-slate-300">
-                      {p.description}
-                    </div>
-                  </div>
-                )}
               </div>
             )}
           </div>
