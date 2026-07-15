@@ -136,6 +136,7 @@ export interface ExamSession {
   registeredAt: string
   startedAt: string | null
   submittedAt: string | null
+  extraTimeMinutes: number
   checkpoints: Record<CheckpointId, CheckpointState>
 }
 
@@ -174,6 +175,15 @@ export interface HasilMahasiswa {
   retake_requested_at?: string
   retake_approved_at?: string
   retake_count?: number | string
+  tambahan_waktu_menit?: number | string
+}
+
+export interface ExamControl {
+  nim: string
+  status: string
+  waktu_mulai: string
+  waktu_submit: string
+  tambahan_waktu_menit: number
 }
 
 export interface ApiResponse<T = unknown> {

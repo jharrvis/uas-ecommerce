@@ -1,12 +1,15 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import { Clock3, Plus, RotateCcw, X } from 'lucide-react'
 import {
   apiApproveRetake,
+  apiExtendExamTime,
   apiExportNilai,
   apiGetConfig,
   apiGetHasil,
   apiGetSummary,
+  apiResetExamTimer,
   apiUpdateConfig,
   apiUpdateNilai,
 } from '@/lib/sheets'
@@ -61,6 +64,168 @@ function StatusBadge({ status }: { status: string }) {
     <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${map[status] || map.registered}`}>
       {label[status] || status}
     </span>
+  )
+}
+
+function TimeControlModal({ mhs, onClose, onChanged }: {
+  mhs: HasilMahasiswa
+  onClose: () => void
+  onChanged: () => Promise<void>
+}) {
+  const [minutes, setMinutes] = useState(15)
+  const [action, setAction] = useState<'reset' | 'extend' | null>(null)
+  const [error, setError] = useState('')
+  const currentExtra = Number(mhs.tambahan_waktu_menit) || 0
+
+  const handleReset = async () => {
+    if (!window.confirm(
+      `Reset waktu berjalan ${mhs.nama} ke 0 menit dan mulai kembali sekarang? ` +
+      'Countdown kembali ke durasi penuh dan screenshot tetap tersimpan.'
+    )) return
+
+    setAction('reset')
+    setError('')
+    try {
+      await apiResetExamTimer(mhs.nim)
+      await onChanged()
+      onClose()
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : 'Gagal mereset timer mahasiswa.')
+    } finally {
+      setAction(null)
+    }
+  }
+
+  const handleExtend = async () => {
+    if (!Number.isFinite(minutes) || minutes < 1 || minutes > 300) {
+      setError('Tambahan waktu harus antara 1 sampai 300 menit.')
+      return
+    }
+
+    setAction('extend')
+    setError('')
+    try {
+      await apiExtendExamTime(mhs.nim, minutes)
+      await onChanged()
+      onClose()
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : 'Gagal menambah waktu mahasiswa.')
+    } finally {
+      setAction(null)
+    }
+  }
+
+  return (
+    <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+      <button
+        type="button"
+        aria-label="Tutup kelola waktu"
+        onClick={onClose}
+        className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm"
+      />
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="time-control-title"
+        className="relative max-h-[calc(100dvh-2rem)] w-full max-w-lg overflow-y-auto rounded-2xl border border-slate-200 bg-white shadow-2xl dark:border-slate-700 dark:bg-slate-900"
+      >
+        <div className="flex items-start justify-between border-b border-slate-200 p-5 dark:border-slate-700">
+          <div className="flex gap-3">
+            <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-sky-100 text-sky-700 dark:bg-sky-500/20 dark:text-sky-300">
+              <Clock3 size={22} aria-hidden="true" />
+            </div>
+            <div>
+              <h2 id="time-control-title" className="font-bold text-slate-900 dark:text-white">
+                Kelola Waktu Mahasiswa
+              </h2>
+              <p className="mt-0.5 text-sm text-slate-500 dark:text-slate-400">
+                {mhs.nama} · {mhs.nim}
+              </p>
+            </div>
+          </div>
+          <button
+            type="button"
+            aria-label="Tutup"
+            onClick={onClose}
+            className="flex h-11 w-11 items-center justify-center rounded-xl text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-white"
+          >
+            <X size={20} aria-hidden="true" />
+          </button>
+        </div>
+
+        <div className="space-y-5 p-5">
+          <div className="grid grid-cols-2 gap-3 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm dark:border-slate-700 dark:bg-slate-800/60">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Status</p>
+              <div className="mt-1"><StatusBadge status={mhs.status} /></div>
+            </div>
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Tambahan aktif</p>
+              <p className="mt-1 font-mono font-bold text-sky-700 dark:text-sky-300">
+                +{currentExtra} menit
+              </p>
+            </div>
+          </div>
+
+          <div>
+            <label htmlFor="extension-minutes" className="text-sm font-bold text-slate-800 dark:text-slate-200">
+              Tambah waktu
+            </label>
+            <p className="mt-1 text-xs leading-relaxed text-slate-500 dark:text-slate-400">
+              Jika status sudah timeout, ujian dibuka kembali dengan sisa waktu sesuai nilai ini.
+            </p>
+            <div className="mt-3 flex gap-2">
+              <div className="relative flex-1">
+                <input
+                  id="extension-minutes"
+                  type="number"
+                  min={1}
+                  max={300}
+                  value={minutes}
+                  onChange={(event) => setMinutes(Number(event.target.value))}
+                  className="h-11 w-full rounded-xl border border-slate-300 bg-white px-4 pr-16 font-mono font-bold text-slate-900 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 dark:border-slate-600 dark:bg-slate-950 dark:text-white"
+                />
+                <span className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-xs text-slate-500">
+                  menit
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={() => void handleExtend()}
+                disabled={action !== null}
+                className="flex min-h-11 items-center justify-center gap-2 rounded-xl bg-sky-600 px-4 text-sm font-bold text-white transition hover:bg-sky-500 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                <Plus size={17} aria-hidden="true" />
+                {action === 'extend' ? 'Memproses...' : 'Tambahkan'}
+              </button>
+            </div>
+          </div>
+
+          <div className="border-t border-slate-200 pt-5 dark:border-slate-700">
+            <p className="text-sm font-bold text-slate-800 dark:text-slate-200">Reset timer ke awal</p>
+            <p className="mt-1 text-xs leading-relaxed text-slate-500 dark:text-slate-400">
+              Waktu berjalan kembali 0 menit dan countdown kembali ke durasi penuh. Screenshot,
+              checkpoint, folder Drive, nilai, dan pekerjaan di website praktik tidak dihapus.
+            </p>
+            <button
+              type="button"
+              onClick={() => void handleReset()}
+              disabled={action !== null}
+              className="mt-3 flex min-h-11 w-full items-center justify-center gap-2 rounded-xl border border-amber-300 bg-amber-50 px-4 text-sm font-bold text-amber-800 transition hover:bg-amber-100 disabled:cursor-not-allowed disabled:opacity-50 dark:border-amber-500/40 dark:bg-amber-500/10 dark:text-amber-300 dark:hover:bg-amber-500/20"
+            >
+              <RotateCcw size={17} aria-hidden="true" />
+              {action === 'reset' ? 'Mereset...' : 'Reset dan Mulai Sekarang'}
+            </button>
+          </div>
+
+          {error && (
+            <p role="alert" className="rounded-xl border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-500/40 dark:bg-red-500/10 dark:text-red-300">
+              {error}
+            </p>
+          )}
+        </div>
+      </div>
+    </div>
   )
 }
 
@@ -291,6 +456,7 @@ export default function DosenPage() {
   const [filterKelas, setFilterKelas] = useState('ALL')
   const [filterStatus, setFilterStatus] = useState('ALL')
   const [selected, setSelected] = useState<HasilMahasiswa | null>(null)
+  const [timeControl, setTimeControl] = useState<HasilMahasiswa | null>(null)
   const [exporting, setExporting] = useState(false)
   const [activeTab, setActiveTab] = useState<'hasil' | 'toko' | 'mahasiswa' | 'produk' | 'config'>('hasil')
   const [search, setSearch] = useState('')
@@ -370,11 +536,29 @@ export default function DosenPage() {
   }
 
   const handleSaveConfig = async () => {
+    const nextMode = String(config.mode_ujian || '').toLowerCase()
+    const openExamCount = hasil.filter((item) => {
+      const status = String(item.status || '').toLowerCase()
+      return status === 'started' || status === 'timeout'
+    }).length
+    if (
+      nextMode === 'selesai' &&
+      !window.confirm(
+        `Tutup ujian dan ubah ${openExamCount} mahasiswa yang sedang/timeout menjadi selesai? ` +
+        'Screenshot dan hasil pekerjaan tetap disimpan.'
+      )
+    ) return
+
     setSavingConfig(true)
     try {
-      await apiUpdateConfig(config)
+      const response = await apiUpdateConfig(config) as { finalized_count?: number }
       await fetchData()
-      window.alert('Config berhasil disimpan.')
+      const finalized = Number(response.finalized_count) || 0
+      window.alert(
+        nextMode === 'selesai'
+          ? `Ujian ditutup. ${finalized} mahasiswa diubah menjadi selesai tanpa menghapus bukti.`
+          : 'Config berhasil disimpan.'
+      )
     } catch (e) {
       console.error(e)
       window.alert('Gagal menyimpan config.')
@@ -558,14 +742,14 @@ export default function DosenPage() {
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="bg-slate-50 dark:bg-slate-900 text-slate-500 dark:text-slate-400 text-xs border-b border-slate-200 dark:border-slate-700">
-                      {['NIM','Nama','Kelas','Status','Mulai','Durasi','CP Done','Nilai','Aksi'].map((h) => (
+                      {['NIM','Nama','Kelas','Status','Mulai','Durasi','Tambahan','CP Done','Nilai','Aksi'].map((h) => (
                         <th key={h} className="px-4 py-3 text-left font-semibold whitespace-nowrap">{h}</th>
                       ))}
                     </tr>
                   </thead>
                   <tbody>
                     {filtered.length === 0 ? (
-                      <tr><td colSpan={9} className="px-4 py-8 text-center text-slate-500 text-sm">
+                      <tr><td colSpan={10} className="px-4 py-8 text-center text-slate-500 text-sm">
                         {loading ? 'Memuat data...' : 'Belum ada data ujian'}
                       </td></tr>
                     ) : pageItems.map((h, i) => {
@@ -577,6 +761,8 @@ export default function DosenPage() {
                       const canApproveRetake =
                         String(h.status || '').trim().toLowerCase() === 'timeout' &&
                         isTruthy(h.retake_requested)
+                      const normalizedStatus = String(h.status || '').trim().toLowerCase()
+                      const canManageTime = normalizedStatus === 'started' || normalizedStatus === 'timeout'
                       return (
                         <tr key={h.nim} className={`border-b border-slate-100 dark:border-slate-700/50 hover:bg-slate-50 dark:hover:bg-slate-700/30 transition cursor-pointer ${i%2===1?'bg-slate-50 dark:bg-slate-800/50':''}`}
                           onClick={() => setSelected(h)}>
@@ -587,7 +773,12 @@ export default function DosenPage() {
                           <td className="px-4 py-3 text-xs text-slate-500 dark:text-slate-400 whitespace-nowrap">
                             {h.waktu_mulai ? new Date(h.waktu_mulai).toLocaleTimeString('id-ID', {hour:'2-digit',minute:'2-digit'}) : '—'}
                           </td>
-                          <td className="px-4 py-3 text-xs text-slate-500 dark:text-slate-400 text-center">{h.durasi_menit ? `${h.durasi_menit}m` : '—'}</td>
+                          <td className="px-4 py-3 text-xs text-slate-500 dark:text-slate-400 text-center">
+                            {h.waktu_mulai ? `${Number(h.durasi_menit) || 0}m` : '—'}
+                          </td>
+                          <td className="px-4 py-3 text-center font-mono text-xs font-bold text-sky-600 dark:text-sky-400">
+                            {Number(h.tambahan_waktu_menit) > 0 ? `+${h.tambahan_waktu_menit}m` : '—'}
+                          </td>
                           <td className="px-4 py-3 text-center">
                             <span className={`text-xs font-bold ${cpDone === 9 ? 'text-emerald-500 dark:text-emerald-400' : cpDone > 0 ? 'text-sky-600 dark:text-sky-400' : 'text-slate-400 dark:text-slate-600'}`}>
                               {cpDone}/9
@@ -602,6 +793,19 @@ export default function DosenPage() {
                                 onClick={(e) => { e.stopPropagation(); setSelected(h) }}>
                                 Nilai
                               </button>
+                              {canManageTime && (
+                                <button
+                                  type="button"
+                                  className="flex min-h-9 items-center gap-1.5 whitespace-nowrap rounded-lg border border-sky-200 bg-sky-50 px-2.5 py-1 text-xs font-semibold text-sky-700 transition hover:bg-sky-100 dark:border-sky-500/30 dark:bg-sky-500/20 dark:text-sky-300 dark:hover:bg-sky-500/30"
+                                  onClick={(event) => {
+                                    event.stopPropagation()
+                                    setTimeControl(h)
+                                  }}
+                                >
+                                  <Clock3 size={14} aria-hidden="true" />
+                                  Waktu
+                                </button>
+                              )}
                               {canApproveRetake && (
                                 <button
                                   className="px-2.5 py-1 bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-700 text-xs font-semibold rounded-lg transition dark:bg-amber-500/20 dark:border-amber-500/30 dark:text-amber-300"
@@ -658,6 +862,12 @@ export default function DosenPage() {
                   <option value="jeda">jeda</option>
                   <option value="selesai">selesai</option>
                 </select>
+                {String(config.mode_ujian || '').toLowerCase() === 'selesai' && (
+                  <span className="block rounded-lg border border-amber-300 bg-amber-50 px-3 py-2 text-xs leading-relaxed text-amber-800 dark:border-amber-500/40 dark:bg-amber-500/10 dark:text-amber-300">
+                    Saat disimpan, semua mahasiswa berstatus sedang atau timeout akan menjadi
+                    selesai. Screenshot, checkpoint, nilai, dan folder Drive tetap dipertahankan.
+                  </span>
+                )}
               </label>
 
               <label className="space-y-2">
@@ -727,6 +937,13 @@ export default function DosenPage() {
           mhs={selected}
           onClose={() => setSelected(null)}
           onSaved={() => { setSelected(null); fetchData() }}
+        />
+      )}
+      {timeControl && (
+        <TimeControlModal
+          mhs={timeControl}
+          onClose={() => setTimeControl(null)}
+          onChanged={fetchData}
         />
       )}
     </div>

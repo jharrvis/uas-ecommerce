@@ -120,6 +120,13 @@ Perhatikan format:
 5. Copy URL Web App.
 6. Masukkan ke `APPS_SCRIPT_URL` di `.env.local`.
 
+### Memperbarui deployment yang sudah aktif
+
+Jika Web App sudah pernah dibuat, paste versi terbaru `gs/Code.gs`, lalu buka
+`Deploy > Manage deployments > Edit`. Pilih `New version` dan klik `Deploy` agar URL Web App
+yang sama memakai kode terbaru. Saat dashboard pertama kali memuat hasil ujian, kolom
+`tambahan_waktu_menit` akan ditambahkan otomatis ke `Hasil_Ujian` jika belum tersedia.
+
 ## 9. Samakan Kode Dosen
 
 Nilai berikut harus sama:

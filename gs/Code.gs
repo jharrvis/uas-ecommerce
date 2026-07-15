@@ -94,6 +94,7 @@ const COL_HASIL = {
   RETAKE_REQUESTED_AT : 34,
   RETAKE_APPROVED_AT  : 35,
   RETAKE_COUNT        : 36,
+  TAMBAHAN_WAKTU_MENIT: 37,
 };
 
 const HASIL_HEADERS = [
@@ -106,7 +107,8 @@ const HASIL_HEADERS = [
   'nilai_cp01', 'nilai_cp02', 'nilai_cp03', 'nilai_cp04', 'nilai_cp05',
   'nilai_cp06', 'nilai_cp07', 'nilai_cp08', 'nilai_cp09',
   'nilai_total', 'grade', 'catatan',
-  'retake_requested', 'retake_requested_at', 'retake_approved_at', 'retake_count'
+  'retake_requested', 'retake_requested_at', 'retake_approved_at', 'retake_count',
+  'tambahan_waktu_menit'
 ];
 
 // Bobot nilai per checkpoint (total = 100)
@@ -160,6 +162,7 @@ function doGet(e) {
       case 'getTokoList' : result = getTokoList();                       break;
       case 'getHasil'    : result = getHasil(e.parameter.kelas);         break;
       case 'getConfig'   : result = getConfig();                         break;
+      case 'getExamControl': result = getExamControl(e.parameter.nim);   break;
       case 'getSummary'  : result = getSummary();                        break;
       case 'logEvent'    : result = logEvent(normalizeLogEventParams(e.parameter)); break;
       default:
@@ -191,6 +194,8 @@ function doPost(e) {
       case 'exportNilai'     : result = exportNilai(body);      break;
       case 'requestRetake'   : result = requestRetake(body);    break;
       case 'approveRetake'   : result = approveRetake(body);    break;
+      case 'resetExamTimer'  : result = resetExamTimer(body);   break;
+      case 'extendExamTime'  : result = extendExamTime(body);   break;
       case 'updateConfig'    : result = updateConfig(body);     break;
       case 'upsertMahasiswa' : result = upsertMahasiswa(body);  break;
       case 'importMahasiswa' : result = importMahasiswa(body);  break;
@@ -508,13 +513,14 @@ function logEvent(body) {
   // Jika belum ada, buat baris baru
   if (rowIdx === -1) {
     const mhs = getMahasiswaObj(nim);
-    const newRow = new Array(COL_HASIL.RETAKE_COUNT).fill('');
+    const newRow = new Array(COL_HASIL.TAMBAHAN_WAKTU_MENIT).fill('');
     newRow[COL_HASIL.NIM - 1]   = nim;
     newRow[COL_HASIL.NAMA - 1]  = mhs ? mhs.nama : '';
     newRow[COL_HASIL.KELAS - 1] = mhs ? mhs.kelas : '';
     newRow[COL_HASIL.STATUS - 1] = 'registered';
     newRow[COL_HASIL.RETAKE_REQUESTED - 1] = 'FALSE';
     newRow[COL_HASIL.RETAKE_COUNT - 1] = 0;
+    newRow[COL_HASIL.TAMBAHAN_WAKTU_MENIT - 1] = 0;
     sheet.appendRow(newRow);
     rowIdx = sheet.getLastRow();
   }
@@ -556,6 +562,25 @@ function logEvent(body) {
       break;
 
     case 'timeout':
+      const config = getConfigObject();
+      const baseDuration = Number(config.durasi_ujian_menit) || 90;
+      const extraDuration = Number(
+        sheet.getRange(rowIdx, COL_HASIL.TAMBAHAN_WAKTU_MENIT).getValue()
+      ) || 0;
+      const timeoutStart = sheet.getRange(rowIdx, COL_HASIL.WAKTU_MULAI).getValue();
+      if (timeoutStart) {
+        const deadline = new Date(timeoutStart).getTime()
+          + (baseDuration + extraDuration) * 60000;
+        if (Date.now() < deadline) {
+          return {
+            success: true,
+            event,
+            nim,
+            ignored: true,
+            message: 'Timeout diabaikan karena mahasiswa masih memiliki waktu.',
+          };
+        }
+      }
       sheet.getRange(rowIdx, COL_HASIL.STATUS).setValue('timeout');
       const mulaiTout = sheet.getRange(rowIdx, COL_HASIL.WAKTU_MULAI).getValue();
       if (mulaiTout) {
@@ -592,6 +617,124 @@ function getHasil(kelas) {
   }
 
   return { success: true, hasil, total: hasil.length };
+}
+
+function getExamControl(nim) {
+  const normalizedNim = nim ? String(nim).trim() : '';
+  if (!normalizedNim) return { success: false, message: 'nim wajib diisi' };
+
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const sheet = ss.getSheetByName(SHEET.HASIL);
+  ensureSheetHeaders(sheet, HASIL_HEADERS);
+  const data = sheet.getDataRange().getValues();
+
+  for (let i = 1; i < data.length; i++) {
+    if (String(data[i][COL_HASIL.NIM - 1]).trim() !== normalizedNim) continue;
+    return {
+      success: true,
+      config: getConfigObject(),
+      control: {
+        nim: normalizedNim,
+        status: String(data[i][COL_HASIL.STATUS - 1] || 'registered'),
+        waktu_mulai: data[i][COL_HASIL.WAKTU_MULAI - 1] || '',
+        waktu_submit: data[i][COL_HASIL.WAKTU_SUBMIT - 1] || '',
+        tambahan_waktu_menit:
+          Number(data[i][COL_HASIL.TAMBAHAN_WAKTU_MENIT - 1]) || 0,
+      },
+    };
+  }
+
+  return { success: false, message: 'Data hasil ujian untuk NIM tidak ditemukan.' };
+}
+
+function resetExamTimer(body) {
+  const nim = body && body.nim ? String(body.nim).trim() : '';
+  if (!nim) return { success: false, message: 'nim wajib diisi' };
+
+  const lock = LockService.getScriptLock();
+  lock.waitLock(10000);
+  try {
+    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+    const sheet = ss.getSheetByName(SHEET.HASIL);
+    ensureSheetHeaders(sheet, HASIL_HEADERS);
+    const data = sheet.getDataRange().getValues();
+    const now = new Date().toISOString();
+
+    for (let i = 1; i < data.length; i++) {
+      if (String(data[i][COL_HASIL.NIM - 1]).trim() !== nim) continue;
+      const status = String(data[i][COL_HASIL.STATUS - 1] || '').toLowerCase();
+      if (status === 'submitted' || status === 'scored') {
+        return { success: false, message: 'Timer ujian yang sudah selesai tidak dapat direset.' };
+      }
+
+      const rowIdx = i + 1;
+      sheet.getRange(rowIdx, COL_HASIL.WAKTU_MULAI).setValue(now);
+      sheet.getRange(rowIdx, COL_HASIL.WAKTU_SUBMIT).setValue('');
+      sheet.getRange(rowIdx, COL_HASIL.DURASI_MENIT).setValue(0);
+      sheet.getRange(rowIdx, COL_HASIL.STATUS).setValue('started');
+      sheet.getRange(rowIdx, COL_HASIL.TAMBAHAN_WAKTU_MENIT).setValue(0);
+      sheet.getRange(rowIdx, COL_HASIL.RETAKE_REQUESTED).setValue('FALSE');
+      SpreadsheetApp.flush();
+      return { success: true, nim, started_at: now };
+    }
+
+    return { success: false, message: 'Data hasil ujian untuk NIM tidak ditemukan.' };
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+function extendExamTime(body) {
+  const nim = body && body.nim ? String(body.nim).trim() : '';
+  const minutes = Number(body && body.minutes);
+  if (!nim) return { success: false, message: 'nim wajib diisi' };
+  if (!Number.isFinite(minutes) || minutes < 1 || minutes > 300) {
+    return { success: false, message: 'Tambahan waktu harus antara 1 sampai 300 menit.' };
+  }
+
+  const lock = LockService.getScriptLock();
+  lock.waitLock(10000);
+  try {
+    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+    const sheet = ss.getSheetByName(SHEET.HASIL);
+    ensureSheetHeaders(sheet, HASIL_HEADERS);
+    const data = sheet.getDataRange().getValues();
+    const config = getConfigObject();
+    const baseDuration = Number(config.durasi_ujian_menit) || 90;
+
+    for (let i = 1; i < data.length; i++) {
+      if (String(data[i][COL_HASIL.NIM - 1]).trim() !== nim) continue;
+      const status = String(data[i][COL_HASIL.STATUS - 1] || '').toLowerCase();
+      if (status !== 'started' && status !== 'timeout') {
+        return {
+          success: false,
+          message: 'Perpanjangan hanya dapat diberikan pada ujian berjalan atau timeout.',
+        };
+      }
+
+      const startedAt = data[i][COL_HASIL.WAKTU_MULAI - 1];
+      if (!startedAt) return { success: false, message: 'Waktu mulai mahasiswa belum tercatat.' };
+
+      const currentExtra = Number(data[i][COL_HASIL.TAMBAHAN_WAKTU_MENIT - 1]) || 0;
+      const elapsed = Math.max(0, (Date.now() - new Date(startedAt).getTime()) / 60000);
+      const expiredBy = Math.max(0, Math.ceil(elapsed - baseDuration));
+      const nextExtra = status === 'timeout'
+        ? Math.max(currentExtra + minutes, expiredBy + minutes)
+        : currentExtra + minutes;
+      const rowIdx = i + 1;
+
+      sheet.getRange(rowIdx, COL_HASIL.TAMBAHAN_WAKTU_MENIT).setValue(nextExtra);
+      sheet.getRange(rowIdx, COL_HASIL.STATUS).setValue('started');
+      sheet.getRange(rowIdx, COL_HASIL.WAKTU_SUBMIT).setValue('');
+      sheet.getRange(rowIdx, COL_HASIL.RETAKE_REQUESTED).setValue('FALSE');
+      SpreadsheetApp.flush();
+      return { success: true, nim, extra_minutes: nextExtra };
+    }
+
+    return { success: false, message: 'Data hasil ujian untuk NIM tidak ditemukan.' };
+  } finally {
+    lock.releaseLock();
+  }
 }
 
 function requestRetake(body) {
@@ -646,6 +789,7 @@ function approveRetake(body) {
     sheet.getRange(rowIdx, COL_HASIL.RETAKE_REQUESTED_AT).setValue('');
     sheet.getRange(rowIdx, COL_HASIL.RETAKE_APPROVED_AT).setValue(now);
     sheet.getRange(rowIdx, COL_HASIL.RETAKE_COUNT).setValue(currentCount + 1);
+    sheet.getRange(rowIdx, COL_HASIL.TAMBAHAN_WAKTU_MENIT).setValue(0);
     sheet.getRange(rowIdx, COL_HASIL.CATATAN).setValue('');
 
     for (var cpCol = COL_HASIL.SS_CP01; cpCol <= COL_HASIL.SS_CP09; cpCol++) {
@@ -905,7 +1049,51 @@ function updateConfig(body) {
   });
 
   SpreadsheetApp.flush();
-  return { success: true, config: getConfigObject() };
+  const finalizedCount = String(config.mode_ujian || '').toLowerCase() === 'selesai'
+    ? finalizeOpenExams()
+    : 0;
+  return {
+    success: true,
+    config: getConfigObject(),
+    finalized_count: finalizedCount,
+  };
+}
+
+function finalizeOpenExams() {
+  const lock = LockService.getScriptLock();
+  lock.waitLock(10000);
+  try {
+    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+    const sheet = ss.getSheetByName(SHEET.HASIL);
+    ensureSheetHeaders(sheet, HASIL_HEADERS);
+    const data = sheet.getDataRange().getValues();
+    const now = new Date();
+    const nowIso = now.toISOString();
+    let finalized = 0;
+
+    for (let i = 1; i < data.length; i++) {
+      const status = String(data[i][COL_HASIL.STATUS - 1] || '').toLowerCase();
+      if (status !== 'started' && status !== 'timeout') continue;
+
+      const rowIdx = i + 1;
+      const startedAt = data[i][COL_HASIL.WAKTU_MULAI - 1];
+      sheet.getRange(rowIdx, COL_HASIL.WAKTU_SUBMIT).setValue(nowIso);
+      sheet.getRange(rowIdx, COL_HASIL.STATUS).setValue('submitted');
+      if (startedAt) {
+        const duration = Math.max(
+          0,
+          Math.round((now.getTime() - new Date(startedAt).getTime()) / 60000)
+        );
+        sheet.getRange(rowIdx, COL_HASIL.DURASI_MENIT).setValue(duration);
+      }
+      finalized++;
+    }
+
+    SpreadsheetApp.flush();
+    return finalized;
+  } finally {
+    lock.releaseLock();
+  }
 }
 
 function getConfigObject() {

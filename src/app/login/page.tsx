@@ -187,6 +187,7 @@ export default function LoginPage() {
         registeredAt: hasil?.waktu_login ? String(hasil.waktu_login) : new Date().toISOString(),
         startedAt: hasil?.waktu_mulai ? String(hasil.waktu_mulai) : null,
         submittedAt: hasil?.waktu_submit ? String(hasil.waktu_submit) : null,
+        extraTimeMinutes: Number(hasil?.tambahan_waktu_menit) || 0,
         checkpoints,
       }
 

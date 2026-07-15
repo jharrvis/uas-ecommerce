@@ -3,7 +3,13 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { useExamStore } from '@/store/examStore'
-import { apiGetConfig, apiGetMahasiswa, apiGetPool, apiLogEvent } from '@/lib/sheets'
+import {
+  apiGetConfig,
+  apiGetExamControl,
+  apiGetMahasiswa,
+  apiGetPool,
+  apiLogEvent,
+} from '@/lib/sheets'
 import { pickProducts, pickToko } from '@/lib/shuffle'
 import { useAntiCheat } from '@/hooks/useAntiCheat'
 import { useCountdown } from '@/hooks/useCountdown'
@@ -99,41 +105,98 @@ export default function UjianPage() {
   }, [hydrated, params.nim, router, setSession])
 
   useEffect(() => {
-    if (!hydrated || !session) return
+    if (!hydrated || !useExamStore.getState().session) return
 
     const checkMode = async () => {
       try {
-        const { config } = await apiGetConfig()
+        const { config, control } = await apiGetExamControl(params.nim)
         const mode = String(config.mode_ujian || 'aktif').toLowerCase()
-        if (mode === 'aktif') return
+        if (mode !== 'aktif') {
+          clearSession()
+          useExamStore.persist.clearStorage()
+          window.location.replace(`/login?mode=${encodeURIComponent(mode)}&nim=${encodeURIComponent(params.nim)}`)
+          return
+        }
 
-        clearSession()
-        useExamStore.persist.clearStorage()
-        window.location.replace(`/login?mode=${encodeURIComponent(mode)}&nim=${encodeURIComponent(params.nim)}`)
+        const latestSession = useExamStore.getState().session
+        if (!latestSession || latestSession.nim !== params.nim) return
+
+        const status = String(control.status || '').toLowerCase()
+        if (status === 'submitted' || status === 'scored') {
+          setSession({
+            ...latestSession,
+            status: 'submitted',
+            submittedAt: control.waktu_submit ? String(control.waktu_submit) : new Date().toISOString(),
+          })
+          router.replace(`/ujian/${params.nim}/done`)
+          return
+        }
+        if (status === 'timeout') {
+          clearSession()
+          useExamStore.persist.clearStorage()
+          window.location.replace(`/login?expired=1&nim=${encodeURIComponent(params.nim)}`)
+          return
+        }
+        if (status !== 'started' || !control.waktu_mulai) return
+
+        const startedAt = String(control.waktu_mulai)
+        const extraTimeMinutes = Number(control.tambahan_waktu_menit) || 0
+        if (
+          latestSession.startedAt === startedAt &&
+          latestSession.extraTimeMinutes === extraTimeMinutes &&
+          latestSession.status === 'started'
+        ) return
+
+        setSession({
+          ...latestSession,
+          status: 'started',
+          startedAt,
+          submittedAt: null,
+          extraTimeMinutes,
+        })
       } catch {
         // ignore polling failure, keep current exam page active
       }
     }
 
+    void checkMode()
     const interval = window.setInterval(checkMode, 15000)
     return () => window.clearInterval(interval)
-  }, [clearSession, hydrated, params.nim, session])
+  }, [clearSession, hydrated, params.nim, router, setSession])
 
-  const handleExpire = useCallback(() => {
+  const handleExpire = useCallback(async () => {
+    try {
+      const result = await apiLogEvent('timeout', params.nim) as { ignored?: boolean }
+      if (result.ignored) {
+        const { control } = await apiGetExamControl(params.nim)
+        const latestSession = useExamStore.getState().session
+        if (latestSession && control.waktu_mulai) {
+          setSession({
+            ...latestSession,
+            status: 'started',
+            startedAt: String(control.waktu_mulai),
+            extraTimeMinutes: Number(control.tambahan_waktu_menit) || 0,
+          })
+          toast.success('Tambahan waktu dari dosen sudah diterapkan.')
+          return
+        }
+      }
+    } catch (error) {
+      console.warn(error)
+    }
+
     toast.error('Waktu habis. Anda akan logout otomatis.')
-    apiLogEvent('timeout', params.nim)
-      .catch(console.warn)
-      .finally(() => {
-        window.setTimeout(() => {
-          clearSession()
-          useExamStore.persist.clearStorage()
-          window.location.replace(`/login?expired=1&nim=${encodeURIComponent(params.nim)}`)
-        }, 1200)
-      })
-  }, [clearSession, params.nim])
+    window.setTimeout(() => {
+      clearSession()
+      useExamStore.persist.clearStorage()
+      window.location.replace(`/login?expired=1&nim=${encodeURIComponent(params.nim)}`)
+    }, 1200)
+  }, [clearSession, params.nim, setSession])
+
+  const totalDuration = duration + (session?.extraTimeMinutes || 0)
 
   const { formatted, isDanger, isWarning, pct, isRunning } = useCountdown({
-    durationMs: duration * 60 * 1000,
+    durationMs: totalDuration * 60 * 1000,
     startedAt: session?.startedAt ?? null,
     onExpire: handleExpire,
   })
@@ -244,7 +307,7 @@ export default function UjianPage() {
       <div className="flex-1 overflow-hidden grid grid-cols-1 md:grid-cols-[320px_1fr] lg:grid-cols-[340px_1fr]">
         <div className="hidden md:flex flex-col bg-slate-50 dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 p-4 overflow-hidden">
           <LeftPanel
-            durationMinutes={duration}
+            durationMinutes={totalDuration}
             timerFormatted={formatted}
             timerDanger={isDanger}
             timerWarning={isWarning}

@@ -1,6 +1,7 @@
 import type {
   Category,
   Config,
+  ExamControl,
   HasilMahasiswa,
   Mahasiswa,
   Produk,
@@ -96,6 +97,13 @@ export async function apiGetConfig(): Promise<{ config: Config }> {
   return appsGet('getConfig')
 }
 
+export async function apiGetExamControl(nim: string): Promise<{
+  control: ExamControl
+  config: Config
+}> {
+  return appsGet('getExamControl', { nim })
+}
+
 export async function apiUpdateConfig(config: Partial<Config> & Record<string, unknown>) {
   return appsPost('updateConfig', { config })
 }
@@ -183,6 +191,17 @@ export async function apiRequestRetake(nim: string) {
 
 export async function apiApproveRetake(nim: string) {
   return appsPost('approveRetake', { nim })
+}
+
+export async function apiResetExamTimer(nim: string) {
+  return appsPost<{ success: boolean; started_at: string }>('resetExamTimer', { nim })
+}
+
+export async function apiExtendExamTime(nim: string, minutes: number) {
+  return appsPost<{ success: boolean; extra_minutes: number }>('extendExamTime', {
+    nim,
+    minutes,
+  })
 }
 
 export async function apiUpsertMahasiswa(mhs: Partial<Mahasiswa> & { nim: string }) {
