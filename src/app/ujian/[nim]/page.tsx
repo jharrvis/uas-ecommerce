@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { useExamStore } from '@/store/examStore'
 import { apiGetConfig, apiGetMahasiswa, apiGetPool, apiLogEvent } from '@/lib/sheets'
@@ -29,65 +29,74 @@ export default function UjianPage() {
   const [showSubmitDlg, setShowSubmitDlg] = useState(false)
   const [violationCount, setViolationCount] = useState(0)
   const [antiCheatEnabled, setAntiCheatEnabled] = useState(false)
-  const refreshedSessionNimRef = useRef<string | null>(null)
 
   useEffect(() => {
     if (!hydrated) return
-    if (!session) {
+    const initialSession = useExamStore.getState().session
+
+    if (!initialSession) {
       router.replace('/login')
       return
     }
-    if (session.nim !== params.nim) {
+    if (initialSession.nim !== params.nim) {
       router.replace('/login')
       return
     }
-    if (session.status === 'submitted') {
+    if (initialSession.status === 'submitted') {
       router.replace(`/ujian/${params.nim}/done`)
       return
     }
 
-    const shouldRefreshPool = refreshedSessionNimRef.current !== session.nim
+    let cancelled = false
 
-    apiGetConfig()
-      .then(async ({ config }) => {
+    const initializeExam = async () => {
+      try {
+        const { config } = await apiGetConfig()
+        if (cancelled) return
+
         setDuration(Number(config.durasi_ujian_menit) || 90)
         setAntiCheatEnabled(String(config.anti_cheat_enabled || 'OFF').toUpperCase() === 'ON')
-        const { mahasiswa } = await apiGetMahasiswa(session.nim)
-        const refreshedSessionBase = {
-          ...session,
-          nama: mahasiswa.nama,
-          kelas: mahasiswa.kelas,
-          foto: mahasiswa.foto,
-          website_ujian: mahasiswa.website_ujian,
-        }
 
-        if (!shouldRefreshPool) {
-          setSession(refreshedSessionBase)
-          return
-        }
+        const [{ mahasiswa }, { toko: poolToko, produk: poolProduk }] = await Promise.all([
+          apiGetMahasiswa(initialSession.nim),
+          apiGetPool(),
+        ])
+        if (cancelled) return
 
-        const { toko: poolToko, produk: poolProduk } = await apiGetPool()
-        const tokoSoal = pickToko(poolToko, session.nim)
+        const tokoSoal = pickToko(poolToko, initialSession.nim)
         const produkPool = poolProduk.filter(
           (p) => String(p.id_toko).trim() === String(tokoSoal.id).trim()
         )
         const produkSoal = pickProducts(
           produkPool,
-          session.nim,
+          initialSession.nim,
           Number(config.produk_per_mahasiswa) || produkPool.length
         )
 
-        refreshedSessionNimRef.current = session.nim
+        const latestSession = useExamStore.getState().session
+        if (!latestSession || latestSession.nim !== initialSession.nim) return
 
         setSession({
-          ...refreshedSessionBase,
+          ...latestSession,
+          nama: mahasiswa.nama,
+          kelas: mahasiswa.kelas,
+          foto: mahasiswa.foto,
+          website_ujian: mahasiswa.website_ujian,
           tokoSoal,
           produkSoal,
         })
-      })
-      .catch(() => {})
-      .finally(() => setReady(true))
-  }, [hydrated, params.nim, router, session, setSession])
+      } catch {
+        // Keep the persisted exam session available when a refresh request fails.
+      } finally {
+        if (!cancelled) setReady(true)
+      }
+    }
+
+    initializeExam()
+    return () => {
+      cancelled = true
+    }
+  }, [hydrated, params.nim, router, setSession])
 
   useEffect(() => {
     if (!hydrated || !session) return
@@ -98,7 +107,6 @@ export default function UjianPage() {
         const mode = String(config.mode_ujian || 'aktif').toLowerCase()
         if (mode === 'aktif') return
 
-        refreshedSessionNimRef.current = null
         clearSession()
         useExamStore.persist.clearStorage()
         window.location.replace(`/login?mode=${encodeURIComponent(mode)}&nim=${encodeURIComponent(params.nim)}`)
@@ -117,7 +125,6 @@ export default function UjianPage() {
       .catch(console.warn)
       .finally(() => {
         window.setTimeout(() => {
-          refreshedSessionNimRef.current = null
           clearSession()
           useExamStore.persist.clearStorage()
           window.location.replace(`/login?expired=1&nim=${encodeURIComponent(params.nim)}`)
@@ -145,7 +152,6 @@ export default function UjianPage() {
   }
 
   const handleLogout = () => {
-    refreshedSessionNimRef.current = null
     clearSession()
     useExamStore.persist.clearStorage()
     window.location.replace('/login')
