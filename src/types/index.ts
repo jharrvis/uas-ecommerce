@@ -154,6 +154,7 @@ export interface HasilMahasiswa {
   nim: string
   nama: string
   kelas: string
+  website_ujian?: string
   id_toko: string
   id_produk: string
   waktu_login: string

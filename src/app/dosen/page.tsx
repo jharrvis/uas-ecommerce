@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { Clock3, Plus, RotateCcw, X } from 'lucide-react'
+import { Clock3, ExternalLink, Plus, RotateCcw, X } from 'lucide-react'
 import {
   apiApproveRetake,
   apiExtendExamTime,
@@ -789,6 +789,19 @@ export default function DosenPage() {
                           </td>
                           <td className="px-4 py-3">
                             <div className="flex items-center gap-2">
+                              {h.website_ujian && (
+                                <a
+                                  href={h.website_ujian.startsWith('http') ? h.website_ujian : `https://${h.website_ujian}`}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  title={`Buka website ujian ${h.nama}`}
+                                  className="flex min-h-9 items-center gap-1.5 whitespace-nowrap rounded-lg border border-sky-200 bg-sky-50 px-2.5 py-1 text-xs font-semibold text-sky-700 transition hover:bg-sky-100 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 dark:border-sky-500/30 dark:bg-sky-500/20 dark:text-sky-300 dark:hover:bg-sky-500/30 dark:focus:ring-offset-slate-800"
+                                  onClick={(event) => event.stopPropagation()}
+                                >
+                                  <ExternalLink size={14} aria-hidden="true" />
+                                  Website
+                                </a>
+                              )}
                               <button className="px-2.5 py-1 bg-purple-50 dark:bg-purple-500/20 hover:bg-purple-100 dark:hover:bg-purple-500/30 border border-purple-200 dark:border-purple-500/30 text-purple-700 dark:text-purple-300 text-xs font-semibold rounded-lg transition"
                                 onClick={(e) => { e.stopPropagation(); setSelected(h) }}>
                                 Nilai

@@ -604,15 +604,27 @@ function logEvent(body) {
 function getHasil(kelas) {
   const ss    = SpreadsheetApp.openById(SPREADSHEET_ID);
   const sheet = ss.getSheetByName(SHEET.HASIL);
+  const mahasiswaSheet = ss.getSheetByName(SHEET.MAHASISWA);
   ensureSheetHeaders(sheet, HASIL_HEADERS);
   const data  = sheet.getDataRange().getValues();
   const header = data[0];
+  const mahasiswaData = mahasiswaSheet.getDataRange().getValues();
+  const mahasiswaHeader = mahasiswaData[0];
+  const nimIndex = mahasiswaHeader.indexOf('nim');
+  const websiteIndex = mahasiswaHeader.indexOf('website_ujian');
+  const websitesByNim = {};
   const hasil = [];
+
+  for (let i = 1; i < mahasiswaData.length; i++) {
+    const nim = String(mahasiswaData[i][nimIndex] || '').trim();
+    if (nim) websitesByNim[nim] = String(mahasiswaData[i][websiteIndex] || '').trim();
+  }
 
   for (let i = 1; i < data.length; i++) {
     if (!data[i][0]) continue;
     const obj = rowToObj(header, data[i]);
     if (kelas && obj.kelas && obj.kelas.toUpperCase() !== kelas.toUpperCase()) continue;
+    obj.website_ujian = websitesByNim[String(obj.nim || '').trim()] || '';
     hasil.push(obj);
   }
 
