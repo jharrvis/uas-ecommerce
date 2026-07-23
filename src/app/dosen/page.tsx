@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { Clock3, ExternalLink, Plus, RotateCcw, X } from 'lucide-react'
+import { ChevronRight, Clock3, ExternalLink, Plus, RotateCcw, X } from 'lucide-react'
 import {
   apiApproveRetake,
   apiExtendExamTime,
@@ -257,6 +257,29 @@ function ScoreDrawer({ mhs, onClose, onSaved }: {
   }, 0)
 
   const grade = total >= 85 ? 'A' : total >= 75 ? 'B' : total >= 65 ? 'C' : total >= 55 ? 'D' : 'E'
+  const previewableCheckpoints = CP_ORDER.filter((cp) => {
+    const ssKey = `ss_${cp}` as keyof HasilMahasiswa
+    return parseScreenshotList(mhsRecord[ssKey]).length > 0
+  })
+  const currentPreviewIndex = previewData
+    ? previewableCheckpoints.indexOf(previewData.cp)
+    : -1
+  const nextPreviewCp = currentPreviewIndex >= 0
+    ? previewableCheckpoints[currentPreviewIndex + 1]
+    : undefined
+
+  const handleSaveAndContinuePreview = () => {
+    if (!nextPreviewCp) {
+      setPreviewData(null)
+      return
+    }
+
+    const ssKey = `ss_${nextPreviewCp}` as keyof HasilMahasiswa
+    setPreviewData({
+      cp: nextPreviewCp,
+      urls: parseScreenshotList(mhsRecord[ssKey]),
+    })
+  }
 
   const handleSave = async () => {
     setSaving(true)
@@ -429,10 +452,15 @@ function ScoreDrawer({ mhs, onClose, onSaved }: {
                     />
                   </div>
                   <button
-                    onClick={() => setPreviewData(null)}
+                    onClick={handleSaveAndContinuePreview}
                     className="px-4 py-1.5 bg-sky-500 hover:bg-sky-400 text-white text-xs font-bold rounded-lg transition whitespace-nowrap"
                   >
-                    Simpan & Tutup
+                    {nextPreviewCp ? (
+                      <span className="flex items-center gap-1">
+                        Simpan & Lanjut
+                        <ChevronRight size={14} aria-hidden="true" />
+                      </span>
+                    ) : 'Simpan & Tutup'}
                   </button>
                 </div>
               </div>
