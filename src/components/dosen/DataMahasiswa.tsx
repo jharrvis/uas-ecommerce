@@ -150,17 +150,17 @@ export default function DataMahasiswa() {
       {/* Header Actions */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
         <div className="flex items-center gap-2">
-          <button onClick={handleAdd} className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-slate-900 dark:text-white text-sm font-bold rounded-lg transition">
+          <button onClick={handleAdd} className="px-4 py-2 bg-purple-600 text-sm font-bold text-white rounded-lg transition hover:bg-purple-500">
             + Tambah Mahasiswa
           </button>
           
           <button onClick={() => fileInputRef.current?.click()} disabled={importing}
-            className="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-slate-900 dark:text-white text-sm font-bold rounded-lg transition flex items-center gap-2">
+            className="flex items-center gap-2 px-4 py-2 text-sm font-bold text-white transition bg-slate-700 rounded-lg hover:bg-slate-600">
             {importing ? <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"/> : '📁'} Import CSV
           </button>
           <input type="file" accept=".csv" ref={fileInputRef} onChange={handleImportCSV} className="hidden" />
           
-          <button onClick={downloadTemplate} className="px-3 py-2 text-sky-400 hover:text-sky-300 text-xs font-semibold underline">
+          <button onClick={downloadTemplate} className="px-3 py-2 text-xs font-semibold text-sky-600 underline transition hover:text-sky-700 dark:text-sky-400 dark:hover:text-sky-300">
             Download Template CSV
           </button>
         </div>
@@ -169,7 +169,7 @@ export default function DataMahasiswa() {
           {['ALL', ...classOptions].map(k => (
             <button key={k} onClick={() => { setFilterKelas(k); setPage(1) }}
               className={`px-3 py-1.5 text-xs font-semibold rounded-lg border transition ${
-                filterKelas === k ? 'bg-sky-500 border-sky-500 text-slate-900 dark:text-white' : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:bg-slate-700'
+                filterKelas === k ? 'bg-sky-500 border-sky-500 text-white' : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700'
               }`}>
               {k === 'ALL' ? 'Semua' : `Kelas ${k}`}
             </button>
@@ -212,26 +212,26 @@ export default function DataMahasiswa() {
               ) : filtered.length === 0 ? (
                 <tr><td colSpan={6} className="px-4 py-8 text-center text-slate-500">Tidak ada data</td></tr>
               ) : pageItems.map((m, i) => (
-                <tr key={m.nim} className={`border-t border-slate-200 dark:border-slate-700/50 hover:bg-slate-700/30 ${i % 2 === 1 ? 'bg-white dark:bg-slate-800/50' : ''}`}>
-                  <td className="px-4 py-3 font-mono text-xs text-slate-300">{m.nim}</td>
-                  <td className="px-4 py-3 font-medium text-slate-200">{m.nama}</td>
+                <tr key={m.nim} className={`border-t border-slate-200 transition-colors hover:bg-slate-50 dark:border-slate-700/50 dark:hover:bg-slate-700/30 ${i % 2 === 1 ? 'bg-slate-50/50 dark:bg-slate-800/50' : ''}`}>
+                  <td className="px-4 py-3 font-mono text-xs text-slate-700 dark:text-slate-300">{m.nim}</td>
+                  <td className="px-4 py-3 font-medium text-slate-900 dark:text-slate-200">{m.nama}</td>
                   <td className="px-4 py-3 text-slate-500 dark:text-slate-400">{m.kelas}</td>
                   <td className="px-4 py-3 text-xs">
                     {m.website_ujian ? (
-                      <a href={m.website_ujian.startsWith('http') ? m.website_ujian : `https://${m.website_ujian}`} target="_blank" rel="noreferrer" className="text-sky-400 hover:underline break-all">
+                      <a href={m.website_ujian.startsWith('http') ? m.website_ujian : `https://${m.website_ujian}`} target="_blank" rel="noreferrer" className="text-sky-600 hover:underline break-all dark:text-sky-400">
                         {m.website_ujian.startsWith('http') ? m.website_ujian : `https://${m.website_ujian}`}
                       </a>
                     ) : <span className="text-slate-600">—</span>}
                   </td>
                   <td className="px-4 py-3 text-center">
                     {m.aktif ? 
-                      <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-bold border border-emerald-500/30">Aktif</span> : 
-                      <span className="px-2 py-0.5 rounded-full bg-red-500/20 text-red-400 text-[10px] font-bold border border-red-500/30">Nonaktif</span>
+                      <span className="px-2 py-0.5 rounded-full border border-emerald-300 bg-emerald-50 text-[10px] font-bold text-emerald-700 dark:border-emerald-500/30 dark:bg-emerald-500/20 dark:text-emerald-400">Aktif</span> :
+                      <span className="px-2 py-0.5 rounded-full border border-red-300 bg-red-50 text-[10px] font-bold text-red-700 dark:border-red-500/30 dark:bg-red-500/20 dark:text-red-400">Nonaktif</span>
                     }
                   </td>
                   <td className="px-4 py-3 text-center">
                     <button onClick={() => handleEdit(m)}
-                      className="px-3 py-1 bg-slate-700 hover:bg-slate-600 text-slate-900 dark:text-white text-xs font-semibold rounded transition">
+                      className="px-3 py-1 text-xs font-semibold text-white transition bg-slate-700 rounded hover:bg-slate-600">
                       Edit
                     </button>
                   </td>
@@ -290,9 +290,9 @@ export default function DataMahasiswa() {
               
               <div className="pt-4 flex gap-3">
                 <button type="button" onClick={() => setShowForm(false)}
-                  className="flex-1 py-2 bg-slate-700 hover:bg-slate-600 text-slate-900 dark:text-white text-sm font-semibold rounded-lg transition">Batal</button>
+                  className="flex-1 py-2 text-sm font-semibold text-white transition bg-slate-700 rounded-lg hover:bg-slate-600">Batal</button>
                 <button type="submit" disabled={saving}
-                  className="flex-1 py-2 bg-purple-600 hover:bg-purple-500 disabled:opacity-50 text-slate-900 dark:text-white text-sm font-bold rounded-lg transition flex items-center justify-center gap-2">
+                  className="flex items-center justify-center flex-1 gap-2 py-2 text-sm font-bold text-white transition bg-purple-600 rounded-lg hover:bg-purple-500 disabled:opacity-50">
                   {saving ? <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"/> : 'Simpan'}
                 </button>
               </div>

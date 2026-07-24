@@ -417,6 +417,10 @@ function CP03Content({ produk }: { produk: Produk[] }) {
 
   return (
     <div className="space-y-6">
+      <Callout type="warning">
+        Semua produk wajib dimasukkan ke kategori. Kategori harus tampil di beranda
+        (halaman depan situs).
+      </Callout>
       <SectionTitle>Kategori yang Dibutuhkan</SectionTitle>
       <div className="space-y-4">
         {Object.entries(groupedCategories).map(([parent, subs]) => (
@@ -456,6 +460,10 @@ function CP04Content({ produk, fmt }: { produk: Produk[]; fmt: (n: number) => st
 
   return (
     <div className="space-y-6">
+      <Callout type="warning">
+        Semua produk wajib ditampilkan di beranda pada kolom <strong>Featured</strong> atau
+        <strong> Unggulan</strong>.
+      </Callout>
       <SectionTitle>Produk: General & Data</SectionTitle>
       <div className="space-y-4">
         {produk.map((p, i) => (
@@ -1056,7 +1064,6 @@ function CP01ContentV2({ toko }: { toko: Toko }) {
       ]} />
       {t.logo_url && (
         <Callout type="tip">
-          Gunakan logo toko berikut sebagai referensi.
           <div className="mt-2 inline-flex flex-col gap-2">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={getDriveDirectUrl(t.logo_url)} alt="logo toko" className="h-16 object-contain rounded bg-white p-1 border border-slate-200" />
