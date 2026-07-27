@@ -145,6 +145,9 @@ export interface Config {
   produk_per_mahasiswa: number
   mode_ujian: string
   anti_cheat_enabled?: string
+  sesi_mulai_tanggal?: string
+  sesi_mulai_waktu?: string
+  sesi_mulai_jumlah?: number | string
   mata_kuliah: string
   kode_mk: string
   semester: string

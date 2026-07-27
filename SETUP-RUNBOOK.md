@@ -126,6 +126,9 @@ Jika Web App sudah pernah dibuat, paste versi terbaru `gs/Code.gs`, lalu buka
 `Deploy > Manage deployments > Edit`. Pilih `New version` dan klik `Deploy` agar URL Web App
 yang sama memakai kode terbaru. Saat dashboard pertama kali memuat hasil ujian, kolom
 `tambahan_waktu_menit` akan ditambahkan otomatis ke `Hasil_Ujian` jika belum tersedia.
+Tombol mulai terpusat juga menyimpan `sesi_mulai_tanggal`, `sesi_mulai_waktu`, dan
+`sesi_mulai_jumlah` di sheet `Config`; ketiga baris ini dibuat otomatis dan tidak perlu
+ditambahkan manual.
 
 ## 9. Samakan Kode Dosen
 

@@ -24,7 +24,6 @@ export default function UjianPage() {
   const router = useRouter()
   const hydrated = useExamStore((s) => s.hydrated)
   const session = useExamStore((s) => s.session)
-  const startExam = useExamStore((s) => s.startExam)
   const submitExam = useExamStore((s) => s.submitExam)
   const clearSession = useExamStore((s) => s.clearSession)
   const setSession = useExamStore((s) => s.setSession)
@@ -35,6 +34,7 @@ export default function UjianPage() {
   const [showSubmitDlg, setShowSubmitDlg] = useState(false)
   const [violationCount, setViolationCount] = useState(0)
   const [antiCheatEnabled, setAntiCheatEnabled] = useState(false)
+  const [lateLogin, setLateLogin] = useState(false)
 
   useEffect(() => {
     if (!hydrated) return
@@ -137,10 +137,21 @@ export default function UjianPage() {
           window.location.replace(`/login?expired=1&nim=${encodeURIComponent(params.nim)}`)
           return
         }
+        if (status === 'registered') {
+          const sessionDate = config.sesi_mulai_waktu
+            ? new Date(String(config.sesi_mulai_waktu)).toLocaleDateString('en-US', {
+                timeZone: 'Asia/Jakarta',
+              })
+            : ''
+          const today = new Date().toLocaleDateString('en-US', { timeZone: 'Asia/Jakarta' })
+          setLateLogin(sessionDate === today)
+          return
+        }
         if (status !== 'started' || !control.waktu_mulai) return
 
         const startedAt = String(control.waktu_mulai)
         const extraTimeMinutes = Number(control.tambahan_waktu_menit) || 0
+        setLateLogin(false)
         if (
           latestSession.startedAt === startedAt &&
           latestSession.extraTimeMinutes === extraTimeMinutes &&
@@ -160,9 +171,10 @@ export default function UjianPage() {
     }
 
     void checkMode()
-    const interval = window.setInterval(checkMode, 15000)
+    const intervalMs = session?.status === 'registered' ? 5000 : 15000
+    const interval = window.setInterval(checkMode, intervalMs)
     return () => window.clearInterval(interval)
-  }, [clearSession, hydrated, params.nim, router, setSession])
+  }, [clearSession, hydrated, params.nim, router, session?.status, setSession])
 
   const handleExpire = useCallback(async () => {
     try {
@@ -206,13 +218,6 @@ export default function UjianPage() {
     enabled: session?.status === 'started' && antiCheatEnabled,
     onViolation: (_, count) => setViolationCount(count),
   })
-
-  const handleStartExam = () => {
-    if (session?.startedAt) return
-    startExam()
-    apiLogEvent('start', params.nim).catch(console.warn)
-    toast.success('Timer dimulai! Selamat mengerjakan.')
-  }
 
   const handleLogout = () => {
     clearSession()
@@ -312,7 +317,11 @@ export default function UjianPage() {
             timerDanger={isDanger}
             timerWarning={isWarning}
             timerPct={pct}
-            onStartExam={handleStartExam}
+            waitingMessage={
+              lateLogin
+                ? 'Login setelah sesi dimulai · Hubungi dosen'
+                : 'Menunggu dosen memulai ujian'
+            }
           />
         </div>
 
@@ -324,12 +333,9 @@ export default function UjianPage() {
             </div>
             <div className="flex items-center gap-2 flex-shrink-0">
               {session.status === 'registered' && (
-                <button
-                  onClick={handleStartExam}
-                  className="px-3 py-1.5 bg-sky-500 text-white text-xs font-bold rounded-lg"
-                >
-                  Mulai
-                </button>
+                <span className="rounded-lg border border-sky-200 bg-sky-50 px-3 py-1.5 text-xs font-bold text-sky-700 dark:border-sky-500/30 dark:bg-sky-500/10 dark:text-sky-300">
+                  {lateLogin ? 'Hubungi dosen' : 'Menunggu dosen'}
+                </span>
               )}
               {session.website_ujian && (
                 <a

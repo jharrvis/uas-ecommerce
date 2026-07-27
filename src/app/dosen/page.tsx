@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { ChevronRight, Clock3, ExternalLink, Plus, RotateCcw, X } from 'lucide-react'
+import { ChevronRight, Clock3, ExternalLink, PlayCircle, Plus, RotateCcw, X } from 'lucide-react'
 import {
   apiApproveRetake,
   apiExtendExamTime,
@@ -10,6 +10,7 @@ import {
   apiGetHasil,
   apiGetSummary,
   apiResetExamTimer,
+  apiStartTodayExam,
   apiUpdateConfig,
   apiUpdateNilai,
 } from '@/lib/sheets'
@@ -65,6 +66,21 @@ function StatusBadge({ status }: { status: string }) {
       {label[status] || status}
     </span>
   )
+}
+
+function jakartaDateKey(value: string | Date): string {
+  const date = value instanceof Date ? value : new Date(value)
+  if (Number.isNaN(date.getTime())) return ''
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'Asia/Jakarta',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(date)
+  const part = (type: Intl.DateTimeFormatPartTypes) => (
+    parts.find((item) => item.type === type)?.value || ''
+  )
+  return `${part('year')}-${part('month')}-${part('day')}`
 }
 
 function TimeControlModal({ mhs, onClose, onChanged }: {
@@ -492,6 +508,7 @@ export default function DosenPage() {
   const [pageSize, setPageSize] = useState(10)
   const [config, setConfig] = useState<Partial<Config>>({})
   const [savingConfig, setSavingConfig] = useState(false)
+  const [startingSession, setStartingSession] = useState(false)
 
   const fetchData = useCallback(async () => {
     setLoading(true)
@@ -560,6 +577,45 @@ export default function DosenPage() {
     } catch (e) {
       console.error(e)
       window.alert('Gagal menyetujui retake.')
+    }
+  }
+
+  const todayKey = jakartaDateKey(new Date())
+  const sessionStartedToday = String(config.sesi_mulai_tanggal || '') === todayKey
+  const eligibleToday = hasil.filter((item) => {
+    const status = String(item.status || '').trim().toLowerCase()
+    return (
+      jakartaDateKey(item.waktu_login) === todayKey &&
+      status !== 'submitted' &&
+      status !== 'scored'
+    )
+  })
+
+  const handleStartTodayExam = async () => {
+    if (sessionStartedToday) return
+    if (eligibleToday.length === 0) {
+      window.alert('Belum ada mahasiswa yang login hari ini dan dapat memulai ujian.')
+      return
+    }
+    if (!window.confirm(
+      `Mulai ujian serentak untuk ${eligibleToday.length} mahasiswa yang sudah login hari ini? ` +
+      'Semua timer akan memakai waktu mulai yang sama.'
+    )) return
+
+    setStartingSession(true)
+    try {
+      const response = await apiStartTodayExam()
+      await fetchData()
+      window.alert(
+        response.already_started
+          ? 'Sesi ujian hari ini sudah pernah dimulai. Timer tidak direset ulang.'
+          : `Sesi dimulai untuk ${response.affected_count} mahasiswa.`
+      )
+    } catch (cause) {
+      console.error(cause)
+      window.alert(cause instanceof Error ? cause.message : 'Gagal memulai sesi ujian.')
+    } finally {
+      setStartingSession(false)
     }
   }
 
@@ -658,7 +714,7 @@ export default function DosenPage() {
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-200">
 
       {/* Header */}
-      <header className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-6 py-3 flex items-center justify-between">
+      <header className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-6 py-3 flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2.5">
           <div className="w-2 h-2 rounded-full bg-purple-500 dark:bg-purple-400 flex-shrink-0" />
           <span className="font-bold text-slate-900 dark:text-white">Dashboard Dosen — UAS E-Commerce</span>
@@ -666,6 +722,27 @@ export default function DosenPage() {
         <div className="flex items-center gap-2">
           {activeTab === 'hasil' && (
             <>
+              <button
+                type="button"
+                onClick={() => void handleStartTodayExam()}
+                disabled={
+                  startingSession ||
+                  sessionStartedToday ||
+                  eligibleToday.length === 0 ||
+                  String(config.mode_ujian || 'aktif').toLowerCase() !== 'aktif'
+                }
+                title="Hanya mahasiswa yang login hari ini sebelum tombol diklik"
+                className="flex min-h-11 items-center gap-2 rounded-xl bg-sky-600 px-4 text-xs font-bold text-white transition hover:bg-sky-500 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-500 dark:disabled:bg-slate-700 dark:disabled:text-slate-400"
+              >
+                <PlayCircle size={17} aria-hidden="true" />
+                {startingSession
+                  ? 'Memulai sesi...'
+                  : sessionStartedToday
+                    ? `Sesi Dimulai · ${Number(config.sesi_mulai_jumlah) || 0} Mhs`
+                    : eligibleToday.length > 0
+                      ? `Mulai Sesi · ${eligibleToday.length} Mhs`
+                      : 'Menunggu Login'}
+              </button>
               <button onClick={fetchData} disabled={loading}
                 className="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs font-semibold rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition flex items-center gap-1.5">
                 {loading ? <div className="w-3 h-3 border border-slate-400/30 border-t-slate-500 dark:border-t-slate-300 rounded-full animate-spin" /> : '🔄'} Refresh
@@ -731,6 +808,32 @@ export default function DosenPage() {
               </div>
             )}
 
+            <div className="flex flex-col gap-3 rounded-xl border border-sky-200 bg-sky-50 px-4 py-3 sm:flex-row sm:items-center sm:justify-between dark:border-sky-500/30 dark:bg-sky-500/10">
+              <div className="flex items-start gap-3">
+                <Clock3 className="mt-0.5 flex-shrink-0 text-sky-700 dark:text-sky-300" size={18} aria-hidden="true" />
+                <div>
+                  <p className="text-sm font-bold text-sky-900 dark:text-sky-200">
+                    {sessionStartedToday ? 'Sesi hari ini sudah dimulai' : 'Sesi hari ini belum dimulai'}
+                  </p>
+                  <p className="mt-0.5 text-xs leading-relaxed text-sky-800 dark:text-sky-300">
+                    {sessionStartedToday
+                      ? `${Number(config.sesi_mulai_jumlah) || 0} mahasiswa memakai waktu mulai yang sama. Mahasiswa yang login setelahnya tidak otomatis masuk sesi.`
+                      : `${eligibleToday.length} mahasiswa sudah login hari ini dan akan masuk saat tombol Mulai Sesi diklik.`}
+                  </p>
+                </div>
+              </div>
+              {sessionStartedToday && config.sesi_mulai_waktu && (
+                <span className="whitespace-nowrap rounded-lg border border-sky-200 bg-white px-3 py-2 font-mono text-xs font-bold text-sky-800 dark:border-sky-500/30 dark:bg-slate-900 dark:text-sky-300">
+                  {new Date(String(config.sesi_mulai_waktu)).toLocaleTimeString('id-ID', {
+                    timeZone: 'Asia/Jakarta',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                  })} WIB
+                </span>
+              )}
+            </div>
+
             <div className="flex items-center gap-2 flex-wrap">
               <span className="text-xs text-slate-500 font-semibold">Filter:</span>
               {['ALL', ...classOptions].map((k) => (
@@ -790,7 +893,14 @@ export default function DosenPage() {
                         String(h.status || '').trim().toLowerCase() === 'timeout' &&
                         isTruthy(h.retake_requested)
                       const normalizedStatus = String(h.status || '').trim().toLowerCase()
-                      const canManageTime = normalizedStatus === 'started' || normalizedStatus === 'timeout'
+                      const canManageTime =
+                        normalizedStatus === 'started' ||
+                        normalizedStatus === 'timeout' ||
+                        (
+                          normalizedStatus === 'registered' &&
+                          sessionStartedToday &&
+                          jakartaDateKey(h.waktu_login) === todayKey
+                        )
                       return (
                         <tr key={h.nim} className={`border-b border-slate-100 dark:border-slate-700/50 hover:bg-slate-50 dark:hover:bg-slate-700/30 transition cursor-pointer ${i%2===1?'bg-slate-50 dark:bg-slate-800/50':''}`}
                           onClick={() => setSelected(h)}>

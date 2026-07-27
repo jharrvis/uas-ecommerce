@@ -194,6 +194,7 @@ function doPost(e) {
       case 'exportNilai'     : result = exportNilai(body);      break;
       case 'requestRetake'   : result = requestRetake(body);    break;
       case 'approveRetake'   : result = approveRetake(body);    break;
+      case 'startTodayExam'  : result = startTodayExam(body);   break;
       case 'resetExamTimer'  : result = resetExamTimer(body);   break;
       case 'extendExamTime'  : result = extendExamTime(body);   break;
       case 'updateConfig'    : result = updateConfig(body);     break;
@@ -657,6 +658,106 @@ function getExamControl(nim) {
   }
 
   return { success: false, message: 'Data hasil ujian untuk NIM tidak ditemukan.' };
+}
+
+function startTodayExam() {
+  const timezone = 'Asia/Jakarta';
+  const now = new Date();
+  const nowIso = now.toISOString();
+  const today = Utilities.formatDate(now, timezone, 'yyyy-MM-dd');
+  const lock = LockService.getScriptLock();
+  lock.waitLock(10000);
+
+  try {
+    const currentConfig = getConfigObject();
+    if (
+      String(currentConfig.sesi_mulai_tanggal || '') === today &&
+      currentConfig.sesi_mulai_waktu
+    ) {
+      return {
+        success: true,
+        already_started: true,
+        affected_count: Number(currentConfig.sesi_mulai_jumlah) || 0,
+        started_at: String(currentConfig.sesi_mulai_waktu),
+      };
+    }
+
+    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+    const resultSheet = ss.getSheetByName(SHEET.HASIL);
+    ensureSheetHeaders(resultSheet, HASIL_HEADERS);
+    const data = resultSheet.getDataRange().getValues();
+    const affectedRows = [];
+    let skippedFinished = 0;
+
+    for (let i = 1; i < data.length; i++) {
+      const loginValue = data[i][COL_HASIL.WAKTU_LOGIN - 1];
+      if (!loginValue) continue;
+      const loginDate = loginValue instanceof Date ? loginValue : new Date(loginValue);
+      if (isNaN(loginDate.getTime())) continue;
+      if (Utilities.formatDate(loginDate, timezone, 'yyyy-MM-dd') !== today) continue;
+
+      const status = String(data[i][COL_HASIL.STATUS - 1] || 'registered').toLowerCase();
+      if (status === 'submitted' || status === 'scored') {
+        skippedFinished++;
+        continue;
+      }
+      affectedRows.push(i + 1);
+    }
+
+    if (affectedRows.length === 0) {
+      return {
+        success: false,
+        message: 'Belum ada mahasiswa yang login hari ini dan dapat memulai ujian.',
+      };
+    }
+
+    function setColumnForAffectedRows(column, value) {
+      const ranges = affectedRows.map(function (rowIdx) {
+        return resultSheet.getRange(rowIdx, column).getA1Notation();
+      });
+      resultSheet.getRangeList(ranges).setValue(value);
+    }
+
+    setColumnForAffectedRows(COL_HASIL.WAKTU_MULAI, nowIso);
+    setColumnForAffectedRows(COL_HASIL.WAKTU_SUBMIT, '');
+    setColumnForAffectedRows(COL_HASIL.DURASI_MENIT, 0);
+    setColumnForAffectedRows(COL_HASIL.STATUS, 'started');
+    setColumnForAffectedRows(COL_HASIL.TAMBAHAN_WAKTU_MENIT, 0);
+    setColumnForAffectedRows(COL_HASIL.RETAKE_REQUESTED, 'FALSE');
+
+    const configSheet = ss.getSheetByName(SHEET.CONFIG);
+    const configData = configSheet.getDataRange().getValues();
+    const sessionValues = {
+      sesi_mulai_tanggal: today,
+      sesi_mulai_waktu: nowIso,
+      sesi_mulai_jumlah: affectedRows.length,
+    };
+
+    Object.keys(sessionValues).forEach(function (key) {
+      let rowIdx = -1;
+      for (let i = 1; i < configData.length; i++) {
+        if (String(configData[i][0] || '').trim() === key) {
+          rowIdx = i + 1;
+          break;
+        }
+      }
+      if (rowIdx > 0) {
+        configSheet.getRange(rowIdx, 2).setValue(sessionValues[key]);
+      } else {
+        configSheet.appendRow([key, sessionValues[key], 'Sesi mulai terpusat dari dashboard']);
+      }
+    });
+
+    SpreadsheetApp.flush();
+    return {
+      success: true,
+      affected_count: affectedRows.length,
+      skipped_finished: skippedFinished,
+      started_at: nowIso,
+    };
+  } finally {
+    lock.releaseLock();
+  }
 }
 
 function resetExamTimer(body) {

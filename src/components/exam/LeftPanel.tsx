@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import { Clock3 } from 'lucide-react'
 import { useExamStore } from '@/store/examStore'
 import { CP_ORDER, CHECKPOINT_META } from '@/types'
 
@@ -10,11 +11,11 @@ interface LeftPanelProps {
   timerDanger: boolean
   timerWarning: boolean
   timerPct: number
-  onStartExam: () => void
+  waitingMessage: string
 }
 
 export default function LeftPanel({
-  durationMinutes, timerFormatted, timerDanger, timerWarning, timerPct, onStartExam
+  durationMinutes, timerFormatted, timerDanger, timerWarning, timerPct, waitingMessage
 }: LeftPanelProps) {
   const session        = useExamStore((s) => s.session)
   const completedCount = useExamStore((s) => s.completedCount)
@@ -93,13 +94,13 @@ export default function LeftPanel({
                 {String(Math.floor(durationMinutes / 60)).padStart(2,'0')}:{String(durationMinutes % 60).padStart(2,'0')}
               </span>
             </div>
-            <button
-              onClick={onStartExam}
-              className="w-full py-2.5 bg-sky-500 hover:bg-sky-400 active:scale-95 text-white font-bold rounded-xl text-sm transition-all flex items-center justify-center gap-2"
-            >
-              ▶ Mulai Kerjakan
-            </button>
-            <p className="text-slate-500 dark:text-slate-600 text-[10px] text-center mt-2">Timer mulai saat tombol diklik</p>
+            <div className="flex min-h-11 items-center justify-center gap-2 rounded-xl border border-sky-200 bg-sky-50 px-3 text-center text-sm font-bold text-sky-700 dark:border-sky-500/30 dark:bg-sky-500/10 dark:text-sky-300">
+              <Clock3 size={17} aria-hidden="true" />
+              {waitingMessage}
+            </div>
+            <p className="mt-2 text-center text-[10px] leading-relaxed text-slate-500 dark:text-slate-500">
+              Timer seluruh peserta dimulai serentak dari dashboard dosen.
+            </p>
           </>
         )}
       </div>

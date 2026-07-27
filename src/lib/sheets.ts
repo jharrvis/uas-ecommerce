@@ -193,6 +193,15 @@ export async function apiApproveRetake(nim: string) {
   return appsPost('approveRetake', { nim })
 }
 
+export async function apiStartTodayExam() {
+  return appsPost<{
+    success: boolean
+    affected_count: number
+    started_at: string
+    already_started?: boolean
+  }>('startTodayExam', {})
+}
+
 export async function apiResetExamTimer(nim: string) {
   return appsPost<{ success: boolean; started_at: string }>('resetExamTimer', { nim })
 }

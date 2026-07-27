@@ -14,7 +14,6 @@ interface ExamStore {
   // Actions
   setHydrated: (value: boolean) => void
   setSession: (s: ExamSession) => void
-  startExam: () => void
   lockExam: () => void
   submitExam: () => void
   setCheckpointStatus: (
@@ -46,18 +45,6 @@ export const useExamStore = create<ExamStore>()(
       setHydrated: (value) => set({ hydrated: value }),
 
       setSession: (s) => set({ session: s }),
-
-      startExam: () =>
-        set((state) => {
-          if (!state.session) return state
-          return {
-            session: {
-              ...state.session,
-              status: 'started' as ExamStatus,
-              startedAt: new Date().toISOString(),
-            },
-          }
-        }),
 
       lockExam: () =>
         set((state) => {
