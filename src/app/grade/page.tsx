@@ -100,7 +100,7 @@ function ScoreBar({ value, size = 'sm' }: { value: number; size?: 'sm' | 'md' })
 }
 
 function ScreenshotGallery({ screenshots }: { screenshots: string[] }) {
-  const labels = ['Storefront', 'After Login', 'Categories', 'Products']
+  const labels = ['Storefront', 'Kategori (Admin)', 'Produk (Admin)']
   const [selected, setSelected] = useState(0)
 
   if (!screenshots?.length) return null
