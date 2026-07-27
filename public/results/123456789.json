@@ -1,21 +1,21 @@
 [
   {
-    "nim": "2022112040",
-    "studentName": "AFTIAR TEGAR FATINNIO QAIS",
-    "className": "D",
-    "websiteUrl": "http://2022112040.uas.stieama.com",
-    "storeId": "T001",
-    "storeName": "Batik Nusantara",
+    "nim": "123456789",
+    "studentName": "MAHASISWA 1",
+    "className": "F",
+    "websiteUrl": "http://123456789.uas.stieama.com",
+    "storeId": "T003",
+    "storeName": "Rumah Kecantikan Cantika",
     "assignedProductIds": [
-      "PT003",
-      "PT001",
-      "PT004",
-      "PT002"
+      "PT012",
+      "PT009",
+      "PT010",
+      "PT011"
     ],
-    "score": 75,
-    "autoTotal": 75,
+    "score": 0,
+    "autoTotal": 0,
     "autoMax": 100,
-    "status": "cukup",
+    "status": "gagal",
     "manualReview": true,
     "manualReviewReasons": [
       "Mode DB-only: storefront visual check (logo, carousel, kategori) dilewati.",
@@ -28,8 +28,8 @@
         "tab": "System -> Settings -> Store",
         "bobot": 10,
         "automated": true,
-        "rawScore": 90,
-        "weightedScore": 9,
+        "rawScore": 0,
+        "weightedScore": 0,
         "maxScore": 100,
         "details": [
           {
@@ -38,8 +38,8 @@
             "weight": 15,
             "verification": "text_match",
             "dataField": "nama_toko",
-            "status": "completed",
-            "earned": 15
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "store_address",
@@ -47,8 +47,8 @@
             "weight": 15,
             "verification": "text_match",
             "dataField": "alamat",
-            "status": "completed",
-            "earned": 15
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "store_phone",
@@ -56,8 +56,8 @@
             "weight": 10,
             "verification": "text_match",
             "dataField": "telepon",
-            "status": "completed",
-            "earned": 10
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "store_email",
@@ -65,8 +65,8 @@
             "weight": 10,
             "verification": "text_match",
             "dataField": "email",
-            "status": "completed",
-            "earned": 10
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "store_description",
@@ -83,12 +83,12 @@
             "weight": 40,
             "verification": "element_exists",
             "dataField": "logo_url",
-            "status": "completed",
-            "earned": 40
+            "status": "not_found",
+            "earned": 0
           }
         ],
-        "status": "parsial",
-        "completedCount": 5,
+        "status": "belum-terpenuhi",
+        "completedCount": 0,
         "notFoundCount": 1,
         "verificationFailedCount": 0,
         "totalItems": 6
@@ -98,8 +98,8 @@
         "tab": "Catalog -> Manufacturers + CMS",
         "bobot": 10,
         "automated": true,
-        "rawScore": 100,
-        "weightedScore": 10,
+        "rawScore": 0,
+        "weightedScore": 0,
         "maxScore": 100,
         "details": [
           {
@@ -108,8 +108,8 @@
             "weight": 40,
             "verification": "text_match",
             "dataField": "brand_names",
-            "status": "completed",
-            "earned": 44.5
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "manufacturer_carousel",
@@ -117,13 +117,13 @@
             "weight": 50,
             "verification": "element_exists",
             "dataField": "brand_logos",
-            "status": "completed",
-            "earned": 55.5
+            "status": "not_found",
+            "earned": 0
           }
         ],
-        "status": "lengkap",
-        "completedCount": 2,
-        "notFoundCount": 0,
+        "status": "belum-terpenuhi",
+        "completedCount": 0,
+        "notFoundCount": 2,
         "verificationFailedCount": 0,
         "totalItems": 2
       },
@@ -202,8 +202,8 @@
         "tab": "Products -> General, Data",
         "bobot": 15,
         "automated": true,
-        "rawScore": 85,
-        "weightedScore": 13,
+        "rawScore": 0,
+        "weightedScore": 0,
         "maxScore": 100,
         "details": [
           {
@@ -212,8 +212,8 @@
             "weight": 15,
             "verification": "text_match",
             "dataField": "productName",
-            "status": "completed",
-            "earned": 15
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "general_description",
@@ -230,8 +230,8 @@
             "weight": 10,
             "verification": "text_match",
             "dataField": "productSeoKeyword",
-            "status": "completed",
-            "earned": 10
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "data_price",
@@ -239,8 +239,8 @@
             "weight": 15,
             "verification": "text_match",
             "dataField": "productHarga",
-            "status": "completed",
-            "earned": 15
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "data_stock",
@@ -248,8 +248,8 @@
             "weight": 10,
             "verification": "text_match",
             "dataField": "productStok",
-            "status": "completed",
-            "earned": 10
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "data_sku",
@@ -257,8 +257,8 @@
             "weight": 5,
             "verification": "text_match",
             "dataField": "productSku",
-            "status": "completed",
-            "earned": 5
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "data_weight",
@@ -266,8 +266,8 @@
             "weight": 5,
             "verification": "text_match",
             "dataField": "productBeratKg",
-            "status": "completed",
-            "earned": 5
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "data_dimensions",
@@ -275,8 +275,8 @@
             "weight": 5,
             "verification": "text_match",
             "dataField": "productDimensi",
-            "status": "completed",
-            "earned": 5
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "data_manufacturer",
@@ -284,8 +284,8 @@
             "weight": 5,
             "verification": "text_match",
             "dataField": "productManufacturer",
-            "status": "completed",
-            "earned": 5
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "data_image_uploaded",
@@ -293,13 +293,13 @@
             "weight": 15,
             "verification": "element_exists",
             "dataField": "productImages",
-            "status": "completed",
-            "earned": 15
+            "status": "not_found",
+            "earned": 0
           }
         ],
-        "status": "parsial",
-        "completedCount": 9,
-        "notFoundCount": 1,
+        "status": "belum-terpenuhi",
+        "completedCount": 0,
+        "notFoundCount": 0,
         "verificationFailedCount": 0,
         "totalItems": 10
       },
@@ -308,8 +308,8 @@
         "tab": "Products -> Links, Attribute, Option",
         "bobot": 15,
         "automated": true,
-        "rawScore": 85,
-        "weightedScore": 13,
+        "rawScore": 0,
+        "weightedScore": 0,
         "maxScore": 100,
         "details": [
           {
@@ -318,8 +318,8 @@
             "weight": 25,
             "verification": "text_match",
             "dataField": "productCategories",
-            "status": "completed",
-            "earned": 25
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "links_manufacturer",
@@ -336,8 +336,8 @@
             "weight": 20,
             "verification": "text_match",
             "dataField": "attributeGroup",
-            "status": "completed",
-            "earned": 20
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "attribute_name",
@@ -345,8 +345,8 @@
             "weight": 20,
             "verification": "text_match",
             "dataField": "attributeNameValue",
-            "status": "completed",
-            "earned": 20
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "option_name",
@@ -354,8 +354,8 @@
             "weight": 10,
             "verification": "text_match",
             "dataField": "optionNameType",
-            "status": "completed",
-            "earned": 10
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "option_values",
@@ -363,13 +363,13 @@
             "weight": 10,
             "verification": "visible_check",
             "dataField": "optionValues",
-            "status": "completed",
-            "earned": 10
+            "status": "not_found",
+            "earned": 0
           }
         ],
-        "status": "parsial",
-        "completedCount": 5,
-        "notFoundCount": 1,
+        "status": "belum-terpenuhi",
+        "completedCount": 0,
+        "notFoundCount": 0,
         "verificationFailedCount": 0,
         "totalItems": 6
       },
@@ -378,8 +378,8 @@
         "tab": "Products -> Discount",
         "bobot": 10,
         "automated": true,
-        "rawScore": 100,
-        "weightedScore": 10,
+        "rawScore": 0,
+        "weightedScore": 0,
         "maxScore": 100,
         "details": [
           {
@@ -388,8 +388,8 @@
             "weight": 25,
             "verification": "text_match",
             "dataField": "discountMinQty",
-            "status": "completed",
-            "earned": 25
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "discount_harga",
@@ -397,8 +397,8 @@
             "weight": 25,
             "verification": "text_match",
             "dataField": "discountHarga",
-            "status": "completed",
-            "earned": 25
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "discount_start",
@@ -406,8 +406,8 @@
             "weight": 25,
             "verification": "text_match",
             "dataField": "discountMulai",
-            "status": "completed",
-            "earned": 25
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "discount_end",
@@ -415,12 +415,12 @@
             "weight": 25,
             "verification": "text_match",
             "dataField": "discountSelesai",
-            "status": "completed",
-            "earned": 25
+            "status": "not_found",
+            "earned": 0
           }
         ],
-        "status": "lengkap",
-        "completedCount": 4,
+        "status": "belum-terpenuhi",
+        "completedCount": 0,
         "notFoundCount": 0,
         "verificationFailedCount": 0,
         "totalItems": 4
@@ -430,8 +430,8 @@
         "tab": "Products -> Special",
         "bobot": 10,
         "automated": true,
-        "rawScore": 100,
-        "weightedScore": 10,
+        "rawScore": 0,
+        "weightedScore": 0,
         "maxScore": 100,
         "details": [
           {
@@ -440,8 +440,8 @@
             "weight": 35,
             "verification": "text_match",
             "dataField": "specialHarga",
-            "status": "completed",
-            "earned": 35
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "special_start",
@@ -449,8 +449,8 @@
             "weight": 35,
             "verification": "text_match",
             "dataField": "specialMulai",
-            "status": "completed",
-            "earned": 35
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "special_end",
@@ -458,12 +458,12 @@
             "weight": 30,
             "verification": "text_match",
             "dataField": "specialSelesai",
-            "status": "completed",
-            "earned": 30
+            "status": "not_found",
+            "earned": 0
           }
         ],
-        "status": "lengkap",
-        "completedCount": 3,
+        "status": "belum-terpenuhi",
+        "completedCount": 0,
         "notFoundCount": 0,
         "verificationFailedCount": 0,
         "totalItems": 3
@@ -473,8 +473,8 @@
         "tab": "Products -> Image, SEO",
         "bobot": 10,
         "automated": true,
-        "rawScore": 100,
-        "weightedScore": 10,
+        "rawScore": 0,
+        "weightedScore": 0,
         "maxScore": 100,
         "details": [
           {
@@ -483,8 +483,8 @@
             "weight": 30,
             "verification": "element_exists",
             "dataField": "productImages",
-            "status": "completed",
-            "earned": 30
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "image_valid",
@@ -492,8 +492,8 @@
             "weight": 20,
             "verification": "visible_check",
             "dataField": "productImages",
-            "status": "completed",
-            "earned": 20
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "seo_keyword",
@@ -501,12 +501,12 @@
             "weight": 50,
             "verification": "text_match",
             "dataField": "productSeoKeyword",
-            "status": "completed",
-            "earned": 50
+            "status": "not_found",
+            "earned": 0
           }
         ],
-        "status": "lengkap",
-        "completedCount": 3,
+        "status": "belum-terpenuhi",
+        "completedCount": 0,
         "notFoundCount": 0,
         "verificationFailedCount": 0,
         "totalItems": 3
@@ -557,11 +557,11 @@
     "checkpointSubScores": {
       "cp01": {
         "label": "Data Toko",
-        "rawScore": 90,
-        "weightedScore": 9,
+        "rawScore": 0,
+        "weightedScore": 0,
         "maxScore": 100,
-        "status": "parsial",
-        "completedCount": 5,
+        "status": "belum-terpenuhi",
+        "completedCount": 0,
         "notFoundCount": 1,
         "verificationFailedCount": 0,
         "totalItems": 6,
@@ -569,26 +569,26 @@
           {
             "id": "store_name",
             "label": "Nama toko tampil di storefront",
-            "status": "completed",
-            "earned": 15
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "store_address",
             "label": "Alamat toko tampil",
-            "status": "completed",
-            "earned": 15
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "store_phone",
             "label": "Telepon toko tampil",
-            "status": "completed",
-            "earned": 10
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "store_email",
             "label": "Email toko tampil",
-            "status": "completed",
-            "earned": 10
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "store_description",
@@ -599,33 +599,33 @@
           {
             "id": "store_logo",
             "label": "Logo toko tampil",
-            "status": "completed",
-            "earned": 40
+            "status": "not_found",
+            "earned": 0
           }
         ]
       },
       "cp02": {
         "label": "Manufacturer & Carousel",
-        "rawScore": 100,
-        "weightedScore": 10,
+        "rawScore": 0,
+        "weightedScore": 0,
         "maxScore": 100,
-        "status": "lengkap",
-        "completedCount": 2,
-        "notFoundCount": 0,
+        "status": "belum-terpenuhi",
+        "completedCount": 0,
+        "notFoundCount": 2,
         "verificationFailedCount": 0,
         "totalItems": 2,
         "details": [
           {
             "id": "manufacturer_names",
             "label": "Nama manufacturer sesuai data soal tampil",
-            "status": "completed",
-            "earned": 44.5
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "manufacturer_carousel",
             "label": "Manufacturer/carousel navigasi tampil",
-            "status": "completed",
-            "earned": 55.5
+            "status": "not_found",
+            "earned": 0
           }
         ]
       },
@@ -680,20 +680,20 @@
       },
       "cp04": {
         "label": "Produk: General & Data",
-        "rawScore": 85,
-        "weightedScore": 13,
+        "rawScore": 0,
+        "weightedScore": 0,
         "maxScore": 100,
-        "status": "parsial",
-        "completedCount": 9,
-        "notFoundCount": 1,
+        "status": "belum-terpenuhi",
+        "completedCount": 0,
+        "notFoundCount": 0,
         "verificationFailedCount": 0,
         "totalItems": 10,
         "details": [
           {
             "id": "general_name",
             "label": "Nama produk di tab General",
-            "status": "completed",
-            "earned": 15
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "general_description",
@@ -704,69 +704,69 @@
           {
             "id": "general_seo",
             "label": "SEO keyword di tab General",
-            "status": "completed",
-            "earned": 10
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "data_price",
             "label": "Harga di tab Data",
-            "status": "completed",
-            "earned": 15
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "data_stock",
             "label": "Stok di tab Data",
-            "status": "completed",
-            "earned": 10
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "data_sku",
             "label": "SKU di tab Data",
-            "status": "completed",
-            "earned": 5
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "data_weight",
             "label": "Berat di tab Data",
-            "status": "completed",
-            "earned": 5
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "data_dimensions",
             "label": "Dimensi di tab Data",
-            "status": "completed",
-            "earned": 5
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "data_manufacturer",
             "label": "Manufacturer di tab Data",
-            "status": "completed",
-            "earned": 5
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "data_image_uploaded",
             "label": "Setidaknya 1 gambar produk terpasang",
-            "status": "completed",
-            "earned": 15
+            "status": "not_found",
+            "earned": 0
           }
         ]
       },
       "cp05": {
         "label": "Produk: Links, Attr, Option",
-        "rawScore": 85,
-        "weightedScore": 13,
+        "rawScore": 0,
+        "weightedScore": 0,
         "maxScore": 100,
-        "status": "parsial",
-        "completedCount": 5,
-        "notFoundCount": 1,
+        "status": "belum-terpenuhi",
+        "completedCount": 0,
+        "notFoundCount": 0,
         "verificationFailedCount": 0,
         "totalItems": 6,
         "details": [
           {
             "id": "links_category",
             "label": "Kategori di tab Links",
-            "status": "completed",
-            "earned": 25
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "links_manufacturer",
@@ -777,36 +777,36 @@
           {
             "id": "attribute_group",
             "label": "Attribute group ada di tab Attribute",
-            "status": "completed",
-            "earned": 20
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "attribute_name",
             "label": "Attribute name + value ada di tab Attribute",
-            "status": "completed",
-            "earned": 20
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "option_name",
             "label": "Option name + type ada di tab Option",
-            "status": "completed",
-            "earned": 10
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "option_values",
             "label": "Option values ada di tab Option",
-            "status": "completed",
-            "earned": 10
+            "status": "not_found",
+            "earned": 0
           }
         ]
       },
       "cp06": {
         "label": "Strategi Diskon",
-        "rawScore": 100,
-        "weightedScore": 10,
+        "rawScore": 0,
+        "weightedScore": 0,
         "maxScore": 100,
-        "status": "lengkap",
-        "completedCount": 4,
+        "status": "belum-terpenuhi",
+        "completedCount": 0,
         "notFoundCount": 0,
         "verificationFailedCount": 0,
         "totalItems": 4,
@@ -814,36 +814,36 @@
           {
             "id": "discount_min_qty",
             "label": "Minimal quantity diskon",
-            "status": "completed",
-            "earned": 25
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "discount_harga",
             "label": "Harga diskon",
-            "status": "completed",
-            "earned": 25
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "discount_start",
             "label": "Tanggal mulai diskon",
-            "status": "completed",
-            "earned": 25
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "discount_end",
             "label": "Tanggal selesai diskon",
-            "status": "completed",
-            "earned": 25
+            "status": "not_found",
+            "earned": 0
           }
         ]
       },
       "cp07": {
         "label": "Harga Spesial Event",
-        "rawScore": 100,
-        "weightedScore": 10,
+        "rawScore": 0,
+        "weightedScore": 0,
         "maxScore": 100,
-        "status": "lengkap",
-        "completedCount": 3,
+        "status": "belum-terpenuhi",
+        "completedCount": 0,
         "notFoundCount": 0,
         "verificationFailedCount": 0,
         "totalItems": 3,
@@ -851,30 +851,30 @@
           {
             "id": "special_harga",
             "label": "Harga spesial",
-            "status": "completed",
-            "earned": 35
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "special_start",
             "label": "Tanggal mulai harga spesial",
-            "status": "completed",
-            "earned": 35
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "special_end",
             "label": "Tanggal selesai harga spesial",
-            "status": "completed",
-            "earned": 30
+            "status": "not_found",
+            "earned": 0
           }
         ]
       },
       "cp08": {
         "label": "Gambar & SEO Keyword",
-        "rawScore": 100,
-        "weightedScore": 10,
+        "rawScore": 0,
+        "weightedScore": 0,
         "maxScore": 100,
-        "status": "lengkap",
-        "completedCount": 3,
+        "status": "belum-terpenuhi",
+        "completedCount": 0,
         "notFoundCount": 0,
         "verificationFailedCount": 0,
         "totalItems": 3,
@@ -882,20 +882,20 @@
           {
             "id": "image_uploaded",
             "label": "Gambar produk terunggah",
-            "status": "completed",
-            "earned": 30
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "image_valid",
             "label": "Gambar thumbnail tampil",
-            "status": "completed",
-            "earned": 20
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "seo_keyword",
             "label": "SEO keyword sesuai soal",
-            "status": "completed",
-            "earned": 50
+            "status": "not_found",
+            "earned": 0
           }
         ]
       },
@@ -940,84 +940,111 @@
       "pendingCheckpointIds": []
     },
     "evidence": {
-      "startedAt": "2026-07-27T08:24:03.748Z",
+      "startedAt": "2026-07-27T08:30:49.328Z",
       "storefrontOk": false,
       "loginOk": false,
       "categoriesPageOk": false,
       "productsPageOk": false,
       "expectedParents": [
-        "Fashion"
+        "Kecantikan"
       ],
       "expectedChildren": [
-        "Dress Wanita",
-        "Batik",
-        "Kain & Tekstil",
-        "Outer & Cardigan",
-        "Kemeja Pria"
+        "Face Wash",
+        "Acne Care",
+        "Moisturizer",
+        "Skincare Sensitif",
+        "Sunscreen",
+        "Perawatan Wajah",
+        "Body Lotion",
+        "Perawatan Tubuh"
       ],
       "expectedCategoryAssignments": [
         {
-          "parent": "Fashion",
-          "sub": "Dress Wanita",
+          "parent": "Kecantikan",
+          "sub": "Face Wash",
           "productIds": [
-            "PT003"
+            "PT012"
           ],
           "productNames": [
-            "Dress Batik Wanita Flora Pesisir"
+            "Face Wash Tea Tree Deep Clean Foam"
           ]
         },
         {
-          "parent": "Fashion",
-          "sub": "Batik",
+          "parent": "Kecantikan",
+          "sub": "Acne Care",
           "productIds": [
-            "PT003",
-            "PT001",
-            "PT004",
-            "PT002"
+            "PT012"
           ],
           "productNames": [
-            "Dress Batik Wanita Flora Pesisir",
-            "Batik Tulis Mega Mendung Heritage",
-            "Outer Batik Casual Kawung Urban",
-            "Kemeja Batik Lengan Panjang Sogan Royal"
+            "Face Wash Tea Tree Deep Clean Foam"
           ]
         },
         {
-          "parent": "Fashion",
-          "sub": "Kain & Tekstil",
+          "parent": "Kecantikan",
+          "sub": "Moisturizer",
           "productIds": [
-            "PT001"
+            "PT009"
           ],
           "productNames": [
-            "Batik Tulis Mega Mendung Heritage"
+            "Moisturizer Gel Hydra Calm Barrier Repair"
           ]
         },
         {
-          "parent": "Fashion",
-          "sub": "Outer & Cardigan",
+          "parent": "Kecantikan",
+          "sub": "Skincare Sensitif",
           "productIds": [
-            "PT004"
+            "PT009"
           ],
           "productNames": [
-            "Outer Batik Casual Kawung Urban"
+            "Moisturizer Gel Hydra Calm Barrier Repair"
           ]
         },
         {
-          "parent": "Fashion",
-          "sub": "Kemeja Pria",
+          "parent": "Kecantikan",
+          "sub": "Sunscreen",
           "productIds": [
-            "PT002"
+            "PT010"
           ],
           "productNames": [
-            "Kemeja Batik Lengan Panjang Sogan Royal"
+            "Sunscreen Aqua Shield SPF 50 PA++++"
+          ]
+        },
+        {
+          "parent": "Kecantikan",
+          "sub": "Perawatan Wajah",
+          "productIds": [
+            "PT010"
+          ],
+          "productNames": [
+            "Sunscreen Aqua Shield SPF 50 PA++++"
+          ]
+        },
+        {
+          "parent": "Kecantikan",
+          "sub": "Body Lotion",
+          "productIds": [
+            "PT011"
+          ],
+          "productNames": [
+            "Body Lotion Sakura Bright Tone"
+          ]
+        },
+        {
+          "parent": "Kecantikan",
+          "sub": "Perawatan Tubuh",
+          "productIds": [
+            "PT011"
+          ],
+          "productNames": [
+            "Body Lotion Sakura Bright Tone"
           ]
         }
       ],
       "assignedProductIds": [
-        "PT003",
-        "PT001",
-        "PT004",
-        "PT002"
+        "PT012",
+        "PT009",
+        "PT010",
+        "PT011"
       ],
       "foundParents": [],
       "foundChildren": [],
@@ -1025,144 +1052,95 @@
       "foundStorefrontChildren": [],
       "foundAssignedProductIds": [],
       "categoryAssignmentChecks": [],
-      "adminProductChecks": [
-        {
-          "productId": "PT003",
-          "productName": "Dress Batik Wanita Flora Pesisir",
-          "locatedInAdmin": true,
-          "editPageOpened": true,
-          "screenshot": "",
-          "signals": {
-            "cp04_general": 0.6666666666666666,
-            "cp04_data": 1,
-            "cp05_links": 0.5,
-            "cp05_attributes": 1,
-            "cp05_options": 1,
-            "cp06_discount": 1,
-            "cp07_special": 1,
-            "cp08_images": 1,
-            "cp08_seo": 1
-          }
-        },
-        {
-          "productId": "PT001",
-          "productName": "Batik Tulis Mega Mendung Heritage",
-          "locatedInAdmin": true,
-          "editPageOpened": true,
-          "screenshot": "",
-          "signals": {
-            "cp04_general": 0.6666666666666666,
-            "cp04_data": 1,
-            "cp05_links": 0.5,
-            "cp05_attributes": 1,
-            "cp05_options": 1,
-            "cp06_discount": 1,
-            "cp07_special": 1,
-            "cp08_images": 1,
-            "cp08_seo": 1
-          }
-        },
-        {
-          "productId": "PT004",
-          "productName": "Outer Batik Casual Kawung Urban",
-          "locatedInAdmin": true,
-          "editPageOpened": true,
-          "screenshot": "",
-          "signals": {
-            "cp04_general": 0.6666666666666666,
-            "cp04_data": 1,
-            "cp05_links": 0.5,
-            "cp05_attributes": 1,
-            "cp05_options": 1,
-            "cp06_discount": 1,
-            "cp07_special": 1,
-            "cp08_images": 0.5,
-            "cp08_seo": 1
-          }
-        },
-        {
-          "productId": "PT002",
-          "productName": "Kemeja Batik Lengan Panjang Sogan Royal",
-          "locatedInAdmin": true,
-          "editPageOpened": true,
-          "screenshot": "",
-          "signals": {
-            "cp04_general": 0.6666666666666666,
-            "cp04_data": 1,
-            "cp05_links": 0.5,
-            "cp05_attributes": 1,
-            "cp05_options": 1,
-            "cp06_discount": 1,
-            "cp07_special": 1,
-            "cp08_images": 1,
-            "cp08_seo": 1
-          }
-        }
-      ],
-      "dbEvaluationUsed": true,
+      "adminProductChecks": [],
+      "dbEvaluationUsed": false,
       "missingParents": [
-        "Fashion"
+        "Kecantikan"
       ],
       "missingChildren": [
-        "Dress Wanita",
-        "Batik",
-        "Kain & Tekstil",
-        "Outer & Cardigan",
-        "Kemeja Pria"
+        "Face Wash",
+        "Acne Care",
+        "Moisturizer",
+        "Skincare Sensitif",
+        "Sunscreen",
+        "Perawatan Wajah",
+        "Body Lotion",
+        "Perawatan Tubuh"
       ],
       "missingStorefrontParents": [
-        "Fashion"
+        "Kecantikan"
       ],
       "missingStorefrontChildren": [
-        "Dress Wanita",
-        "Batik",
-        "Kain & Tekstil",
-        "Outer & Cardigan",
-        "Kemeja Pria"
+        "Face Wash",
+        "Acne Care",
+        "Moisturizer",
+        "Skincare Sensitif",
+        "Sunscreen",
+        "Perawatan Wajah",
+        "Body Lotion",
+        "Perawatan Tubuh"
       ],
       "missingAssignedProductIds": [
-        "PT003",
-        "PT001",
-        "PT004",
-        "PT002"
+        "PT012",
+        "PT009",
+        "PT010",
+        "PT011"
       ],
       "missingCategoryAssignments": [
         {
-          "parent": "Fashion",
-          "sub": "Dress Wanita",
+          "parent": "Kecantikan",
+          "sub": "Face Wash",
           "missingProductIds": [
-            "PT003"
+            "PT012"
           ]
         },
         {
-          "parent": "Fashion",
-          "sub": "Batik",
+          "parent": "Kecantikan",
+          "sub": "Acne Care",
           "missingProductIds": [
-            "PT003",
-            "PT001",
-            "PT004",
-            "PT002"
+            "PT012"
           ]
         },
         {
-          "parent": "Fashion",
-          "sub": "Kain & Tekstil",
+          "parent": "Kecantikan",
+          "sub": "Moisturizer",
           "missingProductIds": [
-            "PT001"
+            "PT009"
           ]
         },
         {
-          "parent": "Fashion",
-          "sub": "Outer & Cardigan",
+          "parent": "Kecantikan",
+          "sub": "Skincare Sensitif",
           "missingProductIds": [
-            "PT004"
+            "PT009"
           ]
         },
         {
-          "parent": "Fashion",
-          "sub": "Kemeja Pria",
+          "parent": "Kecantikan",
+          "sub": "Sunscreen",
           "missingProductIds": [
-            "PT002"
+            "PT010"
+          ]
+        },
+        {
+          "parent": "Kecantikan",
+          "sub": "Perawatan Wajah",
+          "missingProductIds": [
+            "PT010"
+          ]
+        },
+        {
+          "parent": "Kecantikan",
+          "sub": "Body Lotion",
+          "missingProductIds": [
+            "PT011"
+          ]
+        },
+        {
+          "parent": "Kecantikan",
+          "sub": "Perawatan Tubuh",
+          "missingProductIds": [
+            "PT011"
           ]
         }
       ],
@@ -1218,92 +1196,8 @@
           "notFoundSubItems": {},
           "verificationFailedSubItems": {}
         }
-      },
-      "storeDbSettings": {
-        "config_name": "Batik Nusantara",
-        "config_address": "Jl. Malioboro No. 45, Yogyakarta 55213",
-        "config_telephone": "0274-555-1234",
-        "config_email": "info@batiknusantara.id",
-        "config_meta_description": "Batik Nusantara",
-        "config_logo": "data/logo_toko.jpg"
-      },
-      "dbManufacturers": [
-        {
-          "manufacturer_id": 14,
-          "name": "Sogan Kencana",
-          "image": "data/Sogan_Kencana_logo.jpg",
-          "sort_order": 0
-        },
-        {
-          "manufacturer_id": 12,
-          "name": "Laras Busana",
-          "image": "data/Laras_Busana_logo.jpg",
-          "sort_order": 0
-        },
-        {
-          "manufacturer_id": 13,
-          "name": "Sekar Melati Batik",
-          "image": "data/Sekar_Melati_Batik_logo.jpg",
-          "sort_order": 0
-        },
-        {
-          "manufacturer_id": 11,
-          "name": "Arunika Batik",
-          "image": "data/Arunika_Batik_logo.jpg",
-          "sort_order": 0
-        }
-      ],
-      "dbBanners": [
-        {
-          "banner_id": 9,
-          "banner_name": "Carousel",
-          "banner_image_id": 78,
-          "link": "http://2022112040.uas.stieama.com/index.php?route=product/manufacturer/info&amp;manufacturer_id=11",
-          "image": "data/Arunika_Batik_logo.jpg",
-          "title": "Arunika Batik"
-        },
-        {
-          "banner_id": 9,
-          "banner_name": "Carousel",
-          "banner_image_id": 80,
-          "link": "http://2022112040.uas.stieama.com/index.php?route=product/manufacturer/info&amp;manufacturer_id=13",
-          "image": "data/Sekar_Melati_Batik_logo.jpg",
-          "title": "Sekar Melati Batik"
-        },
-        {
-          "banner_id": 9,
-          "banner_name": "Carousel",
-          "banner_image_id": 79,
-          "link": "http://2022112040.uas.stieama.com/index.php?route=product/manufacturer/info&amp;manufacturer_id=12",
-          "image": "data/Laras_Busana_logo.jpg",
-          "title": "Laras Busana"
-        },
-        {
-          "banner_id": 9,
-          "banner_name": "Carousel",
-          "banner_image_id": 81,
-          "link": "http://2022112040.uas.stieama.com/index.php?route=product/manufacturer/info&amp;manufacturer_id=14",
-          "image": "data/Sogan_Kencana_logo.jpg",
-          "title": "Sogan Kencana"
-        },
-        {
-          "banner_id": 10,
-          "banner_name": "banner",
-          "banner_image_id": 84,
-          "link": "http://2022112040.uas.stieama.com/index.php?route=product/product&amp;product_id=50",
-          "image": "data/slideshow_2.jpg",
-          "title": "banner 2"
-        },
-        {
-          "banner_id": 10,
-          "banner_name": "banner",
-          "banner_image_id": 85,
-          "link": "http://2022112040.uas.stieama.com/index.php?route=product/product&amp;product_id=52",
-          "image": "data/slideshow_1.jpg",
-          "title": "banner 1"
-        }
-      ]
+      }
     },
-    "summary": "Penilaian butuh review manual. Auto-score 75/100. Item yang belum terverifikasi: belum, belum, belum, belum, belum. Data Toko: 90/100 | selesai: Nama toko tampil di storefront, Alamat toko tampil, Telepon toko tampil, Email toko tampil, Logo toko tampil | belum: Deskripsi bisnis toko tampil | Manufacturer & Carousel: 100/100 | selesai: Nama manufacturer sesuai data soal tampil, Manufacturer/carousel navigasi tampil | Kategori Produk: 0/100 | belum: Kategori parent ada di admin, Subkategori child ada di admin, Kategori tampil di storefront, Subkategori tampil di storefront, Produk tugas terlihat di admin produk, Produk terlink ke kategori yang benar | Produk: General & Data: 85/100 | selesai: Nama produk di tab General, SEO keyword di tab General, Harga di tab Data, Stok di tab Data, SKU di tab Data, Berat di tab Data, Dimensi di tab Data, Manufacturer di tab Data, Setidaknya 1 gambar produk terpasang | belum: Deskripsi di tab General | Produk: Links, Attr, Option: 85/100 | selesai: Kategori di tab Links, Attribute group ada di tab Attribute, Attribute name + value ada di tab Attribute, Option name + type ada di tab Option, Option values ada di tab Option | belum: Manufacturer di tab Links | Strategi Diskon: 100/100 | selesai: Minimal quantity diskon, Harga diskon, Tanggal mulai diskon, Tanggal selesai diskon | Harga Spesial Event: 100/100 | selesai: Harga spesial, Tanggal mulai harga spesial, Tanggal selesai harga spesial | Gambar & SEO Keyword: 100/100 | selesai: Gambar produk terunggah, Gambar thumbnail tampil, SEO keyword sesuai soal | Banner Slideshow: 0/100 | belum: Slideshow/banner tampil di storefront, Banner mengarah ke produk yang benar"
+    "summary": "Penilaian butuh review manual. Auto-score 0/100. Item yang belum terverifikasi: belum, belum, belum, belum, belum, belum, belum, belum, belum. Data Toko: 0/100 | belum: Nama toko tampil di storefront, Alamat toko tampil, Telepon toko tampil, Email toko tampil, Deskripsi bisnis toko tampil, Logo toko tampil | Manufacturer & Carousel: 0/100 | belum: Nama manufacturer sesuai data soal tampil, Manufacturer/carousel navigasi tampil | Kategori Produk: 0/100 | belum: Kategori parent ada di admin, Subkategori child ada di admin, Kategori tampil di storefront, Subkategori tampil di storefront, Produk tugas terlihat di admin produk, Produk terlink ke kategori yang benar | Produk: General & Data: 0/100 | belum: Nama produk di tab General, Deskripsi di tab General, SEO keyword di tab General, Harga di tab Data, Stok di tab Data, SKU di tab Data, Berat di tab Data, Dimensi di tab Data, Manufacturer di tab Data, Setidaknya 1 gambar produk terpasang | Produk: Links, Attr, Option: 0/100 | belum: Kategori di tab Links, Manufacturer di tab Links, Attribute group ada di tab Attribute, Attribute name + value ada di tab Attribute, Option name + type ada di tab Option, Option values ada di tab Option | Strategi Diskon: 0/100 | belum: Minimal quantity diskon, Harga diskon, Tanggal mulai diskon, Tanggal selesai diskon | Harga Spesial Event: 0/100 | belum: Harga spesial, Tanggal mulai harga spesial, Tanggal selesai harga spesial | Gambar & SEO Keyword: 0/100 | belum: Gambar produk terunggah, Gambar thumbnail tampil, SEO keyword sesuai soal | Banner Slideshow: 0/100 | belum: Slideshow/banner tampil di storefront, Banner mengarah ke produk yang benar"
   }
 ]

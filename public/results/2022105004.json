@@ -1,16 +1,16 @@
 [
   {
-    "nim": "2022112040",
-    "studentName": "AFTIAR TEGAR FATINNIO QAIS",
-    "className": "D",
-    "websiteUrl": "http://2022112040.uas.stieama.com",
-    "storeId": "T001",
-    "storeName": "Batik Nusantara",
+    "nim": "2022105004",
+    "studentName": "AINIYA ANIS SAFITRI",
+    "className": "B",
+    "websiteUrl": "http://2022105004.uas.stieama.com",
+    "storeId": "T003",
+    "storeName": "Rumah Kecantikan Cantika",
     "assignedProductIds": [
-      "PT003",
-      "PT001",
-      "PT004",
-      "PT002"
+      "PT009",
+      "PT012",
+      "PT010",
+      "PT011"
     ],
     "score": 75,
     "autoTotal": 75,
@@ -940,84 +940,111 @@
       "pendingCheckpointIds": []
     },
     "evidence": {
-      "startedAt": "2026-07-27T08:24:03.748Z",
+      "startedAt": "2026-07-27T08:32:18.179Z",
       "storefrontOk": false,
       "loginOk": false,
       "categoriesPageOk": false,
       "productsPageOk": false,
       "expectedParents": [
-        "Fashion"
+        "Kecantikan"
       ],
       "expectedChildren": [
-        "Dress Wanita",
-        "Batik",
-        "Kain & Tekstil",
-        "Outer & Cardigan",
-        "Kemeja Pria"
+        "Moisturizer",
+        "Skincare Sensitif",
+        "Face Wash",
+        "Acne Care",
+        "Sunscreen",
+        "Perawatan Wajah",
+        "Body Lotion",
+        "Perawatan Tubuh"
       ],
       "expectedCategoryAssignments": [
         {
-          "parent": "Fashion",
-          "sub": "Dress Wanita",
+          "parent": "Kecantikan",
+          "sub": "Moisturizer",
           "productIds": [
-            "PT003"
+            "PT009"
           ],
           "productNames": [
-            "Dress Batik Wanita Flora Pesisir"
+            "Moisturizer Gel Hydra Calm Barrier Repair"
           ]
         },
         {
-          "parent": "Fashion",
-          "sub": "Batik",
+          "parent": "Kecantikan",
+          "sub": "Skincare Sensitif",
           "productIds": [
-            "PT003",
-            "PT001",
-            "PT004",
-            "PT002"
+            "PT009"
           ],
           "productNames": [
-            "Dress Batik Wanita Flora Pesisir",
-            "Batik Tulis Mega Mendung Heritage",
-            "Outer Batik Casual Kawung Urban",
-            "Kemeja Batik Lengan Panjang Sogan Royal"
+            "Moisturizer Gel Hydra Calm Barrier Repair"
           ]
         },
         {
-          "parent": "Fashion",
-          "sub": "Kain & Tekstil",
+          "parent": "Kecantikan",
+          "sub": "Face Wash",
           "productIds": [
-            "PT001"
+            "PT012"
           ],
           "productNames": [
-            "Batik Tulis Mega Mendung Heritage"
+            "Face Wash Tea Tree Deep Clean Foam"
           ]
         },
         {
-          "parent": "Fashion",
-          "sub": "Outer & Cardigan",
+          "parent": "Kecantikan",
+          "sub": "Acne Care",
           "productIds": [
-            "PT004"
+            "PT012"
           ],
           "productNames": [
-            "Outer Batik Casual Kawung Urban"
+            "Face Wash Tea Tree Deep Clean Foam"
           ]
         },
         {
-          "parent": "Fashion",
-          "sub": "Kemeja Pria",
+          "parent": "Kecantikan",
+          "sub": "Sunscreen",
           "productIds": [
-            "PT002"
+            "PT010"
           ],
           "productNames": [
-            "Kemeja Batik Lengan Panjang Sogan Royal"
+            "Sunscreen Aqua Shield SPF 50 PA++++"
+          ]
+        },
+        {
+          "parent": "Kecantikan",
+          "sub": "Perawatan Wajah",
+          "productIds": [
+            "PT010"
+          ],
+          "productNames": [
+            "Sunscreen Aqua Shield SPF 50 PA++++"
+          ]
+        },
+        {
+          "parent": "Kecantikan",
+          "sub": "Body Lotion",
+          "productIds": [
+            "PT011"
+          ],
+          "productNames": [
+            "Body Lotion Sakura Bright Tone"
+          ]
+        },
+        {
+          "parent": "Kecantikan",
+          "sub": "Perawatan Tubuh",
+          "productIds": [
+            "PT011"
+          ],
+          "productNames": [
+            "Body Lotion Sakura Bright Tone"
           ]
         }
       ],
       "assignedProductIds": [
-        "PT003",
-        "PT001",
-        "PT004",
-        "PT002"
+        "PT009",
+        "PT012",
+        "PT010",
+        "PT011"
       ],
       "foundParents": [],
       "foundChildren": [],
@@ -1027,8 +1054,26 @@
       "categoryAssignmentChecks": [],
       "adminProductChecks": [
         {
-          "productId": "PT003",
-          "productName": "Dress Batik Wanita Flora Pesisir",
+          "productId": "PT009",
+          "productName": "Moisturizer Gel Hydra Calm Barrier Repair",
+          "locatedInAdmin": true,
+          "editPageOpened": true,
+          "screenshot": "",
+          "signals": {
+            "cp04_general": 0.6666666666666666,
+            "cp04_data": 0.8571428571428571,
+            "cp05_links": 0.5,
+            "cp05_attributes": 1,
+            "cp05_options": 1,
+            "cp06_discount": 1,
+            "cp07_special": 1,
+            "cp08_images": 1,
+            "cp08_seo": 1
+          }
+        },
+        {
+          "productId": "PT012",
+          "productName": "Face Wash Tea Tree Deep Clean Foam",
           "locatedInAdmin": true,
           "editPageOpened": true,
           "screenshot": "",
@@ -1045,14 +1090,14 @@
           }
         },
         {
-          "productId": "PT001",
-          "productName": "Batik Tulis Mega Mendung Heritage",
+          "productId": "PT010",
+          "productName": "Sunscreen Aqua Shield SPF 50 PA++++",
           "locatedInAdmin": true,
           "editPageOpened": true,
           "screenshot": "",
           "signals": {
             "cp04_general": 0.6666666666666666,
-            "cp04_data": 1,
+            "cp04_data": 0.8571428571428571,
             "cp05_links": 0.5,
             "cp05_attributes": 1,
             "cp05_options": 1,
@@ -1063,26 +1108,8 @@
           }
         },
         {
-          "productId": "PT004",
-          "productName": "Outer Batik Casual Kawung Urban",
-          "locatedInAdmin": true,
-          "editPageOpened": true,
-          "screenshot": "",
-          "signals": {
-            "cp04_general": 0.6666666666666666,
-            "cp04_data": 1,
-            "cp05_links": 0.5,
-            "cp05_attributes": 1,
-            "cp05_options": 1,
-            "cp06_discount": 1,
-            "cp07_special": 1,
-            "cp08_images": 0.5,
-            "cp08_seo": 1
-          }
-        },
-        {
-          "productId": "PT002",
-          "productName": "Kemeja Batik Lengan Panjang Sogan Royal",
+          "productId": "PT011",
+          "productName": "Body Lotion Sakura Bright Tone",
           "locatedInAdmin": true,
           "editPageOpened": true,
           "screenshot": "",
@@ -1101,68 +1128,92 @@
       ],
       "dbEvaluationUsed": true,
       "missingParents": [
-        "Fashion"
+        "Kecantikan"
       ],
       "missingChildren": [
-        "Dress Wanita",
-        "Batik",
-        "Kain & Tekstil",
-        "Outer & Cardigan",
-        "Kemeja Pria"
+        "Moisturizer",
+        "Skincare Sensitif",
+        "Face Wash",
+        "Acne Care",
+        "Sunscreen",
+        "Perawatan Wajah",
+        "Body Lotion",
+        "Perawatan Tubuh"
       ],
       "missingStorefrontParents": [
-        "Fashion"
+        "Kecantikan"
       ],
       "missingStorefrontChildren": [
-        "Dress Wanita",
-        "Batik",
-        "Kain & Tekstil",
-        "Outer & Cardigan",
-        "Kemeja Pria"
+        "Moisturizer",
+        "Skincare Sensitif",
+        "Face Wash",
+        "Acne Care",
+        "Sunscreen",
+        "Perawatan Wajah",
+        "Body Lotion",
+        "Perawatan Tubuh"
       ],
       "missingAssignedProductIds": [
-        "PT003",
-        "PT001",
-        "PT004",
-        "PT002"
+        "PT009",
+        "PT012",
+        "PT010",
+        "PT011"
       ],
       "missingCategoryAssignments": [
         {
-          "parent": "Fashion",
-          "sub": "Dress Wanita",
+          "parent": "Kecantikan",
+          "sub": "Moisturizer",
           "missingProductIds": [
-            "PT003"
+            "PT009"
           ]
         },
         {
-          "parent": "Fashion",
-          "sub": "Batik",
+          "parent": "Kecantikan",
+          "sub": "Skincare Sensitif",
           "missingProductIds": [
-            "PT003",
-            "PT001",
-            "PT004",
-            "PT002"
+            "PT009"
           ]
         },
         {
-          "parent": "Fashion",
-          "sub": "Kain & Tekstil",
+          "parent": "Kecantikan",
+          "sub": "Face Wash",
           "missingProductIds": [
-            "PT001"
+            "PT012"
           ]
         },
         {
-          "parent": "Fashion",
-          "sub": "Outer & Cardigan",
+          "parent": "Kecantikan",
+          "sub": "Acne Care",
           "missingProductIds": [
-            "PT004"
+            "PT012"
           ]
         },
         {
-          "parent": "Fashion",
-          "sub": "Kemeja Pria",
+          "parent": "Kecantikan",
+          "sub": "Sunscreen",
           "missingProductIds": [
-            "PT002"
+            "PT010"
+          ]
+        },
+        {
+          "parent": "Kecantikan",
+          "sub": "Perawatan Wajah",
+          "missingProductIds": [
+            "PT010"
+          ]
+        },
+        {
+          "parent": "Kecantikan",
+          "sub": "Body Lotion",
+          "missingProductIds": [
+            "PT011"
+          ]
+        },
+        {
+          "parent": "Kecantikan",
+          "sub": "Perawatan Tubuh",
+          "missingProductIds": [
+            "PT011"
           ]
         }
       ],
@@ -1220,87 +1271,87 @@
         }
       },
       "storeDbSettings": {
-        "config_name": "Batik Nusantara",
-        "config_address": "Jl. Malioboro No. 45, Yogyakarta 55213",
-        "config_telephone": "0274-555-1234",
-        "config_email": "info@batiknusantara.id",
-        "config_meta_description": "Batik Nusantara",
-        "config_logo": "data/logo_toko.jpg"
+        "config_name": "Rumah Kecantikan Cantika",
+        "config_address": "Jl. Pemuda No. 88, Solo 57111",
+        "config_telephone": " 0271-444-5566",
+        "config_email": " hello@cantika.id",
+        "config_meta_description": "My Store",
+        "config_logo": "data/logo_toko (1).jpg"
       },
       "dbManufacturers": [
         {
-          "manufacturer_id": 14,
-          "name": "Sogan Kencana",
-          "image": "data/Sogan_Kencana_logo.jpg",
+          "manufacturer_id": 11,
+          "name": "PureLeaf Skin Science",
+          "image": "data/PureLeaf_Skin_Science_logo.jpg",
           "sort_order": 0
         },
         {
           "manufacturer_id": 12,
-          "name": "Laras Busana",
-          "image": "data/Laras_Busana_logo.jpg",
+          "name": "DermaBloom Labs",
+          "image": "data/DermaBloom_Labs_logo.jpg",
           "sort_order": 0
         },
         {
           "manufacturer_id": 13,
-          "name": "Sekar Melati Batik",
-          "image": "data/Sekar_Melati_Batik_logo.jpg",
+          "name": "SunMuse Beauty",
+          "image": "data/SunMuse_Beauty_logo.jpg",
           "sort_order": 0
         },
         {
-          "manufacturer_id": 11,
-          "name": "Arunika Batik",
-          "image": "data/Arunika_Batik_logo.jpg",
+          "manufacturer_id": 14,
+          "name": "LunaSkin Bodycare",
+          "image": "data/LunaSkin_Bodycare_logo.jpg",
           "sort_order": 0
         }
       ],
       "dbBanners": [
         {
           "banner_id": 9,
-          "banner_name": "Carousel",
-          "banner_image_id": 78,
-          "link": "http://2022112040.uas.stieama.com/index.php?route=product/manufacturer/info&amp;manufacturer_id=11",
-          "image": "data/Arunika_Batik_logo.jpg",
-          "title": "Arunika Batik"
+          "banner_name": "Merk",
+          "banner_image_id": 82,
+          "link": "",
+          "image": "data/PureLeaf_Skin_Science_logo.jpg",
+          "title": "PureLeaf Skin Science"
         },
         {
           "banner_id": 9,
-          "banner_name": "Carousel",
-          "banner_image_id": 80,
-          "link": "http://2022112040.uas.stieama.com/index.php?route=product/manufacturer/info&amp;manufacturer_id=13",
-          "image": "data/Sekar_Melati_Batik_logo.jpg",
-          "title": "Sekar Melati Batik"
-        },
-        {
-          "banner_id": 9,
-          "banner_name": "Carousel",
-          "banner_image_id": 79,
-          "link": "http://2022112040.uas.stieama.com/index.php?route=product/manufacturer/info&amp;manufacturer_id=12",
-          "image": "data/Laras_Busana_logo.jpg",
-          "title": "Laras Busana"
-        },
-        {
-          "banner_id": 9,
-          "banner_name": "Carousel",
-          "banner_image_id": 81,
-          "link": "http://2022112040.uas.stieama.com/index.php?route=product/manufacturer/info&amp;manufacturer_id=14",
-          "image": "data/Sogan_Kencana_logo.jpg",
-          "title": "Sogan Kencana"
-        },
-        {
-          "banner_id": 10,
-          "banner_name": "banner",
-          "banner_image_id": 84,
-          "link": "http://2022112040.uas.stieama.com/index.php?route=product/product&amp;product_id=50",
-          "image": "data/slideshow_2.jpg",
-          "title": "banner 2"
-        },
-        {
-          "banner_id": 10,
-          "banner_name": "banner",
+          "banner_name": "Merk",
           "banner_image_id": 85,
-          "link": "http://2022112040.uas.stieama.com/index.php?route=product/product&amp;product_id=52",
+          "link": "",
+          "image": "data/LunaSkin_Bodycare_logo.jpg",
+          "title": " LunaSkin Bodycare"
+        },
+        {
+          "banner_id": 9,
+          "banner_name": "Merk",
+          "banner_image_id": 83,
+          "link": "",
+          "image": "data/DermaBloom_Labs_logo.jpg",
+          "title": " DermaBloom Labs"
+        },
+        {
+          "banner_id": 9,
+          "banner_name": "Merk",
+          "banner_image_id": 84,
+          "link": "",
+          "image": "data/SunMuse_Beauty_logo.jpg",
+          "title": "SunMuse Beauty"
+        },
+        {
+          "banner_id": 10,
+          "banner_name": "Slideshow",
+          "banner_image_id": 91,
+          "link": "http://2022105004.uas.stieama.com/index.php?route=product/product&amp;path=59_66&amp;product_id=53",
+          "image": "data/slideshow_2.jpg",
+          "title": "Slideshow 2"
+        },
+        {
+          "banner_id": 10,
+          "banner_name": "Slideshow",
+          "banner_image_id": 90,
+          "link": "http://2022105004.uas.stieama.com/index.php?route=product/product&amp;manufacturer_id=12&amp;product_id=50",
           "image": "data/slideshow_1.jpg",
-          "title": "banner 1"
+          "title": "Slideshow 1"
         }
       ]
     },

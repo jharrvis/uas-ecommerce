@@ -1,19 +1,19 @@
 [
   {
-    "nim": "2022112040",
-    "studentName": "AFTIAR TEGAR FATINNIO QAIS",
+    "nim": "2022112084",
+    "studentName": "RIYANO RISKI PRATAMA",
     "className": "D",
-    "websiteUrl": "http://2022112040.uas.stieama.com",
-    "storeId": "T001",
-    "storeName": "Batik Nusantara",
+    "websiteUrl": "http://2022112084.uas.stieama.com",
+    "storeId": "T005",
+    "storeName": "Sport Galaxy",
     "assignedProductIds": [
-      "PT003",
-      "PT001",
-      "PT004",
-      "PT002"
+      "PS503",
+      "PS501",
+      "PS504",
+      "PS502"
     ],
-    "score": 75,
-    "autoTotal": 75,
+    "score": 70.5,
+    "autoTotal": 70.5,
     "autoMax": 100,
     "status": "cukup",
     "manualReview": true,
@@ -202,8 +202,8 @@
         "tab": "Products -> General, Data",
         "bobot": 15,
         "automated": true,
-        "rawScore": 85,
-        "weightedScore": 13,
+        "rawScore": 90,
+        "weightedScore": 13.5,
         "maxScore": 100,
         "details": [
           {
@@ -221,8 +221,8 @@
             "weight": 15,
             "verification": "text_match",
             "dataField": "productDescription",
-            "status": "not_found",
-            "earned": 0
+            "status": "completed",
+            "earned": 15
           },
           {
             "id": "general_seo",
@@ -230,8 +230,8 @@
             "weight": 10,
             "verification": "text_match",
             "dataField": "productSeoKeyword",
-            "status": "completed",
-            "earned": 10
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "data_price",
@@ -299,7 +299,7 @@
         ],
         "status": "parsial",
         "completedCount": 9,
-        "notFoundCount": 1,
+        "notFoundCount": 3,
         "verificationFailedCount": 0,
         "totalItems": 10
       },
@@ -369,7 +369,7 @@
         ],
         "status": "parsial",
         "completedCount": 5,
-        "notFoundCount": 1,
+        "notFoundCount": 2,
         "verificationFailedCount": 0,
         "totalItems": 6
       },
@@ -473,8 +473,8 @@
         "tab": "Products -> Image, SEO",
         "bobot": 10,
         "automated": true,
-        "rawScore": 100,
-        "weightedScore": 10,
+        "rawScore": 50,
+        "weightedScore": 5,
         "maxScore": 100,
         "details": [
           {
@@ -501,13 +501,13 @@
             "weight": 50,
             "verification": "text_match",
             "dataField": "productSeoKeyword",
-            "status": "completed",
-            "earned": 50
+            "status": "not_found",
+            "earned": 0
           }
         ],
-        "status": "lengkap",
-        "completedCount": 3,
-        "notFoundCount": 0,
+        "status": "parsial",
+        "completedCount": 2,
+        "notFoundCount": 2,
         "verificationFailedCount": 0,
         "totalItems": 3
       },
@@ -680,12 +680,12 @@
       },
       "cp04": {
         "label": "Produk: General & Data",
-        "rawScore": 85,
-        "weightedScore": 13,
+        "rawScore": 90,
+        "weightedScore": 13.5,
         "maxScore": 100,
         "status": "parsial",
         "completedCount": 9,
-        "notFoundCount": 1,
+        "notFoundCount": 3,
         "verificationFailedCount": 0,
         "totalItems": 10,
         "details": [
@@ -698,14 +698,14 @@
           {
             "id": "general_description",
             "label": "Deskripsi di tab General",
-            "status": "not_found",
-            "earned": 0
+            "status": "completed",
+            "earned": 15
           },
           {
             "id": "general_seo",
             "label": "SEO keyword di tab General",
-            "status": "completed",
-            "earned": 10
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "data_price",
@@ -758,7 +758,7 @@
         "maxScore": 100,
         "status": "parsial",
         "completedCount": 5,
-        "notFoundCount": 1,
+        "notFoundCount": 2,
         "verificationFailedCount": 0,
         "totalItems": 6,
         "details": [
@@ -870,12 +870,12 @@
       },
       "cp08": {
         "label": "Gambar & SEO Keyword",
-        "rawScore": 100,
-        "weightedScore": 10,
+        "rawScore": 50,
+        "weightedScore": 5,
         "maxScore": 100,
-        "status": "lengkap",
-        "completedCount": 3,
-        "notFoundCount": 0,
+        "status": "parsial",
+        "completedCount": 2,
+        "notFoundCount": 2,
         "verificationFailedCount": 0,
         "totalItems": 3,
         "details": [
@@ -894,8 +894,8 @@
           {
             "id": "seo_keyword",
             "label": "SEO keyword sesuai soal",
-            "status": "completed",
-            "earned": 50
+            "status": "not_found",
+            "earned": 0
           }
         ]
       },
@@ -940,84 +940,111 @@
       "pendingCheckpointIds": []
     },
     "evidence": {
-      "startedAt": "2026-07-27T08:24:03.748Z",
+      "startedAt": "2026-07-27T08:25:19.371Z",
       "storefrontOk": false,
       "loginOk": false,
       "categoriesPageOk": false,
       "productsPageOk": false,
       "expectedParents": [
-        "Fashion"
+        "Olahraga"
       ],
       "expectedChildren": [
-        "Dress Wanita",
-        "Batik",
-        "Kain & Tekstil",
-        "Outer & Cardigan",
-        "Kemeja Pria"
+        "Badminton",
+        "Raket",
+        "Jersey Olahraga",
+        "Futsal",
+        "Yoga & Pilates",
+        "Aksesoris Fitness",
+        "Sepatu Lari",
+        "Running Gear"
       ],
       "expectedCategoryAssignments": [
         {
-          "parent": "Fashion",
-          "sub": "Dress Wanita",
+          "parent": "Olahraga",
+          "sub": "Badminton",
           "productIds": [
-            "PT003"
+            "PS503"
           ],
           "productNames": [
-            "Dress Batik Wanita Flora Pesisir"
+            "Raket Badminton CarbonStrike 88"
           ]
         },
         {
-          "parent": "Fashion",
-          "sub": "Batik",
+          "parent": "Olahraga",
+          "sub": "Raket",
           "productIds": [
-            "PT003",
-            "PT001",
-            "PT004",
-            "PT002"
+            "PS503"
           ],
           "productNames": [
-            "Dress Batik Wanita Flora Pesisir",
-            "Batik Tulis Mega Mendung Heritage",
-            "Outer Batik Casual Kawung Urban",
-            "Kemeja Batik Lengan Panjang Sogan Royal"
+            "Raket Badminton CarbonStrike 88"
           ]
         },
         {
-          "parent": "Fashion",
-          "sub": "Kain & Tekstil",
+          "parent": "Olahraga",
+          "sub": "Jersey Olahraga",
           "productIds": [
-            "PT001"
+            "PS501"
           ],
           "productNames": [
-            "Batik Tulis Mega Mendung Heritage"
+            "Jersey Futsal ProDry Galaxy"
           ]
         },
         {
-          "parent": "Fashion",
-          "sub": "Outer & Cardigan",
+          "parent": "Olahraga",
+          "sub": "Futsal",
           "productIds": [
-            "PT004"
+            "PS501"
           ],
           "productNames": [
-            "Outer Batik Casual Kawung Urban"
+            "Jersey Futsal ProDry Galaxy"
           ]
         },
         {
-          "parent": "Fashion",
-          "sub": "Kemeja Pria",
+          "parent": "Olahraga",
+          "sub": "Yoga & Pilates",
           "productIds": [
-            "PT002"
+            "PS504"
           ],
           "productNames": [
-            "Kemeja Batik Lengan Panjang Sogan Royal"
+            "Matras Yoga FlexCore 8mm"
+          ]
+        },
+        {
+          "parent": "Olahraga",
+          "sub": "Aksesoris Fitness",
+          "productIds": [
+            "PS504"
+          ],
+          "productNames": [
+            "Matras Yoga FlexCore 8mm"
+          ]
+        },
+        {
+          "parent": "Olahraga",
+          "sub": "Sepatu Lari",
+          "productIds": [
+            "PS502"
+          ],
+          "productNames": [
+            "Sepatu Lari AeroSprint 2.0"
+          ]
+        },
+        {
+          "parent": "Olahraga",
+          "sub": "Running Gear",
+          "productIds": [
+            "PS502"
+          ],
+          "productNames": [
+            "Sepatu Lari AeroSprint 2.0"
           ]
         }
       ],
       "assignedProductIds": [
-        "PT003",
-        "PT001",
-        "PT004",
-        "PT002"
+        "PS503",
+        "PS501",
+        "PS504",
+        "PS502"
       ],
       "foundParents": [],
       "foundChildren": [],
@@ -1027,8 +1054,8 @@
       "categoryAssignmentChecks": [],
       "adminProductChecks": [
         {
-          "productId": "PT003",
-          "productName": "Dress Batik Wanita Flora Pesisir",
+          "productId": "PS503",
+          "productName": "Raket Badminton CarbonStrike 88",
           "locatedInAdmin": true,
           "editPageOpened": true,
           "screenshot": "",
@@ -1041,128 +1068,152 @@
             "cp06_discount": 1,
             "cp07_special": 1,
             "cp08_images": 1,
-            "cp08_seo": 1
+            "cp08_seo": 0
           }
         },
         {
-          "productId": "PT001",
-          "productName": "Batik Tulis Mega Mendung Heritage",
+          "productId": "PS501",
+          "productName": "Jersey Futsal ProDry Galaxy",
           "locatedInAdmin": true,
           "editPageOpened": true,
           "screenshot": "",
           "signals": {
             "cp04_general": 0.6666666666666666,
-            "cp04_data": 1,
-            "cp05_links": 0.5,
+            "cp04_data": 0.8571428571428571,
+            "cp05_links": 0,
             "cp05_attributes": 1,
             "cp05_options": 1,
             "cp06_discount": 1,
             "cp07_special": 1,
             "cp08_images": 1,
-            "cp08_seo": 1
+            "cp08_seo": 0
           }
         },
         {
-          "productId": "PT004",
-          "productName": "Outer Batik Casual Kawung Urban",
+          "productId": "PS504",
+          "productName": "Matras Yoga FlexCore 8mm",
           "locatedInAdmin": true,
           "editPageOpened": true,
           "screenshot": "",
           "signals": {
             "cp04_general": 0.6666666666666666,
-            "cp04_data": 1,
-            "cp05_links": 0.5,
+            "cp04_data": 0.8571428571428571,
+            "cp05_links": 0,
             "cp05_attributes": 1,
             "cp05_options": 1,
             "cp06_discount": 1,
             "cp07_special": 1,
             "cp08_images": 0.5,
-            "cp08_seo": 1
+            "cp08_seo": 0
           }
         },
         {
-          "productId": "PT002",
-          "productName": "Kemeja Batik Lengan Panjang Sogan Royal",
+          "productId": "PS502",
+          "productName": "Sepatu Lari AeroSprint 2.0",
           "locatedInAdmin": true,
           "editPageOpened": true,
           "screenshot": "",
           "signals": {
             "cp04_general": 0.6666666666666666,
-            "cp04_data": 1,
-            "cp05_links": 0.5,
+            "cp04_data": 0.7142857142857143,
+            "cp05_links": 0,
             "cp05_attributes": 1,
             "cp05_options": 1,
             "cp06_discount": 1,
             "cp07_special": 1,
-            "cp08_images": 1,
-            "cp08_seo": 1
+            "cp08_images": 0.5,
+            "cp08_seo": 0
           }
         }
       ],
       "dbEvaluationUsed": true,
       "missingParents": [
-        "Fashion"
+        "Olahraga"
       ],
       "missingChildren": [
-        "Dress Wanita",
-        "Batik",
-        "Kain & Tekstil",
-        "Outer & Cardigan",
-        "Kemeja Pria"
+        "Badminton",
+        "Raket",
+        "Jersey Olahraga",
+        "Futsal",
+        "Yoga & Pilates",
+        "Aksesoris Fitness",
+        "Sepatu Lari",
+        "Running Gear"
       ],
       "missingStorefrontParents": [
-        "Fashion"
+        "Olahraga"
       ],
       "missingStorefrontChildren": [
-        "Dress Wanita",
-        "Batik",
-        "Kain & Tekstil",
-        "Outer & Cardigan",
-        "Kemeja Pria"
+        "Badminton",
+        "Raket",
+        "Jersey Olahraga",
+        "Futsal",
+        "Yoga & Pilates",
+        "Aksesoris Fitness",
+        "Sepatu Lari",
+        "Running Gear"
       ],
       "missingAssignedProductIds": [
-        "PT003",
-        "PT001",
-        "PT004",
-        "PT002"
+        "PS503",
+        "PS501",
+        "PS504",
+        "PS502"
       ],
       "missingCategoryAssignments": [
         {
-          "parent": "Fashion",
-          "sub": "Dress Wanita",
+          "parent": "Olahraga",
+          "sub": "Badminton",
           "missingProductIds": [
-            "PT003"
+            "PS503"
           ]
         },
         {
-          "parent": "Fashion",
-          "sub": "Batik",
+          "parent": "Olahraga",
+          "sub": "Raket",
           "missingProductIds": [
-            "PT003",
-            "PT001",
-            "PT004",
-            "PT002"
+            "PS503"
           ]
         },
         {
-          "parent": "Fashion",
-          "sub": "Kain & Tekstil",
+          "parent": "Olahraga",
+          "sub": "Jersey Olahraga",
           "missingProductIds": [
-            "PT001"
+            "PS501"
           ]
         },
         {
-          "parent": "Fashion",
-          "sub": "Outer & Cardigan",
+          "parent": "Olahraga",
+          "sub": "Futsal",
           "missingProductIds": [
-            "PT004"
+            "PS501"
           ]
         },
         {
-          "parent": "Fashion",
-          "sub": "Kemeja Pria",
+          "parent": "Olahraga",
+          "sub": "Yoga & Pilates",
           "missingProductIds": [
-            "PT002"
+            "PS504"
+          ]
+        },
+        {
+          "parent": "Olahraga",
+          "sub": "Aksesoris Fitness",
+          "missingProductIds": [
+            "PS504"
+          ]
+        },
+        {
+          "parent": "Olahraga",
+          "sub": "Sepatu Lari",
+          "missingProductIds": [
+            "PS502"
+          ]
+        },
+        {
+          "parent": "Olahraga",
+          "sub": "Running Gear",
+          "missingProductIds": [
+            "PS502"
           ]
         }
       ],
@@ -1220,90 +1271,41 @@
         }
       },
       "storeDbSettings": {
-        "config_name": "Batik Nusantara",
-        "config_address": "Jl. Malioboro No. 45, Yogyakarta 55213",
-        "config_telephone": "0274-555-1234",
-        "config_email": "info@batiknusantara.id",
-        "config_meta_description": "Batik Nusantara",
-        "config_logo": "data/logo_toko.jpg"
+        "config_name": "Sport Galaxy",
+        "config_address": "Jl. Ahmad Yani No. 67, Magelang 56112",
+        "config_telephone": "0293-222-3344",
+        "config_email": "cs@sportgalaxy.id",
+        "config_meta_description": "Sport Galaxy",
+        "config_logo": "data/oc-logo1.jpg"
       },
       "dbManufacturers": [
         {
           "manufacturer_id": 14,
-          "name": "Sogan Kencana",
-          "image": "data/Sogan_Kencana_logo.jpg",
+          "name": "Sport Galaxy Wellness",
+          "image": "data/Sport_Galaxy_Wellness_logo.jpg",
           "sort_order": 0
         },
         {
           "manufacturer_id": 12,
-          "name": "Laras Busana",
-          "image": "data/Laras_Busana_logo.jpg",
+          "name": "Sport Galaxy Foot",
+          "image": "data/Sport_Galaxy_Foot_logo.jpg",
           "sort_order": 0
         },
         {
           "manufacturer_id": 13,
-          "name": "Sekar Melati Batik",
-          "image": "data/Sekar_Melati_Batik_logo.jpg",
+          "name": "Sport Galaxy Rackets",
+          "image": "data/Sport_Galaxy_Rackets_logo.jpg",
           "sort_order": 0
         },
         {
           "manufacturer_id": 11,
-          "name": "Arunika Batik",
-          "image": "data/Arunika_Batik_logo.jpg",
+          "name": "Sport Galaxy Wear",
+          "image": "data/Sport_Galaxy_Wear_logo.jpg",
           "sort_order": 0
         }
       ],
-      "dbBanners": [
-        {
-          "banner_id": 9,
-          "banner_name": "Carousel",
-          "banner_image_id": 78,
-          "link": "http://2022112040.uas.stieama.com/index.php?route=product/manufacturer/info&amp;manufacturer_id=11",
-          "image": "data/Arunika_Batik_logo.jpg",
-          "title": "Arunika Batik"
-        },
-        {
-          "banner_id": 9,
-          "banner_name": "Carousel",
-          "banner_image_id": 80,
-          "link": "http://2022112040.uas.stieama.com/index.php?route=product/manufacturer/info&amp;manufacturer_id=13",
-          "image": "data/Sekar_Melati_Batik_logo.jpg",
-          "title": "Sekar Melati Batik"
-        },
-        {
-          "banner_id": 9,
-          "banner_name": "Carousel",
-          "banner_image_id": 79,
-          "link": "http://2022112040.uas.stieama.com/index.php?route=product/manufacturer/info&amp;manufacturer_id=12",
-          "image": "data/Laras_Busana_logo.jpg",
-          "title": "Laras Busana"
-        },
-        {
-          "banner_id": 9,
-          "banner_name": "Carousel",
-          "banner_image_id": 81,
-          "link": "http://2022112040.uas.stieama.com/index.php?route=product/manufacturer/info&amp;manufacturer_id=14",
-          "image": "data/Sogan_Kencana_logo.jpg",
-          "title": "Sogan Kencana"
-        },
-        {
-          "banner_id": 10,
-          "banner_name": "banner",
-          "banner_image_id": 84,
-          "link": "http://2022112040.uas.stieama.com/index.php?route=product/product&amp;product_id=50",
-          "image": "data/slideshow_2.jpg",
-          "title": "banner 2"
-        },
-        {
-          "banner_id": 10,
-          "banner_name": "banner",
-          "banner_image_id": 85,
-          "link": "http://2022112040.uas.stieama.com/index.php?route=product/product&amp;product_id=52",
-          "image": "data/slideshow_1.jpg",
-          "title": "banner 1"
-        }
-      ]
+      "dbBanners": []
     },
-    "summary": "Penilaian butuh review manual. Auto-score 75/100. Item yang belum terverifikasi: belum, belum, belum, belum, belum. Data Toko: 90/100 | selesai: Nama toko tampil di storefront, Alamat toko tampil, Telepon toko tampil, Email toko tampil, Logo toko tampil | belum: Deskripsi bisnis toko tampil | Manufacturer & Carousel: 100/100 | selesai: Nama manufacturer sesuai data soal tampil, Manufacturer/carousel navigasi tampil | Kategori Produk: 0/100 | belum: Kategori parent ada di admin, Subkategori child ada di admin, Kategori tampil di storefront, Subkategori tampil di storefront, Produk tugas terlihat di admin produk, Produk terlink ke kategori yang benar | Produk: General & Data: 85/100 | selesai: Nama produk di tab General, SEO keyword di tab General, Harga di tab Data, Stok di tab Data, SKU di tab Data, Berat di tab Data, Dimensi di tab Data, Manufacturer di tab Data, Setidaknya 1 gambar produk terpasang | belum: Deskripsi di tab General | Produk: Links, Attr, Option: 85/100 | selesai: Kategori di tab Links, Attribute group ada di tab Attribute, Attribute name + value ada di tab Attribute, Option name + type ada di tab Option, Option values ada di tab Option | belum: Manufacturer di tab Links | Strategi Diskon: 100/100 | selesai: Minimal quantity diskon, Harga diskon, Tanggal mulai diskon, Tanggal selesai diskon | Harga Spesial Event: 100/100 | selesai: Harga spesial, Tanggal mulai harga spesial, Tanggal selesai harga spesial | Gambar & SEO Keyword: 100/100 | selesai: Gambar produk terunggah, Gambar thumbnail tampil, SEO keyword sesuai soal | Banner Slideshow: 0/100 | belum: Slideshow/banner tampil di storefront, Banner mengarah ke produk yang benar"
+    "summary": "Penilaian butuh review manual. Auto-score 70.5/100. Item yang belum terverifikasi: belum, belum, belum, belum, belum, belum. Data Toko: 90/100 | selesai: Nama toko tampil di storefront, Alamat toko tampil, Telepon toko tampil, Email toko tampil, Logo toko tampil | belum: Deskripsi bisnis toko tampil | Manufacturer & Carousel: 100/100 | selesai: Nama manufacturer sesuai data soal tampil, Manufacturer/carousel navigasi tampil | Kategori Produk: 0/100 | belum: Kategori parent ada di admin, Subkategori child ada di admin, Kategori tampil di storefront, Subkategori tampil di storefront, Produk tugas terlihat di admin produk, Produk terlink ke kategori yang benar | Produk: General & Data: 90/100 | selesai: Nama produk di tab General, Deskripsi di tab General, Harga di tab Data, Stok di tab Data, SKU di tab Data, Berat di tab Data, Dimensi di tab Data, Manufacturer di tab Data, Setidaknya 1 gambar produk terpasang | belum: SEO keyword di tab General | Produk: Links, Attr, Option: 85/100 | selesai: Kategori di tab Links, Attribute group ada di tab Attribute, Attribute name + value ada di tab Attribute, Option name + type ada di tab Option, Option values ada di tab Option | belum: Manufacturer di tab Links | Strategi Diskon: 100/100 | selesai: Minimal quantity diskon, Harga diskon, Tanggal mulai diskon, Tanggal selesai diskon | Harga Spesial Event: 100/100 | selesai: Harga spesial, Tanggal mulai harga spesial, Tanggal selesai harga spesial | Gambar & SEO Keyword: 50/100 | selesai: Gambar produk terunggah, Gambar thumbnail tampil | belum: SEO keyword sesuai soal | Banner Slideshow: 0/100 | belum: Slideshow/banner tampil di storefront, Banner mengarah ke produk yang benar"
   }
 ]

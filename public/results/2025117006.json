@@ -1,19 +1,19 @@
 [
   {
-    "nim": "2022112040",
-    "studentName": "AFTIAR TEGAR FATINNIO QAIS",
-    "className": "D",
-    "websiteUrl": "http://2022112040.uas.stieama.com",
-    "storeId": "T001",
-    "storeName": "Batik Nusantara",
+    "nim": "2025117006",
+    "studentName": "SULISTINAH",
+    "className": "B",
+    "websiteUrl": "http://2025117006.uas.stieama.com",
+    "storeId": "T003",
+    "storeName": "Rumah Kecantikan Cantika",
     "assignedProductIds": [
-      "PT003",
-      "PT001",
-      "PT004",
-      "PT002"
+      "PT009",
+      "PT012",
+      "PT011",
+      "PT010"
     ],
-    "score": 75,
-    "autoTotal": 75,
+    "score": 77,
+    "autoTotal": 77,
     "autoMax": 100,
     "status": "cukup",
     "manualReview": true,
@@ -202,8 +202,8 @@
         "tab": "Products -> General, Data",
         "bobot": 15,
         "automated": true,
-        "rawScore": 85,
-        "weightedScore": 13,
+        "rawScore": 100,
+        "weightedScore": 15,
         "maxScore": 100,
         "details": [
           {
@@ -221,8 +221,8 @@
             "weight": 15,
             "verification": "text_match",
             "dataField": "productDescription",
-            "status": "not_found",
-            "earned": 0
+            "status": "completed",
+            "earned": 15
           },
           {
             "id": "general_seo",
@@ -297,9 +297,9 @@
             "earned": 15
           }
         ],
-        "status": "parsial",
-        "completedCount": 9,
-        "notFoundCount": 1,
+        "status": "lengkap",
+        "completedCount": 10,
+        "notFoundCount": 10,
         "verificationFailedCount": 0,
         "totalItems": 10
       },
@@ -369,7 +369,7 @@
         ],
         "status": "parsial",
         "completedCount": 5,
-        "notFoundCount": 1,
+        "notFoundCount": 6,
         "verificationFailedCount": 0,
         "totalItems": 6
       },
@@ -421,7 +421,7 @@
         ],
         "status": "lengkap",
         "completedCount": 4,
-        "notFoundCount": 0,
+        "notFoundCount": 4,
         "verificationFailedCount": 0,
         "totalItems": 4
       },
@@ -464,7 +464,7 @@
         ],
         "status": "lengkap",
         "completedCount": 3,
-        "notFoundCount": 0,
+        "notFoundCount": 3,
         "verificationFailedCount": 0,
         "totalItems": 3
       },
@@ -507,7 +507,7 @@
         ],
         "status": "lengkap",
         "completedCount": 3,
-        "notFoundCount": 0,
+        "notFoundCount": 3,
         "verificationFailedCount": 0,
         "totalItems": 3
       },
@@ -680,12 +680,12 @@
       },
       "cp04": {
         "label": "Produk: General & Data",
-        "rawScore": 85,
-        "weightedScore": 13,
+        "rawScore": 100,
+        "weightedScore": 15,
         "maxScore": 100,
-        "status": "parsial",
-        "completedCount": 9,
-        "notFoundCount": 1,
+        "status": "lengkap",
+        "completedCount": 10,
+        "notFoundCount": 10,
         "verificationFailedCount": 0,
         "totalItems": 10,
         "details": [
@@ -698,8 +698,8 @@
           {
             "id": "general_description",
             "label": "Deskripsi di tab General",
-            "status": "not_found",
-            "earned": 0
+            "status": "completed",
+            "earned": 15
           },
           {
             "id": "general_seo",
@@ -758,7 +758,7 @@
         "maxScore": 100,
         "status": "parsial",
         "completedCount": 5,
-        "notFoundCount": 1,
+        "notFoundCount": 6,
         "verificationFailedCount": 0,
         "totalItems": 6,
         "details": [
@@ -807,7 +807,7 @@
         "maxScore": 100,
         "status": "lengkap",
         "completedCount": 4,
-        "notFoundCount": 0,
+        "notFoundCount": 4,
         "verificationFailedCount": 0,
         "totalItems": 4,
         "details": [
@@ -844,7 +844,7 @@
         "maxScore": 100,
         "status": "lengkap",
         "completedCount": 3,
-        "notFoundCount": 0,
+        "notFoundCount": 3,
         "verificationFailedCount": 0,
         "totalItems": 3,
         "details": [
@@ -875,7 +875,7 @@
         "maxScore": 100,
         "status": "lengkap",
         "completedCount": 3,
-        "notFoundCount": 0,
+        "notFoundCount": 3,
         "verificationFailedCount": 0,
         "totalItems": 3,
         "details": [
@@ -940,84 +940,111 @@
       "pendingCheckpointIds": []
     },
     "evidence": {
-      "startedAt": "2026-07-27T08:24:03.748Z",
+      "startedAt": "2026-07-27T08:31:52.724Z",
       "storefrontOk": false,
       "loginOk": false,
       "categoriesPageOk": false,
       "productsPageOk": false,
       "expectedParents": [
-        "Fashion"
+        "Kecantikan"
       ],
       "expectedChildren": [
-        "Dress Wanita",
-        "Batik",
-        "Kain & Tekstil",
-        "Outer & Cardigan",
-        "Kemeja Pria"
+        "Moisturizer",
+        "Skincare Sensitif",
+        "Face Wash",
+        "Acne Care",
+        "Body Lotion",
+        "Perawatan Tubuh",
+        "Sunscreen",
+        "Perawatan Wajah"
       ],
       "expectedCategoryAssignments": [
         {
-          "parent": "Fashion",
-          "sub": "Dress Wanita",
+          "parent": "Kecantikan",
+          "sub": "Moisturizer",
           "productIds": [
-            "PT003"
+            "PT009"
           ],
           "productNames": [
-            "Dress Batik Wanita Flora Pesisir"
+            "Moisturizer Gel Hydra Calm Barrier Repair"
           ]
         },
         {
-          "parent": "Fashion",
-          "sub": "Batik",
+          "parent": "Kecantikan",
+          "sub": "Skincare Sensitif",
           "productIds": [
-            "PT003",
-            "PT001",
-            "PT004",
-            "PT002"
+            "PT009"
           ],
           "productNames": [
-            "Dress Batik Wanita Flora Pesisir",
-            "Batik Tulis Mega Mendung Heritage",
-            "Outer Batik Casual Kawung Urban",
-            "Kemeja Batik Lengan Panjang Sogan Royal"
+            "Moisturizer Gel Hydra Calm Barrier Repair"
           ]
         },
         {
-          "parent": "Fashion",
-          "sub": "Kain & Tekstil",
+          "parent": "Kecantikan",
+          "sub": "Face Wash",
           "productIds": [
-            "PT001"
+            "PT012"
           ],
           "productNames": [
-            "Batik Tulis Mega Mendung Heritage"
+            "Face Wash Tea Tree Deep Clean Foam"
           ]
         },
         {
-          "parent": "Fashion",
-          "sub": "Outer & Cardigan",
+          "parent": "Kecantikan",
+          "sub": "Acne Care",
           "productIds": [
-            "PT004"
+            "PT012"
           ],
           "productNames": [
-            "Outer Batik Casual Kawung Urban"
+            "Face Wash Tea Tree Deep Clean Foam"
           ]
         },
         {
-          "parent": "Fashion",
-          "sub": "Kemeja Pria",
+          "parent": "Kecantikan",
+          "sub": "Body Lotion",
           "productIds": [
-            "PT002"
+            "PT011"
           ],
           "productNames": [
-            "Kemeja Batik Lengan Panjang Sogan Royal"
+            "Body Lotion Sakura Bright Tone"
+          ]
+        },
+        {
+          "parent": "Kecantikan",
+          "sub": "Perawatan Tubuh",
+          "productIds": [
+            "PT011"
+          ],
+          "productNames": [
+            "Body Lotion Sakura Bright Tone"
+          ]
+        },
+        {
+          "parent": "Kecantikan",
+          "sub": "Sunscreen",
+          "productIds": [
+            "PT010"
+          ],
+          "productNames": [
+            "Sunscreen Aqua Shield SPF 50 PA++++"
+          ]
+        },
+        {
+          "parent": "Kecantikan",
+          "sub": "Perawatan Wajah",
+          "productIds": [
+            "PT010"
+          ],
+          "productNames": [
+            "Sunscreen Aqua Shield SPF 50 PA++++"
           ]
         }
       ],
       "assignedProductIds": [
-        "PT003",
-        "PT001",
-        "PT004",
-        "PT002"
+        "PT009",
+        "PT012",
+        "PT011",
+        "PT010"
       ],
       "foundParents": [],
       "foundChildren": [],
@@ -1027,8 +1054,8 @@
       "categoryAssignmentChecks": [],
       "adminProductChecks": [
         {
-          "productId": "PT003",
-          "productName": "Dress Batik Wanita Flora Pesisir",
+          "productId": "PT009",
+          "productName": "Moisturizer Gel Hydra Calm Barrier Repair",
           "locatedInAdmin": true,
           "editPageOpened": true,
           "screenshot": "",
@@ -1045,124 +1072,148 @@
           }
         },
         {
-          "productId": "PT001",
-          "productName": "Batik Tulis Mega Mendung Heritage",
+          "productId": "PT012",
+          "productName": "Face Wash Tea Tree Deep Clean Foam",
           "locatedInAdmin": true,
           "editPageOpened": true,
           "screenshot": "",
           "signals": {
             "cp04_general": 0.6666666666666666,
-            "cp04_data": 1,
+            "cp04_data": 0.8571428571428571,
             "cp05_links": 0.5,
             "cp05_attributes": 1,
             "cp05_options": 1,
             "cp06_discount": 1,
             "cp07_special": 1,
             "cp08_images": 1,
-            "cp08_seo": 1
+            "cp08_seo": 0
           }
         },
         {
-          "productId": "PT004",
-          "productName": "Outer Batik Casual Kawung Urban",
+          "productId": "PT011",
+          "productName": "Body Lotion Sakura Bright Tone",
           "locatedInAdmin": true,
           "editPageOpened": true,
           "screenshot": "",
           "signals": {
             "cp04_general": 0.6666666666666666,
-            "cp04_data": 1,
-            "cp05_links": 0.5,
-            "cp05_attributes": 1,
-            "cp05_options": 1,
-            "cp06_discount": 1,
-            "cp07_special": 1,
-            "cp08_images": 0.5,
-            "cp08_seo": 1
-          }
-        },
-        {
-          "productId": "PT002",
-          "productName": "Kemeja Batik Lengan Panjang Sogan Royal",
-          "locatedInAdmin": true,
-          "editPageOpened": true,
-          "screenshot": "",
-          "signals": {
-            "cp04_general": 0.6666666666666666,
-            "cp04_data": 1,
+            "cp04_data": 0.8571428571428571,
             "cp05_links": 0.5,
             "cp05_attributes": 1,
             "cp05_options": 1,
             "cp06_discount": 1,
             "cp07_special": 1,
             "cp08_images": 1,
-            "cp08_seo": 1
+            "cp08_seo": 0
+          }
+        },
+        {
+          "productId": "PT010",
+          "productName": "Sunscreen Aqua Shield SPF 50 PA++++",
+          "locatedInAdmin": false,
+          "editPageOpened": false,
+          "screenshot": "",
+          "signals": {
+            "cp04_general": 0,
+            "cp04_data": 0,
+            "cp05_links": 0,
+            "cp05_attributes": 0,
+            "cp05_options": 0,
+            "cp06_discount": 0,
+            "cp07_special": 0,
+            "cp08_images": 0,
+            "cp08_seo": 0
           }
         }
       ],
       "dbEvaluationUsed": true,
       "missingParents": [
-        "Fashion"
+        "Kecantikan"
       ],
       "missingChildren": [
-        "Dress Wanita",
-        "Batik",
-        "Kain & Tekstil",
-        "Outer & Cardigan",
-        "Kemeja Pria"
+        "Moisturizer",
+        "Skincare Sensitif",
+        "Face Wash",
+        "Acne Care",
+        "Body Lotion",
+        "Perawatan Tubuh",
+        "Sunscreen",
+        "Perawatan Wajah"
       ],
       "missingStorefrontParents": [
-        "Fashion"
+        "Kecantikan"
       ],
       "missingStorefrontChildren": [
-        "Dress Wanita",
-        "Batik",
-        "Kain & Tekstil",
-        "Outer & Cardigan",
-        "Kemeja Pria"
+        "Moisturizer",
+        "Skincare Sensitif",
+        "Face Wash",
+        "Acne Care",
+        "Body Lotion",
+        "Perawatan Tubuh",
+        "Sunscreen",
+        "Perawatan Wajah"
       ],
       "missingAssignedProductIds": [
-        "PT003",
-        "PT001",
-        "PT004",
-        "PT002"
+        "PT009",
+        "PT012",
+        "PT011",
+        "PT010"
       ],
       "missingCategoryAssignments": [
         {
-          "parent": "Fashion",
-          "sub": "Dress Wanita",
+          "parent": "Kecantikan",
+          "sub": "Moisturizer",
           "missingProductIds": [
-            "PT003"
+            "PT009"
           ]
         },
         {
-          "parent": "Fashion",
-          "sub": "Batik",
+          "parent": "Kecantikan",
+          "sub": "Skincare Sensitif",
           "missingProductIds": [
-            "PT003",
-            "PT001",
-            "PT004",
-            "PT002"
+            "PT009"
           ]
         },
         {
-          "parent": "Fashion",
-          "sub": "Kain & Tekstil",
+          "parent": "Kecantikan",
+          "sub": "Face Wash",
           "missingProductIds": [
-            "PT001"
+            "PT012"
           ]
         },
         {
-          "parent": "Fashion",
-          "sub": "Outer & Cardigan",
+          "parent": "Kecantikan",
+          "sub": "Acne Care",
           "missingProductIds": [
-            "PT004"
+            "PT012"
           ]
         },
         {
-          "parent": "Fashion",
-          "sub": "Kemeja Pria",
+          "parent": "Kecantikan",
+          "sub": "Body Lotion",
           "missingProductIds": [
-            "PT002"
+            "PT011"
+          ]
+        },
+        {
+          "parent": "Kecantikan",
+          "sub": "Perawatan Tubuh",
+          "missingProductIds": [
+            "PT011"
+          ]
+        },
+        {
+          "parent": "Kecantikan",
+          "sub": "Sunscreen",
+          "missingProductIds": [
+            "PT010"
+          ]
+        },
+        {
+          "parent": "Kecantikan",
+          "sub": "Perawatan Wajah",
+          "missingProductIds": [
+            "PT010"
           ]
         }
       ],
@@ -1220,90 +1271,174 @@
         }
       },
       "storeDbSettings": {
-        "config_name": "Batik Nusantara",
-        "config_address": "Jl. Malioboro No. 45, Yogyakarta 55213",
-        "config_telephone": "0274-555-1234",
-        "config_email": "info@batiknusantara.id",
-        "config_meta_description": "Batik Nusantara",
-        "config_logo": "data/logo_toko.jpg"
+        "config_name": " Rumah Kecantikan Cantika",
+        "config_address": "Jl. Pemuda No. 88, Solo 57111",
+        "config_telephone": " 0271-444-5566",
+        "config_email": "hello@cantika.id",
+        "config_meta_description": "\r\nRumah Kecantikan Cantika",
+        "config_logo": "data/logo_toko (2).jpg"
       },
       "dbManufacturers": [
         {
-          "manufacturer_id": 14,
-          "name": "Sogan Kencana",
-          "image": "data/Sogan_Kencana_logo.jpg",
-          "sort_order": 0
-        },
-        {
-          "manufacturer_id": 12,
-          "name": "Laras Busana",
-          "image": "data/Laras_Busana_logo.jpg",
+          "manufacturer_id": 5,
+          "name": "HTC",
+          "image": "data/demo/htc_logo.jpg",
           "sort_order": 0
         },
         {
           "manufacturer_id": 13,
-          "name": "Sekar Melati Batik",
-          "image": "data/Sekar_Melati_Batik_logo.jpg",
+          "name": " SunMuse Beauty",
+          "image": "data/SunMuse_Beauty_logo.jpg",
+          "sort_order": 0
+        },
+        {
+          "manufacturer_id": 12,
+          "name": " DermaBloom Labs",
+          "image": "data/DermaBloom_Labs_logo.jpg",
           "sort_order": 0
         },
         {
           "manufacturer_id": 11,
-          "name": "Arunika Batik",
-          "image": "data/Arunika_Batik_logo.jpg",
+          "name": "PureLeaf Skin Science",
+          "image": "data/PureLeaf_Skin_Science_logo.jpg",
+          "sort_order": 0
+        },
+        {
+          "manufacturer_id": 10,
+          "name": "Sony",
+          "image": "data/demo/sony_logo.jpg",
+          "sort_order": 0
+        },
+        {
+          "manufacturer_id": 9,
+          "name": "Canon",
+          "image": "data/demo/canon_logo.jpg",
+          "sort_order": 0
+        },
+        {
+          "manufacturer_id": 8,
+          "name": "Apple",
+          "image": "data/demo/apple_logo.jpg",
+          "sort_order": 0
+        },
+        {
+          "manufacturer_id": 7,
+          "name": "Hewlett-Packard",
+          "image": "data/demo/hp_logo.jpg",
+          "sort_order": 0
+        },
+        {
+          "manufacturer_id": 6,
+          "name": "Palm",
+          "image": "data/demo/palm_logo.jpg",
+          "sort_order": 0
+        },
+        {
+          "manufacturer_id": 14,
+          "name": " LunaSkin Bodycare",
+          "image": "data/LunaSkin_Bodycare_logo.jpg",
           "sort_order": 0
         }
       ],
       "dbBanners": [
         {
-          "banner_id": 9,
-          "banner_name": "Carousel",
-          "banner_image_id": 78,
-          "link": "http://2022112040.uas.stieama.com/index.php?route=product/manufacturer/info&amp;manufacturer_id=11",
-          "image": "data/Arunika_Batik_logo.jpg",
-          "title": "Arunika Batik"
+          "banner_id": 6,
+          "banner_name": "HP Products",
+          "banner_image_id": 77,
+          "link": "index.php?route=product/manufacturer/info&amp;manufacturer_id=7",
+          "image": "data/demo/hp_banner.jpg",
+          "title": "HP Banner"
         },
         {
-          "banner_id": 9,
-          "banner_name": "Carousel",
-          "banner_image_id": 80,
-          "link": "http://2022112040.uas.stieama.com/index.php?route=product/manufacturer/info&amp;manufacturer_id=13",
-          "image": "data/Sekar_Melati_Batik_logo.jpg",
-          "title": "Sekar Melati Batik"
+          "banner_id": 7,
+          "banner_name": "Samsung Tab",
+          "banner_image_id": 54,
+          "link": "index.php?route=product/product&amp;path=57&amp;product_id=49",
+          "image": "data/demo/samsung_banner.jpg",
+          "title": "Samsung Tab 10.1"
         },
         {
-          "banner_id": 9,
-          "banner_name": "Carousel",
-          "banner_image_id": 79,
-          "link": "http://2022112040.uas.stieama.com/index.php?route=product/manufacturer/info&amp;manufacturer_id=12",
-          "image": "data/Laras_Busana_logo.jpg",
-          "title": "Laras Busana"
+          "banner_id": 8,
+          "banner_name": "Manufacturers",
+          "banner_image_id": 113,
+          "link": "index.php?route=product/manufacturer/info&amp;manufacturer_id=8",
+          "image": "data/demo/apple_logo.jpg",
+          "title": "Apple"
         },
         {
-          "banner_id": 9,
-          "banner_name": "Carousel",
-          "banner_image_id": 81,
-          "link": "http://2022112040.uas.stieama.com/index.php?route=product/manufacturer/info&amp;manufacturer_id=14",
-          "image": "data/Sogan_Kencana_logo.jpg",
-          "title": "Sogan Kencana"
+          "banner_id": 8,
+          "banner_name": "Manufacturers",
+          "banner_image_id": 109,
+          "link": "index.php?route=product/manufacturer/info&amp;manufacturer_id=10",
+          "image": "data/demo/sony_logo.jpg",
+          "title": "Sony"
         },
         {
-          "banner_id": 10,
-          "banner_name": "banner",
-          "banner_image_id": 84,
-          "link": "http://2022112040.uas.stieama.com/index.php?route=product/product&amp;product_id=50",
-          "image": "data/slideshow_2.jpg",
-          "title": "banner 2"
+          "banner_id": 8,
+          "banner_name": "Manufacturers",
+          "banner_image_id": 111,
+          "link": "index.php?route=product/manufacturer/info&amp;manufacturer_id=9",
+          "image": "data/demo/canon_logo.jpg",
+          "title": "Canon"
         },
         {
-          "banner_id": 10,
-          "banner_name": "banner",
-          "banner_image_id": 85,
-          "link": "http://2022112040.uas.stieama.com/index.php?route=product/product&amp;product_id=52",
-          "image": "data/slideshow_1.jpg",
-          "title": "banner 1"
+          "banner_id": 8,
+          "banner_name": "Manufacturers",
+          "banner_image_id": 116,
+          "link": "http://2025117006.uas.stieama.com/index.php?route=product/product&amp;path=59&amp;product_id=52",
+          "image": "data/SunMuse_Beauty_logo.jpg",
+          "title": "SunMuse Beauty"
+        },
+        {
+          "banner_id": 8,
+          "banner_name": "Manufacturers",
+          "banner_image_id": 117,
+          "link": "",
+          "image": "data/LunaSkin_Bodycare_logo.jpg",
+          "title": "LunaSkin Bodycare"
+        },
+        {
+          "banner_id": 8,
+          "banner_name": "Manufacturers",
+          "banner_image_id": 112,
+          "link": "index.php?route=product/manufacturer/info&amp;manufacturer_id=7",
+          "image": "data/demo/hp_logo.jpg",
+          "title": "Hewlett-Packard"
+        },
+        {
+          "banner_id": 8,
+          "banner_name": "Manufacturers",
+          "banner_image_id": 114,
+          "link": "http://2025117006.uas.stieama.com/index.php?route=product/product&amp;path=59&amp;product_id=50",
+          "image": "data/DermaBloom_Labs_logo.jpg",
+          "title": " DermaBloom Labs"
+        },
+        {
+          "banner_id": 8,
+          "banner_name": "Manufacturers",
+          "banner_image_id": 110,
+          "link": "index.php?route=product/manufacturer/info&amp;manufacturer_id=5",
+          "image": "data/demo/htc_logo.jpg",
+          "title": "HTC"
+        },
+        {
+          "banner_id": 8,
+          "banner_name": "Manufacturers",
+          "banner_image_id": 108,
+          "link": "index.php?route=product/manufacturer/info&amp;manufacturer_id=6",
+          "image": "data/demo/palm_logo.jpg",
+          "title": "Palm"
+        },
+        {
+          "banner_id": 8,
+          "banner_name": "Manufacturers",
+          "banner_image_id": 115,
+          "link": "http://2025117006.uas.stieama.com/index.php?route=product/product&amp;path=59&amp;product_id=51",
+          "image": "data/PureLeaf_Skin_Science_logo.jpg",
+          "title": " PureLeaf Skin Science"
         }
       ]
     },
-    "summary": "Penilaian butuh review manual. Auto-score 75/100. Item yang belum terverifikasi: belum, belum, belum, belum, belum. Data Toko: 90/100 | selesai: Nama toko tampil di storefront, Alamat toko tampil, Telepon toko tampil, Email toko tampil, Logo toko tampil | belum: Deskripsi bisnis toko tampil | Manufacturer & Carousel: 100/100 | selesai: Nama manufacturer sesuai data soal tampil, Manufacturer/carousel navigasi tampil | Kategori Produk: 0/100 | belum: Kategori parent ada di admin, Subkategori child ada di admin, Kategori tampil di storefront, Subkategori tampil di storefront, Produk tugas terlihat di admin produk, Produk terlink ke kategori yang benar | Produk: General & Data: 85/100 | selesai: Nama produk di tab General, SEO keyword di tab General, Harga di tab Data, Stok di tab Data, SKU di tab Data, Berat di tab Data, Dimensi di tab Data, Manufacturer di tab Data, Setidaknya 1 gambar produk terpasang | belum: Deskripsi di tab General | Produk: Links, Attr, Option: 85/100 | selesai: Kategori di tab Links, Attribute group ada di tab Attribute, Attribute name + value ada di tab Attribute, Option name + type ada di tab Option, Option values ada di tab Option | belum: Manufacturer di tab Links | Strategi Diskon: 100/100 | selesai: Minimal quantity diskon, Harga diskon, Tanggal mulai diskon, Tanggal selesai diskon | Harga Spesial Event: 100/100 | selesai: Harga spesial, Tanggal mulai harga spesial, Tanggal selesai harga spesial | Gambar & SEO Keyword: 100/100 | selesai: Gambar produk terunggah, Gambar thumbnail tampil, SEO keyword sesuai soal | Banner Slideshow: 0/100 | belum: Slideshow/banner tampil di storefront, Banner mengarah ke produk yang benar"
+    "summary": "Penilaian butuh review manual. Auto-score 77/100. Item yang belum terverifikasi: belum, belum, belum, belum. Data Toko: 90/100 | selesai: Nama toko tampil di storefront, Alamat toko tampil, Telepon toko tampil, Email toko tampil, Logo toko tampil | belum: Deskripsi bisnis toko tampil | Manufacturer & Carousel: 100/100 | selesai: Nama manufacturer sesuai data soal tampil, Manufacturer/carousel navigasi tampil | Kategori Produk: 0/100 | belum: Kategori parent ada di admin, Subkategori child ada di admin, Kategori tampil di storefront, Subkategori tampil di storefront, Produk tugas terlihat di admin produk, Produk terlink ke kategori yang benar | Produk: General & Data: 100/100 | selesai: Nama produk di tab General, Deskripsi di tab General, SEO keyword di tab General, Harga di tab Data, Stok di tab Data, SKU di tab Data, Berat di tab Data, Dimensi di tab Data, Manufacturer di tab Data, Setidaknya 1 gambar produk terpasang | Produk: Links, Attr, Option: 85/100 | selesai: Kategori di tab Links, Attribute group ada di tab Attribute, Attribute name + value ada di tab Attribute, Option name + type ada di tab Option, Option values ada di tab Option | belum: Manufacturer di tab Links | Strategi Diskon: 100/100 | selesai: Minimal quantity diskon, Harga diskon, Tanggal mulai diskon, Tanggal selesai diskon | Harga Spesial Event: 100/100 | selesai: Harga spesial, Tanggal mulai harga spesial, Tanggal selesai harga spesial | Gambar & SEO Keyword: 100/100 | selesai: Gambar produk terunggah, Gambar thumbnail tampil, SEO keyword sesuai soal | Banner Slideshow: 0/100 | belum: Slideshow/banner tampil di storefront, Banner mengarah ke produk yang benar"
   }
 ]

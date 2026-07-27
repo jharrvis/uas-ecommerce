@@ -1,19 +1,19 @@
 [
   {
-    "nim": "2022112040",
-    "studentName": "AFTIAR TEGAR FATINNIO QAIS",
-    "className": "D",
-    "websiteUrl": "http://2022112040.uas.stieama.com",
+    "nim": "2022101045",
+    "studentName": "MARSHANDA LIANI",
+    "className": "C",
+    "websiteUrl": "http://2022101045.uas.stieama.com",
     "storeId": "T001",
     "storeName": "Batik Nusantara",
     "assignedProductIds": [
-      "PT003",
-      "PT001",
+      "PT002",
       "PT004",
-      "PT002"
+      "PT003",
+      "PT001"
     ],
-    "score": 75,
-    "autoTotal": 75,
+    "score": 60.5,
+    "autoTotal": 60.5,
     "autoMax": 100,
     "status": "cukup",
     "manualReview": true,
@@ -299,7 +299,7 @@
         ],
         "status": "parsial",
         "completedCount": 9,
-        "notFoundCount": 1,
+        "notFoundCount": 3,
         "verificationFailedCount": 0,
         "totalItems": 10
       },
@@ -369,7 +369,7 @@
         ],
         "status": "parsial",
         "completedCount": 5,
-        "notFoundCount": 1,
+        "notFoundCount": 5,
         "verificationFailedCount": 0,
         "totalItems": 6
       },
@@ -378,8 +378,8 @@
         "tab": "Products -> Discount",
         "bobot": 10,
         "automated": true,
-        "rawScore": 100,
-        "weightedScore": 10,
+        "rawScore": 75,
+        "weightedScore": 7.5,
         "maxScore": 100,
         "details": [
           {
@@ -397,8 +397,8 @@
             "weight": 25,
             "verification": "text_match",
             "dataField": "discountHarga",
-            "status": "completed",
-            "earned": 25
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "discount_start",
@@ -419,9 +419,9 @@
             "earned": 25
           }
         ],
-        "status": "lengkap",
-        "completedCount": 4,
-        "notFoundCount": 0,
+        "status": "parsial",
+        "completedCount": 3,
+        "notFoundCount": 4,
         "verificationFailedCount": 0,
         "totalItems": 4
       },
@@ -430,8 +430,8 @@
         "tab": "Products -> Special",
         "bobot": 10,
         "automated": true,
-        "rawScore": 100,
-        "weightedScore": 10,
+        "rawScore": 0,
+        "weightedScore": 0,
         "maxScore": 100,
         "details": [
           {
@@ -440,8 +440,8 @@
             "weight": 35,
             "verification": "text_match",
             "dataField": "specialHarga",
-            "status": "completed",
-            "earned": 35
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "special_start",
@@ -449,8 +449,8 @@
             "weight": 35,
             "verification": "text_match",
             "dataField": "specialMulai",
-            "status": "completed",
-            "earned": 35
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "special_end",
@@ -458,13 +458,13 @@
             "weight": 30,
             "verification": "text_match",
             "dataField": "specialSelesai",
-            "status": "completed",
-            "earned": 30
+            "status": "not_found",
+            "earned": 0
           }
         ],
-        "status": "lengkap",
-        "completedCount": 3,
-        "notFoundCount": 0,
+        "status": "belum-terpenuhi",
+        "completedCount": 0,
+        "notFoundCount": 3,
         "verificationFailedCount": 0,
         "totalItems": 3
       },
@@ -473,8 +473,8 @@
         "tab": "Products -> Image, SEO",
         "bobot": 10,
         "automated": true,
-        "rawScore": 100,
-        "weightedScore": 10,
+        "rawScore": 80,
+        "weightedScore": 8,
         "maxScore": 100,
         "details": [
           {
@@ -492,8 +492,8 @@
             "weight": 20,
             "verification": "visible_check",
             "dataField": "productImages",
-            "status": "completed",
-            "earned": 20
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "seo_keyword",
@@ -505,9 +505,9 @@
             "earned": 50
           }
         ],
-        "status": "lengkap",
-        "completedCount": 3,
-        "notFoundCount": 0,
+        "status": "parsial",
+        "completedCount": 2,
+        "notFoundCount": 2,
         "verificationFailedCount": 0,
         "totalItems": 3
       },
@@ -685,7 +685,7 @@
         "maxScore": 100,
         "status": "parsial",
         "completedCount": 9,
-        "notFoundCount": 1,
+        "notFoundCount": 3,
         "verificationFailedCount": 0,
         "totalItems": 10,
         "details": [
@@ -758,7 +758,7 @@
         "maxScore": 100,
         "status": "parsial",
         "completedCount": 5,
-        "notFoundCount": 1,
+        "notFoundCount": 5,
         "verificationFailedCount": 0,
         "totalItems": 6,
         "details": [
@@ -802,12 +802,12 @@
       },
       "cp06": {
         "label": "Strategi Diskon",
-        "rawScore": 100,
-        "weightedScore": 10,
+        "rawScore": 75,
+        "weightedScore": 7.5,
         "maxScore": 100,
-        "status": "lengkap",
-        "completedCount": 4,
-        "notFoundCount": 0,
+        "status": "parsial",
+        "completedCount": 3,
+        "notFoundCount": 4,
         "verificationFailedCount": 0,
         "totalItems": 4,
         "details": [
@@ -820,8 +820,8 @@
           {
             "id": "discount_harga",
             "label": "Harga diskon",
-            "status": "completed",
-            "earned": 25
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "discount_start",
@@ -839,43 +839,43 @@
       },
       "cp07": {
         "label": "Harga Spesial Event",
-        "rawScore": 100,
-        "weightedScore": 10,
+        "rawScore": 0,
+        "weightedScore": 0,
         "maxScore": 100,
-        "status": "lengkap",
-        "completedCount": 3,
-        "notFoundCount": 0,
+        "status": "belum-terpenuhi",
+        "completedCount": 0,
+        "notFoundCount": 3,
         "verificationFailedCount": 0,
         "totalItems": 3,
         "details": [
           {
             "id": "special_harga",
             "label": "Harga spesial",
-            "status": "completed",
-            "earned": 35
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "special_start",
             "label": "Tanggal mulai harga spesial",
-            "status": "completed",
-            "earned": 35
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "special_end",
             "label": "Tanggal selesai harga spesial",
-            "status": "completed",
-            "earned": 30
+            "status": "not_found",
+            "earned": 0
           }
         ]
       },
       "cp08": {
         "label": "Gambar & SEO Keyword",
-        "rawScore": 100,
-        "weightedScore": 10,
+        "rawScore": 80,
+        "weightedScore": 8,
         "maxScore": 100,
-        "status": "lengkap",
-        "completedCount": 3,
-        "notFoundCount": 0,
+        "status": "parsial",
+        "completedCount": 2,
+        "notFoundCount": 2,
         "verificationFailedCount": 0,
         "totalItems": 3,
         "details": [
@@ -888,8 +888,8 @@
           {
             "id": "image_valid",
             "label": "Gambar thumbnail tampil",
-            "status": "completed",
-            "earned": 20
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "seo_keyword",
@@ -940,7 +940,7 @@
       "pendingCheckpointIds": []
     },
     "evidence": {
-      "startedAt": "2026-07-27T08:24:03.748Z",
+      "startedAt": "2026-07-27T08:37:01.016Z",
       "storefrontOk": false,
       "loginOk": false,
       "categoriesPageOk": false,
@@ -949,47 +949,37 @@
         "Fashion"
       ],
       "expectedChildren": [
-        "Dress Wanita",
         "Batik",
-        "Kain & Tekstil",
+        "Kemeja Pria",
         "Outer & Cardigan",
-        "Kemeja Pria"
+        "Dress Wanita",
+        "Kain & Tekstil"
       ],
       "expectedCategoryAssignments": [
         {
           "parent": "Fashion",
-          "sub": "Dress Wanita",
-          "productIds": [
-            "PT003"
-          ],
-          "productNames": [
-            "Dress Batik Wanita Flora Pesisir"
-          ]
-        },
-        {
-          "parent": "Fashion",
           "sub": "Batik",
           "productIds": [
-            "PT003",
-            "PT001",
+            "PT002",
             "PT004",
-            "PT002"
-          ],
-          "productNames": [
-            "Dress Batik Wanita Flora Pesisir",
-            "Batik Tulis Mega Mendung Heritage",
-            "Outer Batik Casual Kawung Urban",
-            "Kemeja Batik Lengan Panjang Sogan Royal"
-          ]
-        },
-        {
-          "parent": "Fashion",
-          "sub": "Kain & Tekstil",
-          "productIds": [
+            "PT003",
             "PT001"
           ],
           "productNames": [
+            "Kemeja Batik Lengan Panjang Sogan Royal",
+            "Outer Batik Casual Kawung Urban",
+            "Dress Batik Wanita Flora Pesisir",
             "Batik Tulis Mega Mendung Heritage"
+          ]
+        },
+        {
+          "parent": "Fashion",
+          "sub": "Kemeja Pria",
+          "productIds": [
+            "PT002"
+          ],
+          "productNames": [
+            "Kemeja Batik Lengan Panjang Sogan Royal"
           ]
         },
         {
@@ -1004,20 +994,30 @@
         },
         {
           "parent": "Fashion",
-          "sub": "Kemeja Pria",
+          "sub": "Dress Wanita",
           "productIds": [
-            "PT002"
+            "PT003"
           ],
           "productNames": [
-            "Kemeja Batik Lengan Panjang Sogan Royal"
+            "Dress Batik Wanita Flora Pesisir"
+          ]
+        },
+        {
+          "parent": "Fashion",
+          "sub": "Kain & Tekstil",
+          "productIds": [
+            "PT001"
+          ],
+          "productNames": [
+            "Batik Tulis Mega Mendung Heritage"
           ]
         }
       ],
       "assignedProductIds": [
-        "PT003",
-        "PT001",
+        "PT002",
         "PT004",
-        "PT002"
+        "PT003",
+        "PT001"
       ],
       "foundParents": [],
       "foundChildren": [],
@@ -1027,39 +1027,21 @@
       "categoryAssignmentChecks": [],
       "adminProductChecks": [
         {
-          "productId": "PT003",
-          "productName": "Dress Batik Wanita Flora Pesisir",
+          "productId": "PT002",
+          "productName": "Kemeja Batik Lengan Panjang Sogan Royal",
           "locatedInAdmin": true,
           "editPageOpened": true,
           "screenshot": "",
           "signals": {
-            "cp04_general": 0.6666666666666666,
-            "cp04_data": 1,
+            "cp04_general": 0.3333333333333333,
+            "cp04_data": 0.8571428571428571,
             "cp05_links": 0.5,
             "cp05_attributes": 1,
             "cp05_options": 1,
-            "cp06_discount": 1,
-            "cp07_special": 1,
-            "cp08_images": 1,
-            "cp08_seo": 1
-          }
-        },
-        {
-          "productId": "PT001",
-          "productName": "Batik Tulis Mega Mendung Heritage",
-          "locatedInAdmin": true,
-          "editPageOpened": true,
-          "screenshot": "",
-          "signals": {
-            "cp04_general": 0.6666666666666666,
-            "cp04_data": 1,
-            "cp05_links": 0.5,
-            "cp05_attributes": 1,
-            "cp05_options": 1,
-            "cp06_discount": 1,
-            "cp07_special": 1,
-            "cp08_images": 1,
-            "cp08_seo": 1
+            "cp06_discount": 0,
+            "cp07_special": 0,
+            "cp08_images": 0.5,
+            "cp08_seo": 0
           }
         },
         {
@@ -1070,32 +1052,50 @@
           "screenshot": "",
           "signals": {
             "cp04_general": 0.6666666666666666,
-            "cp04_data": 1,
+            "cp04_data": 0.8571428571428571,
             "cp05_links": 0.5,
             "cp05_attributes": 1,
             "cp05_options": 1,
-            "cp06_discount": 1,
-            "cp07_special": 1,
+            "cp06_discount": 0.75,
+            "cp07_special": 0,
             "cp08_images": 0.5,
             "cp08_seo": 1
           }
         },
         {
-          "productId": "PT002",
-          "productName": "Kemeja Batik Lengan Panjang Sogan Royal",
+          "productId": "PT003",
+          "productName": "Dress Batik Wanita Flora Pesisir",
           "locatedInAdmin": true,
           "editPageOpened": true,
           "screenshot": "",
           "signals": {
-            "cp04_general": 0.6666666666666666,
+            "cp04_general": 0.3333333333333333,
             "cp04_data": 1,
             "cp05_links": 0.5,
             "cp05_attributes": 1,
             "cp05_options": 1,
-            "cp06_discount": 1,
-            "cp07_special": 1,
-            "cp08_images": 1,
-            "cp08_seo": 1
+            "cp06_discount": 0,
+            "cp07_special": 0,
+            "cp08_images": 0.5,
+            "cp08_seo": 0
+          }
+        },
+        {
+          "productId": "PT001",
+          "productName": "Batik Tulis Mega Mendung Heritage",
+          "locatedInAdmin": true,
+          "editPageOpened": true,
+          "screenshot": "",
+          "signals": {
+            "cp04_general": 0.3333333333333333,
+            "cp04_data": 0.8571428571428571,
+            "cp05_links": 0.5,
+            "cp05_attributes": 0,
+            "cp05_options": 0,
+            "cp06_discount": 0,
+            "cp07_special": 0,
+            "cp08_images": 0.5,
+            "cp08_seo": 0
           }
         }
       ],
@@ -1104,51 +1104,44 @@
         "Fashion"
       ],
       "missingChildren": [
-        "Dress Wanita",
         "Batik",
-        "Kain & Tekstil",
+        "Kemeja Pria",
         "Outer & Cardigan",
-        "Kemeja Pria"
+        "Dress Wanita",
+        "Kain & Tekstil"
       ],
       "missingStorefrontParents": [
         "Fashion"
       ],
       "missingStorefrontChildren": [
-        "Dress Wanita",
         "Batik",
-        "Kain & Tekstil",
+        "Kemeja Pria",
         "Outer & Cardigan",
-        "Kemeja Pria"
+        "Dress Wanita",
+        "Kain & Tekstil"
       ],
       "missingAssignedProductIds": [
-        "PT003",
-        "PT001",
+        "PT002",
         "PT004",
-        "PT002"
+        "PT003",
+        "PT001"
       ],
       "missingCategoryAssignments": [
         {
           "parent": "Fashion",
-          "sub": "Dress Wanita",
-          "missingProductIds": [
-            "PT003"
-          ]
-        },
-        {
-          "parent": "Fashion",
           "sub": "Batik",
           "missingProductIds": [
-            "PT003",
-            "PT001",
+            "PT002",
             "PT004",
-            "PT002"
+            "PT003",
+            "PT001"
           ]
         },
         {
           "parent": "Fashion",
-          "sub": "Kain & Tekstil",
+          "sub": "Kemeja Pria",
           "missingProductIds": [
-            "PT001"
+            "PT002"
           ]
         },
         {
@@ -1160,9 +1153,16 @@
         },
         {
           "parent": "Fashion",
-          "sub": "Kemeja Pria",
+          "sub": "Dress Wanita",
           "missingProductIds": [
-            "PT002"
+            "PT003"
+          ]
+        },
+        {
+          "parent": "Fashion",
+          "sub": "Kain & Tekstil",
+          "missingProductIds": [
+            "PT001"
           ]
         }
       ],
@@ -1222,9 +1222,9 @@
       "storeDbSettings": {
         "config_name": "Batik Nusantara",
         "config_address": "Jl. Malioboro No. 45, Yogyakarta 55213",
-        "config_telephone": "0274-555-1234",
+        "config_telephone": " 0274-555-1234",
         "config_email": "info@batiknusantara.id",
-        "config_meta_description": "Batik Nusantara",
+        "config_meta_description": "My Store",
         "config_logo": "data/logo_toko.jpg"
       },
       "dbManufacturers": [
@@ -1249,61 +1249,12 @@
         {
           "manufacturer_id": 11,
           "name": "Arunika Batik",
-          "image": "data/Arunika_Batik_logo.jpg",
+          "image": "data/Arunika_Batik_logo (1).jpg",
           "sort_order": 0
         }
       ],
-      "dbBanners": [
-        {
-          "banner_id": 9,
-          "banner_name": "Carousel",
-          "banner_image_id": 78,
-          "link": "http://2022112040.uas.stieama.com/index.php?route=product/manufacturer/info&amp;manufacturer_id=11",
-          "image": "data/Arunika_Batik_logo.jpg",
-          "title": "Arunika Batik"
-        },
-        {
-          "banner_id": 9,
-          "banner_name": "Carousel",
-          "banner_image_id": 80,
-          "link": "http://2022112040.uas.stieama.com/index.php?route=product/manufacturer/info&amp;manufacturer_id=13",
-          "image": "data/Sekar_Melati_Batik_logo.jpg",
-          "title": "Sekar Melati Batik"
-        },
-        {
-          "banner_id": 9,
-          "banner_name": "Carousel",
-          "banner_image_id": 79,
-          "link": "http://2022112040.uas.stieama.com/index.php?route=product/manufacturer/info&amp;manufacturer_id=12",
-          "image": "data/Laras_Busana_logo.jpg",
-          "title": "Laras Busana"
-        },
-        {
-          "banner_id": 9,
-          "banner_name": "Carousel",
-          "banner_image_id": 81,
-          "link": "http://2022112040.uas.stieama.com/index.php?route=product/manufacturer/info&amp;manufacturer_id=14",
-          "image": "data/Sogan_Kencana_logo.jpg",
-          "title": "Sogan Kencana"
-        },
-        {
-          "banner_id": 10,
-          "banner_name": "banner",
-          "banner_image_id": 84,
-          "link": "http://2022112040.uas.stieama.com/index.php?route=product/product&amp;product_id=50",
-          "image": "data/slideshow_2.jpg",
-          "title": "banner 2"
-        },
-        {
-          "banner_id": 10,
-          "banner_name": "banner",
-          "banner_image_id": 85,
-          "link": "http://2022112040.uas.stieama.com/index.php?route=product/product&amp;product_id=52",
-          "image": "data/slideshow_1.jpg",
-          "title": "banner 1"
-        }
-      ]
+      "dbBanners": []
     },
-    "summary": "Penilaian butuh review manual. Auto-score 75/100. Item yang belum terverifikasi: belum, belum, belum, belum, belum. Data Toko: 90/100 | selesai: Nama toko tampil di storefront, Alamat toko tampil, Telepon toko tampil, Email toko tampil, Logo toko tampil | belum: Deskripsi bisnis toko tampil | Manufacturer & Carousel: 100/100 | selesai: Nama manufacturer sesuai data soal tampil, Manufacturer/carousel navigasi tampil | Kategori Produk: 0/100 | belum: Kategori parent ada di admin, Subkategori child ada di admin, Kategori tampil di storefront, Subkategori tampil di storefront, Produk tugas terlihat di admin produk, Produk terlink ke kategori yang benar | Produk: General & Data: 85/100 | selesai: Nama produk di tab General, SEO keyword di tab General, Harga di tab Data, Stok di tab Data, SKU di tab Data, Berat di tab Data, Dimensi di tab Data, Manufacturer di tab Data, Setidaknya 1 gambar produk terpasang | belum: Deskripsi di tab General | Produk: Links, Attr, Option: 85/100 | selesai: Kategori di tab Links, Attribute group ada di tab Attribute, Attribute name + value ada di tab Attribute, Option name + type ada di tab Option, Option values ada di tab Option | belum: Manufacturer di tab Links | Strategi Diskon: 100/100 | selesai: Minimal quantity diskon, Harga diskon, Tanggal mulai diskon, Tanggal selesai diskon | Harga Spesial Event: 100/100 | selesai: Harga spesial, Tanggal mulai harga spesial, Tanggal selesai harga spesial | Gambar & SEO Keyword: 100/100 | selesai: Gambar produk terunggah, Gambar thumbnail tampil, SEO keyword sesuai soal | Banner Slideshow: 0/100 | belum: Slideshow/banner tampil di storefront, Banner mengarah ke produk yang benar"
+    "summary": "Penilaian butuh review manual. Auto-score 60.5/100. Item yang belum terverifikasi: belum, belum, belum, belum, belum, belum, belum, belum. Data Toko: 90/100 | selesai: Nama toko tampil di storefront, Alamat toko tampil, Telepon toko tampil, Email toko tampil, Logo toko tampil | belum: Deskripsi bisnis toko tampil | Manufacturer & Carousel: 100/100 | selesai: Nama manufacturer sesuai data soal tampil, Manufacturer/carousel navigasi tampil | Kategori Produk: 0/100 | belum: Kategori parent ada di admin, Subkategori child ada di admin, Kategori tampil di storefront, Subkategori tampil di storefront, Produk tugas terlihat di admin produk, Produk terlink ke kategori yang benar | Produk: General & Data: 85/100 | selesai: Nama produk di tab General, SEO keyword di tab General, Harga di tab Data, Stok di tab Data, SKU di tab Data, Berat di tab Data, Dimensi di tab Data, Manufacturer di tab Data, Setidaknya 1 gambar produk terpasang | belum: Deskripsi di tab General | Produk: Links, Attr, Option: 85/100 | selesai: Kategori di tab Links, Attribute group ada di tab Attribute, Attribute name + value ada di tab Attribute, Option name + type ada di tab Option, Option values ada di tab Option | belum: Manufacturer di tab Links | Strategi Diskon: 75/100 | selesai: Minimal quantity diskon, Tanggal mulai diskon, Tanggal selesai diskon | belum: Harga diskon | Harga Spesial Event: 0/100 | belum: Harga spesial, Tanggal mulai harga spesial, Tanggal selesai harga spesial | Gambar & SEO Keyword: 80/100 | selesai: Gambar produk terunggah, SEO keyword sesuai soal | belum: Gambar thumbnail tampil | Banner Slideshow: 0/100 | belum: Slideshow/banner tampil di storefront, Banner mengarah ke produk yang benar"
   }
 ]

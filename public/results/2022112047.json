@@ -1,19 +1,19 @@
 [
   {
-    "nim": "2022112040",
-    "studentName": "AFTIAR TEGAR FATINNIO QAIS",
-    "className": "D",
-    "websiteUrl": "http://2022112040.uas.stieama.com",
-    "storeId": "T001",
-    "storeName": "Batik Nusantara",
+    "nim": "2022112047",
+    "studentName": "AULIA PATRA SARI",
+    "className": "C",
+    "websiteUrl": "http://2022112047.uas.stieama.com",
+    "storeId": "T002",
+    "storeName": "TechZone Store",
     "assignedProductIds": [
-      "PT003",
-      "PT001",
-      "PT004",
-      "PT002"
+      "PT008",
+      "PT005",
+      "PT007",
+      "PT006"
     ],
-    "score": 75,
-    "autoTotal": 75,
+    "score": 77.5,
+    "autoTotal": 77.5,
     "autoMax": 100,
     "status": "cukup",
     "manualReview": true,
@@ -28,8 +28,8 @@
         "tab": "System -> Settings -> Store",
         "bobot": 10,
         "automated": true,
-        "rawScore": 90,
-        "weightedScore": 9,
+        "rawScore": 100,
+        "weightedScore": 10,
         "maxScore": 100,
         "details": [
           {
@@ -74,8 +74,8 @@
             "weight": 10,
             "verification": "text_match",
             "dataField": "deskripsi_bisnis",
-            "status": "not_found",
-            "earned": 0
+            "status": "completed",
+            "earned": 10
           },
           {
             "id": "store_logo",
@@ -87,9 +87,9 @@
             "earned": 40
           }
         ],
-        "status": "parsial",
-        "completedCount": 5,
-        "notFoundCount": 1,
+        "status": "lengkap",
+        "completedCount": 6,
+        "notFoundCount": 0,
         "verificationFailedCount": 0,
         "totalItems": 6
       },
@@ -202,8 +202,8 @@
         "tab": "Products -> General, Data",
         "bobot": 15,
         "automated": true,
-        "rawScore": 85,
-        "weightedScore": 13,
+        "rawScore": 95,
+        "weightedScore": 14.5,
         "maxScore": 100,
         "details": [
           {
@@ -221,8 +221,8 @@
             "weight": 15,
             "verification": "text_match",
             "dataField": "productDescription",
-            "status": "not_found",
-            "earned": 0
+            "status": "completed",
+            "earned": 15
           },
           {
             "id": "general_seo",
@@ -284,8 +284,8 @@
             "weight": 5,
             "verification": "text_match",
             "dataField": "productManufacturer",
-            "status": "completed",
-            "earned": 5
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "data_image_uploaded",
@@ -299,7 +299,7 @@
         ],
         "status": "parsial",
         "completedCount": 9,
-        "notFoundCount": 1,
+        "notFoundCount": 2,
         "verificationFailedCount": 0,
         "totalItems": 10
       },
@@ -557,12 +557,12 @@
     "checkpointSubScores": {
       "cp01": {
         "label": "Data Toko",
-        "rawScore": 90,
-        "weightedScore": 9,
+        "rawScore": 100,
+        "weightedScore": 10,
         "maxScore": 100,
-        "status": "parsial",
-        "completedCount": 5,
-        "notFoundCount": 1,
+        "status": "lengkap",
+        "completedCount": 6,
+        "notFoundCount": 0,
         "verificationFailedCount": 0,
         "totalItems": 6,
         "details": [
@@ -593,8 +593,8 @@
           {
             "id": "store_description",
             "label": "Deskripsi bisnis toko tampil",
-            "status": "not_found",
-            "earned": 0
+            "status": "completed",
+            "earned": 10
           },
           {
             "id": "store_logo",
@@ -680,12 +680,12 @@
       },
       "cp04": {
         "label": "Produk: General & Data",
-        "rawScore": 85,
-        "weightedScore": 13,
+        "rawScore": 95,
+        "weightedScore": 14.5,
         "maxScore": 100,
         "status": "parsial",
         "completedCount": 9,
-        "notFoundCount": 1,
+        "notFoundCount": 2,
         "verificationFailedCount": 0,
         "totalItems": 10,
         "details": [
@@ -698,8 +698,8 @@
           {
             "id": "general_description",
             "label": "Deskripsi di tab General",
-            "status": "not_found",
-            "earned": 0
+            "status": "completed",
+            "earned": 15
           },
           {
             "id": "general_seo",
@@ -740,8 +740,8 @@
           {
             "id": "data_manufacturer",
             "label": "Manufacturer di tab Data",
-            "status": "completed",
-            "earned": 5
+            "status": "not_found",
+            "earned": 0
           },
           {
             "id": "data_image_uploaded",
@@ -940,84 +940,113 @@
       "pendingCheckpointIds": []
     },
     "evidence": {
-      "startedAt": "2026-07-27T08:24:03.748Z",
+      "startedAt": "2026-07-27T08:36:17.247Z",
       "storefrontOk": false,
       "loginOk": false,
       "categoriesPageOk": false,
       "productsPageOk": false,
       "expectedParents": [
-        "Fashion"
+        "Elektronik",
+        "Komputer",
+        "Edukasi"
       ],
       "expectedChildren": [
-        "Dress Wanita",
-        "Batik",
-        "Kain & Tekstil",
-        "Outer & Cardigan",
-        "Kemeja Pria"
+        "Webcam & Kamera PC",
+        "Aksesoris Streaming",
+        "Audio & Speaker",
+        "Aksesoris Gadget",
+        "Tablet",
+        "Perangkat Belajar Anak",
+        "Mouse & Keyboard",
+        "Aksesoris Kantor"
       ],
       "expectedCategoryAssignments": [
         {
-          "parent": "Fashion",
-          "sub": "Dress Wanita",
+          "parent": "Elektronik",
+          "sub": "Webcam & Kamera PC",
           "productIds": [
-            "PT003"
+            "PT008"
           ],
           "productNames": [
-            "Dress Batik Wanita Flora Pesisir"
+            "Webcam HD StreamView 1080p"
           ]
         },
         {
-          "parent": "Fashion",
-          "sub": "Batik",
+          "parent": "Komputer",
+          "sub": "Aksesoris Streaming",
           "productIds": [
-            "PT003",
-            "PT001",
-            "PT004",
-            "PT002"
+            "PT008"
           ],
           "productNames": [
-            "Dress Batik Wanita Flora Pesisir",
-            "Batik Tulis Mega Mendung Heritage",
-            "Outer Batik Casual Kawung Urban",
-            "Kemeja Batik Lengan Panjang Sogan Royal"
+            "Webcam HD StreamView 1080p"
           ]
         },
         {
-          "parent": "Fashion",
-          "sub": "Kain & Tekstil",
+          "parent": "Elektronik",
+          "sub": "Audio & Speaker",
           "productIds": [
-            "PT001"
+            "PT005"
           ],
           "productNames": [
-            "Batik Tulis Mega Mendung Heritage"
+            "Speaker Bluetooth Portable BassBox Mini"
           ]
         },
         {
-          "parent": "Fashion",
-          "sub": "Outer & Cardigan",
+          "parent": "Elektronik",
+          "sub": "Aksesoris Gadget",
           "productIds": [
-            "PT004"
+            "PT005"
           ],
           "productNames": [
-            "Outer Batik Casual Kawung Urban"
+            "Speaker Bluetooth Portable BassBox Mini"
           ]
         },
         {
-          "parent": "Fashion",
-          "sub": "Kemeja Pria",
+          "parent": "Elektronik",
+          "sub": "Tablet",
           "productIds": [
-            "PT002"
+            "PT007"
           ],
           "productNames": [
-            "Kemeja Batik Lengan Panjang Sogan Royal"
+            "Tablet Belajar EduTab 8 Kids Edition"
+          ]
+        },
+        {
+          "parent": "Edukasi",
+          "sub": "Perangkat Belajar Anak",
+          "productIds": [
+            "PT007"
+          ],
+          "productNames": [
+            "Tablet Belajar EduTab 8 Kids Edition"
+          ]
+        },
+        {
+          "parent": "Elektronik",
+          "sub": "Mouse & Keyboard",
+          "productIds": [
+            "PT006"
+          ],
+          "productNames": [
+            "Mouse Wireless SilentClick Pro"
+          ]
+        },
+        {
+          "parent": "Komputer",
+          "sub": "Aksesoris Kantor",
+          "productIds": [
+            "PT006"
+          ],
+          "productNames": [
+            "Mouse Wireless SilentClick Pro"
           ]
         }
       ],
       "assignedProductIds": [
-        "PT003",
-        "PT001",
-        "PT004",
-        "PT002"
+        "PT008",
+        "PT005",
+        "PT007",
+        "PT006"
       ],
       "foundParents": [],
       "foundChildren": [],
@@ -1027,14 +1056,14 @@
       "categoryAssignmentChecks": [],
       "adminProductChecks": [
         {
-          "productId": "PT003",
-          "productName": "Dress Batik Wanita Flora Pesisir",
+          "productId": "PT008",
+          "productName": "Webcam HD StreamView 1080p",
           "locatedInAdmin": true,
           "editPageOpened": true,
           "screenshot": "",
           "signals": {
             "cp04_general": 0.6666666666666666,
-            "cp04_data": 1,
+            "cp04_data": 0.8571428571428571,
             "cp05_links": 0.5,
             "cp05_attributes": 1,
             "cp05_options": 1,
@@ -1045,14 +1074,14 @@
           }
         },
         {
-          "productId": "PT001",
-          "productName": "Batik Tulis Mega Mendung Heritage",
+          "productId": "PT005",
+          "productName": "Speaker Bluetooth Portable BassBox Mini",
           "locatedInAdmin": true,
           "editPageOpened": true,
           "screenshot": "",
           "signals": {
-            "cp04_general": 0.6666666666666666,
-            "cp04_data": 1,
+            "cp04_general": 1,
+            "cp04_data": 0.8571428571428571,
             "cp05_links": 0.5,
             "cp05_attributes": 1,
             "cp05_options": 1,
@@ -1063,32 +1092,32 @@
           }
         },
         {
-          "productId": "PT004",
-          "productName": "Outer Batik Casual Kawung Urban",
+          "productId": "PT007",
+          "productName": "Tablet Belajar EduTab 8 Kids Edition",
           "locatedInAdmin": true,
           "editPageOpened": true,
           "screenshot": "",
           "signals": {
             "cp04_general": 0.6666666666666666,
-            "cp04_data": 1,
+            "cp04_data": 0.42857142857142855,
             "cp05_links": 0.5,
             "cp05_attributes": 1,
             "cp05_options": 1,
             "cp06_discount": 1,
             "cp07_special": 1,
-            "cp08_images": 0.5,
+            "cp08_images": 1,
             "cp08_seo": 1
           }
         },
         {
-          "productId": "PT002",
-          "productName": "Kemeja Batik Lengan Panjang Sogan Royal",
+          "productId": "PT006",
+          "productName": "Mouse Wireless SilentClick Pro",
           "locatedInAdmin": true,
           "editPageOpened": true,
           "screenshot": "",
           "signals": {
             "cp04_general": 0.6666666666666666,
-            "cp04_data": 1,
+            "cp04_data": 0.8571428571428571,
             "cp05_links": 0.5,
             "cp05_attributes": 1,
             "cp05_options": 1,
@@ -1101,68 +1130,96 @@
       ],
       "dbEvaluationUsed": true,
       "missingParents": [
-        "Fashion"
+        "Elektronik",
+        "Komputer",
+        "Edukasi"
       ],
       "missingChildren": [
-        "Dress Wanita",
-        "Batik",
-        "Kain & Tekstil",
-        "Outer & Cardigan",
-        "Kemeja Pria"
+        "Webcam & Kamera PC",
+        "Aksesoris Streaming",
+        "Audio & Speaker",
+        "Aksesoris Gadget",
+        "Tablet",
+        "Perangkat Belajar Anak",
+        "Mouse & Keyboard",
+        "Aksesoris Kantor"
       ],
       "missingStorefrontParents": [
-        "Fashion"
+        "Elektronik",
+        "Komputer",
+        "Edukasi"
       ],
       "missingStorefrontChildren": [
-        "Dress Wanita",
-        "Batik",
-        "Kain & Tekstil",
-        "Outer & Cardigan",
-        "Kemeja Pria"
+        "Webcam & Kamera PC",
+        "Aksesoris Streaming",
+        "Audio & Speaker",
+        "Aksesoris Gadget",
+        "Tablet",
+        "Perangkat Belajar Anak",
+        "Mouse & Keyboard",
+        "Aksesoris Kantor"
       ],
       "missingAssignedProductIds": [
-        "PT003",
-        "PT001",
-        "PT004",
-        "PT002"
+        "PT008",
+        "PT005",
+        "PT007",
+        "PT006"
       ],
       "missingCategoryAssignments": [
         {
-          "parent": "Fashion",
-          "sub": "Dress Wanita",
+          "parent": "Elektronik",
+          "sub": "Webcam & Kamera PC",
           "missingProductIds": [
-            "PT003"
+            "PT008"
           ]
         },
         {
-          "parent": "Fashion",
-          "sub": "Batik",
+          "parent": "Komputer",
+          "sub": "Aksesoris Streaming",
           "missingProductIds": [
-            "PT003",
-            "PT001",
-            "PT004",
-            "PT002"
+            "PT008"
           ]
         },
         {
-          "parent": "Fashion",
-          "sub": "Kain & Tekstil",
+          "parent": "Elektronik",
+          "sub": "Audio & Speaker",
           "missingProductIds": [
-            "PT001"
+            "PT005"
           ]
         },
         {
-          "parent": "Fashion",
-          "sub": "Outer & Cardigan",
+          "parent": "Elektronik",
+          "sub": "Aksesoris Gadget",
           "missingProductIds": [
-            "PT004"
+            "PT005"
           ]
         },
         {
-          "parent": "Fashion",
-          "sub": "Kemeja Pria",
+          "parent": "Elektronik",
+          "sub": "Tablet",
           "missingProductIds": [
-            "PT002"
+            "PT007"
+          ]
+        },
+        {
+          "parent": "Edukasi",
+          "sub": "Perangkat Belajar Anak",
+          "missingProductIds": [
+            "PT007"
+          ]
+        },
+        {
+          "parent": "Elektronik",
+          "sub": "Mouse & Keyboard",
+          "missingProductIds": [
+            "PT006"
+          ]
+        },
+        {
+          "parent": "Komputer",
+          "sub": "Aksesoris Kantor",
+          "missingProductIds": [
+            "PT006"
           ]
         }
       ],
@@ -1220,90 +1277,58 @@
         }
       },
       "storeDbSettings": {
-        "config_name": "Batik Nusantara",
-        "config_address": "Jl. Malioboro No. 45, Yogyakarta 55213",
-        "config_telephone": "0274-555-1234",
-        "config_email": "info@batiknusantara.id",
-        "config_meta_description": "Batik Nusantara",
-        "config_logo": "data/logo_toko.jpg"
+        "config_name": "TechZone Store",
+        "config_address": "Jl. Sudirman Kav. 12, Semarang 50134",
+        "config_telephone": "024-777-8899",
+        "config_email": "support@techzonestore.id",
+        "config_meta_description": "Toko elektronik dan aksesoris gadget terpercaya di Semarang. Menyediakan produk-produk teknologi mulai dari earphone, smartwatch, hingga aksesoris laptop dengan garansi resmi. Dalam rangka Back to School dan Harbolnas 7.7, manajemen merancang strategi promosi agresif untuk produk-produk unggulan guna meningkatkan market share di segmen anak muda.",
+        "config_logo": "data/logo_toko (2).jpg"
       },
       "dbManufacturers": [
         {
           "manufacturer_id": 14,
-          "name": "Sogan Kencana",
-          "image": "data/Sogan_Kencana_logo.jpg",
+          "name": "VisionCast Indonesia",
+          "image": "data/VisionCast_Indonesia_logo (1).jpg",
           "sort_order": 0
         },
         {
           "manufacturer_id": 12,
-          "name": "Laras Busana",
-          "image": "data/Laras_Busana_logo.jpg",
+          "name": "ClickEase Tech",
+          "image": "data/ClickEase_Tech_logo (2).jpg",
           "sort_order": 0
         },
         {
           "manufacturer_id": 13,
-          "name": "Sekar Melati Batik",
-          "image": "data/Sekar_Melati_Batik_logo.jpg",
+          "name": "BrightFuture Devices",
+          "image": "data/BrightFuture_Devices_logo (1).jpg",
           "sort_order": 0
         },
         {
           "manufacturer_id": 11,
-          "name": "Arunika Batik",
-          "image": "data/Arunika_Batik_logo.jpg",
+          "name": "SonicWare Audio",
+          "image": "data/SonicWare_Audio_logo (1).jpg",
           "sort_order": 0
         }
       ],
       "dbBanners": [
         {
           "banner_id": 9,
-          "banner_name": "Carousel",
+          "banner_name": "Banner Slideshow Toko",
           "banner_image_id": 78,
-          "link": "http://2022112040.uas.stieama.com/index.php?route=product/manufacturer/info&amp;manufacturer_id=11",
-          "image": "data/Arunika_Batik_logo.jpg",
-          "title": "Arunika Batik"
+          "link": "",
+          "image": "data/slideshow_1 (3).jpg",
+          "title": "Slideshow 1"
         },
         {
           "banner_id": 9,
-          "banner_name": "Carousel",
-          "banner_image_id": 80,
-          "link": "http://2022112040.uas.stieama.com/index.php?route=product/manufacturer/info&amp;manufacturer_id=13",
-          "image": "data/Sekar_Melati_Batik_logo.jpg",
-          "title": "Sekar Melati Batik"
-        },
-        {
-          "banner_id": 9,
-          "banner_name": "Carousel",
+          "banner_name": "Banner Slideshow Toko",
           "banner_image_id": 79,
-          "link": "http://2022112040.uas.stieama.com/index.php?route=product/manufacturer/info&amp;manufacturer_id=12",
-          "image": "data/Laras_Busana_logo.jpg",
-          "title": "Laras Busana"
-        },
-        {
-          "banner_id": 9,
-          "banner_name": "Carousel",
-          "banner_image_id": 81,
-          "link": "http://2022112040.uas.stieama.com/index.php?route=product/manufacturer/info&amp;manufacturer_id=14",
-          "image": "data/Sogan_Kencana_logo.jpg",
-          "title": "Sogan Kencana"
-        },
-        {
-          "banner_id": 10,
-          "banner_name": "banner",
-          "banner_image_id": 84,
-          "link": "http://2022112040.uas.stieama.com/index.php?route=product/product&amp;product_id=50",
-          "image": "data/slideshow_2.jpg",
-          "title": "banner 2"
-        },
-        {
-          "banner_id": 10,
-          "banner_name": "banner",
-          "banner_image_id": 85,
-          "link": "http://2022112040.uas.stieama.com/index.php?route=product/product&amp;product_id=52",
-          "image": "data/slideshow_1.jpg",
-          "title": "banner 1"
+          "link": "",
+          "image": "data/slideshow_2 (2).jpg",
+          "title": "Slideshow 2"
         }
       ]
     },
-    "summary": "Penilaian butuh review manual. Auto-score 75/100. Item yang belum terverifikasi: belum, belum, belum, belum, belum. Data Toko: 90/100 | selesai: Nama toko tampil di storefront, Alamat toko tampil, Telepon toko tampil, Email toko tampil, Logo toko tampil | belum: Deskripsi bisnis toko tampil | Manufacturer & Carousel: 100/100 | selesai: Nama manufacturer sesuai data soal tampil, Manufacturer/carousel navigasi tampil | Kategori Produk: 0/100 | belum: Kategori parent ada di admin, Subkategori child ada di admin, Kategori tampil di storefront, Subkategori tampil di storefront, Produk tugas terlihat di admin produk, Produk terlink ke kategori yang benar | Produk: General & Data: 85/100 | selesai: Nama produk di tab General, SEO keyword di tab General, Harga di tab Data, Stok di tab Data, SKU di tab Data, Berat di tab Data, Dimensi di tab Data, Manufacturer di tab Data, Setidaknya 1 gambar produk terpasang | belum: Deskripsi di tab General | Produk: Links, Attr, Option: 85/100 | selesai: Kategori di tab Links, Attribute group ada di tab Attribute, Attribute name + value ada di tab Attribute, Option name + type ada di tab Option, Option values ada di tab Option | belum: Manufacturer di tab Links | Strategi Diskon: 100/100 | selesai: Minimal quantity diskon, Harga diskon, Tanggal mulai diskon, Tanggal selesai diskon | Harga Spesial Event: 100/100 | selesai: Harga spesial, Tanggal mulai harga spesial, Tanggal selesai harga spesial | Gambar & SEO Keyword: 100/100 | selesai: Gambar produk terunggah, Gambar thumbnail tampil, SEO keyword sesuai soal | Banner Slideshow: 0/100 | belum: Slideshow/banner tampil di storefront, Banner mengarah ke produk yang benar"
+    "summary": "Penilaian butuh review manual. Auto-score 77.5/100. Item yang belum terverifikasi: belum, belum, belum, belum. Data Toko: 100/100 | selesai: Nama toko tampil di storefront, Alamat toko tampil, Telepon toko tampil, Email toko tampil, Deskripsi bisnis toko tampil, Logo toko tampil | Manufacturer & Carousel: 100/100 | selesai: Nama manufacturer sesuai data soal tampil, Manufacturer/carousel navigasi tampil | Kategori Produk: 0/100 | belum: Kategori parent ada di admin, Subkategori child ada di admin, Kategori tampil di storefront, Subkategori tampil di storefront, Produk tugas terlihat di admin produk, Produk terlink ke kategori yang benar | Produk: General & Data: 95/100 | selesai: Nama produk di tab General, Deskripsi di tab General, SEO keyword di tab General, Harga di tab Data, Stok di tab Data, SKU di tab Data, Berat di tab Data, Dimensi di tab Data, Setidaknya 1 gambar produk terpasang | belum: Manufacturer di tab Data | Produk: Links, Attr, Option: 85/100 | selesai: Kategori di tab Links, Attribute group ada di tab Attribute, Attribute name + value ada di tab Attribute, Option name + type ada di tab Option, Option values ada di tab Option | belum: Manufacturer di tab Links | Strategi Diskon: 100/100 | selesai: Minimal quantity diskon, Harga diskon, Tanggal mulai diskon, Tanggal selesai diskon | Harga Spesial Event: 100/100 | selesai: Harga spesial, Tanggal mulai harga spesial, Tanggal selesai harga spesial | Gambar & SEO Keyword: 100/100 | selesai: Gambar produk terunggah, Gambar thumbnail tampil, SEO keyword sesuai soal | Banner Slideshow: 0/100 | belum: Slideshow/banner tampil di storefront, Banner mengarah ke produk yang benar"
   }
 ]
