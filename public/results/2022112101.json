@@ -1,1254 +1,1440 @@
-[
-  {
-    "nim": "2022112101",
-    "studentName": "SAKINA NAYA LALITA",
-    "className": "C",
-    "websiteUrl": "http://2022112101.uas.stieama.com",
-    "storeId": "T001",
-    "storeName": "Batik Nusantara",
-    "assignedProductIds": [
-      "PT001",
-      "PT004",
-      "PT003",
-      "PT002"
-    ],
-    "score": 28.5,
-    "autoTotal": 28.5,
-    "autoMax": 100,
-    "status": "parsial",
-    "manualReview": true,
-    "manualReviewReasons": [
-      "Mode DB-only: storefront visual check (logo, carousel, kategori) dilewati.",
-      "Mode DB-only: verifikasi halaman admin (login, kategori, produk) dilewati."
-    ],
-    "dataIntegrityErrors": [],
-    "checkpoints": {
-      "cp01": {
-        "label": "Data Toko",
-        "tab": "System -> Settings -> Store",
-        "bobot": 10,
-        "automated": true,
-        "rawScore": 40,
-        "weightedScore": 4,
-        "maxScore": 100,
-        "details": [
-          {
-            "id": "store_name",
-            "label": "Nama toko tampil di storefront",
-            "weight": 15,
-            "verification": "text_match",
-            "dataField": "nama_toko",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "store_address",
-            "label": "Alamat toko tampil",
-            "weight": 15,
-            "verification": "text_match",
-            "dataField": "alamat",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "store_phone",
-            "label": "Telepon toko tampil",
-            "weight": 10,
-            "verification": "text_match",
-            "dataField": "telepon",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "store_email",
-            "label": "Email toko tampil",
-            "weight": 10,
-            "verification": "text_match",
-            "dataField": "email",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "store_description",
-            "label": "Deskripsi bisnis toko tampil",
-            "weight": 10,
-            "verification": "text_match",
-            "dataField": "deskripsi_bisnis",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "store_logo",
-            "label": "Logo toko tampil",
-            "weight": 40,
-            "verification": "element_exists",
-            "dataField": "logo_url",
-            "status": "completed",
-            "earned": 40
-          }
-        ],
-        "status": "parsial",
-        "completedCount": 1,
-        "notFoundCount": 5,
-        "verificationFailedCount": 0,
-        "totalItems": 6
-      },
-      "cp02": {
-        "label": "Manufacturer & Carousel",
-        "tab": "Catalog -> Manufacturers + CMS",
-        "bobot": 10,
-        "automated": true,
-        "rawScore": 55.5,
-        "weightedScore": 5.5,
-        "maxScore": 100,
-        "details": [
-          {
-            "id": "manufacturer_names",
-            "label": "Nama manufacturer sesuai data soal tampil",
-            "weight": 40,
-            "verification": "text_match",
-            "dataField": "brand_names",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "manufacturer_carousel",
-            "label": "Manufacturer/carousel navigasi tampil",
-            "weight": 50,
-            "verification": "element_exists",
-            "dataField": "brand_logos",
-            "status": "completed",
-            "earned": 55.5
-          }
-        ],
-        "status": "parsial",
-        "completedCount": 1,
-        "notFoundCount": 1,
-        "verificationFailedCount": 0,
-        "totalItems": 2
-      },
-      "cp03": {
-        "label": "Kategori Produk",
-        "tab": "Catalog -> Categories",
-        "bobot": 5,
-        "automated": true,
-        "rawScore": 0,
-        "weightedScore": 0,
-        "maxScore": 100,
-        "details": [
-          {
-            "id": "category_admin",
-            "label": "Kategori parent ada di admin",
-            "weight": 20,
-            "verification": "text_match",
-            "dataField": "expectedParents",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "subcategory_admin",
-            "label": "Subkategori child ada di admin",
-            "weight": 15,
-            "verification": "text_match",
-            "dataField": "expectedChildren",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "category_storefront",
-            "label": "Kategori tampil di storefront",
-            "weight": 25,
-            "verification": "text_match",
-            "dataField": "expectedParents",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "subcategory_storefront",
-            "label": "Subkategori tampil di storefront",
-            "weight": 20,
-            "verification": "text_match",
-            "dataField": "expectedChildren",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "product_admin_visible",
-            "label": "Produk tugas terlihat di admin produk",
-            "weight": 20,
-            "verification": "text_match",
-            "dataField": "assignedProductNames",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "product_category_link",
-            "label": "Produk terlink ke kategori yang benar",
-            "weight": 10,
-            "verification": "visible_check",
-            "dataField": "expectedCategoryAssignments",
-            "status": "not_found",
-            "earned": 0
-          }
-        ],
-        "status": "belum-terpenuhi",
-        "completedCount": 0,
-        "notFoundCount": 5,
-        "verificationFailedCount": 0,
-        "totalItems": 6
-      },
-      "cp04": {
-        "label": "Produk: General & Data",
-        "tab": "Products -> General, Data",
-        "bobot": 15,
-        "automated": true,
-        "rawScore": 55,
-        "weightedScore": 8.5,
-        "maxScore": 100,
-        "details": [
-          {
-            "id": "general_name",
-            "label": "Nama produk di tab General",
-            "weight": 15,
-            "verification": "text_match",
-            "dataField": "productName",
-            "status": "completed",
-            "earned": 15
-          },
-          {
-            "id": "general_description",
-            "label": "Deskripsi di tab General",
-            "weight": 15,
-            "verification": "text_match",
-            "dataField": "productDescription",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "general_seo",
-            "label": "SEO keyword di tab General",
-            "weight": 10,
-            "verification": "text_match",
-            "dataField": "productSeoKeyword",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "data_price",
-            "label": "Harga di tab Data",
-            "weight": 15,
-            "verification": "text_match",
-            "dataField": "productHarga",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "data_stock",
-            "label": "Stok di tab Data",
-            "weight": 10,
-            "verification": "text_match",
-            "dataField": "productStok",
-            "status": "completed",
-            "earned": 10
-          },
-          {
-            "id": "data_sku",
-            "label": "SKU di tab Data",
-            "weight": 5,
-            "verification": "text_match",
-            "dataField": "productSku",
-            "status": "completed",
-            "earned": 5
-          },
-          {
-            "id": "data_weight",
-            "label": "Berat di tab Data",
-            "weight": 5,
-            "verification": "text_match",
-            "dataField": "productBeratKg",
-            "status": "completed",
-            "earned": 5
-          },
-          {
-            "id": "data_dimensions",
-            "label": "Dimensi di tab Data",
-            "weight": 5,
-            "verification": "text_match",
-            "dataField": "productDimensi",
-            "status": "completed",
-            "earned": 5
-          },
-          {
-            "id": "data_manufacturer",
-            "label": "Manufacturer di tab Data",
-            "weight": 5,
-            "verification": "text_match",
-            "dataField": "productManufacturer",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "data_image_uploaded",
-            "label": "Setidaknya 1 gambar produk terpasang",
-            "weight": 15,
-            "verification": "element_exists",
-            "dataField": "productImages",
-            "status": "completed",
-            "earned": 15
-          }
-        ],
-        "status": "parsial",
-        "completedCount": 6,
-        "notFoundCount": 10,
-        "verificationFailedCount": 0,
-        "totalItems": 10
-      },
-      "cp05": {
-        "label": "Produk: Links, Attr, Option",
-        "tab": "Products -> Links, Attribute, Option",
-        "bobot": 15,
-        "automated": true,
-        "rawScore": 0,
-        "weightedScore": 0,
-        "maxScore": 100,
-        "details": [
-          {
-            "id": "links_category",
-            "label": "Kategori di tab Links",
-            "weight": 25,
-            "verification": "text_match",
-            "dataField": "productCategories",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "links_manufacturer",
-            "label": "Manufacturer di tab Links",
-            "weight": 15,
-            "verification": "text_match",
-            "dataField": "productManufacturer",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "attribute_group",
-            "label": "Attribute group ada di tab Attribute",
-            "weight": 20,
-            "verification": "text_match",
-            "dataField": "attributeGroup",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "attribute_name",
-            "label": "Attribute name + value ada di tab Attribute",
-            "weight": 20,
-            "verification": "text_match",
-            "dataField": "attributeNameValue",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "option_name",
-            "label": "Option name + type ada di tab Option",
-            "weight": 10,
-            "verification": "text_match",
-            "dataField": "optionNameType",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "option_values",
-            "label": "Option values ada di tab Option",
-            "weight": 10,
-            "verification": "visible_check",
-            "dataField": "optionValues",
-            "status": "not_found",
-            "earned": 0
-          }
-        ],
-        "status": "belum-terpenuhi",
-        "completedCount": 0,
-        "notFoundCount": 6,
-        "verificationFailedCount": 0,
-        "totalItems": 6
-      },
-      "cp06": {
-        "label": "Strategi Diskon",
-        "tab": "Products -> Discount",
-        "bobot": 10,
-        "automated": true,
-        "rawScore": 75,
-        "weightedScore": 7.5,
-        "maxScore": 100,
-        "details": [
-          {
-            "id": "discount_min_qty",
-            "label": "Minimal quantity diskon",
-            "weight": 25,
-            "verification": "text_match",
-            "dataField": "discountMinQty",
-            "status": "completed",
-            "earned": 25
-          },
-          {
-            "id": "discount_harga",
-            "label": "Harga diskon",
-            "weight": 25,
-            "verification": "text_match",
-            "dataField": "discountHarga",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "discount_start",
-            "label": "Tanggal mulai diskon",
-            "weight": 25,
-            "verification": "text_match",
-            "dataField": "discountMulai",
-            "status": "completed",
-            "earned": 25
-          },
-          {
-            "id": "discount_end",
-            "label": "Tanggal selesai diskon",
-            "weight": 25,
-            "verification": "text_match",
-            "dataField": "discountSelesai",
-            "status": "completed",
-            "earned": 25
-          }
-        ],
-        "status": "parsial",
-        "completedCount": 3,
-        "notFoundCount": 4,
-        "verificationFailedCount": 0,
-        "totalItems": 4
-      },
-      "cp07": {
-        "label": "Harga Spesial Event",
-        "tab": "Products -> Special",
-        "bobot": 10,
-        "automated": true,
-        "rawScore": 0,
-        "weightedScore": 0,
-        "maxScore": 100,
-        "details": [
-          {
-            "id": "special_harga",
-            "label": "Harga spesial",
-            "weight": 35,
-            "verification": "text_match",
-            "dataField": "specialHarga",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "special_start",
-            "label": "Tanggal mulai harga spesial",
-            "weight": 35,
-            "verification": "text_match",
-            "dataField": "specialMulai",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "special_end",
-            "label": "Tanggal selesai harga spesial",
-            "weight": 30,
-            "verification": "text_match",
-            "dataField": "specialSelesai",
-            "status": "not_found",
-            "earned": 0
-          }
-        ],
-        "status": "belum-terpenuhi",
-        "completedCount": 0,
-        "notFoundCount": 3,
-        "verificationFailedCount": 0,
-        "totalItems": 3
-      },
-      "cp08": {
-        "label": "Gambar & SEO Keyword",
-        "tab": "Products -> Image, SEO",
-        "bobot": 10,
-        "automated": true,
-        "rawScore": 30,
-        "weightedScore": 3,
-        "maxScore": 100,
-        "details": [
-          {
-            "id": "image_uploaded",
-            "label": "Gambar produk terunggah",
-            "weight": 30,
-            "verification": "element_exists",
-            "dataField": "productImages",
-            "status": "completed",
-            "earned": 30
-          },
-          {
-            "id": "image_valid",
-            "label": "Gambar thumbnail tampil",
-            "weight": 20,
-            "verification": "visible_check",
-            "dataField": "productImages",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "seo_keyword",
-            "label": "SEO keyword sesuai soal",
-            "weight": 50,
-            "verification": "text_match",
-            "dataField": "productSeoKeyword",
-            "status": "not_found",
-            "earned": 0
-          }
-        ],
-        "status": "parsial",
-        "completedCount": 1,
-        "notFoundCount": 3,
-        "verificationFailedCount": 0,
-        "totalItems": 3
-      },
-      "cp09": {
-        "label": "Banner Slideshow",
-        "tab": "Extensions -> Banners",
-        "bobot": 15,
-        "automated": true,
-        "rawScore": 0,
-        "weightedScore": 0,
-        "maxScore": 100,
-        "details": [
-          {
-            "id": "slideshow_visible",
-            "label": "Slideshow/banner tampil di storefront",
-            "weight": 50,
-            "verification": "visible_check",
-            "dataField": "slideshow",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "banner_product_link",
-            "label": "Banner mengarah ke produk yang benar",
-            "weight": 50,
-            "verification": "text_match",
-            "dataField": "assignedProductNames",
-            "status": "not_found",
-            "earned": 0
-          }
-        ],
-        "status": "belum-terpenuhi",
-        "completedCount": 0,
-        "notFoundCount": 0,
-        "verificationFailedCount": 0,
-        "totalItems": 2
-      }
-    },
-    "diagnostic": {
-      "login": false,
-      "categoriesPage": false,
-      "productsPage": false,
-      "storefront": false,
-      "storefrontCategories": false,
-      "categoryAssignments": false
-    },
-    "checkpointSubScores": {
-      "cp01": {
-        "label": "Data Toko",
-        "rawScore": 40,
-        "weightedScore": 4,
-        "maxScore": 100,
-        "status": "parsial",
-        "completedCount": 1,
-        "notFoundCount": 5,
-        "verificationFailedCount": 0,
-        "totalItems": 6,
-        "details": [
-          {
-            "id": "store_name",
-            "label": "Nama toko tampil di storefront",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "store_address",
-            "label": "Alamat toko tampil",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "store_phone",
-            "label": "Telepon toko tampil",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "store_email",
-            "label": "Email toko tampil",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "store_description",
-            "label": "Deskripsi bisnis toko tampil",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "store_logo",
-            "label": "Logo toko tampil",
-            "status": "completed",
-            "earned": 40
-          }
-        ]
-      },
-      "cp02": {
-        "label": "Manufacturer & Carousel",
-        "rawScore": 55.5,
-        "weightedScore": 5.5,
-        "maxScore": 100,
-        "status": "parsial",
-        "completedCount": 1,
-        "notFoundCount": 1,
-        "verificationFailedCount": 0,
-        "totalItems": 2,
-        "details": [
-          {
-            "id": "manufacturer_names",
-            "label": "Nama manufacturer sesuai data soal tampil",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "manufacturer_carousel",
-            "label": "Manufacturer/carousel navigasi tampil",
-            "status": "completed",
-            "earned": 55.5
-          }
-        ]
-      },
-      "cp03": {
-        "label": "Kategori Produk",
-        "rawScore": 0,
-        "weightedScore": 0,
-        "maxScore": 100,
-        "status": "belum-terpenuhi",
-        "completedCount": 0,
-        "notFoundCount": 5,
-        "verificationFailedCount": 0,
-        "totalItems": 6,
-        "details": [
-          {
-            "id": "category_admin",
-            "label": "Kategori parent ada di admin",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "subcategory_admin",
-            "label": "Subkategori child ada di admin",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "category_storefront",
-            "label": "Kategori tampil di storefront",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "subcategory_storefront",
-            "label": "Subkategori tampil di storefront",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "product_admin_visible",
-            "label": "Produk tugas terlihat di admin produk",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "product_category_link",
-            "label": "Produk terlink ke kategori yang benar",
-            "status": "not_found",
-            "earned": 0
-          }
-        ]
-      },
-      "cp04": {
-        "label": "Produk: General & Data",
-        "rawScore": 55,
-        "weightedScore": 8.5,
-        "maxScore": 100,
-        "status": "parsial",
-        "completedCount": 6,
-        "notFoundCount": 10,
-        "verificationFailedCount": 0,
-        "totalItems": 10,
-        "details": [
-          {
-            "id": "general_name",
-            "label": "Nama produk di tab General",
-            "status": "completed",
-            "earned": 15
-          },
-          {
-            "id": "general_description",
-            "label": "Deskripsi di tab General",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "general_seo",
-            "label": "SEO keyword di tab General",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "data_price",
-            "label": "Harga di tab Data",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "data_stock",
-            "label": "Stok di tab Data",
-            "status": "completed",
-            "earned": 10
-          },
-          {
-            "id": "data_sku",
-            "label": "SKU di tab Data",
-            "status": "completed",
-            "earned": 5
-          },
-          {
-            "id": "data_weight",
-            "label": "Berat di tab Data",
-            "status": "completed",
-            "earned": 5
-          },
-          {
-            "id": "data_dimensions",
-            "label": "Dimensi di tab Data",
-            "status": "completed",
-            "earned": 5
-          },
-          {
-            "id": "data_manufacturer",
-            "label": "Manufacturer di tab Data",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "data_image_uploaded",
-            "label": "Setidaknya 1 gambar produk terpasang",
-            "status": "completed",
-            "earned": 15
-          }
-        ]
-      },
-      "cp05": {
-        "label": "Produk: Links, Attr, Option",
-        "rawScore": 0,
-        "weightedScore": 0,
-        "maxScore": 100,
-        "status": "belum-terpenuhi",
-        "completedCount": 0,
-        "notFoundCount": 6,
-        "verificationFailedCount": 0,
-        "totalItems": 6,
-        "details": [
-          {
-            "id": "links_category",
-            "label": "Kategori di tab Links",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "links_manufacturer",
-            "label": "Manufacturer di tab Links",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "attribute_group",
-            "label": "Attribute group ada di tab Attribute",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "attribute_name",
-            "label": "Attribute name + value ada di tab Attribute",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "option_name",
-            "label": "Option name + type ada di tab Option",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "option_values",
-            "label": "Option values ada di tab Option",
-            "status": "not_found",
-            "earned": 0
-          }
-        ]
-      },
-      "cp06": {
-        "label": "Strategi Diskon",
-        "rawScore": 75,
-        "weightedScore": 7.5,
-        "maxScore": 100,
-        "status": "parsial",
-        "completedCount": 3,
-        "notFoundCount": 4,
-        "verificationFailedCount": 0,
-        "totalItems": 4,
-        "details": [
-          {
-            "id": "discount_min_qty",
-            "label": "Minimal quantity diskon",
-            "status": "completed",
-            "earned": 25
-          },
-          {
-            "id": "discount_harga",
-            "label": "Harga diskon",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "discount_start",
-            "label": "Tanggal mulai diskon",
-            "status": "completed",
-            "earned": 25
-          },
-          {
-            "id": "discount_end",
-            "label": "Tanggal selesai diskon",
-            "status": "completed",
-            "earned": 25
-          }
-        ]
-      },
-      "cp07": {
-        "label": "Harga Spesial Event",
-        "rawScore": 0,
-        "weightedScore": 0,
-        "maxScore": 100,
-        "status": "belum-terpenuhi",
-        "completedCount": 0,
-        "notFoundCount": 3,
-        "verificationFailedCount": 0,
-        "totalItems": 3,
-        "details": [
-          {
-            "id": "special_harga",
-            "label": "Harga spesial",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "special_start",
-            "label": "Tanggal mulai harga spesial",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "special_end",
-            "label": "Tanggal selesai harga spesial",
-            "status": "not_found",
-            "earned": 0
-          }
-        ]
-      },
-      "cp08": {
-        "label": "Gambar & SEO Keyword",
-        "rawScore": 30,
-        "weightedScore": 3,
-        "maxScore": 100,
-        "status": "parsial",
-        "completedCount": 1,
-        "notFoundCount": 3,
-        "verificationFailedCount": 0,
-        "totalItems": 3,
-        "details": [
-          {
-            "id": "image_uploaded",
-            "label": "Gambar produk terunggah",
-            "status": "completed",
-            "earned": 30
-          },
-          {
-            "id": "image_valid",
-            "label": "Gambar thumbnail tampil",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "seo_keyword",
-            "label": "SEO keyword sesuai soal",
-            "status": "not_found",
-            "earned": 0
-          }
-        ]
-      },
-      "cp09": {
-        "label": "Banner Slideshow",
-        "rawScore": 0,
-        "weightedScore": 0,
-        "maxScore": 100,
-        "status": "belum-terpenuhi",
-        "completedCount": 0,
-        "notFoundCount": 0,
-        "verificationFailedCount": 0,
-        "totalItems": 2,
-        "details": [
-          {
-            "id": "slideshow_visible",
-            "label": "Slideshow/banner tampil di storefront",
-            "status": "not_found",
-            "earned": 0
-          },
-          {
-            "id": "banner_product_link",
-            "label": "Banner mengarah ke produk yang benar",
-            "status": "not_found",
-            "earned": 0
-          }
-        ]
-      }
-    },
-    "gradingMode": {
-      "automatedCheckpointIds": [
-        "cp01",
-        "cp02",
-        "cp03",
-        "cp04",
-        "cp05",
-        "cp06",
-        "cp07",
-        "cp08",
-        "cp09"
-      ],
-      "pendingCheckpointIds": []
-    },
-    "evidence": {
-      "startedAt": "2026-07-27T08:37:36.967Z",
-      "storefrontOk": false,
-      "loginOk": false,
-      "categoriesPageOk": false,
-      "productsPageOk": false,
-      "expectedParents": [
-        "Fashion"
-      ],
-      "expectedChildren": [
-        "Batik",
-        "Kain & Tekstil",
-        "Outer & Cardigan",
-        "Dress Wanita",
-        "Kemeja Pria"
-      ],
-      "expectedCategoryAssignments": [
-        {
-          "parent": "Fashion",
-          "sub": "Batik",
-          "productIds": [
-            "PT001",
-            "PT004",
-            "PT003",
-            "PT002"
-          ],
-          "productNames": [
-            "Batik Tulis Mega Mendung Heritage",
-            "Outer Batik Casual Kawung Urban",
-            "Dress Batik Wanita Flora Pesisir",
-            "Kemeja Batik Lengan Panjang Sogan Royal"
-          ]
-        },
-        {
-          "parent": "Fashion",
-          "sub": "Kain & Tekstil",
-          "productIds": [
-            "PT001"
-          ],
-          "productNames": [
-            "Batik Tulis Mega Mendung Heritage"
-          ]
-        },
-        {
-          "parent": "Fashion",
-          "sub": "Outer & Cardigan",
-          "productIds": [
-            "PT004"
-          ],
-          "productNames": [
-            "Outer Batik Casual Kawung Urban"
-          ]
-        },
-        {
-          "parent": "Fashion",
-          "sub": "Dress Wanita",
-          "productIds": [
-            "PT003"
-          ],
-          "productNames": [
-            "Dress Batik Wanita Flora Pesisir"
-          ]
-        },
-        {
-          "parent": "Fashion",
-          "sub": "Kemeja Pria",
-          "productIds": [
-            "PT002"
-          ],
-          "productNames": [
-            "Kemeja Batik Lengan Panjang Sogan Royal"
-          ]
-        }
-      ],
-      "assignedProductIds": [
-        "PT001",
-        "PT004",
-        "PT003",
-        "PT002"
-      ],
-      "foundParents": [],
-      "foundChildren": [],
-      "foundStorefrontParents": [],
-      "foundStorefrontChildren": [],
-      "foundAssignedProductIds": [],
-      "categoryAssignmentChecks": [],
-      "adminProductChecks": [
-        {
-          "productId": "PT001",
-          "productName": "Batik Tulis Mega Mendung Heritage",
-          "locatedInAdmin": true,
-          "editPageOpened": true,
-          "screenshot": "",
-          "signals": {
-            "cp04_general": 0.3333333333333333,
-            "cp04_data": 0.7142857142857143,
-            "cp05_links": 0,
-            "cp05_attributes": 0,
-            "cp05_options": 0,
-            "cp06_discount": 0.75,
-            "cp07_special": 0,
-            "cp08_images": 0.5,
-            "cp08_seo": 0
-          }
-        },
-        {
-          "productId": "PT004",
-          "productName": "Outer Batik Casual Kawung Urban",
-          "locatedInAdmin": true,
-          "editPageOpened": true,
-          "screenshot": "",
-          "signals": {
-            "cp04_general": 0.3333333333333333,
-            "cp04_data": 0.7142857142857143,
-            "cp05_links": 0,
-            "cp05_attributes": 0,
-            "cp05_options": 0,
-            "cp06_discount": 0,
-            "cp07_special": 0,
-            "cp08_images": 0.5,
-            "cp08_seo": 0
-          }
-        },
-        {
-          "productId": "PT003",
-          "productName": "Dress Batik Wanita Flora Pesisir",
-          "locatedInAdmin": false,
-          "editPageOpened": false,
-          "screenshot": "",
-          "signals": {
-            "cp04_general": 0,
-            "cp04_data": 0,
-            "cp05_links": 0,
-            "cp05_attributes": 0,
-            "cp05_options": 0,
-            "cp06_discount": 0,
-            "cp07_special": 0,
-            "cp08_images": 0,
-            "cp08_seo": 0
-          }
-        },
-        {
-          "productId": "PT002",
-          "productName": "Kemeja Batik Lengan Panjang Sogan Royal",
-          "locatedInAdmin": false,
-          "editPageOpened": false,
-          "screenshot": "",
-          "signals": {
-            "cp04_general": 0,
-            "cp04_data": 0,
-            "cp05_links": 0,
-            "cp05_attributes": 0,
-            "cp05_options": 0,
-            "cp06_discount": 0,
-            "cp07_special": 0,
-            "cp08_images": 0,
-            "cp08_seo": 0
-          }
-        }
-      ],
-      "dbEvaluationUsed": true,
-      "missingParents": [
-        "Fashion"
-      ],
-      "missingChildren": [
-        "Batik",
-        "Kain & Tekstil",
-        "Outer & Cardigan",
-        "Dress Wanita",
-        "Kemeja Pria"
-      ],
-      "missingStorefrontParents": [
-        "Fashion"
-      ],
-      "missingStorefrontChildren": [
-        "Batik",
-        "Kain & Tekstil",
-        "Outer & Cardigan",
-        "Dress Wanita",
-        "Kemeja Pria"
-      ],
-      "missingAssignedProductIds": [
-        "PT001",
-        "PT004",
-        "PT003",
-        "PT002"
-      ],
-      "missingCategoryAssignments": [
-        {
-          "parent": "Fashion",
-          "sub": "Batik",
-          "missingProductIds": [
-            "PT001",
-            "PT004",
-            "PT003",
-            "PT002"
-          ]
-        },
-        {
-          "parent": "Fashion",
-          "sub": "Kain & Tekstil",
-          "missingProductIds": [
-            "PT001"
-          ]
-        },
-        {
-          "parent": "Fashion",
-          "sub": "Outer & Cardigan",
-          "missingProductIds": [
-            "PT004"
-          ]
-        },
-        {
-          "parent": "Fashion",
-          "sub": "Dress Wanita",
-          "missingProductIds": [
-            "PT003"
-          ]
-        },
-        {
-          "parent": "Fashion",
-          "sub": "Kemeja Pria",
-          "missingProductIds": [
-            "PT002"
-          ]
-        }
-      ],
-      "storeNameMatched": false,
-      "storefrontSnapshotText": "",
-      "storefrontLogoSignal": 0,
-      "storefrontCarouselSignal": 0,
-      "errors": [],
-      "screenshots": [],
-      "checkpointEvidence": {
-        "cp01": {
-          "completedSubItems": {},
-          "notFoundSubItems": {},
-          "verificationFailedSubItems": {}
-        },
-        "cp02": {
-          "completedSubItems": {},
-          "notFoundSubItems": {},
-          "verificationFailedSubItems": {}
-        },
-        "cp03": {
-          "completedSubItems": {},
-          "notFoundSubItems": {},
-          "verificationFailedSubItems": {}
-        },
-        "cp04": {
-          "completedSubItems": {},
-          "notFoundSubItems": {},
-          "verificationFailedSubItems": {}
-        },
-        "cp05": {
-          "completedSubItems": {},
-          "notFoundSubItems": {},
-          "verificationFailedSubItems": {}
-        },
-        "cp06": {
-          "completedSubItems": {},
-          "notFoundSubItems": {},
-          "verificationFailedSubItems": {}
-        },
-        "cp07": {
-          "completedSubItems": {},
-          "notFoundSubItems": {},
-          "verificationFailedSubItems": {}
-        },
-        "cp08": {
-          "completedSubItems": {},
-          "notFoundSubItems": {},
-          "verificationFailedSubItems": {}
-        },
-        "cp09": {
-          "completedSubItems": {},
-          "notFoundSubItems": {},
-          "verificationFailedSubItems": {}
-        }
-      },
-      "storeDbSettings": {
-        "config_name": "Your Store",
-        "config_address": "Address 1",
-        "config_telephone": "123456789",
-        "config_email": "wiendy@bmp.net.id",
-        "config_meta_description": "My Store",
-        "config_logo": "data/oc-logo1.jpg"
-      },
-      "dbManufacturers": [
-        {
-          "manufacturer_id": 12,
-          "name": "Laras Busana",
-          "image": "data/Laras_Busana_logo.jpg",
-          "sort_order": 0
-        },
-        {
-          "manufacturer_id": 13,
-          "name": "Sekar Melati Batik",
-          "image": "data/Sekar_Melati_Batik_logo.jpg",
-          "sort_order": 0
-        },
-        {
-          "manufacturer_id": 11,
-          "name": "Arunika Batik",
-          "image": "data/Arunika_Batik_logo.jpg",
-          "sort_order": 0
-        }
-      ],
-      "dbBanners": []
-    },
-    "summary": "Penilaian butuh review manual. Auto-score 28.5/100. Item yang belum terverifikasi: belum, belum, belum, belum, belum, belum, belum, belum, belum. Data Toko: 40/100 | selesai: Logo toko tampil | belum: Nama toko tampil di storefront, Alamat toko tampil, Telepon toko tampil, Email toko tampil, Deskripsi bisnis toko tampil | Manufacturer & Carousel: 55.5/100 | selesai: Manufacturer/carousel navigasi tampil | belum: Nama manufacturer sesuai data soal tampil | Kategori Produk: 0/100 | belum: Kategori parent ada di admin, Subkategori child ada di admin, Kategori tampil di storefront, Subkategori tampil di storefront, Produk tugas terlihat di admin produk, Produk terlink ke kategori yang benar | Produk: General & Data: 55/100 | selesai: Nama produk di tab General, Stok di tab Data, SKU di tab Data, Berat di tab Data, Dimensi di tab Data, Setidaknya 1 gambar produk terpasang | belum: Deskripsi di tab General, SEO keyword di tab General, Harga di tab Data, Manufacturer di tab Data | Produk: Links, Attr, Option: 0/100 | belum: Kategori di tab Links, Manufacturer di tab Links, Attribute group ada di tab Attribute, Attribute name + value ada di tab Attribute, Option name + type ada di tab Option, Option values ada di tab Option | Strategi Diskon: 75/100 | selesai: Minimal quantity diskon, Tanggal mulai diskon, Tanggal selesai diskon | belum: Harga diskon | Harga Spesial Event: 0/100 | belum: Harga spesial, Tanggal mulai harga spesial, Tanggal selesai harga spesial | Gambar & SEO Keyword: 30/100 | selesai: Gambar produk terunggah | belum: Gambar thumbnail tampil, SEO keyword sesuai soal | Banner Slideshow: 0/100 | belum: Slideshow/banner tampil di storefront, Banner mengarah ke produk yang benar"
-  }
-]
+{
+    "nim":  "2022112101",
+    "studentName":  "SAKINA NAYA LALITA",
+    "className":  "C",
+    "websiteUrl":  "http://2022112101.uas.stieama.com",
+    "storeId":  "T001",
+    "storeName":  "Batik Nusantara",
+    "assignedProductIds":  [
+                               "PT001",
+                               "PT004",
+                               "PT003",
+                               "PT002"
+                           ],
+    "score":  36,
+    "autoTotal":  36,
+    "autoMax":  100,
+    "status":  "parsial",
+    "manualReview":  true,
+    "manualReviewReasons":  [
+                                "Sebagian kategori parent/child yang diwajibkan belum terlihat di halaman kategori.",
+                                "Produk tugas belum semua terlihat di admin: PT003, PT002.",
+                                "Nama toko \"Batik Nusantara\" tidak terdeteksi jelas di halaman depan.",
+                                "Sebagian kategori atau subkategori belum terlihat jelas di storefront/beranda.",
+                                "Sebagian produk tugas belum terverifikasi tampil pada halaman kategori/subkategori yang sesuai."
+                            ],
+    "dataIntegrityErrors":  [
+
+                            ],
+    "checkpoints":  {
+                        "cp01":  {
+                                     "label":  "Data Toko",
+                                     "tab":  "System -\u003e Settings -\u003e Store",
+                                     "bobot":  10,
+                                     "automated":  true,
+                                     "rawScore":  40,
+                                     "weightedScore":  4,
+                                     "maxScore":  100,
+                                     "details":  [
+                                                     {
+                                                         "id":  "store_name",
+                                                         "label":  "Nama toko tampil di storefront",
+                                                         "weight":  15,
+                                                         "verification":  "text_match",
+                                                         "dataField":  "nama_toko",
+                                                         "status":  "not_found",
+                                                         "earned":  0
+                                                     },
+                                                     {
+                                                         "id":  "store_address",
+                                                         "label":  "Alamat toko tampil",
+                                                         "weight":  15,
+                                                         "verification":  "text_match",
+                                                         "dataField":  "alamat",
+                                                         "status":  "not_found",
+                                                         "earned":  0
+                                                     },
+                                                     {
+                                                         "id":  "store_phone",
+                                                         "label":  "Telepon toko tampil",
+                                                         "weight":  10,
+                                                         "verification":  "text_match",
+                                                         "dataField":  "telepon",
+                                                         "status":  "not_found",
+                                                         "earned":  0
+                                                     },
+                                                     {
+                                                         "id":  "store_email",
+                                                         "label":  "Email toko tampil",
+                                                         "weight":  10,
+                                                         "verification":  "text_match",
+                                                         "dataField":  "email",
+                                                         "status":  "not_found",
+                                                         "earned":  0
+                                                     },
+                                                     {
+                                                         "id":  "store_description",
+                                                         "label":  "Deskripsi bisnis toko tampil",
+                                                         "weight":  10,
+                                                         "verification":  "text_match",
+                                                         "dataField":  "deskripsi_bisnis",
+                                                         "status":  "not_found",
+                                                         "earned":  0
+                                                     },
+                                                     {
+                                                         "id":  "store_logo",
+                                                         "label":  "Logo toko tampil",
+                                                         "weight":  40,
+                                                         "verification":  "element_exists",
+                                                         "dataField":  "logo_url",
+                                                         "status":  "completed",
+                                                         "earned":  40
+                                                     }
+                                                 ],
+                                     "status":  "parsial",
+                                     "completedCount":  1,
+                                     "notFoundCount":  5,
+                                     "verificationFailedCount":  0,
+                                     "totalItems":  6
+                                 },
+                        "cp02":  {
+                                     "label":  "Manufacturer \u0026 Carousel",
+                                     "tab":  "Catalog -\u003e Manufacturers + CMS",
+                                     "bobot":  10,
+                                     "automated":  true,
+                                     "rawScore":  55.5,
+                                     "weightedScore":  5.5,
+                                     "maxScore":  100,
+                                     "details":  [
+                                                     {
+                                                         "id":  "manufacturer_names",
+                                                         "label":  "Nama manufacturer sesuai data soal tampil",
+                                                         "weight":  40,
+                                                         "verification":  "text_match",
+                                                         "dataField":  "brand_names",
+                                                         "status":  "not_found",
+                                                         "earned":  0
+                                                     },
+                                                     {
+                                                         "id":  "manufacturer_carousel",
+                                                         "label":  "Manufacturer/carousel navigasi tampil",
+                                                         "weight":  50,
+                                                         "verification":  "element_exists",
+                                                         "dataField":  "brand_logos",
+                                                         "status":  "completed",
+                                                         "earned":  55.5
+                                                     }
+                                                 ],
+                                     "status":  "parsial",
+                                     "completedCount":  1,
+                                     "notFoundCount":  1,
+                                     "verificationFailedCount":  0,
+                                     "totalItems":  2
+                                 },
+                        "cp03":  {
+                                     "label":  "Kategori Produk",
+                                     "tab":  "Catalog -\u003e Categories",
+                                     "bobot":  5,
+                                     "automated":  true,
+                                     "rawScore":  0,
+                                     "weightedScore":  0,
+                                     "maxScore":  100,
+                                     "details":  [
+                                                     {
+                                                         "id":  "category_admin",
+                                                         "label":  "Kategori parent ada di admin",
+                                                         "weight":  20,
+                                                         "verification":  "text_match",
+                                                         "dataField":  "expectedParents",
+                                                         "status":  "not_found",
+                                                         "earned":  0
+                                                     },
+                                                     {
+                                                         "id":  "subcategory_admin",
+                                                         "label":  "Subkategori child ada di admin",
+                                                         "weight":  15,
+                                                         "verification":  "text_match",
+                                                         "dataField":  "expectedChildren",
+                                                         "status":  "not_found",
+                                                         "earned":  0
+                                                     },
+                                                     {
+                                                         "id":  "category_storefront",
+                                                         "label":  "Kategori tampil di storefront",
+                                                         "weight":  25,
+                                                         "verification":  "text_match",
+                                                         "dataField":  "expectedParents",
+                                                         "status":  "not_found",
+                                                         "earned":  0
+                                                     },
+                                                     {
+                                                         "id":  "subcategory_storefront",
+                                                         "label":  "Subkategori tampil di storefront",
+                                                         "weight":  20,
+                                                         "verification":  "text_match",
+                                                         "dataField":  "expectedChildren",
+                                                         "status":  "not_found",
+                                                         "earned":  0
+                                                     },
+                                                     {
+                                                         "id":  "product_admin_visible",
+                                                         "label":  "Produk tugas terlihat di admin produk",
+                                                         "weight":  20,
+                                                         "verification":  "text_match",
+                                                         "dataField":  "assignedProductNames",
+                                                         "status":  "not_found",
+                                                         "earned":  0
+                                                     },
+                                                     {
+                                                         "id":  "product_category_link",
+                                                         "label":  "Produk terlink ke kategori yang benar",
+                                                         "weight":  10,
+                                                         "verification":  "visible_check",
+                                                         "dataField":  "expectedCategoryAssignments",
+                                                         "status":  "not_found",
+                                                         "earned":  0
+                                                     }
+                                                 ],
+                                     "status":  "belum-terpenuhi",
+                                     "completedCount":  1,
+                                     "notFoundCount":  5,
+                                     "verificationFailedCount":  0,
+                                     "totalItems":  6
+                                 },
+                        "cp04":  {
+                                     "label":  "Produk: General \u0026 Data",
+                                     "tab":  "Products -\u003e General, Data",
+                                     "bobot":  15,
+                                     "automated":  true,
+                                     "rawScore":  55,
+                                     "weightedScore":  8.5,
+                                     "maxScore":  100,
+                                     "details":  [
+                                                     {
+                                                         "id":  "general_name",
+                                                         "label":  "Nama produk di tab General",
+                                                         "weight":  15,
+                                                         "verification":  "text_match",
+                                                         "dataField":  "productName",
+                                                         "status":  "completed",
+                                                         "earned":  15
+                                                     },
+                                                     {
+                                                         "id":  "general_description",
+                                                         "label":  "Deskripsi di tab General",
+                                                         "weight":  15,
+                                                         "verification":  "text_match",
+                                                         "dataField":  "productDescription",
+                                                         "status":  "not_found",
+                                                         "earned":  0
+                                                     },
+                                                     {
+                                                         "id":  "general_seo",
+                                                         "label":  "SEO keyword di tab General",
+                                                         "weight":  10,
+                                                         "verification":  "text_match",
+                                                         "dataField":  "productSeoKeyword",
+                                                         "status":  "not_found",
+                                                         "earned":  0
+                                                     },
+                                                     {
+                                                         "id":  "data_price",
+                                                         "label":  "Harga di tab Data",
+                                                         "weight":  15,
+                                                         "verification":  "text_match",
+                                                         "dataField":  "productHarga",
+                                                         "status":  "not_found",
+                                                         "earned":  0
+                                                     },
+                                                     {
+                                                         "id":  "data_stock",
+                                                         "label":  "Stok di tab Data",
+                                                         "weight":  10,
+                                                         "verification":  "text_match",
+                                                         "dataField":  "productStok",
+                                                         "status":  "completed",
+                                                         "earned":  10
+                                                     },
+                                                     {
+                                                         "id":  "data_sku",
+                                                         "label":  "SKU di tab Data",
+                                                         "weight":  5,
+                                                         "verification":  "text_match",
+                                                         "dataField":  "productSku",
+                                                         "status":  "completed",
+                                                         "earned":  5
+                                                     },
+                                                     {
+                                                         "id":  "data_weight",
+                                                         "label":  "Berat di tab Data",
+                                                         "weight":  5,
+                                                         "verification":  "text_match",
+                                                         "dataField":  "productBeratKg",
+                                                         "status":  "completed",
+                                                         "earned":  5
+                                                     },
+                                                     {
+                                                         "id":  "data_dimensions",
+                                                         "label":  "Dimensi di tab Data",
+                                                         "weight":  5,
+                                                         "verification":  "text_match",
+                                                         "dataField":  "productDimensi",
+                                                         "status":  "completed",
+                                                         "earned":  5
+                                                     },
+                                                     {
+                                                         "id":  "data_manufacturer",
+                                                         "label":  "Manufacturer di tab Data",
+                                                         "weight":  5,
+                                                         "verification":  "text_match",
+                                                         "dataField":  "productManufacturer",
+                                                         "status":  "not_found",
+                                                         "earned":  0
+                                                     },
+                                                     {
+                                                         "id":  "data_image_uploaded",
+                                                         "label":  "Setidaknya 1 gambar produk terpasang",
+                                                         "weight":  15,
+                                                         "verification":  "element_exists",
+                                                         "dataField":  "productImages",
+                                                         "status":  "completed",
+                                                         "earned":  15
+                                                     }
+                                                 ],
+                                     "status":  "parsial",
+                                     "completedCount":  6,
+                                     "notFoundCount":  10,
+                                     "verificationFailedCount":  0,
+                                     "totalItems":  10
+                                 },
+                        "cp05":  {
+                                     "label":  "Produk: Links, Attr, Option",
+                                     "tab":  "Products -\u003e Links, Attribute, Option",
+                                     "bobot":  15,
+                                     "automated":  true,
+                                     "rawScore":  0,
+                                     "weightedScore":  0,
+                                     "maxScore":  100,
+                                     "details":  [
+                                                     {
+                                                         "id":  "links_category",
+                                                         "label":  "Kategori di tab Links",
+                                                         "weight":  25,
+                                                         "verification":  "text_match",
+                                                         "dataField":  "productCategories",
+                                                         "status":  "not_found",
+                                                         "earned":  0
+                                                     },
+                                                     {
+                                                         "id":  "links_manufacturer",
+                                                         "label":  "Manufacturer di tab Links",
+                                                         "weight":  15,
+                                                         "verification":  "text_match",
+                                                         "dataField":  "productManufacturer",
+                                                         "status":  "not_found",
+                                                         "earned":  0
+                                                     },
+                                                     {
+                                                         "id":  "attribute_group",
+                                                         "label":  "Attribute group ada di tab Attribute",
+                                                         "weight":  20,
+                                                         "verification":  "text_match",
+                                                         "dataField":  "attributeGroup",
+                                                         "status":  "not_found",
+                                                         "earned":  0
+                                                     },
+                                                     {
+                                                         "id":  "attribute_name",
+                                                         "label":  "Attribute name + value ada di tab Attribute",
+                                                         "weight":  20,
+                                                         "verification":  "text_match",
+                                                         "dataField":  "attributeNameValue",
+                                                         "status":  "not_found",
+                                                         "earned":  0
+                                                     },
+                                                     {
+                                                         "id":  "option_name",
+                                                         "label":  "Option name + type ada di tab Option",
+                                                         "weight":  10,
+                                                         "verification":  "text_match",
+                                                         "dataField":  "optionNameType",
+                                                         "status":  "not_found",
+                                                         "earned":  0
+                                                     },
+                                                     {
+                                                         "id":  "option_values",
+                                                         "label":  "Option values ada di tab Option",
+                                                         "weight":  10,
+                                                         "verification":  "visible_check",
+                                                         "dataField":  "optionValues",
+                                                         "status":  "not_found",
+                                                         "earned":  0
+                                                     }
+                                                 ],
+                                     "status":  "belum-terpenuhi",
+                                     "completedCount":  0,
+                                     "notFoundCount":  6,
+                                     "verificationFailedCount":  0,
+                                     "totalItems":  6
+                                 },
+                        "cp06":  {
+                                     "label":  "Strategi Diskon",
+                                     "tab":  "Products -\u003e Discount",
+                                     "bobot":  10,
+                                     "automated":  true,
+                                     "rawScore":  75,
+                                     "weightedScore":  7.5,
+                                     "maxScore":  100,
+                                     "details":  [
+                                                     {
+                                                         "id":  "discount_min_qty",
+                                                         "label":  "Minimal quantity diskon",
+                                                         "weight":  25,
+                                                         "verification":  "text_match",
+                                                         "dataField":  "discountMinQty",
+                                                         "status":  "completed",
+                                                         "earned":  25
+                                                     },
+                                                     {
+                                                         "id":  "discount_harga",
+                                                         "label":  "Harga diskon",
+                                                         "weight":  25,
+                                                         "verification":  "text_match",
+                                                         "dataField":  "discountHarga",
+                                                         "status":  "not_found",
+                                                         "earned":  0
+                                                     },
+                                                     {
+                                                         "id":  "discount_start",
+                                                         "label":  "Tanggal mulai diskon",
+                                                         "weight":  25,
+                                                         "verification":  "text_match",
+                                                         "dataField":  "discountMulai",
+                                                         "status":  "completed",
+                                                         "earned":  25
+                                                     },
+                                                     {
+                                                         "id":  "discount_end",
+                                                         "label":  "Tanggal selesai diskon",
+                                                         "weight":  25,
+                                                         "verification":  "text_match",
+                                                         "dataField":  "discountSelesai",
+                                                         "status":  "completed",
+                                                         "earned":  25
+                                                     }
+                                                 ],
+                                     "status":  "parsial",
+                                     "completedCount":  3,
+                                     "notFoundCount":  4,
+                                     "verificationFailedCount":  0,
+                                     "totalItems":  4
+                                 },
+                        "cp07":  {
+                                     "label":  "Harga Spesial Event",
+                                     "tab":  "Products -\u003e Special",
+                                     "bobot":  10,
+                                     "automated":  true,
+                                     "rawScore":  0,
+                                     "weightedScore":  0,
+                                     "maxScore":  100,
+                                     "details":  [
+                                                     {
+                                                         "id":  "special_harga",
+                                                         "label":  "Harga spesial",
+                                                         "weight":  35,
+                                                         "verification":  "text_match",
+                                                         "dataField":  "specialHarga",
+                                                         "status":  "not_found",
+                                                         "earned":  0
+                                                     },
+                                                     {
+                                                         "id":  "special_start",
+                                                         "label":  "Tanggal mulai harga spesial",
+                                                         "weight":  35,
+                                                         "verification":  "text_match",
+                                                         "dataField":  "specialMulai",
+                                                         "status":  "not_found",
+                                                         "earned":  0
+                                                     },
+                                                     {
+                                                         "id":  "special_end",
+                                                         "label":  "Tanggal selesai harga spesial",
+                                                         "weight":  30,
+                                                         "verification":  "text_match",
+                                                         "dataField":  "specialSelesai",
+                                                         "status":  "not_found",
+                                                         "earned":  0
+                                                     }
+                                                 ],
+                                     "status":  "belum-terpenuhi",
+                                     "completedCount":  0,
+                                     "notFoundCount":  3,
+                                     "verificationFailedCount":  0,
+                                     "totalItems":  3
+                                 },
+                        "cp08":  {
+                                     "label":  "Gambar \u0026 SEO Keyword",
+                                     "tab":  "Products -\u003e Image, SEO",
+                                     "bobot":  10,
+                                     "automated":  true,
+                                     "rawScore":  30,
+                                     "weightedScore":  3,
+                                     "maxScore":  100,
+                                     "details":  [
+                                                     {
+                                                         "id":  "image_uploaded",
+                                                         "label":  "Gambar produk terunggah",
+                                                         "weight":  30,
+                                                         "verification":  "element_exists",
+                                                         "dataField":  "productImages",
+                                                         "status":  "completed",
+                                                         "earned":  30
+                                                     },
+                                                     {
+                                                         "id":  "image_valid",
+                                                         "label":  "Gambar thumbnail tampil",
+                                                         "weight":  20,
+                                                         "verification":  "visible_check",
+                                                         "dataField":  "productImages",
+                                                         "status":  "not_found",
+                                                         "earned":  0
+                                                     },
+                                                     {
+                                                         "id":  "seo_keyword",
+                                                         "label":  "SEO keyword sesuai soal",
+                                                         "weight":  50,
+                                                         "verification":  "text_match",
+                                                         "dataField":  "productSeoKeyword",
+                                                         "status":  "not_found",
+                                                         "earned":  0
+                                                     }
+                                                 ],
+                                     "status":  "parsial",
+                                     "completedCount":  1,
+                                     "notFoundCount":  3,
+                                     "verificationFailedCount":  0,
+                                     "totalItems":  3
+                                 },
+                        "cp09":  {
+                                     "label":  "Banner Slideshow",
+                                     "tab":  "Extensions -\u003e Banners",
+                                     "bobot":  15,
+                                     "automated":  true,
+                                     "rawScore":  50,
+                                     "weightedScore":  7.5,
+                                     "maxScore":  100,
+                                     "details":  [
+                                                     {
+                                                         "id":  "slideshow_visible",
+                                                         "label":  "Slideshow/banner tampil di storefront",
+                                                         "weight":  50,
+                                                         "verification":  "visible_check",
+                                                         "dataField":  "slideshow",
+                                                         "status":  "completed",
+                                                         "earned":  50
+                                                     },
+                                                     {
+                                                         "id":  "banner_product_link",
+                                                         "label":  "Banner mengarah ke produk yang benar",
+                                                         "weight":  50,
+                                                         "verification":  "text_match",
+                                                         "dataField":  "assignedProductNames",
+                                                         "status":  "not_found",
+                                                         "earned":  0
+                                                     }
+                                                 ],
+                                     "status":  "parsial",
+                                     "completedCount":  1,
+                                     "notFoundCount":  1,
+                                     "verificationFailedCount":  0,
+                                     "totalItems":  2
+                                 }
+                    },
+    "diagnostic":  {
+                       "login":  true,
+                       "categoriesPage":  false,
+                       "productsPage":  false,
+                       "storefront":  true,
+                       "storefrontCategories":  false,
+                       "categoryAssignments":  false
+                   },
+    "checkpointSubScores":  {
+                                "cp01":  {
+                                             "label":  "Data Toko",
+                                             "rawScore":  40,
+                                             "weightedScore":  4,
+                                             "maxScore":  100,
+                                             "status":  "parsial",
+                                             "completedCount":  1,
+                                             "notFoundCount":  5,
+                                             "verificationFailedCount":  0,
+                                             "totalItems":  6,
+                                             "details":  [
+                                                             {
+                                                                 "id":  "store_name",
+                                                                 "label":  "Nama toko tampil di storefront",
+                                                                 "status":  "not_found",
+                                                                 "earned":  0
+                                                             },
+                                                             {
+                                                                 "id":  "store_address",
+                                                                 "label":  "Alamat toko tampil",
+                                                                 "status":  "not_found",
+                                                                 "earned":  0
+                                                             },
+                                                             {
+                                                                 "id":  "store_phone",
+                                                                 "label":  "Telepon toko tampil",
+                                                                 "status":  "not_found",
+                                                                 "earned":  0
+                                                             },
+                                                             {
+                                                                 "id":  "store_email",
+                                                                 "label":  "Email toko tampil",
+                                                                 "status":  "not_found",
+                                                                 "earned":  0
+                                                             },
+                                                             {
+                                                                 "id":  "store_description",
+                                                                 "label":  "Deskripsi bisnis toko tampil",
+                                                                 "status":  "not_found",
+                                                                 "earned":  0
+                                                             },
+                                                             {
+                                                                 "id":  "store_logo",
+                                                                 "label":  "Logo toko tampil",
+                                                                 "status":  "completed",
+                                                                 "earned":  40
+                                                             }
+                                                         ]
+                                         },
+                                "cp02":  {
+                                             "label":  "Manufacturer \u0026 Carousel",
+                                             "rawScore":  55.5,
+                                             "weightedScore":  5.5,
+                                             "maxScore":  100,
+                                             "status":  "parsial",
+                                             "completedCount":  1,
+                                             "notFoundCount":  1,
+                                             "verificationFailedCount":  0,
+                                             "totalItems":  2,
+                                             "details":  [
+                                                             {
+                                                                 "id":  "manufacturer_names",
+                                                                 "label":  "Nama manufacturer sesuai data soal tampil",
+                                                                 "status":  "not_found",
+                                                                 "earned":  0
+                                                             },
+                                                             {
+                                                                 "id":  "manufacturer_carousel",
+                                                                 "label":  "Manufacturer/carousel navigasi tampil",
+                                                                 "status":  "completed",
+                                                                 "earned":  55.5
+                                                             }
+                                                         ]
+                                         },
+                                "cp03":  {
+                                             "label":  "Kategori Produk",
+                                             "rawScore":  0,
+                                             "weightedScore":  0,
+                                             "maxScore":  100,
+                                             "status":  "belum-terpenuhi",
+                                             "completedCount":  1,
+                                             "notFoundCount":  5,
+                                             "verificationFailedCount":  0,
+                                             "totalItems":  6,
+                                             "details":  [
+                                                             {
+                                                                 "id":  "category_admin",
+                                                                 "label":  "Kategori parent ada di admin",
+                                                                 "status":  "not_found",
+                                                                 "earned":  0
+                                                             },
+                                                             {
+                                                                 "id":  "subcategory_admin",
+                                                                 "label":  "Subkategori child ada di admin",
+                                                                 "status":  "not_found",
+                                                                 "earned":  0
+                                                             },
+                                                             {
+                                                                 "id":  "category_storefront",
+                                                                 "label":  "Kategori tampil di storefront",
+                                                                 "status":  "not_found",
+                                                                 "earned":  0
+                                                             },
+                                                             {
+                                                                 "id":  "subcategory_storefront",
+                                                                 "label":  "Subkategori tampil di storefront",
+                                                                 "status":  "not_found",
+                                                                 "earned":  0
+                                                             },
+                                                             {
+                                                                 "id":  "product_admin_visible",
+                                                                 "label":  "Produk tugas terlihat di admin produk",
+                                                                 "status":  "not_found",
+                                                                 "earned":  0
+                                                             },
+                                                             {
+                                                                 "id":  "product_category_link",
+                                                                 "label":  "Produk terlink ke kategori yang benar",
+                                                                 "status":  "not_found",
+                                                                 "earned":  0
+                                                             }
+                                                         ]
+                                         },
+                                "cp04":  {
+                                             "label":  "Produk: General \u0026 Data",
+                                             "rawScore":  55,
+                                             "weightedScore":  8.5,
+                                             "maxScore":  100,
+                                             "status":  "parsial",
+                                             "completedCount":  6,
+                                             "notFoundCount":  10,
+                                             "verificationFailedCount":  0,
+                                             "totalItems":  10,
+                                             "details":  [
+                                                             {
+                                                                 "id":  "general_name",
+                                                                 "label":  "Nama produk di tab General",
+                                                                 "status":  "completed",
+                                                                 "earned":  15
+                                                             },
+                                                             {
+                                                                 "id":  "general_description",
+                                                                 "label":  "Deskripsi di tab General",
+                                                                 "status":  "not_found",
+                                                                 "earned":  0
+                                                             },
+                                                             {
+                                                                 "id":  "general_seo",
+                                                                 "label":  "SEO keyword di tab General",
+                                                                 "status":  "not_found",
+                                                                 "earned":  0
+                                                             },
+                                                             {
+                                                                 "id":  "data_price",
+                                                                 "label":  "Harga di tab Data",
+                                                                 "status":  "not_found",
+                                                                 "earned":  0
+                                                             },
+                                                             {
+                                                                 "id":  "data_stock",
+                                                                 "label":  "Stok di tab Data",
+                                                                 "status":  "completed",
+                                                                 "earned":  10
+                                                             },
+                                                             {
+                                                                 "id":  "data_sku",
+                                                                 "label":  "SKU di tab Data",
+                                                                 "status":  "completed",
+                                                                 "earned":  5
+                                                             },
+                                                             {
+                                                                 "id":  "data_weight",
+                                                                 "label":  "Berat di tab Data",
+                                                                 "status":  "completed",
+                                                                 "earned":  5
+                                                             },
+                                                             {
+                                                                 "id":  "data_dimensions",
+                                                                 "label":  "Dimensi di tab Data",
+                                                                 "status":  "completed",
+                                                                 "earned":  5
+                                                             },
+                                                             {
+                                                                 "id":  "data_manufacturer",
+                                                                 "label":  "Manufacturer di tab Data",
+                                                                 "status":  "not_found",
+                                                                 "earned":  0
+                                                             },
+                                                             {
+                                                                 "id":  "data_image_uploaded",
+                                                                 "label":  "Setidaknya 1 gambar produk terpasang",
+                                                                 "status":  "completed",
+                                                                 "earned":  15
+                                                             }
+                                                         ]
+                                         },
+                                "cp05":  {
+                                             "label":  "Produk: Links, Attr, Option",
+                                             "rawScore":  0,
+                                             "weightedScore":  0,
+                                             "maxScore":  100,
+                                             "status":  "belum-terpenuhi",
+                                             "completedCount":  0,
+                                             "notFoundCount":  6,
+                                             "verificationFailedCount":  0,
+                                             "totalItems":  6,
+                                             "details":  [
+                                                             {
+                                                                 "id":  "links_category",
+                                                                 "label":  "Kategori di tab Links",
+                                                                 "status":  "not_found",
+                                                                 "earned":  0
+                                                             },
+                                                             {
+                                                                 "id":  "links_manufacturer",
+                                                                 "label":  "Manufacturer di tab Links",
+                                                                 "status":  "not_found",
+                                                                 "earned":  0
+                                                             },
+                                                             {
+                                                                 "id":  "attribute_group",
+                                                                 "label":  "Attribute group ada di tab Attribute",
+                                                                 "status":  "not_found",
+                                                                 "earned":  0
+                                                             },
+                                                             {
+                                                                 "id":  "attribute_name",
+                                                                 "label":  "Attribute name + value ada di tab Attribute",
+                                                                 "status":  "not_found",
+                                                                 "earned":  0
+                                                             },
+                                                             {
+                                                                 "id":  "option_name",
+                                                                 "label":  "Option name + type ada di tab Option",
+                                                                 "status":  "not_found",
+                                                                 "earned":  0
+                                                             },
+                                                             {
+                                                                 "id":  "option_values",
+                                                                 "label":  "Option values ada di tab Option",
+                                                                 "status":  "not_found",
+                                                                 "earned":  0
+                                                             }
+                                                         ]
+                                         },
+                                "cp06":  {
+                                             "label":  "Strategi Diskon",
+                                             "rawScore":  75,
+                                             "weightedScore":  7.5,
+                                             "maxScore":  100,
+                                             "status":  "parsial",
+                                             "completedCount":  3,
+                                             "notFoundCount":  4,
+                                             "verificationFailedCount":  0,
+                                             "totalItems":  4,
+                                             "details":  [
+                                                             {
+                                                                 "id":  "discount_min_qty",
+                                                                 "label":  "Minimal quantity diskon",
+                                                                 "status":  "completed",
+                                                                 "earned":  25
+                                                             },
+                                                             {
+                                                                 "id":  "discount_harga",
+                                                                 "label":  "Harga diskon",
+                                                                 "status":  "not_found",
+                                                                 "earned":  0
+                                                             },
+                                                             {
+                                                                 "id":  "discount_start",
+                                                                 "label":  "Tanggal mulai diskon",
+                                                                 "status":  "completed",
+                                                                 "earned":  25
+                                                             },
+                                                             {
+                                                                 "id":  "discount_end",
+                                                                 "label":  "Tanggal selesai diskon",
+                                                                 "status":  "completed",
+                                                                 "earned":  25
+                                                             }
+                                                         ]
+                                         },
+                                "cp07":  {
+                                             "label":  "Harga Spesial Event",
+                                             "rawScore":  0,
+                                             "weightedScore":  0,
+                                             "maxScore":  100,
+                                             "status":  "belum-terpenuhi",
+                                             "completedCount":  0,
+                                             "notFoundCount":  3,
+                                             "verificationFailedCount":  0,
+                                             "totalItems":  3,
+                                             "details":  [
+                                                             {
+                                                                 "id":  "special_harga",
+                                                                 "label":  "Harga spesial",
+                                                                 "status":  "not_found",
+                                                                 "earned":  0
+                                                             },
+                                                             {
+                                                                 "id":  "special_start",
+                                                                 "label":  "Tanggal mulai harga spesial",
+                                                                 "status":  "not_found",
+                                                                 "earned":  0
+                                                             },
+                                                             {
+                                                                 "id":  "special_end",
+                                                                 "label":  "Tanggal selesai harga spesial",
+                                                                 "status":  "not_found",
+                                                                 "earned":  0
+                                                             }
+                                                         ]
+                                         },
+                                "cp08":  {
+                                             "label":  "Gambar \u0026 SEO Keyword",
+                                             "rawScore":  30,
+                                             "weightedScore":  3,
+                                             "maxScore":  100,
+                                             "status":  "parsial",
+                                             "completedCount":  1,
+                                             "notFoundCount":  3,
+                                             "verificationFailedCount":  0,
+                                             "totalItems":  3,
+                                             "details":  [
+                                                             {
+                                                                 "id":  "image_uploaded",
+                                                                 "label":  "Gambar produk terunggah",
+                                                                 "status":  "completed",
+                                                                 "earned":  30
+                                                             },
+                                                             {
+                                                                 "id":  "image_valid",
+                                                                 "label":  "Gambar thumbnail tampil",
+                                                                 "status":  "not_found",
+                                                                 "earned":  0
+                                                             },
+                                                             {
+                                                                 "id":  "seo_keyword",
+                                                                 "label":  "SEO keyword sesuai soal",
+                                                                 "status":  "not_found",
+                                                                 "earned":  0
+                                                             }
+                                                         ]
+                                         },
+                                "cp09":  {
+                                             "label":  "Banner Slideshow",
+                                             "rawScore":  50,
+                                             "weightedScore":  7.5,
+                                             "maxScore":  100,
+                                             "status":  "parsial",
+                                             "completedCount":  1,
+                                             "notFoundCount":  1,
+                                             "verificationFailedCount":  0,
+                                             "totalItems":  2,
+                                             "details":  [
+                                                             {
+                                                                 "id":  "slideshow_visible",
+                                                                 "label":  "Slideshow/banner tampil di storefront",
+                                                                 "status":  "completed",
+                                                                 "earned":  50
+                                                             },
+                                                             {
+                                                                 "id":  "banner_product_link",
+                                                                 "label":  "Banner mengarah ke produk yang benar",
+                                                                 "status":  "not_found",
+                                                                 "earned":  0
+                                                             }
+                                                         ]
+                                         }
+                            },
+    "gradingMode":  {
+                        "automatedCheckpointIds":  [
+                                                       "cp01",
+                                                       "cp02",
+                                                       "cp03",
+                                                       "cp04",
+                                                       "cp05",
+                                                       "cp06",
+                                                       "cp07",
+                                                       "cp08",
+                                                       "cp09"
+                                                   ],
+                        "pendingCheckpointIds":  [
+
+                                                 ]
+                    },
+    "evidence":  {
+                     "startedAt":  "2026-07-27T09:18:06.383Z",
+                     "storefrontOk":  true,
+                     "loginOk":  true,
+                     "categoriesPageOk":  false,
+                     "productsPageOk":  false,
+                     "expectedParents":  [
+                                             "Fashion"
+                                         ],
+                     "expectedChildren":  [
+                                              "Batik",
+                                              "Kain \u0026 Tekstil",
+                                              "Outer \u0026 Cardigan",
+                                              "Dress Wanita",
+                                              "Kemeja Pria"
+                                          ],
+                     "expectedCategoryAssignments":  [
+                                                         {
+                                                             "parent":  "Fashion",
+                                                             "sub":  "Batik",
+                                                             "productIds":  [
+                                                                                "PT001",
+                                                                                "PT004",
+                                                                                "PT003",
+                                                                                "PT002"
+                                                                            ],
+                                                             "productNames":  [
+                                                                                  "Batik Tulis Mega Mendung Heritage",
+                                                                                  "Outer Batik Casual Kawung Urban",
+                                                                                  "Dress Batik Wanita Flora Pesisir",
+                                                                                  "Kemeja Batik Lengan Panjang Sogan Royal"
+                                                                              ]
+                                                         },
+                                                         {
+                                                             "parent":  "Fashion",
+                                                             "sub":  "Kain \u0026 Tekstil",
+                                                             "productIds":  [
+                                                                                "PT001"
+                                                                            ],
+                                                             "productNames":  [
+                                                                                  "Batik Tulis Mega Mendung Heritage"
+                                                                              ]
+                                                         },
+                                                         {
+                                                             "parent":  "Fashion",
+                                                             "sub":  "Outer \u0026 Cardigan",
+                                                             "productIds":  [
+                                                                                "PT004"
+                                                                            ],
+                                                             "productNames":  [
+                                                                                  "Outer Batik Casual Kawung Urban"
+                                                                              ]
+                                                         },
+                                                         {
+                                                             "parent":  "Fashion",
+                                                             "sub":  "Dress Wanita",
+                                                             "productIds":  [
+                                                                                "PT003"
+                                                                            ],
+                                                             "productNames":  [
+                                                                                  "Dress Batik Wanita Flora Pesisir"
+                                                                              ]
+                                                         },
+                                                         {
+                                                             "parent":  "Fashion",
+                                                             "sub":  "Kemeja Pria",
+                                                             "productIds":  [
+                                                                                "PT002"
+                                                                            ],
+                                                             "productNames":  [
+                                                                                  "Kemeja Batik Lengan Panjang Sogan Royal"
+                                                                              ]
+                                                         }
+                                                     ],
+                     "assignedProductIds":  [
+                                                "PT001",
+                                                "PT004",
+                                                "PT003",
+                                                "PT002"
+                                            ],
+                     "foundParents":  [
+
+                                      ],
+                     "foundChildren":  [
+
+                                       ],
+                     "foundStorefrontParents":  [
+
+                                                ],
+                     "foundStorefrontChildren":  [
+
+                                                 ],
+                     "foundAssignedProductIds":  [
+                                                     "PT001",
+                                                     "PT004"
+                                                 ],
+                     "categoryAssignmentChecks":  [
+                                                      {
+                                                          "parent":  "Fashion",
+                                                          "sub":  "Batik",
+                                                          "expectedProductIds":  [
+                                                                                     "PT001",
+                                                                                     "PT004",
+                                                                                     "PT003",
+                                                                                     "PT002"
+                                                                                 ],
+                                                          "expectedProductNames":  [
+                                                                                       "Batik Tulis Mega Mendung Heritage",
+                                                                                       "Outer Batik Casual Kawung Urban",
+                                                                                       "Dress Batik Wanita Flora Pesisir",
+                                                                                       "Kemeja Batik Lengan Panjang Sogan Royal"
+                                                                                   ],
+                                                          "categoryLinkFound":  false,
+                                                          "categoryUrl":  "",
+                                                          "foundProductIds":  [
+
+                                                                              ],
+                                                          "missingProductIds":  [
+                                                                                    "PT001",
+                                                                                    "PT004",
+                                                                                    "PT003",
+                                                                                    "PT002"
+                                                                                ],
+                                                          "screenshot":  ""
+                                                      },
+                                                      {
+                                                          "parent":  "Fashion",
+                                                          "sub":  "Kain \u0026 Tekstil",
+                                                          "expectedProductIds":  [
+                                                                                     "PT001"
+                                                                                 ],
+                                                          "expectedProductNames":  [
+                                                                                       "Batik Tulis Mega Mendung Heritage"
+                                                                                   ],
+                                                          "categoryLinkFound":  false,
+                                                          "categoryUrl":  "",
+                                                          "foundProductIds":  [
+
+                                                                              ],
+                                                          "missingProductIds":  [
+                                                                                    "PT001"
+                                                                                ],
+                                                          "screenshot":  ""
+                                                      },
+                                                      {
+                                                          "parent":  "Fashion",
+                                                          "sub":  "Outer \u0026 Cardigan",
+                                                          "expectedProductIds":  [
+                                                                                     "PT004"
+                                                                                 ],
+                                                          "expectedProductNames":  [
+                                                                                       "Outer Batik Casual Kawung Urban"
+                                                                                   ],
+                                                          "categoryLinkFound":  false,
+                                                          "categoryUrl":  "",
+                                                          "foundProductIds":  [
+
+                                                                              ],
+                                                          "missingProductIds":  [
+                                                                                    "PT004"
+                                                                                ],
+                                                          "screenshot":  ""
+                                                      },
+                                                      {
+                                                          "parent":  "Fashion",
+                                                          "sub":  "Dress Wanita",
+                                                          "expectedProductIds":  [
+                                                                                     "PT003"
+                                                                                 ],
+                                                          "expectedProductNames":  [
+                                                                                       "Dress Batik Wanita Flora Pesisir"
+                                                                                   ],
+                                                          "categoryLinkFound":  false,
+                                                          "categoryUrl":  "",
+                                                          "foundProductIds":  [
+
+                                                                              ],
+                                                          "missingProductIds":  [
+                                                                                    "PT003"
+                                                                                ],
+                                                          "screenshot":  ""
+                                                      },
+                                                      {
+                                                          "parent":  "Fashion",
+                                                          "sub":  "Kemeja Pria",
+                                                          "expectedProductIds":  [
+                                                                                     "PT002"
+                                                                                 ],
+                                                          "expectedProductNames":  [
+                                                                                       "Kemeja Batik Lengan Panjang Sogan Royal"
+                                                                                   ],
+                                                          "categoryLinkFound":  false,
+                                                          "categoryUrl":  "",
+                                                          "foundProductIds":  [
+
+                                                                              ],
+                                                          "missingProductIds":  [
+                                                                                    "PT002"
+                                                                                ],
+                                                          "screenshot":  ""
+                                                      }
+                                                  ],
+                     "adminProductChecks":  [
+                                                {
+                                                    "productId":  "PT001",
+                                                    "productName":  "Batik Tulis Mega Mendung Heritage",
+                                                    "locatedInAdmin":  true,
+                                                    "editPageOpened":  true,
+                                                    "screenshot":  "",
+                                                    "signals":  {
+                                                                    "cp04_general":  0.3333333333333333,
+                                                                    "cp04_data":  0.7142857142857143,
+                                                                    "cp05_links":  0,
+                                                                    "cp05_attributes":  0,
+                                                                    "cp05_options":  0,
+                                                                    "cp06_discount":  0.75,
+                                                                    "cp07_special":  0,
+                                                                    "cp08_images":  0.5,
+                                                                    "cp08_seo":  0
+                                                                }
+                                                },
+                                                {
+                                                    "productId":  "PT004",
+                                                    "productName":  "Outer Batik Casual Kawung Urban",
+                                                    "locatedInAdmin":  true,
+                                                    "editPageOpened":  true,
+                                                    "screenshot":  "",
+                                                    "signals":  {
+                                                                    "cp04_general":  0.3333333333333333,
+                                                                    "cp04_data":  0.7142857142857143,
+                                                                    "cp05_links":  0,
+                                                                    "cp05_attributes":  0,
+                                                                    "cp05_options":  0,
+                                                                    "cp06_discount":  0,
+                                                                    "cp07_special":  0,
+                                                                    "cp08_images":  0.5,
+                                                                    "cp08_seo":  0
+                                                                }
+                                                },
+                                                {
+                                                    "productId":  "PT003",
+                                                    "productName":  "Dress Batik Wanita Flora Pesisir",
+                                                    "locatedInAdmin":  false,
+                                                    "editPageOpened":  false,
+                                                    "screenshot":  "",
+                                                    "signals":  {
+                                                                    "cp04_general":  0,
+                                                                    "cp04_data":  0,
+                                                                    "cp05_links":  0,
+                                                                    "cp05_attributes":  0,
+                                                                    "cp05_options":  0,
+                                                                    "cp06_discount":  0,
+                                                                    "cp07_special":  0,
+                                                                    "cp08_images":  0,
+                                                                    "cp08_seo":  0
+                                                                }
+                                                },
+                                                {
+                                                    "productId":  "PT002",
+                                                    "productName":  "Kemeja Batik Lengan Panjang Sogan Royal",
+                                                    "locatedInAdmin":  false,
+                                                    "editPageOpened":  false,
+                                                    "screenshot":  "",
+                                                    "signals":  {
+                                                                    "cp04_general":  0,
+                                                                    "cp04_data":  0,
+                                                                    "cp05_links":  0,
+                                                                    "cp05_attributes":  0,
+                                                                    "cp05_options":  0,
+                                                                    "cp06_discount":  0,
+                                                                    "cp07_special":  0,
+                                                                    "cp08_images":  0,
+                                                                    "cp08_seo":  0
+                                                                }
+                                                }
+                                            ],
+                     "dbEvaluationUsed":  true,
+                     "missingParents":  [
+                                            "Fashion"
+                                        ],
+                     "missingChildren":  [
+                                             "Batik",
+                                             "Kain \u0026 Tekstil",
+                                             "Outer \u0026 Cardigan",
+                                             "Dress Wanita",
+                                             "Kemeja Pria"
+                                         ],
+                     "missingStorefrontParents":  [
+                                                      "Fashion"
+                                                  ],
+                     "missingStorefrontChildren":  [
+                                                       "Batik",
+                                                       "Kain \u0026 Tekstil",
+                                                       "Outer \u0026 Cardigan",
+                                                       "Dress Wanita",
+                                                       "Kemeja Pria"
+                                                   ],
+                     "missingAssignedProductIds":  [
+                                                       "PT003",
+                                                       "PT002"
+                                                   ],
+                     "missingCategoryAssignments":  [
+                                                        {
+                                                            "parent":  "Fashion",
+                                                            "sub":  "Batik",
+                                                            "missingProductIds":  [
+                                                                                      "PT001",
+                                                                                      "PT004",
+                                                                                      "PT003",
+                                                                                      "PT002"
+                                                                                  ],
+                                                            "categoryLinkFound":  false
+                                                        },
+                                                        {
+                                                            "parent":  "Fashion",
+                                                            "sub":  "Kain \u0026 Tekstil",
+                                                            "missingProductIds":  [
+                                                                                      "PT001"
+                                                                                  ],
+                                                            "categoryLinkFound":  false
+                                                        },
+                                                        {
+                                                            "parent":  "Fashion",
+                                                            "sub":  "Outer \u0026 Cardigan",
+                                                            "missingProductIds":  [
+                                                                                      "PT004"
+                                                                                  ],
+                                                            "categoryLinkFound":  false
+                                                        },
+                                                        {
+                                                            "parent":  "Fashion",
+                                                            "sub":  "Dress Wanita",
+                                                            "missingProductIds":  [
+                                                                                      "PT003"
+                                                                                  ],
+                                                            "categoryLinkFound":  false
+                                                        },
+                                                        {
+                                                            "parent":  "Fashion",
+                                                            "sub":  "Kemeja Pria",
+                                                            "missingProductIds":  [
+                                                                                      "PT002"
+                                                                                  ],
+                                                            "categoryLinkFound":  false
+                                                        }
+                                                    ],
+                     "storeNameMatched":  false,
+                     "storefrontSnapshotText":  "Keranjang Belanja\n0 item(s) - Rp. 0\nSelamat datang, silahkan login atau daftar.\nBeranda\nDaftar Belanja (0)\nAkun Saya\nKeranjang Belanja\nCheckout / Menuju Kasir\n\nFeature\nInformasi\nAbout Us\nDelivery Information\nPrivacy Policy\nTerms \u0026 Conditions\nLayanan Pelanggan\nHubungi Kami\nRetur Produk\nPeta Situs\nEkstra\nMerk\nVoucher Hadiah\nAfiliasi\nSpecial\nAkun Saya\nAkun Saya\nRiwayat Pesanan\nDaftar Belanja\nBerita\nPowered By OpenCart\nYour Store © 2026",
+                     "storefrontLogoSignal":  1,
+                     "storefrontCarouselSignal":  1,
+                     "errors":  [
+
+                                ],
+                     "screenshots":  [
+                                         "/results/screenshots/2022112101/2022112101-sakina-naya-lalita-categories.png",
+                                         "/results/screenshots/2022112101/2022112101-sakina-naya-lalita-products.png",
+                                         "/results/screenshots/2022112101/2022112101-sakina-naya-lalita-storefront.png"
+                                     ],
+                     "checkpointEvidence":  {
+                                                "cp01":  {
+                                                             "completedSubItems":  {
+
+                                                                                   },
+                                                             "notFoundSubItems":  {
+
+                                                                                  },
+                                                             "verificationFailedSubItems":  {
+
+                                                                                            }
+                                                         },
+                                                "cp02":  {
+                                                             "completedSubItems":  {
+
+                                                                                   },
+                                                             "notFoundSubItems":  {
+
+                                                                                  },
+                                                             "verificationFailedSubItems":  {
+
+                                                                                            }
+                                                         },
+                                                "cp03":  {
+                                                             "completedSubItems":  {
+
+                                                                                   },
+                                                             "notFoundSubItems":  {
+
+                                                                                  },
+                                                             "verificationFailedSubItems":  {
+
+                                                                                            }
+                                                         },
+                                                "cp04":  {
+                                                             "completedSubItems":  {
+
+                                                                                   },
+                                                             "notFoundSubItems":  {
+
+                                                                                  },
+                                                             "verificationFailedSubItems":  {
+
+                                                                                            }
+                                                         },
+                                                "cp05":  {
+                                                             "completedSubItems":  {
+
+                                                                                   },
+                                                             "notFoundSubItems":  {
+
+                                                                                  },
+                                                             "verificationFailedSubItems":  {
+
+                                                                                            }
+                                                         },
+                                                "cp06":  {
+                                                             "completedSubItems":  {
+
+                                                                                   },
+                                                             "notFoundSubItems":  {
+
+                                                                                  },
+                                                             "verificationFailedSubItems":  {
+
+                                                                                            }
+                                                         },
+                                                "cp07":  {
+                                                             "completedSubItems":  {
+
+                                                                                   },
+                                                             "notFoundSubItems":  {
+
+                                                                                  },
+                                                             "verificationFailedSubItems":  {
+
+                                                                                            }
+                                                         },
+                                                "cp08":  {
+                                                             "completedSubItems":  {
+
+                                                                                   },
+                                                             "notFoundSubItems":  {
+
+                                                                                  },
+                                                             "verificationFailedSubItems":  {
+
+                                                                                            }
+                                                         },
+                                                "cp09":  {
+                                                             "completedSubItems":  {
+
+                                                                                   },
+                                                             "notFoundSubItems":  {
+
+                                                                                  },
+                                                             "verificationFailedSubItems":  {
+
+                                                                                            }
+                                                         }
+                                            },
+                     "storeDbSettings":  {
+                                             "config_name":  "Your Store",
+                                             "config_address":  "Address 1",
+                                             "config_telephone":  "123456789",
+                                             "config_email":  "wiendy@bmp.net.id",
+                                             "config_meta_description":  "My Store",
+                                             "config_logo":  "data/oc-logo1.jpg"
+                                         },
+                     "dbManufacturers":  [
+                                             {
+                                                 "manufacturer_id":  12,
+                                                 "name":  "Laras Busana",
+                                                 "image":  "data/Laras_Busana_logo.jpg",
+                                                 "sort_order":  0
+                                             },
+                                             {
+                                                 "manufacturer_id":  13,
+                                                 "name":  "Sekar Melati Batik",
+                                                 "image":  "data/Sekar_Melati_Batik_logo.jpg",
+                                                 "sort_order":  0
+                                             },
+                                             {
+                                                 "manufacturer_id":  11,
+                                                 "name":  "Arunika Batik",
+                                                 "image":  "data/Arunika_Batik_logo.jpg",
+                                                 "sort_order":  0
+                                             }
+                                         ],
+                     "dbBanners":  [
+
+                                   ]
+                 },
+    "summary":  "Penilaian butuh review manual. Auto-score 36/100. Item yang belum terverifikasi: belum, belum, belum, belum, belum, belum, belum, belum, belum. Data Toko: 40/100 | selesai: Logo toko tampil | belum: Nama toko tampil di storefront, Alamat toko tampil, Telepon toko tampil, Email toko tampil, Deskripsi bisnis toko tampil | Manufacturer \u0026 Carousel: 55.5/100 | selesai: Manufacturer/carousel navigasi tampil | belum: Nama manufacturer sesuai data soal tampil | Kategori Produk: 0/100 | belum: Kategori parent ada di admin, Subkategori child ada di admin, Kategori tampil di storefront, Subkategori tampil di storefront, Produk tugas terlihat di admin produk, Produk terlink ke kategori yang benar | Produk: General \u0026 Data: 55/100 | selesai: Nama produk di tab General, Stok di tab Data, SKU di tab Data, Berat di tab Data, Dimensi di tab Data, Setidaknya 1 gambar produk terpasang | belum: Deskripsi di tab General, SEO keyword di tab General, Harga di tab Data, Manufacturer di tab Data | Produk: Links, Attr, Option: 0/100 | belum: Kategori di tab Links, Manufacturer di tab Links, Attribute group ada di tab Attribute, Attribute name + value ada di tab Attribute, Option name + type ada di tab Option, Option values ada di tab Option | Strategi Diskon: 75/100 | selesai: Minimal quantity diskon, Tanggal mulai diskon, Tanggal selesai diskon | belum: Harga diskon | Harga Spesial Event: 0/100 | belum: Harga spesial, Tanggal mulai harga spesial, Tanggal selesai harga spesial | Gambar \u0026 SEO Keyword: 30/100 | selesai: Gambar produk terunggah | belum: Gambar thumbnail tampil, SEO keyword sesuai soal | Banner Slideshow: 50/100 | selesai: Slideshow/banner tampil di storefront | belum: Banner mengarah ke produk yang benar"
+}
