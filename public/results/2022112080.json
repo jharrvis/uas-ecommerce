@@ -11,10 +11,10 @@
                                "PT012",
                                "PT010"
                            ],
-    "score":  62.5,
-    "autoTotal":  62.5,
+    "score":  96,
+    "autoTotal":  96,
     "autoMax":  100,
-    "status":  "cukup",
+    "status":  "lulus",
     "manualReview":  true,
     "manualReviewReasons":  [
                                 "Sebagian kategori atau subkategori belum terlihat jelas di storefront/beranda.",
@@ -29,8 +29,8 @@
                                      "tab":  "System -\u003e Settings -\u003e Store",
                                      "bobot":  10,
                                      "automated":  true,
-                                     "rawScore":  15,
-                                     "weightedScore":  1.5,
+                                     "rawScore":  90,
+                                     "weightedScore":  9,
                                      "maxScore":  100,
                                      "details":  [
                                                      {
@@ -48,8 +48,8 @@
                                                          "weight":  15,
                                                          "verification":  "text_match",
                                                          "dataField":  "alamat",
-                                                         "status":  "not_found",
-                                                         "earned":  0
+                                                         "status":  "completed",
+                                                         "earned":  15
                                                      },
                                                      {
                                                          "id":  "store_phone",
@@ -57,8 +57,8 @@
                                                          "weight":  10,
                                                          "verification":  "text_match",
                                                          "dataField":  "telepon",
-                                                         "status":  "not_found",
-                                                         "earned":  0
+                                                         "status":  "completed",
+                                                         "earned":  10
                                                      },
                                                      {
                                                          "id":  "store_email",
@@ -66,8 +66,8 @@
                                                          "weight":  10,
                                                          "verification":  "text_match",
                                                          "dataField":  "email",
-                                                         "status":  "not_found",
-                                                         "earned":  0
+                                                         "status":  "completed",
+                                                         "earned":  10
                                                      },
                                                      {
                                                          "id":  "store_description",
@@ -84,13 +84,13 @@
                                                          "weight":  40,
                                                          "verification":  "element_exists",
                                                          "dataField":  "logo_url",
-                                                         "status":  "not_found",
-                                                         "earned":  0
+                                                         "status":  "completed",
+                                                         "earned":  40
                                                      }
                                                  ],
                                      "status":  "parsial",
-                                     "completedCount":  1,
-                                     "notFoundCount":  5,
+                                     "completedCount":  5,
+                                     "notFoundCount":  1,
                                      "verificationFailedCount":  0,
                                      "totalItems":  6
                                  },
@@ -99,8 +99,8 @@
                                      "tab":  "Catalog -\u003e Manufacturers + CMS",
                                      "bobot":  10,
                                      "automated":  true,
-                                     "rawScore":  55.5,
-                                     "weightedScore":  5.5,
+                                     "rawScore":  100,
+                                     "weightedScore":  10,
                                      "maxScore":  100,
                                      "details":  [
                                                      {
@@ -109,8 +109,8 @@
                                                          "weight":  40,
                                                          "verification":  "text_match",
                                                          "dataField":  "brand_names",
-                                                         "status":  "not_found",
-                                                         "earned":  0
+                                                         "status":  "completed",
+                                                         "earned":  44.5
                                                      },
                                                      {
                                                          "id":  "manufacturer_carousel",
@@ -122,9 +122,9 @@
                                                          "earned":  55.5
                                                      }
                                                  ],
-                                     "status":  "parsial",
-                                     "completedCount":  1,
-                                     "notFoundCount":  1,
+                                     "status":  "lengkap",
+                                     "completedCount":  2,
+                                     "notFoundCount":  0,
                                      "verificationFailedCount":  0,
                                      "totalItems":  2
                                  },
@@ -194,7 +194,7 @@
                                                  ],
                                      "status":  "parsial",
                                      "completedCount":  6,
-                                     "notFoundCount":  3,
+                                     "notFoundCount":  2,
                                      "verificationFailedCount":  0,
                                      "totalItems":  6
                                  },
@@ -203,8 +203,8 @@
                                      "tab":  "Products -\u003e General, Data",
                                      "bobot":  15,
                                      "automated":  true,
-                                     "rawScore":  80,
-                                     "weightedScore":  12,
+                                     "rawScore":  100,
+                                     "weightedScore":  15,
                                      "maxScore":  100,
                                      "details":  [
                                                      {
@@ -276,8 +276,8 @@
                                                          "weight":  5,
                                                          "verification":  "text_match",
                                                          "dataField":  "productDimensi",
-                                                         "status":  "not_found",
-                                                         "earned":  0
+                                                         "status":  "completed",
+                                                         "earned":  5
                                                      },
                                                      {
                                                          "id":  "data_manufacturer",
@@ -294,13 +294,13 @@
                                                          "weight":  15,
                                                          "verification":  "element_exists",
                                                          "dataField":  "productImages",
-                                                         "status":  "not_found",
-                                                         "earned":  0
+                                                         "status":  "completed",
+                                                         "earned":  15
                                                      }
                                                  ],
-                                     "status":  "parsial",
-                                     "completedCount":  8,
-                                     "notFoundCount":  10,
+                                     "status":  "lengkap",
+                                     "completedCount":  10,
+                                     "notFoundCount":  0,
                                      "verificationFailedCount":  0,
                                      "totalItems":  10
                                  },
@@ -309,8 +309,8 @@
                                      "tab":  "Products -\u003e Links, Attribute, Option",
                                      "bobot":  15,
                                      "automated":  true,
-                                     "rawScore":  40,
-                                     "weightedScore":  6,
+                                     "rawScore":  85,
+                                     "weightedScore":  13,
                                      "maxScore":  100,
                                      "details":  [
                                                      {
@@ -328,8 +328,8 @@
                                                          "weight":  15,
                                                          "verification":  "text_match",
                                                          "dataField":  "productManufacturer",
-                                                         "status":  "completed",
-                                                         "earned":  15
+                                                         "status":  "not_found",
+                                                         "earned":  0
                                                      },
                                                      {
                                                          "id":  "attribute_group",
@@ -337,8 +337,8 @@
                                                          "weight":  20,
                                                          "verification":  "text_match",
                                                          "dataField":  "attributeGroup",
-                                                         "status":  "not_found",
-                                                         "earned":  0
+                                                         "status":  "completed",
+                                                         "earned":  20
                                                      },
                                                      {
                                                          "id":  "attribute_name",
@@ -346,8 +346,8 @@
                                                          "weight":  20,
                                                          "verification":  "text_match",
                                                          "dataField":  "attributeNameValue",
-                                                         "status":  "not_found",
-                                                         "earned":  0
+                                                         "status":  "completed",
+                                                         "earned":  20
                                                      },
                                                      {
                                                          "id":  "option_name",
@@ -355,8 +355,8 @@
                                                          "weight":  10,
                                                          "verification":  "text_match",
                                                          "dataField":  "optionNameType",
-                                                         "status":  "not_found",
-                                                         "earned":  0
+                                                         "status":  "completed",
+                                                         "earned":  10
                                                      },
                                                      {
                                                          "id":  "option_values",
@@ -364,13 +364,13 @@
                                                          "weight":  10,
                                                          "verification":  "visible_check",
                                                          "dataField":  "optionValues",
-                                                         "status":  "not_found",
-                                                         "earned":  0
+                                                         "status":  "completed",
+                                                         "earned":  10
                                                      }
                                                  ],
                                      "status":  "parsial",
-                                     "completedCount":  2,
-                                     "notFoundCount":  6,
+                                     "completedCount":  5,
+                                     "notFoundCount":  1,
                                      "verificationFailedCount":  0,
                                      "totalItems":  6
                                  },
@@ -379,8 +379,8 @@
                                      "tab":  "Products -\u003e Discount",
                                      "bobot":  10,
                                      "automated":  true,
-                                     "rawScore":  50,
-                                     "weightedScore":  5,
+                                     "rawScore":  100,
+                                     "weightedScore":  10,
                                      "maxScore":  100,
                                      "details":  [
                                                      {
@@ -407,8 +407,8 @@
                                                          "weight":  25,
                                                          "verification":  "text_match",
                                                          "dataField":  "discountMulai",
-                                                         "status":  "not_found",
-                                                         "earned":  0
+                                                         "status":  "completed",
+                                                         "earned":  25
                                                      },
                                                      {
                                                          "id":  "discount_end",
@@ -416,13 +416,13 @@
                                                          "weight":  25,
                                                          "verification":  "text_match",
                                                          "dataField":  "discountSelesai",
-                                                         "status":  "not_found",
-                                                         "earned":  0
+                                                         "status":  "completed",
+                                                         "earned":  25
                                                      }
                                                  ],
-                                     "status":  "parsial",
-                                     "completedCount":  2,
-                                     "notFoundCount":  4,
+                                     "status":  "lengkap",
+                                     "completedCount":  4,
+                                     "notFoundCount":  0,
                                      "verificationFailedCount":  0,
                                      "totalItems":  4
                                  },
@@ -431,8 +431,8 @@
                                      "tab":  "Products -\u003e Special",
                                      "bobot":  10,
                                      "automated":  true,
-                                     "rawScore":  35,
-                                     "weightedScore":  3.5,
+                                     "rawScore":  100,
+                                     "weightedScore":  10,
                                      "maxScore":  100,
                                      "details":  [
                                                      {
@@ -450,8 +450,8 @@
                                                          "weight":  35,
                                                          "verification":  "text_match",
                                                          "dataField":  "specialMulai",
-                                                         "status":  "not_found",
-                                                         "earned":  0
+                                                         "status":  "completed",
+                                                         "earned":  35
                                                      },
                                                      {
                                                          "id":  "special_end",
@@ -459,13 +459,13 @@
                                                          "weight":  30,
                                                          "verification":  "text_match",
                                                          "dataField":  "specialSelesai",
-                                                         "status":  "not_found",
-                                                         "earned":  0
+                                                         "status":  "completed",
+                                                         "earned":  30
                                                      }
                                                  ],
-                                     "status":  "parsial",
-                                     "completedCount":  1,
-                                     "notFoundCount":  3,
+                                     "status":  "lengkap",
+                                     "completedCount":  3,
+                                     "notFoundCount":  0,
                                      "verificationFailedCount":  0,
                                      "totalItems":  3
                                  },
@@ -508,7 +508,7 @@
                                                  ],
                                      "status":  "lengkap",
                                      "completedCount":  3,
-                                     "notFoundCount":  3,
+                                     "notFoundCount":  1,
                                      "verificationFailedCount":  0,
                                      "totalItems":  3
                                  },
@@ -558,12 +558,12 @@
     "checkpointSubScores":  {
                                 "cp01":  {
                                              "label":  "Data Toko",
-                                             "rawScore":  15,
-                                             "weightedScore":  1.5,
+                                             "rawScore":  90,
+                                             "weightedScore":  9,
                                              "maxScore":  100,
                                              "status":  "parsial",
-                                             "completedCount":  1,
-                                             "notFoundCount":  5,
+                                             "completedCount":  5,
+                                             "notFoundCount":  1,
                                              "verificationFailedCount":  0,
                                              "totalItems":  6,
                                              "details":  [
@@ -576,20 +576,20 @@
                                                              {
                                                                  "id":  "store_address",
                                                                  "label":  "Alamat toko tampil",
-                                                                 "status":  "not_found",
-                                                                 "earned":  0
+                                                                 "status":  "completed",
+                                                                 "earned":  15
                                                              },
                                                              {
                                                                  "id":  "store_phone",
                                                                  "label":  "Telepon toko tampil",
-                                                                 "status":  "not_found",
-                                                                 "earned":  0
+                                                                 "status":  "completed",
+                                                                 "earned":  10
                                                              },
                                                              {
                                                                  "id":  "store_email",
                                                                  "label":  "Email toko tampil",
-                                                                 "status":  "not_found",
-                                                                 "earned":  0
+                                                                 "status":  "completed",
+                                                                 "earned":  10
                                                              },
                                                              {
                                                                  "id":  "store_description",
@@ -600,27 +600,27 @@
                                                              {
                                                                  "id":  "store_logo",
                                                                  "label":  "Logo toko tampil",
-                                                                 "status":  "not_found",
-                                                                 "earned":  0
+                                                                 "status":  "completed",
+                                                                 "earned":  40
                                                              }
                                                          ]
                                          },
                                 "cp02":  {
                                              "label":  "Manufacturer \u0026 Carousel",
-                                             "rawScore":  55.5,
-                                             "weightedScore":  5.5,
+                                             "rawScore":  100,
+                                             "weightedScore":  10,
                                              "maxScore":  100,
-                                             "status":  "parsial",
-                                             "completedCount":  1,
-                                             "notFoundCount":  1,
+                                             "status":  "lengkap",
+                                             "completedCount":  2,
+                                             "notFoundCount":  0,
                                              "verificationFailedCount":  0,
                                              "totalItems":  2,
                                              "details":  [
                                                              {
                                                                  "id":  "manufacturer_names",
                                                                  "label":  "Nama manufacturer sesuai data soal tampil",
-                                                                 "status":  "not_found",
-                                                                 "earned":  0
+                                                                 "status":  "completed",
+                                                                 "earned":  44.5
                                                              },
                                                              {
                                                                  "id":  "manufacturer_carousel",
@@ -637,7 +637,7 @@
                                              "maxScore":  100,
                                              "status":  "parsial",
                                              "completedCount":  6,
-                                             "notFoundCount":  3,
+                                             "notFoundCount":  2,
                                              "verificationFailedCount":  0,
                                              "totalItems":  6,
                                              "details":  [
@@ -681,12 +681,12 @@
                                          },
                                 "cp04":  {
                                              "label":  "Produk: General \u0026 Data",
-                                             "rawScore":  80,
-                                             "weightedScore":  12,
+                                             "rawScore":  100,
+                                             "weightedScore":  15,
                                              "maxScore":  100,
-                                             "status":  "parsial",
-                                             "completedCount":  8,
-                                             "notFoundCount":  10,
+                                             "status":  "lengkap",
+                                             "completedCount":  10,
+                                             "notFoundCount":  0,
                                              "verificationFailedCount":  0,
                                              "totalItems":  10,
                                              "details":  [
@@ -735,8 +735,8 @@
                                                              {
                                                                  "id":  "data_dimensions",
                                                                  "label":  "Dimensi di tab Data",
-                                                                 "status":  "not_found",
-                                                                 "earned":  0
+                                                                 "status":  "completed",
+                                                                 "earned":  5
                                                              },
                                                              {
                                                                  "id":  "data_manufacturer",
@@ -747,19 +747,19 @@
                                                              {
                                                                  "id":  "data_image_uploaded",
                                                                  "label":  "Setidaknya 1 gambar produk terpasang",
-                                                                 "status":  "not_found",
-                                                                 "earned":  0
+                                                                 "status":  "completed",
+                                                                 "earned":  15
                                                              }
                                                          ]
                                          },
                                 "cp05":  {
                                              "label":  "Produk: Links, Attr, Option",
-                                             "rawScore":  40,
-                                             "weightedScore":  6,
+                                             "rawScore":  85,
+                                             "weightedScore":  13,
                                              "maxScore":  100,
                                              "status":  "parsial",
-                                             "completedCount":  2,
-                                             "notFoundCount":  6,
+                                             "completedCount":  5,
+                                             "notFoundCount":  1,
                                              "verificationFailedCount":  0,
                                              "totalItems":  6,
                                              "details":  [
@@ -772,43 +772,43 @@
                                                              {
                                                                  "id":  "links_manufacturer",
                                                                  "label":  "Manufacturer di tab Links",
-                                                                 "status":  "completed",
-                                                                 "earned":  15
+                                                                 "status":  "not_found",
+                                                                 "earned":  0
                                                              },
                                                              {
                                                                  "id":  "attribute_group",
                                                                  "label":  "Attribute group ada di tab Attribute",
-                                                                 "status":  "not_found",
-                                                                 "earned":  0
+                                                                 "status":  "completed",
+                                                                 "earned":  20
                                                              },
                                                              {
                                                                  "id":  "attribute_name",
                                                                  "label":  "Attribute name + value ada di tab Attribute",
-                                                                 "status":  "not_found",
-                                                                 "earned":  0
+                                                                 "status":  "completed",
+                                                                 "earned":  20
                                                              },
                                                              {
                                                                  "id":  "option_name",
                                                                  "label":  "Option name + type ada di tab Option",
-                                                                 "status":  "not_found",
-                                                                 "earned":  0
+                                                                 "status":  "completed",
+                                                                 "earned":  10
                                                              },
                                                              {
                                                                  "id":  "option_values",
                                                                  "label":  "Option values ada di tab Option",
-                                                                 "status":  "not_found",
-                                                                 "earned":  0
+                                                                 "status":  "completed",
+                                                                 "earned":  10
                                                              }
                                                          ]
                                          },
                                 "cp06":  {
                                              "label":  "Strategi Diskon",
-                                             "rawScore":  50,
-                                             "weightedScore":  5,
+                                             "rawScore":  100,
+                                             "weightedScore":  10,
                                              "maxScore":  100,
-                                             "status":  "parsial",
-                                             "completedCount":  2,
-                                             "notFoundCount":  4,
+                                             "status":  "lengkap",
+                                             "completedCount":  4,
+                                             "notFoundCount":  0,
                                              "verificationFailedCount":  0,
                                              "totalItems":  4,
                                              "details":  [
@@ -827,25 +827,25 @@
                                                              {
                                                                  "id":  "discount_start",
                                                                  "label":  "Tanggal mulai diskon",
-                                                                 "status":  "not_found",
-                                                                 "earned":  0
+                                                                 "status":  "completed",
+                                                                 "earned":  25
                                                              },
                                                              {
                                                                  "id":  "discount_end",
                                                                  "label":  "Tanggal selesai diskon",
-                                                                 "status":  "not_found",
-                                                                 "earned":  0
+                                                                 "status":  "completed",
+                                                                 "earned":  25
                                                              }
                                                          ]
                                          },
                                 "cp07":  {
                                              "label":  "Harga Spesial Event",
-                                             "rawScore":  35,
-                                             "weightedScore":  3.5,
+                                             "rawScore":  100,
+                                             "weightedScore":  10,
                                              "maxScore":  100,
-                                             "status":  "parsial",
-                                             "completedCount":  1,
-                                             "notFoundCount":  3,
+                                             "status":  "lengkap",
+                                             "completedCount":  3,
+                                             "notFoundCount":  0,
                                              "verificationFailedCount":  0,
                                              "totalItems":  3,
                                              "details":  [
@@ -858,14 +858,14 @@
                                                              {
                                                                  "id":  "special_start",
                                                                  "label":  "Tanggal mulai harga spesial",
-                                                                 "status":  "not_found",
-                                                                 "earned":  0
+                                                                 "status":  "completed",
+                                                                 "earned":  35
                                                              },
                                                              {
                                                                  "id":  "special_end",
                                                                  "label":  "Tanggal selesai harga spesial",
-                                                                 "status":  "not_found",
-                                                                 "earned":  0
+                                                                 "status":  "completed",
+                                                                 "earned":  30
                                                              }
                                                          ]
                                          },
@@ -876,7 +876,7 @@
                                              "maxScore":  100,
                                              "status":  "lengkap",
                                              "completedCount":  3,
-                                             "notFoundCount":  3,
+                                             "notFoundCount":  1,
                                              "verificationFailedCount":  0,
                                              "totalItems":  3,
                                              "details":  [
@@ -943,7 +943,7 @@
                                                  ]
                     },
     "evidence":  {
-                     "startedAt":  "2026-07-27T13:04:11.559Z",
+                     "startedAt":  "2026-07-27T17:19:17.502Z",
                      "storefrontOk":  true,
                      "loginOk":  true,
                      "categoriesPageOk":  false,
@@ -1239,96 +1239,73 @@
                                                     "editPageOpened":  true,
                                                     "screenshot":  "",
                                                     "signals":  {
-                                                                    "cp04_general":  0,
-                                                                    "cp04_data":  0,
-                                                                    "cp05_links":  0,
-                                                                    "cp05_attributes":  0,
-                                                                    "cp05_options":  0,
-                                                                    "cp06_discount":  0,
-                                                                    "cp07_special":  0,
-                                                                    "cp08_images":  0,
-                                                                    "cp08_seo":  0,
-                                                                    "cp04_general_name":  1,
-                                                                    "cp04_general_description":  1,
-                                                                    "cp04_general_seo":  1,
-                                                                    "cp04_data_price":  1,
-                                                                    "cp04_data_stock":  1,
-                                                                    "cp04_data_sku":  1,
-                                                                    "cp04_data_weight":  1,
-                                                                    "cp04_data_dimensions":  0,
-                                                                    "cp04_data_manufacturer":  1,
-                                                                    "cp04_data_image_uploaded":  0,
-                                                                    "cp05_attribute_group":  0,
-                                                                    "cp05_option_name":  0,
-                                                                    "cp05_option_values":  0,
-                                                                    "cp06_discount_min_qty":  1,
-                                                                    "cp06_discount_harga":  1,
-                                                                    "cp06_discount_start":  0,
-                                                                    "cp06_discount_end":  0,
-                                                                    "cp07_special_harga":  1,
-                                                                    "cp07_special_start":  0,
-                                                                    "cp07_special_end":  0,
-                                                                    "cp08_image_uploaded":  1,
-                                                                    "cp08_image_valid":  1,
-                                                                    "cp08_seo_keyword":  1
+                                                                    "cp04_general":  1,
+                                                                    "cp04_data":  1,
+                                                                    "cp05_links":  0.5,
+                                                                    "cp05_attributes":  1,
+                                                                    "cp05_options":  1,
+                                                                    "cp06_discount":  1,
+                                                                    "cp07_special":  1,
+                                                                    "cp08_images":  1,
+                                                                    "cp08_seo":  1
                                                                 }
                                                 },
                                                 {
                                                     "productId":  "PT009",
                                                     "productName":  "Moisturizer Gel Hydra Calm Barrier Repair",
-                                                    "locatedInAdmin":  false,
-                                                    "editPageOpened":  false,
+                                                    "locatedInAdmin":  true,
+                                                    "editPageOpened":  true,
                                                     "screenshot":  "",
                                                     "signals":  {
-                                                                    "cp04_general":  0,
-                                                                    "cp04_data":  0,
-                                                                    "cp05_links":  0,
-                                                                    "cp05_attributes":  0,
-                                                                    "cp05_options":  0,
-                                                                    "cp06_discount":  0,
-                                                                    "cp07_special":  0,
-                                                                    "cp08_images":  0,
-                                                                    "cp08_seo":  0
+                                                                    "cp04_general":  0.6666666666666666,
+                                                                    "cp04_data":  1,
+                                                                    "cp05_links":  0.5,
+                                                                    "cp05_attributes":  1,
+                                                                    "cp05_options":  1,
+                                                                    "cp06_discount":  1,
+                                                                    "cp07_special":  1,
+                                                                    "cp08_images":  0.5,
+                                                                    "cp08_seo":  1
                                                                 }
                                                 },
                                                 {
                                                     "productId":  "PT012",
                                                     "productName":  "Face Wash Tea Tree Deep Clean Foam",
-                                                    "locatedInAdmin":  false,
-                                                    "editPageOpened":  false,
+                                                    "locatedInAdmin":  true,
+                                                    "editPageOpened":  true,
                                                     "screenshot":  "",
                                                     "signals":  {
-                                                                    "cp04_general":  0,
-                                                                    "cp04_data":  0,
-                                                                    "cp05_links":  0,
-                                                                    "cp05_attributes":  0,
-                                                                    "cp05_options":  0,
-                                                                    "cp06_discount":  0,
-                                                                    "cp07_special":  0,
-                                                                    "cp08_images":  0,
-                                                                    "cp08_seo":  0
+                                                                    "cp04_general":  1,
+                                                                    "cp04_data":  1,
+                                                                    "cp05_links":  0.5,
+                                                                    "cp05_attributes":  1,
+                                                                    "cp05_options":  1,
+                                                                    "cp06_discount":  1,
+                                                                    "cp07_special":  1,
+                                                                    "cp08_images":  0.5,
+                                                                    "cp08_seo":  1
                                                                 }
                                                 },
                                                 {
                                                     "productId":  "PT010",
                                                     "productName":  "Sunscreen Aqua Shield SPF 50 PA++++",
-                                                    "locatedInAdmin":  false,
-                                                    "editPageOpened":  false,
+                                                    "locatedInAdmin":  true,
+                                                    "editPageOpened":  true,
                                                     "screenshot":  "",
                                                     "signals":  {
-                                                                    "cp04_general":  0,
-                                                                    "cp04_data":  0,
-                                                                    "cp05_links":  0,
-                                                                    "cp05_attributes":  0,
-                                                                    "cp05_options":  0,
-                                                                    "cp06_discount":  0,
-                                                                    "cp07_special":  0,
-                                                                    "cp08_images":  0,
-                                                                    "cp08_seo":  0
+                                                                    "cp04_general":  1,
+                                                                    "cp04_data":  1,
+                                                                    "cp05_links":  0.5,
+                                                                    "cp05_attributes":  1,
+                                                                    "cp05_options":  1,
+                                                                    "cp06_discount":  1,
+                                                                    "cp07_special":  1,
+                                                                    "cp08_images":  0.5,
+                                                                    "cp08_seo":  1
                                                                 }
                                                 }
                                             ],
-                     "dbEvaluationUsed":  false,
+                     "dbEvaluationUsed":  true,
                      "missingParents":  [
 
                                         ],
@@ -1525,7 +1502,91 @@
 
                                                                                             }
                                                          }
-                                            }
+                                            },
+                     "storeDbSettings":  {
+                                             "config_name":  "Rumah Kecantikan Cantika",
+                                             "config_address":  "Jl. Pemuda No. 88, Solo 57111",
+                                             "config_telephone":  "0271-444-5566",
+                                             "config_email":  "hello@cantika.id",
+                                             "config_meta_description":  "Rumah Kecantikan Cantika",
+                                             "config_logo":  "data/logo_toko.jpg"
+                                         },
+                     "dbManufacturers":  [
+                                             {
+                                                 "manufacturer_id":  14,
+                                                 "name":  "LunaSkin Bodycare",
+                                                 "image":  "data/LunaSkin_Bodycare_logo.jpg",
+                                                 "sort_order":  0
+                                             },
+                                             {
+                                                 "manufacturer_id":  12,
+                                                 "name":  "DermaBloom Labs",
+                                                 "image":  "data/DermaBloom_Labs_logo.jpg",
+                                                 "sort_order":  0
+                                             },
+                                             {
+                                                 "manufacturer_id":  13,
+                                                 "name":  "SunMuse Beauty",
+                                                 "image":  "data/SunMuse_Beauty_logo.jpg",
+                                                 "sort_order":  0
+                                             },
+                                             {
+                                                 "manufacturer_id":  11,
+                                                 "name":  "PureLeaf Skin Science",
+                                                 "image":  "data/PureLeaf_Skin_Science_logo.jpg",
+                                                 "sort_order":  0
+                                             }
+                                         ],
+                     "dbBanners":  [
+                                       {
+                                           "banner_id":  9,
+                                           "banner_name":  "Carousel",
+                                           "banner_image_id":  83,
+                                           "link":  "http://2022112080.uas.stieama.com/index.php?route=product/manufacturer/info\u0026amp;manufacturer_id=12",
+                                           "image":  "data/DermaBloom_Labs_logo.jpg",
+                                           "title":  "DermaBloom Labs"
+                                       },
+                                       {
+                                           "banner_id":  9,
+                                           "banner_name":  "Carousel",
+                                           "banner_image_id":  85,
+                                           "link":  "http://2022112080.uas.stieama.com/index.php?route=product/manufacturer/info\u0026amp;manufacturer_id=14",
+                                           "image":  "data/LunaSkin_Bodycare_logo.jpg",
+                                           "title":  "LunaSkin Bodycare"
+                                       },
+                                       {
+                                           "banner_id":  9,
+                                           "banner_name":  "Carousel",
+                                           "banner_image_id":  82,
+                                           "link":  "http://2022112080.uas.stieama.com/index.php?route=product/manufacturer/info\u0026amp;manufacturer_id=11",
+                                           "image":  "data/PureLeaf_Skin_Science_logo.jpg",
+                                           "title":  "PureLeaf Skin Science"
+                                       },
+                                       {
+                                           "banner_id":  9,
+                                           "banner_name":  "Carousel",
+                                           "banner_image_id":  84,
+                                           "link":  "http://2022112080.uas.stieama.com/index.php?route=product/manufacturer/info\u0026amp;manufacturer_id=13",
+                                           "image":  "data/SunMuse_Beauty_logo.jpg",
+                                           "title":  "SunMuse Beauty"
+                                       },
+                                       {
+                                           "banner_id":  10,
+                                           "banner_name":  "banner",
+                                           "banner_image_id":  89,
+                                           "link":  "http://2022112080.uas.stieama.com/index.php?route=product%2Fproduct\u0026amp;product_id=51",
+                                           "image":  "data/slideshow_1.jpg",
+                                           "title":  "Banner 1"
+                                       },
+                                       {
+                                           "banner_id":  10,
+                                           "banner_name":  "banner",
+                                           "banner_image_id":  88,
+                                           "link":  "http://2022112080.uas.stieama.com/index.php?route=product%2Fproduct\u0026amp;product_id=50",
+                                           "image":  "data/slideshow_2.jpg",
+                                           "title":  "Banner 2"
+                                       }
+                                   ]
                  },
-    "summary":  "Penilaian butuh review manual. Auto-score 62.5/100. Item yang belum terverifikasi: belum, belum, belum, belum, belum, belum, belum. Data Toko: 15/100 | selesai: Nama toko tampil di storefront | belum: Alamat toko tampil, Telepon toko tampil, Email toko tampil, Deskripsi bisnis toko tampil, Logo toko tampil | Manufacturer \u0026 Carousel: 55.5/100 | selesai: Manufacturer/carousel navigasi tampil | belum: Nama manufacturer sesuai data soal tampil | Kategori Produk: 82/100 | selesai: Kategori parent ada di admin, Subkategori child ada di admin, Kategori tampil di storefront, Subkategori tampil di storefront, Produk terlink ke kategori yang benar | belum: Produk tugas terlihat di admin produk | Produk: General \u0026 Data: 80/100 | selesai: Nama produk di tab General, Deskripsi di tab General, SEO keyword di tab General, Harga di tab Data, Stok di tab Data, SKU di tab Data, Berat di tab Data, Manufacturer di tab Data | belum: Dimensi di tab Data, Setidaknya 1 gambar produk terpasang | Produk: Links, Attr, Option: 40/100 | selesai: Kategori di tab Links, Manufacturer di tab Links | belum: Attribute group ada di tab Attribute, Attribute name + value ada di tab Attribute, Option name + type ada di tab Option, Option values ada di tab Option | Strategi Diskon: 50/100 | selesai: Minimal quantity diskon, Harga diskon | belum: Tanggal mulai diskon, Tanggal selesai diskon | Harga Spesial Event: 35/100 | selesai: Harga spesial | belum: Tanggal mulai harga spesial, Tanggal selesai harga spesial | Gambar \u0026 SEO Keyword: 100/100 | selesai: Gambar produk terunggah, Gambar thumbnail tampil, SEO keyword sesuai soal | Banner Slideshow: 100/100 | selesai: Slideshow/banner tampil di storefront, Banner mengarah ke produk yang benar"
+    "summary":  "Penilaian butuh review manual. Auto-score 96/100. Item yang belum terverifikasi: belum, belum, belum. Data Toko: 90/100 | selesai: Nama toko tampil di storefront, Alamat toko tampil, Telepon toko tampil, Email toko tampil, Logo toko tampil | belum: Deskripsi bisnis toko tampil | Manufacturer \u0026 Carousel: 100/100 | selesai: Nama manufacturer sesuai data soal tampil, Manufacturer/carousel navigasi tampil | Kategori Produk: 82/100 | selesai: Kategori parent ada di admin, Subkategori child ada di admin, Kategori tampil di storefront, Subkategori tampil di storefront, Produk terlink ke kategori yang benar | belum: Produk tugas terlihat di admin produk | Produk: General \u0026 Data: 100/100 | selesai: Nama produk di tab General, Deskripsi di tab General, SEO keyword di tab General, Harga di tab Data, Stok di tab Data, SKU di tab Data, Berat di tab Data, Dimensi di tab Data, Manufacturer di tab Data, Setidaknya 1 gambar produk terpasang | Produk: Links, Attr, Option: 85/100 | selesai: Kategori di tab Links, Attribute group ada di tab Attribute, Attribute name + value ada di tab Attribute, Option name + type ada di tab Option, Option values ada di tab Option | belum: Manufacturer di tab Links | Strategi Diskon: 100/100 | selesai: Minimal quantity diskon, Harga diskon, Tanggal mulai diskon, Tanggal selesai diskon | Harga Spesial Event: 100/100 | selesai: Harga spesial, Tanggal mulai harga spesial, Tanggal selesai harga spesial | Gambar \u0026 SEO Keyword: 100/100 | selesai: Gambar produk terunggah, Gambar thumbnail tampil, SEO keyword sesuai soal | Banner Slideshow: 100/100 | selesai: Slideshow/banner tampil di storefront, Banner mengarah ke produk yang benar"
 }
