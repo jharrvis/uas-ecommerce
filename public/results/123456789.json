@@ -15,11 +15,10 @@
     "score": 0,
     "autoTotal": 0,
     "autoMax": 100,
-    "status": "gagal",
+    "status": "perlu-review",
     "manualReview": true,
     "manualReviewReasons": [
-      "Mode DB-only: storefront visual check (logo, carousel, kategori) dilewati.",
-      "Mode DB-only: verifikasi halaman admin (login, kategori, produk) dilewati."
+      "Terjadi error saat membuka website atau menavigasi admin."
     ],
     "dataIntegrityErrors": [],
     "checkpoints": {
@@ -87,9 +86,9 @@
             "earned": 0
           }
         ],
-        "status": "belum-terpenuhi",
+        "status": "perlu-review",
         "completedCount": 0,
-        "notFoundCount": 1,
+        "notFoundCount": 0,
         "verificationFailedCount": 0,
         "totalItems": 6
       },
@@ -121,9 +120,9 @@
             "earned": 0
           }
         ],
-        "status": "belum-terpenuhi",
+        "status": "perlu-review",
         "completedCount": 0,
-        "notFoundCount": 2,
+        "notFoundCount": 0,
         "verificationFailedCount": 0,
         "totalItems": 2
       },
@@ -191,9 +190,9 @@
             "earned": 0
           }
         ],
-        "status": "belum-terpenuhi",
+        "status": "perlu-review",
         "completedCount": 0,
-        "notFoundCount": 5,
+        "notFoundCount": 0,
         "verificationFailedCount": 0,
         "totalItems": 6
       },
@@ -297,7 +296,7 @@
             "earned": 0
           }
         ],
-        "status": "belum-terpenuhi",
+        "status": "perlu-review",
         "completedCount": 0,
         "notFoundCount": 0,
         "verificationFailedCount": 0,
@@ -367,7 +366,7 @@
             "earned": 0
           }
         ],
-        "status": "belum-terpenuhi",
+        "status": "perlu-review",
         "completedCount": 0,
         "notFoundCount": 0,
         "verificationFailedCount": 0,
@@ -419,7 +418,7 @@
             "earned": 0
           }
         ],
-        "status": "belum-terpenuhi",
+        "status": "perlu-review",
         "completedCount": 0,
         "notFoundCount": 0,
         "verificationFailedCount": 0,
@@ -462,7 +461,7 @@
             "earned": 0
           }
         ],
-        "status": "belum-terpenuhi",
+        "status": "perlu-review",
         "completedCount": 0,
         "notFoundCount": 0,
         "verificationFailedCount": 0,
@@ -505,7 +504,7 @@
             "earned": 0
           }
         ],
-        "status": "belum-terpenuhi",
+        "status": "perlu-review",
         "completedCount": 0,
         "notFoundCount": 0,
         "verificationFailedCount": 0,
@@ -539,7 +538,7 @@
             "earned": 0
           }
         ],
-        "status": "belum-terpenuhi",
+        "status": "perlu-review",
         "completedCount": 0,
         "notFoundCount": 0,
         "verificationFailedCount": 0,
@@ -560,9 +559,9 @@
         "rawScore": 0,
         "weightedScore": 0,
         "maxScore": 100,
-        "status": "belum-terpenuhi",
+        "status": "perlu-review",
         "completedCount": 0,
-        "notFoundCount": 1,
+        "notFoundCount": 0,
         "verificationFailedCount": 0,
         "totalItems": 6,
         "details": [
@@ -609,9 +608,9 @@
         "rawScore": 0,
         "weightedScore": 0,
         "maxScore": 100,
-        "status": "belum-terpenuhi",
+        "status": "perlu-review",
         "completedCount": 0,
-        "notFoundCount": 2,
+        "notFoundCount": 0,
         "verificationFailedCount": 0,
         "totalItems": 2,
         "details": [
@@ -634,9 +633,9 @@
         "rawScore": 0,
         "weightedScore": 0,
         "maxScore": 100,
-        "status": "belum-terpenuhi",
+        "status": "perlu-review",
         "completedCount": 0,
-        "notFoundCount": 5,
+        "notFoundCount": 0,
         "verificationFailedCount": 0,
         "totalItems": 6,
         "details": [
@@ -683,7 +682,7 @@
         "rawScore": 0,
         "weightedScore": 0,
         "maxScore": 100,
-        "status": "belum-terpenuhi",
+        "status": "perlu-review",
         "completedCount": 0,
         "notFoundCount": 0,
         "verificationFailedCount": 0,
@@ -756,7 +755,7 @@
         "rawScore": 0,
         "weightedScore": 0,
         "maxScore": 100,
-        "status": "belum-terpenuhi",
+        "status": "perlu-review",
         "completedCount": 0,
         "notFoundCount": 0,
         "verificationFailedCount": 0,
@@ -805,7 +804,7 @@
         "rawScore": 0,
         "weightedScore": 0,
         "maxScore": 100,
-        "status": "belum-terpenuhi",
+        "status": "perlu-review",
         "completedCount": 0,
         "notFoundCount": 0,
         "verificationFailedCount": 0,
@@ -842,7 +841,7 @@
         "rawScore": 0,
         "weightedScore": 0,
         "maxScore": 100,
-        "status": "belum-terpenuhi",
+        "status": "perlu-review",
         "completedCount": 0,
         "notFoundCount": 0,
         "verificationFailedCount": 0,
@@ -873,7 +872,7 @@
         "rawScore": 0,
         "weightedScore": 0,
         "maxScore": 100,
-        "status": "belum-terpenuhi",
+        "status": "perlu-review",
         "completedCount": 0,
         "notFoundCount": 0,
         "verificationFailedCount": 0,
@@ -904,7 +903,7 @@
         "rawScore": 0,
         "weightedScore": 0,
         "maxScore": 100,
-        "status": "belum-terpenuhi",
+        "status": "perlu-review",
         "completedCount": 0,
         "notFoundCount": 0,
         "verificationFailedCount": 0,
@@ -940,7 +939,7 @@
       "pendingCheckpointIds": []
     },
     "evidence": {
-      "startedAt": "2026-07-27T08:30:49.328Z",
+      "startedAt": "2026-07-28T01:47:22.372Z",
       "storefrontOk": false,
       "loginOk": false,
       "categoriesPageOk": false,
@@ -1148,7 +1147,9 @@
       "storefrontSnapshotText": "",
       "storefrontLogoSignal": 0,
       "storefrontCarouselSignal": 0,
-      "errors": [],
+      "errors": [
+        "Field tidak ditemukan untuk selector: input[name=\"username\"], input[name=\"user\"], input[type=\"text\"]"
+      ],
       "screenshots": [],
       "checkpointEvidence": {
         "cp01": {
@@ -1198,6 +1199,6 @@
         }
       }
     },
-    "summary": "Penilaian butuh review manual. Auto-score 0/100. Item yang belum terverifikasi: belum, belum, belum, belum, belum, belum, belum, belum, belum. Data Toko: 0/100 | belum: Nama toko tampil di storefront, Alamat toko tampil, Telepon toko tampil, Email toko tampil, Deskripsi bisnis toko tampil, Logo toko tampil | Manufacturer & Carousel: 0/100 | belum: Nama manufacturer sesuai data soal tampil, Manufacturer/carousel navigasi tampil | Kategori Produk: 0/100 | belum: Kategori parent ada di admin, Subkategori child ada di admin, Kategori tampil di storefront, Subkategori tampil di storefront, Produk tugas terlihat di admin produk, Produk terlink ke kategori yang benar | Produk: General & Data: 0/100 | belum: Nama produk di tab General, Deskripsi di tab General, SEO keyword di tab General, Harga di tab Data, Stok di tab Data, SKU di tab Data, Berat di tab Data, Dimensi di tab Data, Manufacturer di tab Data, Setidaknya 1 gambar produk terpasang | Produk: Links, Attr, Option: 0/100 | belum: Kategori di tab Links, Manufacturer di tab Links, Attribute group ada di tab Attribute, Attribute name + value ada di tab Attribute, Option name + type ada di tab Option, Option values ada di tab Option | Strategi Diskon: 0/100 | belum: Minimal quantity diskon, Harga diskon, Tanggal mulai diskon, Tanggal selesai diskon | Harga Spesial Event: 0/100 | belum: Harga spesial, Tanggal mulai harga spesial, Tanggal selesai harga spesial | Gambar & SEO Keyword: 0/100 | belum: Gambar produk terunggah, Gambar thumbnail tampil, SEO keyword sesuai soal | Banner Slideshow: 0/100 | belum: Slideshow/banner tampil di storefront, Banner mengarah ke produk yang benar"
+    "summary": "Website http://123456789.uas.stieama.com belum bisa dinilai penuh karena kendala akses atau navigasi. Auto-score 0/100, status perlu-review. Detail: Data Toko: 0/100 | belum: Nama toko tampil di storefront, Alamat toko tampil, Telepon toko tampil, Email toko tampil, Deskripsi bisnis toko tampil, Logo toko tampil | Manufacturer & Carousel: 0/100 | belum: Nama manufacturer sesuai data soal tampil, Manufacturer/carousel navigasi tampil | Kategori Produk: 0/100 | belum: Kategori parent ada di admin, Subkategori child ada di admin, Kategori tampil di storefront, Subkategori tampil di storefront, Produk tugas terlihat di admin produk, Produk terlink ke kategori yang benar | Produk: General & Data: 0/100 | belum: Nama produk di tab General, Deskripsi di tab General, SEO keyword di tab General, Harga di tab Data, Stok di tab Data, SKU di tab Data, Berat di tab Data, Dimensi di tab Data, Manufacturer di tab Data, Setidaknya 1 gambar produk terpasang | Produk: Links, Attr, Option: 0/100 | belum: Kategori di tab Links, Manufacturer di tab Links, Attribute group ada di tab Attribute, Attribute name + value ada di tab Attribute, Option name + type ada di tab Option, Option values ada di tab Option | Strategi Diskon: 0/100 | belum: Minimal quantity diskon, Harga diskon, Tanggal mulai diskon, Tanggal selesai diskon | Harga Spesial Event: 0/100 | belum: Harga spesial, Tanggal mulai harga spesial, Tanggal selesai harga spesial | Gambar & SEO Keyword: 0/100 | belum: Gambar produk terunggah, Gambar thumbnail tampil, SEO keyword sesuai soal | Banner Slideshow: 0/100 | belum: Slideshow/banner tampil di storefront, Banner mengarah ke produk yang benar"
   }
 ]

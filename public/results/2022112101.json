@@ -11,8 +11,8 @@
                                "PT003",
                                "PT002"
                            ],
-    "score":  36,
-    "autoTotal":  36,
+    "score":  28.5,
+    "autoTotal":  28.5,
     "autoMax":  100,
     "status":  "parsial",
     "manualReview":  true,
@@ -520,8 +520,8 @@
                                      "tab":  "Extensions -\u003e Banners",
                                      "bobot":  15,
                                      "automated":  true,
-                                     "rawScore":  50,
-                                     "weightedScore":  7.5,
+                                     "rawScore":  0,
+                                     "weightedScore":  0,
                                      "maxScore":  100,
                                      "details":  [
                                                      {
@@ -530,8 +530,8 @@
                                                          "weight":  50,
                                                          "verification":  "visible_check",
                                                          "dataField":  "slideshow",
-                                                         "status":  "completed",
-                                                         "earned":  50
+                                                         "status":  "not_found",
+                                                         "earned":  0
                                                      },
                                                      {
                                                          "id":  "banner_product_link",
@@ -543,9 +543,9 @@
                                                          "earned":  0
                                                      }
                                                  ],
-                                     "status":  "parsial",
-                                     "completedCount":  1,
-                                     "notFoundCount":  1,
+                                     "status":  "belum-terpenuhi",
+                                     "completedCount":  0,
+                                     "notFoundCount":  2,
                                      "verificationFailedCount":  0,
                                      "totalItems":  2
                                  }
@@ -905,20 +905,20 @@
                                          },
                                 "cp09":  {
                                              "label":  "Banner Slideshow",
-                                             "rawScore":  50,
-                                             "weightedScore":  7.5,
+                                             "rawScore":  0,
+                                             "weightedScore":  0,
                                              "maxScore":  100,
-                                             "status":  "parsial",
-                                             "completedCount":  1,
-                                             "notFoundCount":  1,
+                                             "status":  "belum-terpenuhi",
+                                             "completedCount":  0,
+                                             "notFoundCount":  2,
                                              "verificationFailedCount":  0,
                                              "totalItems":  2,
                                              "details":  [
                                                              {
                                                                  "id":  "slideshow_visible",
                                                                  "label":  "Slideshow/banner tampil di storefront",
-                                                                 "status":  "completed",
-                                                                 "earned":  50
+                                                                 "status":  "not_found",
+                                                                 "earned":  0
                                                              },
                                                              {
                                                                  "id":  "banner_product_link",
@@ -946,7 +946,7 @@
                                                  ]
                     },
     "evidence":  {
-                     "startedAt":  "2026-07-27T09:18:06.383Z",
+                     "startedAt":  "2026-07-28T01:54:16.655Z",
                      "storefrontOk":  true,
                      "loginOk":  true,
                      "categoriesPageOk":  false,
@@ -1294,7 +1294,7 @@
                      "storeNameMatched":  false,
                      "storefrontSnapshotText":  "Keranjang Belanja\n0 item(s) - Rp. 0\nSelamat datang, silahkan login atau daftar.\nBeranda\nDaftar Belanja (0)\nAkun Saya\nKeranjang Belanja\nCheckout / Menuju Kasir\n\nFeature\nInformasi\nAbout Us\nDelivery Information\nPrivacy Policy\nTerms \u0026 Conditions\nLayanan Pelanggan\nHubungi Kami\nRetur Produk\nPeta Situs\nEkstra\nMerk\nVoucher Hadiah\nAfiliasi\nSpecial\nAkun Saya\nAkun Saya\nRiwayat Pesanan\nDaftar Belanja\nBerita\nPowered By OpenCart\nYour Store © 2026",
                      "storefrontLogoSignal":  1,
-                     "storefrontCarouselSignal":  1,
+                     "storefrontCarouselSignal":  0,
                      "errors":  [
 
                                 ],
@@ -1436,5 +1436,5 @@
 
                                    ]
                  },
-    "summary":  "Penilaian butuh review manual. Auto-score 36/100. Item yang belum terverifikasi: belum, belum, belum, belum, belum, belum, belum, belum, belum. Data Toko: 40/100 | selesai: Logo toko tampil | belum: Nama toko tampil di storefront, Alamat toko tampil, Telepon toko tampil, Email toko tampil, Deskripsi bisnis toko tampil | Manufacturer \u0026 Carousel: 55.5/100 | selesai: Manufacturer/carousel navigasi tampil | belum: Nama manufacturer sesuai data soal tampil | Kategori Produk: 0/100 | belum: Kategori parent ada di admin, Subkategori child ada di admin, Kategori tampil di storefront, Subkategori tampil di storefront, Produk tugas terlihat di admin produk, Produk terlink ke kategori yang benar | Produk: General \u0026 Data: 55/100 | selesai: Nama produk di tab General, Stok di tab Data, SKU di tab Data, Berat di tab Data, Dimensi di tab Data, Setidaknya 1 gambar produk terpasang | belum: Deskripsi di tab General, SEO keyword di tab General, Harga di tab Data, Manufacturer di tab Data | Produk: Links, Attr, Option: 0/100 | belum: Kategori di tab Links, Manufacturer di tab Links, Attribute group ada di tab Attribute, Attribute name + value ada di tab Attribute, Option name + type ada di tab Option, Option values ada di tab Option | Strategi Diskon: 75/100 | selesai: Minimal quantity diskon, Tanggal mulai diskon, Tanggal selesai diskon | belum: Harga diskon | Harga Spesial Event: 0/100 | belum: Harga spesial, Tanggal mulai harga spesial, Tanggal selesai harga spesial | Gambar \u0026 SEO Keyword: 30/100 | selesai: Gambar produk terunggah | belum: Gambar thumbnail tampil, SEO keyword sesuai soal | Banner Slideshow: 50/100 | selesai: Slideshow/banner tampil di storefront | belum: Banner mengarah ke produk yang benar"
+    "summary":  "Penilaian butuh review manual. Auto-score 28.5/100. Item yang belum terverifikasi: belum, belum, belum, belum, belum, belum, belum, belum, belum. Data Toko: 40/100 | selesai: Logo toko tampil | belum: Nama toko tampil di storefront, Alamat toko tampil, Telepon toko tampil, Email toko tampil, Deskripsi bisnis toko tampil | Manufacturer \u0026 Carousel: 55.5/100 | selesai: Manufacturer/carousel navigasi tampil | belum: Nama manufacturer sesuai data soal tampil | Kategori Produk: 0/100 | belum: Kategori parent ada di admin, Subkategori child ada di admin, Kategori tampil di storefront, Subkategori tampil di storefront, Produk tugas terlihat di admin produk, Produk terlink ke kategori yang benar | Produk: General \u0026 Data: 55/100 | selesai: Nama produk di tab General, Stok di tab Data, SKU di tab Data, Berat di tab Data, Dimensi di tab Data, Setidaknya 1 gambar produk terpasang | belum: Deskripsi di tab General, SEO keyword di tab General, Harga di tab Data, Manufacturer di tab Data | Produk: Links, Attr, Option: 0/100 | belum: Kategori di tab Links, Manufacturer di tab Links, Attribute group ada di tab Attribute, Attribute name + value ada di tab Attribute, Option name + type ada di tab Option, Option values ada di tab Option | Strategi Diskon: 75/100 | selesai: Minimal quantity diskon, Tanggal mulai diskon, Tanggal selesai diskon | belum: Harga diskon | Harga Spesial Event: 0/100 | belum: Harga spesial, Tanggal mulai harga spesial, Tanggal selesai harga spesial | Gambar \u0026 SEO Keyword: 30/100 | selesai: Gambar produk terunggah | belum: Gambar thumbnail tampil, SEO keyword sesuai soal | Banner Slideshow: 0/100 | belum: Slideshow/banner tampil di storefront, Banner mengarah ke produk yang benar"
 }

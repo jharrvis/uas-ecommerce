@@ -943,7 +943,7 @@
                                                  ]
                     },
     "evidence":  {
-                     "startedAt":  "2026-07-27T17:23:45.360Z",
+                     "startedAt":  "2026-07-28T02:03:31.130Z",
                      "storefrontOk":  true,
                      "loginOk":  true,
                      "categoriesPageOk":  false,
@@ -1542,6 +1542,14 @@
                                        {
                                            "banner_id":  9,
                                            "banner_name":  "Caraousel Merk",
+                                           "banner_image_id":  80,
+                                           "link":  "",
+                                           "image":  "data/SunMuse_Beauty_logo.jpg",
+                                           "title":  "SunMuse Beauty"
+                                       },
+                                       {
+                                           "banner_id":  9,
+                                           "banner_name":  "Caraousel Merk",
                                            "banner_image_id":  79,
                                            "link":  "",
                                            "image":  "data/DermaBloom_Labs_logo.jpg",
@@ -1562,14 +1570,6 @@
                                            "link":  "",
                                            "image":  "data/PureLeaf_Skin_Science_logo.jpg",
                                            "title":  "PureLeaf Skin Science"
-                                       },
-                                       {
-                                           "banner_id":  9,
-                                           "banner_name":  "Caraousel Merk",
-                                           "banner_image_id":  80,
-                                           "link":  "",
-                                           "image":  "data/SunMuse_Beauty_logo.jpg",
-                                           "title":  "SunMuse Beauty"
                                        },
                                        {
                                            "banner_id":  10,

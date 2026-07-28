@@ -943,7 +943,7 @@
                                                  ]
                     },
     "evidence":  {
-                     "startedAt":  "2026-07-27T17:19:07.910Z",
+                     "startedAt":  "2026-07-28T01:58:37.354Z",
                      "storefrontOk":  true,
                      "loginOk":  true,
                      "categoriesPageOk":  false,
@@ -1439,14 +1439,6 @@
                                        {
                                            "banner_id":  9,
                                            "banner_name":  "Carousel",
-                                           "banner_image_id":  78,
-                                           "link":  "http://2022112040.uas.stieama.com/index.php?route=product/manufacturer/info\u0026amp;manufacturer_id=11",
-                                           "image":  "data/Arunika_Batik_logo.jpg",
-                                           "title":  "Arunika Batik"
-                                       },
-                                       {
-                                           "banner_id":  9,
-                                           "banner_name":  "Carousel",
                                            "banner_image_id":  80,
                                            "link":  "http://2022112040.uas.stieama.com/index.php?route=product/manufacturer/info\u0026amp;manufacturer_id=13",
                                            "image":  "data/Sekar_Melati_Batik_logo.jpg",
@@ -1467,6 +1459,14 @@
                                            "link":  "http://2022112040.uas.stieama.com/index.php?route=product/manufacturer/info\u0026amp;manufacturer_id=14",
                                            "image":  "data/Sogan_Kencana_logo.jpg",
                                            "title":  "Sogan Kencana"
+                                       },
+                                       {
+                                           "banner_id":  9,
+                                           "banner_name":  "Carousel",
+                                           "banner_image_id":  78,
+                                           "link":  "http://2022112040.uas.stieama.com/index.php?route=product/manufacturer/info\u0026amp;manufacturer_id=11",
+                                           "image":  "data/Arunika_Batik_logo.jpg",
+                                           "title":  "Arunika Batik"
                                        },
                                        {
                                            "banner_id":  10,

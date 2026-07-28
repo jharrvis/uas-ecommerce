@@ -943,7 +943,7 @@
                                                  ]
                     },
     "evidence":  {
-                     "startedAt":  "2026-07-27T09:12:13.844Z",
+                     "startedAt":  "2026-07-28T01:48:21.346Z",
                      "storefrontOk":  true,
                      "loginOk":  true,
                      "categoriesPageOk":  false,
@@ -1548,18 +1548,18 @@
                                        {
                                            "banner_id":  9,
                                            "banner_name":  "slideshow",
-                                           "banner_image_id":  81,
-                                           "link":  "",
-                                           "image":  "data/slideshow_2.jpg",
-                                           "title":  "3 Speaker Bluetooth Portable BassBox Mini"
-                                       },
-                                       {
-                                           "banner_id":  9,
-                                           "banner_name":  "slideshow",
                                            "banner_image_id":  80,
                                            "link":  "",
                                            "image":  "data/slideshow_1.jpg",
                                            "title":  " Tablet Belajar EduTab 8 Kids Edition"
+                                       },
+                                       {
+                                           "banner_id":  9,
+                                           "banner_name":  "slideshow",
+                                           "banner_image_id":  81,
+                                           "link":  "",
+                                           "image":  "data/slideshow_2.jpg",
+                                           "title":  "3 Speaker Bluetooth Portable BassBox Mini"
                                        },
                                        {
                                            "banner_id":  10,
